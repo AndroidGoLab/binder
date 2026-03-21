@@ -81,15 +81,15 @@ type INetworkPolicyManager interface {
 	UnregisterListener(ctx context.Context, listener INetworkPolicyListener) error
 	SetNetworkPolicies(ctx context.Context, policies []NetworkPolicy) error
 	GetNetworkPolicies(ctx context.Context) ([]NetworkPolicy, error)
-	SnoozeLimit(ctx context.Context, template NetworkTemplate) error
+	SnoozeLimit(ctx context.Context, template any) error
 	SetRestrictBackground(ctx context.Context, restrictBackground bool) error
 	GetRestrictBackground(ctx context.Context) (bool, error)
 	GetRestrictBackgroundByCaller(ctx context.Context) (int32, error)
 	GetRestrictBackgroundStatus(ctx context.Context, uid int32) (int32, error)
 	SetDeviceIdleMode(ctx context.Context, enabled bool) error
 	SetWifiMeteredOverride(ctx context.Context, networkId string, meteredOverride int32) error
-	GetMultipathPreference(ctx context.Context, network Network) (int32, error)
-	GetSubscriptionPlan(ctx context.Context, template NetworkTemplate) (telephony.SubscriptionPlan, error)
+	GetMultipathPreference(ctx context.Context, network any) (int32, error)
+	GetSubscriptionPlan(ctx context.Context, template any) (telephony.SubscriptionPlan, error)
 	NotifyStatsProviderWarningOrLimitReached(ctx context.Context) error
 	GetSubscriptionPlans(ctx context.Context, subId int32) ([]telephony.SubscriptionPlan, error)
 	SetSubscriptionPlans(ctx context.Context, subId int32, plans []telephony.SubscriptionPlan, expirationDurationMillis int64) error
@@ -420,15 +420,12 @@ func (p *NetworkPolicyManagerProxy) GetNetworkPolicies(
 
 func (p *NetworkPolicyManagerProxy) SnoozeLimit(
 	ctx context.Context,
-	template NetworkTemplate,
+	template any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
-	_data.WriteInt32(1)
-	if _err := template.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param template (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerSnoozeLimit)
 	if _err != nil {
@@ -625,16 +622,13 @@ func (p *NetworkPolicyManagerProxy) SetWifiMeteredOverride(
 
 func (p *NetworkPolicyManagerProxy) GetMultipathPreference(
 	ctx context.Context,
-	network Network,
+	network any,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
-	_data.WriteInt32(1)
-	if _err := network.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
+	// WARNING: param network (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerGetMultipathPreference)
 	if _err != nil {
@@ -660,16 +654,13 @@ func (p *NetworkPolicyManagerProxy) GetMultipathPreference(
 
 func (p *NetworkPolicyManagerProxy) GetSubscriptionPlan(
 	ctx context.Context,
-	template NetworkTemplate,
+	template any,
 ) (telephony.SubscriptionPlan, error) {
 	var _result telephony.SubscriptionPlan
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
-	_data.WriteInt32(1)
-	if _err := template.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
+	// WARNING: param template (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkPolicyManager, MethodINetworkPolicyManagerGetSubscriptionPlan)
 	if _err != nil {
@@ -1181,18 +1172,7 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionINetworkPolicyManagerSnoozeLimit:
-		var _arg_template NetworkTemplate
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_template.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_template any
 		_err := s.Impl.SnoozeLimit(ctx, _arg_template)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1279,18 +1259,7 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerGetMultipathPreference:
-		var _arg_network Network
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_network.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_network any
 		_result, _err := s.Impl.GetMultipathPreference(ctx, _arg_network)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1301,18 +1270,7 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerGetSubscriptionPlan:
-		var _arg_template NetworkTemplate
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_template.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_template any
 		_result, _err := s.Impl.GetSubscriptionPlan(ctx, _arg_template)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1526,15 +1484,15 @@ type INetworkPolicyManagerServer interface {
 	UnregisterListener(ctx context.Context, listener INetworkPolicyListener) error
 	SetNetworkPolicies(ctx context.Context, policies []NetworkPolicy) error
 	GetNetworkPolicies(ctx context.Context) ([]NetworkPolicy, error)
-	SnoozeLimit(ctx context.Context, template NetworkTemplate) error
+	SnoozeLimit(ctx context.Context, template any) error
 	SetRestrictBackground(ctx context.Context, restrictBackground bool) error
 	GetRestrictBackground(ctx context.Context) (bool, error)
 	GetRestrictBackgroundByCaller(ctx context.Context) (int32, error)
 	GetRestrictBackgroundStatus(ctx context.Context, uid int32) (int32, error)
 	SetDeviceIdleMode(ctx context.Context, enabled bool) error
 	SetWifiMeteredOverride(ctx context.Context, networkId string, meteredOverride int32) error
-	GetMultipathPreference(ctx context.Context, network Network) (int32, error)
-	GetSubscriptionPlan(ctx context.Context, template NetworkTemplate) (telephony.SubscriptionPlan, error)
+	GetMultipathPreference(ctx context.Context, network any) (int32, error)
+	GetSubscriptionPlan(ctx context.Context, template any) (telephony.SubscriptionPlan, error)
 	NotifyStatsProviderWarningOrLimitReached(ctx context.Context) error
 	GetSubscriptionPlans(ctx context.Context, subId int32) ([]telephony.SubscriptionPlan, error)
 	SetSubscriptionPlans(ctx context.Context, subId int32, plans []telephony.SubscriptionPlan, expirationDurationMillis int64) error
@@ -1621,7 +1579,7 @@ func (w *networkPolicyManagerStubWrapper) GetNetworkPolicies(
 
 func (w *networkPolicyManagerStubWrapper) SnoozeLimit(
 	ctx context.Context,
-	template NetworkTemplate,
+	template any,
 ) error {
 	return w.impl.SnoozeLimit(ctx, template)
 }
@@ -1669,14 +1627,14 @@ func (w *networkPolicyManagerStubWrapper) SetWifiMeteredOverride(
 
 func (w *networkPolicyManagerStubWrapper) GetMultipathPreference(
 	ctx context.Context,
-	network Network,
+	network any,
 ) (int32, error) {
 	return w.impl.GetMultipathPreference(ctx, network)
 }
 
 func (w *networkPolicyManagerStubWrapper) GetSubscriptionPlan(
 	ctx context.Context,
-	template NetworkTemplate,
+	template any,
 ) (telephony.SubscriptionPlan, error) {
 	return w.impl.GetSubscriptionPlan(ctx, template)
 }

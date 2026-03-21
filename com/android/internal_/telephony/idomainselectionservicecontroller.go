@@ -3,7 +3,6 @@ package telephony
 import (
 	"context"
 	"fmt"
-	network "github.com/xaionaro-go/binder/android/hardware/radio/network"
 	androidTelephony "github.com/xaionaro-go/binder/android/telephony"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -29,7 +28,7 @@ type IDomainSelectionServiceController interface {
 	AsBinder() binder.IBinder
 	SelectDomain(ctx context.Context, attr androidTelephony.DomainSelectionServiceSelectionAttributes, callback ITransportSelectorCallback) error
 	UpdateServiceState(ctx context.Context, slotId int32, subId int32, serviceState androidTelephony.ServiceState) error
-	UpdateBarringInfo(ctx context.Context, slotId int32, subId int32, info network.BarringInfo) error
+	UpdateBarringInfo(ctx context.Context, slotId int32, subId int32, info androidTelephony.BarringInfo) error
 }
 
 type DomainSelectionServiceControllerProxy struct {
@@ -100,7 +99,7 @@ func (p *DomainSelectionServiceControllerProxy) UpdateBarringInfo(
 	ctx context.Context,
 	slotId int32,
 	subId int32,
-	info network.BarringInfo,
+	info androidTelephony.BarringInfo,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -199,7 +198,7 @@ func (s *DomainSelectionServiceControllerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_info network.BarringInfo
+		var _arg_info androidTelephony.BarringInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -224,7 +223,7 @@ func (s *DomainSelectionServiceControllerStub) OnTransaction(
 type IDomainSelectionServiceControllerServer interface {
 	SelectDomain(ctx context.Context, attr androidTelephony.DomainSelectionServiceSelectionAttributes, callback ITransportSelectorCallback) error
 	UpdateServiceState(ctx context.Context, slotId int32, subId int32, serviceState androidTelephony.ServiceState) error
-	UpdateBarringInfo(ctx context.Context, slotId int32, subId int32, info network.BarringInfo) error
+	UpdateBarringInfo(ctx context.Context, slotId int32, subId int32, info androidTelephony.BarringInfo) error
 }
 
 type domainSelectionServiceControllerStubWrapper struct {
@@ -257,7 +256,7 @@ func (w *domainSelectionServiceControllerStubWrapper) UpdateBarringInfo(
 	ctx context.Context,
 	slotId int32,
 	subId int32,
-	info network.BarringInfo,
+	info androidTelephony.BarringInfo,
 ) error {
 	return w.impl.UpdateBarringInfo(ctx, slotId, subId, info)
 }

@@ -725,6 +725,8 @@ interfaces:
               direction: in
           return_type:
             name: int
+      annotations:
+        - SuppressWarnings
     - name: ITunerTimeFilter
       descriptor: android.media.tv.tuner.ITunerTimeFilter
       methods:

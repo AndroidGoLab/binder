@@ -36,6 +36,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      nested_types:
+        - IInputFilter.IInputFilterCallbacks
     - name: IInputFilter.IInputFilterCallbacks
       descriptor: com.android.server.inputflinger.IInputFilter.IInputFilterCallbacks
       methods:
@@ -79,6 +81,8 @@ interfaces:
                 name: IInputFilterCallbacks
           return_type:
             name: IInputFilter
+      nested_types:
+        - IInputFlingerRust.IInputFlingerRustBootstrapCallback
     - name: IInputFlingerRust.IInputFlingerRustBootstrapCallback
       descriptor: com.android.server.inputflinger.IInputFlingerRust.IInputFlingerRustBootstrapCallback
       methods:
@@ -98,6 +102,8 @@ interfaces:
           transaction_code_offset: 0
           return_type:
             name: void
+      nested_types:
+        - IInputThread.IInputThreadCallback
     - name: IInputThread.IInputThreadCallback
       descriptor: com.android.server.inputflinger.IInputThread.IInputThreadCallback
       methods:

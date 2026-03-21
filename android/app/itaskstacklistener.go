@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
-	view "github.com/xaionaro-go/binder/android/view"
+	window "github.com/xaionaro-go/binder/android/window"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -86,7 +86,7 @@ type ITaskStackListener interface {
 	OnActivityRequestedOrientationChanged(ctx context.Context, taskId int32, requestedOrientation int32) error
 	OnTaskRemovalStarted(ctx context.Context, taskInfo ActivityManagerRunningTaskInfo) error
 	OnTaskProfileLocked(ctx context.Context, taskInfo ActivityManagerRunningTaskInfo) error
-	OnTaskSnapshotChanged(ctx context.Context, taskId int32, snapshot view.WindowManagerTaskSnapshot) error
+	OnTaskSnapshotChanged(ctx context.Context, taskId int32, snapshot window.TaskSnapshot) error
 	OnBackPressedOnTaskRoot(ctx context.Context, taskInfo ActivityManagerRunningTaskInfo) error
 	OnTaskDisplayChanged(ctx context.Context, taskId int32, newDisplayId int32) error
 	OnRecentTaskListUpdated(ctx context.Context) error
@@ -436,7 +436,7 @@ func (p *TaskStackListenerProxy) OnTaskProfileLocked(
 func (p *TaskStackListenerProxy) OnTaskSnapshotChanged(
 	ctx context.Context,
 	taskId int32,
-	snapshot view.WindowManagerTaskSnapshot,
+	snapshot window.TaskSnapshot,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -863,7 +863,7 @@ func (s *TaskStackListenerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_snapshot view.WindowManagerTaskSnapshot
+		var _arg_snapshot window.TaskSnapshot
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -988,7 +988,7 @@ type ITaskStackListenerServer interface {
 	OnActivityRequestedOrientationChanged(ctx context.Context, taskId int32, requestedOrientation int32) error
 	OnTaskRemovalStarted(ctx context.Context, taskInfo ActivityManagerRunningTaskInfo) error
 	OnTaskProfileLocked(ctx context.Context, taskInfo ActivityManagerRunningTaskInfo) error
-	OnTaskSnapshotChanged(ctx context.Context, taskId int32, snapshot view.WindowManagerTaskSnapshot) error
+	OnTaskSnapshotChanged(ctx context.Context, taskId int32, snapshot window.TaskSnapshot) error
 	OnBackPressedOnTaskRoot(ctx context.Context, taskInfo ActivityManagerRunningTaskInfo) error
 	OnTaskDisplayChanged(ctx context.Context, taskId int32, newDisplayId int32) error
 	OnRecentTaskListUpdated(ctx context.Context) error
@@ -1125,7 +1125,7 @@ func (w *taskStackListenerStubWrapper) OnTaskProfileLocked(
 func (w *taskStackListenerStubWrapper) OnTaskSnapshotChanged(
 	ctx context.Context,
 	taskId int32,
-	snapshot view.WindowManagerTaskSnapshot,
+	snapshot window.TaskSnapshot,
 ) error {
 	return w.impl.OnTaskSnapshotChanged(ctx, taskId, snapshot)
 }

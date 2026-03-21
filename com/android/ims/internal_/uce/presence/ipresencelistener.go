@@ -3,8 +3,8 @@ package presence
 import (
 	"context"
 	"fmt"
-	vehicle "github.com/xaionaro-go/binder/android/hardware/automotive/vehicle"
 	"github.com/xaionaro-go/binder/binder"
+	common "github.com/xaionaro-go/binder/com/android/ims/internal_/uce/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -39,8 +39,8 @@ const (
 type IPresenceListener interface {
 	AsBinder() binder.IBinder
 	GetVersionCb(ctx context.Context, version string) error
-	ServiceAvailable(ctx context.Context, statusCode vehicle.StatusCode) error
-	ServiceUnAvailable(ctx context.Context, statusCode vehicle.StatusCode) error
+	ServiceAvailable(ctx context.Context, statusCode common.StatusCode) error
+	ServiceUnAvailable(ctx context.Context, statusCode common.StatusCode) error
 	PublishTriggering(ctx context.Context, publishTrigger PresPublishTriggerType) error
 	CmdStatus(ctx context.Context, cmdStatus PresCmdStatus) error
 	SipResponseReceived(ctx context.Context, sipResponse PresSipResponse) error
@@ -94,12 +94,15 @@ func (p *PresenceListenerProxy) GetVersionCb(
 
 func (p *PresenceListenerProxy) ServiceAvailable(
 	ctx context.Context,
-	statusCode vehicle.StatusCode,
+	statusCode common.StatusCode,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceListener)
-	_data.WriteInt32(int32(statusCode))
+	_data.WriteInt32(1)
+	if _err := statusCode.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresenceListener, MethodIPresenceListenerServiceAvailable)
 	if _err != nil {
@@ -121,12 +124,15 @@ func (p *PresenceListenerProxy) ServiceAvailable(
 
 func (p *PresenceListenerProxy) ServiceUnAvailable(
 	ctx context.Context,
-	statusCode vehicle.StatusCode,
+	statusCode common.StatusCode,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceListener)
-	_data.WriteInt32(int32(statusCode))
+	_data.WriteInt32(1)
+	if _err := statusCode.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPresenceListener, MethodIPresenceListenerServiceUnAvailable)
 	if _err != nil {
@@ -379,12 +385,19 @@ func (s *PresenceListenerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPresenceListenerServiceAvailable:
-		_raw_statusCode, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
+		var _arg_statusCode common.StatusCode
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statusCode.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		_arg_statusCode := vehicle.StatusCode(_raw_statusCode)
-		_err = s.Impl.ServiceAvailable(ctx, _arg_statusCode)
+		_err := s.Impl.ServiceAvailable(ctx, _arg_statusCode)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -393,12 +406,19 @@ func (s *PresenceListenerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPresenceListenerServiceUnAvailable:
-		_raw_statusCode, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
+		var _arg_statusCode common.StatusCode
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statusCode.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		_arg_statusCode := vehicle.StatusCode(_raw_statusCode)
-		_err = s.Impl.ServiceUnAvailable(ctx, _arg_statusCode)
+		_err := s.Impl.ServiceUnAvailable(ctx, _arg_statusCode)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -564,8 +584,8 @@ func (s *PresenceListenerStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IPresenceListenerServer interface {
 	GetVersionCb(ctx context.Context, version string) error
-	ServiceAvailable(ctx context.Context, statusCode vehicle.StatusCode) error
-	ServiceUnAvailable(ctx context.Context, statusCode vehicle.StatusCode) error
+	ServiceAvailable(ctx context.Context, statusCode common.StatusCode) error
+	ServiceUnAvailable(ctx context.Context, statusCode common.StatusCode) error
 	PublishTriggering(ctx context.Context, publishTrigger PresPublishTriggerType) error
 	CmdStatus(ctx context.Context, cmdStatus PresCmdStatus) error
 	SipResponseReceived(ctx context.Context, sipResponse PresSipResponse) error
@@ -592,14 +612,14 @@ func (w *presenceListenerStubWrapper) GetVersionCb(
 
 func (w *presenceListenerStubWrapper) ServiceAvailable(
 	ctx context.Context,
-	statusCode vehicle.StatusCode,
+	statusCode common.StatusCode,
 ) error {
 	return w.impl.ServiceAvailable(ctx, statusCode)
 }
 
 func (w *presenceListenerStubWrapper) ServiceUnAvailable(
 	ctx context.Context,
-	statusCode vehicle.StatusCode,
+	statusCode common.StatusCode,
 ) error {
 	return w.impl.ServiceUnAvailable(ctx, statusCode)
 }

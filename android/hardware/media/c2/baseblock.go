@@ -2,8 +2,8 @@ package c2
 
 import (
 	"fmt"
-	hardware "github.com/xaionaro-go/binder/android/hardware"
 	common "github.com/xaionaro-go/binder/android/hardware/common"
+	graphicsCommon "github.com/xaionaro-go/binder/android/hardware/graphics/common"
 	bufferpool2 "github.com/xaionaro-go/binder/android/hardware/media/bufferpool2"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -19,7 +19,7 @@ const (
 type BaseBlock struct {
 	Tag         int32
 	NativeBlock common.NativeHandle
-	HwbBlock    hardware.HardwareBuffer
+	HwbBlock    graphicsCommon.HardwareBuffer
 	PooledBlock bufferpool2.BufferStatusMessage
 }
 
@@ -39,16 +39,16 @@ func (u *BaseBlock) SetNativeBlock(
 	*u = BaseBlock{Tag: BaseBlockTagNativeBlock, NativeBlock: v}
 }
 
-func (u *BaseBlock) GetHwbBlock() (hardware.HardwareBuffer, bool) {
+func (u *BaseBlock) GetHwbBlock() (graphicsCommon.HardwareBuffer, bool) {
 	if u.Tag != BaseBlockTagHwbBlock {
-		var _zero hardware.HardwareBuffer
+		var _zero graphicsCommon.HardwareBuffer
 		return _zero, false
 	}
 	return u.HwbBlock, true
 }
 
 func (u *BaseBlock) SetHwbBlock(
-	v hardware.HardwareBuffer,
+	v graphicsCommon.HardwareBuffer,
 ) {
 	*u = BaseBlock{Tag: BaseBlockTagHwbBlock, HwbBlock: v}
 }

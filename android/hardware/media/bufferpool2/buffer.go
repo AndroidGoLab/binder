@@ -1,8 +1,8 @@
 package bufferpool2
 
 import (
-	hardware "github.com/xaionaro-go/binder/android/hardware"
 	common "github.com/xaionaro-go/binder/android/hardware/common"
+	graphicsCommon "github.com/xaionaro-go/binder/android/hardware/graphics/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -11,7 +11,7 @@ import (
 type Buffer struct {
 	Id        int32
 	Buffer    *common.NativeHandle
-	HwbBuffer *hardware.HardwareBuffer
+	HwbBuffer *graphicsCommon.HardwareBuffer
 }
 
 var _ parcel.Parcelable = (*Buffer)(nil)
@@ -90,7 +90,7 @@ func (s *Buffer) UnmarshalParcel(
 			return _nullErr
 		}
 		if _nullInd != 0 {
-			var _val hardware.HardwareBuffer
+			var _val graphicsCommon.HardwareBuffer
 			if _err = _val.UnmarshalParcel(p); _err != nil {
 				return _err
 			}

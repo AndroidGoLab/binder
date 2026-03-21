@@ -29,6 +29,8 @@ interfaces:
                 name: String
           return_type:
             name: void
+      nested_types:
+        - IGetKeyCallback.ErrorCode
     - name: IGetRegistrationCallback
       descriptor: android.security.rkp.IGetRegistrationCallback
       oneway: true

@@ -24,6 +24,8 @@ interfaces:
           return_type:
             name: String
             is_array: true
+      annotations:
+        - VintfStability
     - name: ISupplicant
       descriptor: android.hardware.wifi.supplicant.ISupplicant
       methods:
@@ -150,6 +152,8 @@ interfaces:
         - name: EXT_RADIO_WORK_TIMEOUT_IN_SECS
           type: int
           value: "10"
+      annotations:
+        - VintfStability
     - name: ISupplicantCallback
       descriptor: android.hardware.wifi.supplicant.ISupplicantCallback
       oneway: true
@@ -172,6 +176,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: ISupplicantP2pIface
       descriptor: android.hardware.wifi.supplicant.ISupplicantP2pIface
       methods:
@@ -885,6 +891,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: ISupplicantP2pIfaceCallback
       descriptor: android.hardware.wifi.supplicant.ISupplicantP2pIfaceCallback
       oneway: true
@@ -1323,6 +1331,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: ISupplicantP2pNetwork
       descriptor: android.hardware.wifi.supplicant.ISupplicantP2pNetwork
       methods:
@@ -1375,6 +1385,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: ISupplicantStaIface
       descriptor: android.hardware.wifi.supplicant.ISupplicantStaIface
       methods:
@@ -1987,6 +1999,8 @@ interfaces:
         - name: MAX_POLICIES_PER_QOS_SCS_REQUEST
           type: int
           value: "16"
+      annotations:
+        - VintfStability
     - name: ISupplicantStaIfaceCallback
       descriptor: android.hardware.wifi.supplicant.ISupplicantStaIfaceCallback
       oneway: true
@@ -2440,6 +2454,10 @@ interfaces:
               direction: in
           return_type:
             name: void
+      nested_types:
+        - ISupplicantStaIfaceCallback.MloLinkInfoChangeReason
+      annotations:
+        - VintfStability
     - name: ISupplicantStaNetwork
       descriptor: android.hardware.wifi.supplicant.ISupplicantStaNetwork
       methods:
@@ -3150,6 +3168,8 @@ interfaces:
         - name: WEP104_KEY_LEN_IN_BYTES
           type: int
           value: "13"
+      annotations:
+        - VintfStability
     - name: ISupplicantStaNetworkCallback
       descriptor: android.hardware.wifi.supplicant.ISupplicantStaNetworkCallback
       oneway: true
@@ -3213,6 +3233,8 @@ interfaces:
           transaction_code_offset: 5
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: AnqpData
       fields:

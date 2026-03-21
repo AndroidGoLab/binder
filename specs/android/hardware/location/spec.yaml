@@ -750,14 +750,196 @@ interfaces:
             name: void
 parcelables:
     - name: ActivityChangedEvent
+      java_wire_format:
+        - name: ActivityRecognitionEventArray.length
+          write_method: int32
+        - name: ActivityRecognitionEventArray
+          write_method: opaque
     - name: ContextHubInfo
+      java_wire_format:
+        - name: Id
+          write_method: int32
+        - name: Name
+          write_method: string16
+        - name: Vendor
+          write_method: string16
+        - name: Toolchain
+          write_method: string16
+        - name: PlatformVersion
+          write_method: int32
+        - name: ToolchainVersion
+          write_method: int32
+        - name: PeakMips
+          write_method: float32
+        - name: StoppedPowerDrawMw
+          write_method: float32
+        - name: SleepPowerDrawMw
+          write_method: float32
+        - name: PeakPowerDrawMw
+          write_method: float32
+        - name: MaxPacketLengthBytes
+          write_method: int32
+        - name: ChrePlatformId
+          write_method: int64
+        - name: ChreApiMajorVersion
+          write_method: int32
+        - name: ChreApiMinorVersion
+          write_method: int32
+        - name: ChrePatchVersion
+          write_method: int32
+        - name: SupportedSensors.length
+          write_method: int32
+        - name: SupportedSensors
+          write_method: opaque
+        - name: MemoryRegions
+          write_method: opaque
+        - name: SupportsReliableMessages
+          write_method: bool
     - name: ContextHubMessage
+      java_wire_format:
+        - name: Type
+          write_method: int32
+        - name: Version
+          write_method: int32
+        - name: Data.length
+          write_method: int32
+        - name: Data
+          write_method: opaque
     - name: GeofenceHardwareMonitorEvent
+      java_wire_format:
+        - name: MonitoringType
+          write_method: int32
+        - name: MonitoringStatus
+          write_method: int32
+        - name: SourceTechnologies
+          write_method: int32
+        - name: Location
+          write_method: opaque
     - name: GeofenceHardwareRequestParcelable
+      java_wire_format:
+        - name: GetType()
+          write_method: int32
+        - name: GetLatitude()
+          write_method: float64
+        - name: GetLongitude()
+          write_method: float64
+        - name: GetRadius()
+          write_method: float64
+        - name: GetLastTransition()
+          write_method: int32
+        - name: GetMonitorTransitions()
+          write_method: int32
+        - name: GetUnknownTimer()
+          write_method: int32
+        - name: GetNotificationResponsiveness()
+          write_method: int32
+        - name: GetSourceTechnologies()
+          write_method: int32
+        - name: GetId()
+          write_method: int32
     - name: NanoApp
+      java_wire_format:
+        - name: Publisher
+          write_method: string16
+        - name: Name
+          write_method: string16
+        - name: AppId
+          write_method: int64
+        - name: AppVersion
+          write_method: int32
+        - name: NeededReadMemBytes
+          write_method: int32
+        - name: NeededWriteMemBytes
+          write_method: int32
+        - name: NeededExecMemBytes
+          write_method: int32
+        - name: NeededSensors.length
+          write_method: int32
+        - name: NeededSensors
+          write_method: opaque
+        - name: OutputEvents.length
+          write_method: int32
+        - name: OutputEvents
+          write_method: opaque
+        - name: AppBinary.length
+          write_method: int32
+        - name: AppBinary
+          write_method: opaque
     - name: NanoAppBinary
+      java_wire_format:
+        - name: NanoAppBinary.length
+          write_method: int32
+        - name: NanoAppBinary
+          write_method: opaque
     - name: NanoAppFilter
+      java_wire_format:
+        - name: AppId
+          write_method: int64
+        - name: AppVersion
+          write_method: int32
+        - name: VersionRestrictionMask
+          write_method: int32
+        - name: AppIdVendorMask
+          write_method: int64
     - name: NanoAppInstanceInfo
+      java_wire_format:
+        - name: Publisher
+          write_method: string16
+        - name: Name
+          write_method: string16
+        - name: Handle
+          write_method: int32
+        - name: AppId
+          write_method: int64
+        - name: AppVersion
+          write_method: int32
+        - name: ContexthubId
+          write_method: int32
+        - name: NeededReadMemBytes
+          write_method: int32
+        - name: NeededWriteMemBytes
+          write_method: int32
+        - name: NeededExecMemBytes
+          write_method: int32
+        - name: NeededSensors.length
+          write_method: int32
+        - name: NeededSensors
+          write_method: opaque
+        - name: OutputEvents.length
+          write_method: int32
+        - name: OutputEvents
+          write_method: opaque
     - name: NanoAppMessage
+      java_wire_format:
+        - name: NanoAppId
+          write_method: int64
+        - name: IsBroadcasted?1:0
+          write_method: int32
+        - name: MessageType
+          write_method: int32
+        - name: MessageBody.length
+          write_method: int32
+        - name: MessageBody
+          write_method: opaque
+        - name: IsReliable?1:0
+          write_method: int32
+        - name: MessageSequenceNumber
+          write_method: int32
     - name: NanoAppRpcService
+      java_wire_format:
+        - name: ServiceId
+          write_method: int64
+        - name: ServiceVersion
+          write_method: int32
     - name: NanoAppState
+      java_wire_format:
+        - name: NanoAppId
+          write_method: int64
+        - name: NanoAppVersion
+          write_method: int32
+        - name: IsEnabled?1:0
+          write_method: int32
+        - name: NanoAppPermissions
+          write_method: opaque
+        - name: NanoAppRpcServiceList.toArray(newNanoAppRpcService[0])
+          write_method: opaque

@@ -15,7 +15,7 @@ const (
 type AutomaticGainControlV1Id struct {
 	Tag                int32
 	VendorExtensionTag VendorExtension
-	CommonTag          AutomaticGainControlV1Tag
+	CommonTag          any
 }
 
 var _ parcel.Parcelable = (*AutomaticGainControlV1Id)(nil)
@@ -34,16 +34,16 @@ func (u *AutomaticGainControlV1Id) SetVendorExtensionTag(
 	*u = AutomaticGainControlV1Id{Tag: AutomaticGainControlV1IdTagVendorExtensionTag, VendorExtensionTag: v}
 }
 
-func (u *AutomaticGainControlV1Id) GetCommonTag() (AutomaticGainControlV1Tag, bool) {
+func (u *AutomaticGainControlV1Id) GetCommonTag() (any, bool) {
 	if u.Tag != AutomaticGainControlV1IdTagCommonTag {
-		var _zero AutomaticGainControlV1Tag
+		var _zero any
 		return _zero, false
 	}
 	return u.CommonTag, true
 }
 
 func (u *AutomaticGainControlV1Id) SetCommonTag(
-	v AutomaticGainControlV1Tag,
+	v any,
 ) {
 	*u = AutomaticGainControlV1Id{Tag: AutomaticGainControlV1IdTagCommonTag, CommonTag: v}
 }
@@ -61,7 +61,6 @@ func (u *AutomaticGainControlV1Id) MarshalParcel(
 			return _err
 		}
 	case AutomaticGainControlV1IdTagCommonTag:
-		p.WriteInt32(int32(u.CommonTag))
 	default:
 		return fmt.Errorf("unknown union tag %d for AutomaticGainControlV1Id", u.Tag)
 	}
@@ -92,11 +91,6 @@ func (u *AutomaticGainControlV1Id) UnmarshalParcel(
 			return _err
 		}
 	case AutomaticGainControlV1IdTagCommonTag:
-		_raw, _err := p.ReadInt32()
-		if _err != nil {
-			return _err
-		}
-		u.CommonTag = AutomaticGainControlV1Tag(_raw)
 	default:
 		return fmt.Errorf("unknown union tag %d for AutomaticGainControlV1Id", u.Tag)
 	}

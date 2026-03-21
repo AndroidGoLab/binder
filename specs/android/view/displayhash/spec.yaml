@@ -2,4 +2,24 @@ package: android.view.displayhash
 go_package: android/view/displayhash
 parcelables:
     - name: DisplayHash
+      java_wire_format:
+        - name: TimeMillis
+          write_method: int64
+        - name: BoundsInWindow
+          write_method: opaque
+        - name: HashAlgorithm
+          write_method: string16
+        - name: ImageHash
+          write_method: opaque
+        - name: Hmac
+          write_method: opaque
     - name: VerifiedDisplayHash
+      java_wire_format:
+        - name: TimeMillis
+          write_method: int64
+        - name: BoundsInWindow
+          write_method: opaque
+        - name: HashAlgorithm
+          write_method: string16
+        - name: ImageHash
+          write_method: opaque

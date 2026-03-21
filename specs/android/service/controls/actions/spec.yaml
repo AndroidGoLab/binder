@@ -2,3 +2,6 @@ package: android.service.controls.actions
 go_package: android/service/controls/actions
 parcelables:
     - name: ControlActionWrapper
+      java_wire_format:
+        - name: ControlAction.getDataBundle()
+          write_method: opaque

@@ -3,7 +3,7 @@ package aidl
 import (
 	"context"
 	"fmt"
-	ims "github.com/xaionaro-go/binder/android/hardware/radio/ims"
+	ims "github.com/xaionaro-go/binder/android/telephony/ims"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )

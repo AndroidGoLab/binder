@@ -15,7 +15,7 @@ const (
 type PresetReverbId struct {
 	Tag                int32
 	VendorExtensionTag VendorExtension
-	CommonTag          PresetReverbTag
+	CommonTag          any
 }
 
 var _ parcel.Parcelable = (*PresetReverbId)(nil)
@@ -34,16 +34,16 @@ func (u *PresetReverbId) SetVendorExtensionTag(
 	*u = PresetReverbId{Tag: PresetReverbIdTagVendorExtensionTag, VendorExtensionTag: v}
 }
 
-func (u *PresetReverbId) GetCommonTag() (PresetReverbTag, bool) {
+func (u *PresetReverbId) GetCommonTag() (any, bool) {
 	if u.Tag != PresetReverbIdTagCommonTag {
-		var _zero PresetReverbTag
+		var _zero any
 		return _zero, false
 	}
 	return u.CommonTag, true
 }
 
 func (u *PresetReverbId) SetCommonTag(
-	v PresetReverbTag,
+	v any,
 ) {
 	*u = PresetReverbId{Tag: PresetReverbIdTagCommonTag, CommonTag: v}
 }
@@ -61,7 +61,6 @@ func (u *PresetReverbId) MarshalParcel(
 			return _err
 		}
 	case PresetReverbIdTagCommonTag:
-		p.WriteInt32(int32(u.CommonTag))
 	default:
 		return fmt.Errorf("unknown union tag %d for PresetReverbId", u.Tag)
 	}
@@ -92,11 +91,6 @@ func (u *PresetReverbId) UnmarshalParcel(
 			return _err
 		}
 	case PresetReverbIdTagCommonTag:
-		_raw, _err := p.ReadInt32()
-		if _err != nil {
-			return _err
-		}
-		u.CommonTag = PresetReverbTag(_raw)
 	default:
 		return fmt.Errorf("unknown union tag %d for PresetReverbId", u.Tag)
 	}

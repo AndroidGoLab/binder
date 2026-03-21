@@ -26,7 +26,7 @@ type CodecCapabilitiesCapabilities struct {
 	AptxCapabilities         AptxCapabilities
 	AptxAdaptiveCapabilities AptxAdaptiveCapabilities
 	Lc3Capabilities          Lc3Capabilities
-	VendorCapabilities       BroadcastCapabilityVendorCapabilities
+	VendorCapabilities       CodecCapabilitiesVendorCapabilities
 	OpusCapabilities         *OpusCapabilities
 }
 
@@ -116,16 +116,16 @@ func (u *CodecCapabilitiesCapabilities) SetLc3Capabilities(
 	*u = CodecCapabilitiesCapabilities{Tag: CodecCapabilitiesCapabilitiesTagLc3Capabilities, Lc3Capabilities: v}
 }
 
-func (u *CodecCapabilitiesCapabilities) GetVendorCapabilities() (BroadcastCapabilityVendorCapabilities, bool) {
+func (u *CodecCapabilitiesCapabilities) GetVendorCapabilities() (CodecCapabilitiesVendorCapabilities, bool) {
 	if u.Tag != CodecCapabilitiesCapabilitiesTagVendorCapabilities {
-		var _zero BroadcastCapabilityVendorCapabilities
+		var _zero CodecCapabilitiesVendorCapabilities
 		return _zero, false
 	}
 	return u.VendorCapabilities, true
 }
 
 func (u *CodecCapabilitiesCapabilities) SetVendorCapabilities(
-	v BroadcastCapabilityVendorCapabilities,
+	v CodecCapabilitiesVendorCapabilities,
 ) {
 	*u = CodecCapabilitiesCapabilities{Tag: CodecCapabilitiesCapabilitiesTagVendorCapabilities, VendorCapabilities: v}
 }

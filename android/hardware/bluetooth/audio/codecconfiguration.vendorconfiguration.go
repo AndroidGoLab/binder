@@ -1,7 +1,6 @@
 package audio
 
 import (
-	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -10,7 +9,7 @@ import (
 type CodecConfigurationVendorConfiguration struct {
 	VendorId    int32
 	CodecId     uint16
-	CodecConfig os.ParcelableHolder
+	CodecConfig any
 }
 
 var _ parcel.Parcelable = (*CodecConfigurationVendorConfiguration)(nil)
@@ -21,9 +20,6 @@ func (s *CodecConfigurationVendorConfiguration) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.VendorId)
 	p.WriteInt32(int32(s.CodecId))
-	if _err := s.CodecConfig.MarshalParcel(p); _err != nil {
-		return _err
-	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -61,10 +57,6 @@ func (s *CodecConfigurationVendorConfiguration) UnmarshalParcel(
 	if p.Position() >= _endPos {
 		parcel.SkipToParcelableEnd(p, _endPos)
 		return nil
-	}
-
-	if _err = s.CodecConfig.UnmarshalParcel(p); _err != nil {
-		return _err
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

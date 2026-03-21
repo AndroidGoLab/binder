@@ -15,7 +15,7 @@ const (
 type VisualizerId struct {
 	Tag                int32
 	VendorExtensionTag VendorExtension
-	CommonTag          VisualizerTag
+	CommonTag          any
 }
 
 var _ parcel.Parcelable = (*VisualizerId)(nil)
@@ -34,16 +34,16 @@ func (u *VisualizerId) SetVendorExtensionTag(
 	*u = VisualizerId{Tag: VisualizerIdTagVendorExtensionTag, VendorExtensionTag: v}
 }
 
-func (u *VisualizerId) GetCommonTag() (VisualizerTag, bool) {
+func (u *VisualizerId) GetCommonTag() (any, bool) {
 	if u.Tag != VisualizerIdTagCommonTag {
-		var _zero VisualizerTag
+		var _zero any
 		return _zero, false
 	}
 	return u.CommonTag, true
 }
 
 func (u *VisualizerId) SetCommonTag(
-	v VisualizerTag,
+	v any,
 ) {
 	*u = VisualizerId{Tag: VisualizerIdTagCommonTag, CommonTag: v}
 }
@@ -61,7 +61,6 @@ func (u *VisualizerId) MarshalParcel(
 			return _err
 		}
 	case VisualizerIdTagCommonTag:
-		p.WriteInt32(int32(u.CommonTag))
 	default:
 		return fmt.Errorf("unknown union tag %d for VisualizerId", u.Tag)
 	}
@@ -92,11 +91,6 @@ func (u *VisualizerId) UnmarshalParcel(
 			return _err
 		}
 	case VisualizerIdTagCommonTag:
-		_raw, _err := p.ReadInt32()
-		if _err != nil {
-			return _err
-		}
-		u.CommonTag = VisualizerTag(_raw)
 	default:
 		return fmt.Errorf("unknown union tag %d for VisualizerId", u.Tag)
 	}

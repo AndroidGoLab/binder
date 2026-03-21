@@ -213,6 +213,8 @@ interfaces:
         - name: CAP_COMPOSE_PWLE_EFFECTS
           type: int
           value: 1 << 10
+      annotations:
+        - VintfStability
     - name: IVibratorCallback
       descriptor: android.hardware.vibrator.IVibratorCallback
       methods:
@@ -221,6 +223,8 @@ interfaces:
           oneway: true
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IVibratorManager
       descriptor: android.hardware.vibrator.IVibratorManager
       methods:
@@ -290,6 +294,8 @@ interfaces:
         - name: CAP_TRIGGER_CALLBACK
           type: int
           value: 1 << 7
+      annotations:
+        - VintfStability
 parcelables:
     - name: ActivePwle
       fields:

@@ -36,6 +36,74 @@ parcelables:
             name: Signature
             is_array: true
     - name: ParcelableKeyGenParameterSpec
+      java_wire_format:
+        - name: Spec.getKeystoreAlias()
+          write_method: string16
+        - name: Spec.getPurposes()
+          write_method: int32
+        - name: Spec.getNamespace()
+          write_method: int32
+        - name: Spec.getKeySize()
+          write_method: int32
+        - name: ALGORITHM_PARAMETER_SPEC_NONE
+          write_method: int32
+          condition: algoSpec==null
+        - name: Spec.getCertificateSubject().getEncoded()
+          write_method: opaque
+        - name: Spec.getCertificateSerialNumber().toByteArray()
+          write_method: opaque
+        - name: Spec.getCertificateNotBefore().getTime()
+          write_method: int64
+        - name: Spec.getCertificateNotAfter().getTime()
+          write_method: int64
+        - name: Spec.getDigests()
+          write_method: opaque
+          condition: mSpec.isDigestsSpecified()
+        - name: List.copyOf(mSpec.getMgf1Digests())
+          write_method: opaque
+          condition: mSpec.isMgf1DigestsSpecified()
+        - name: Spec.getEncryptionPaddings()
+          write_method: opaque
+        - name: Spec.getSignaturePaddings()
+          write_method: opaque
+        - name: Spec.getBlockModes()
+          write_method: opaque
+        - name: Spec.isRandomizedEncryptionRequired()
+          write_method: bool
+        - name: Spec.isUserAuthenticationRequired()
+          write_method: bool
+        - name: Spec.getUserAuthenticationValidityDurationSeconds()
+          write_method: int32
+        - name: Spec.getUserAuthenticationType()
+          write_method: int32
+        - name: Spec.isUserPresenceRequired()
+          write_method: bool
+        - name: Spec.getAttestationChallenge()
+          write_method: opaque
+        - name: Spec.isDevicePropertiesAttestationIncluded()
+          write_method: bool
+        - name: Spec.getAttestationIds()
+          write_method: opaque
+        - name: Spec.isUniqueIdIncluded()
+          write_method: bool
+        - name: Spec.isUserAuthenticationValidWhileOnBody()
+          write_method: bool
+        - name: Spec.isInvalidatedByBiometricEnrollment()
+          write_method: bool
+        - name: Spec.isStrongBoxBacked()
+          write_method: bool
+        - name: Spec.isUserConfirmationRequired()
+          write_method: bool
+        - name: Spec.isUnlockedDeviceRequired()
+          write_method: bool
+        - name: Spec.isCriticalToDeviceEncryption()
+          write_method: bool
+        - name: Spec.getMaxUsageCount()
+          write_method: int32
+        - name: Spec.getAttestKeyAlias()
+          write_method: string16
+        - name: Spec.getBoundToSpecificSecureUserId()
+          write_method: int64
     - name: Signature
       fields:
         - name: data

@@ -9,11 +9,11 @@ interfaces:
           return_type:
             name: void
         - name: detach
-          transaction_code_offset: 1
+          transaction_code_offset: 0
           return_type:
             name: void
         - name: touch
-          transaction_code_offset: 2
+          transaction_code_offset: 1
           params:
             - name: touchpad
               type:
@@ -30,7 +30,7 @@ interfaces:
           return_type:
             name: void
         - name: buttonState
-          transaction_code_offset: 3
+          transaction_code_offset: 2
           params:
             - name: touchpad
               type:
@@ -41,7 +41,7 @@ interfaces:
           return_type:
             name: void
         - name: scroll
-          transaction_code_offset: 4
+          transaction_code_offset: 3
           params:
             - name: touchpad
               type:

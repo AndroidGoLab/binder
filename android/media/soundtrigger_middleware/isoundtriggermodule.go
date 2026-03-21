@@ -3,7 +3,6 @@ package soundtrigger_middleware
 import (
 	"context"
 	"fmt"
-	hardwareSoundtrigger "github.com/xaionaro-go/binder/android/hardware/soundtrigger"
 	soundtrigger "github.com/xaionaro-go/binder/android/media/soundtrigger"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -44,7 +43,7 @@ type ISoundTriggerModule interface {
 	LoadModel(ctx context.Context, model soundtrigger.SoundModel) (int32, error)
 	LoadPhraseModel(ctx context.Context, model soundtrigger.PhraseSoundModel) (int32, error)
 	UnloadModel(ctx context.Context, modelHandle int32) error
-	StartRecognition(ctx context.Context, modelHandle int32, config hardwareSoundtrigger.SoundTriggerRecognitionConfig) (binder.IBinder, error)
+	StartRecognition(ctx context.Context, modelHandle int32, config soundtrigger.RecognitionConfig) (binder.IBinder, error)
 	StopRecognition(ctx context.Context, modelHandle int32) error
 	ForceRecognitionEvent(ctx context.Context, modelHandle int32) error
 	SetModelParameter(ctx context.Context, modelHandle int32, modelParam soundtrigger.ModelParameter, value int32) error
@@ -169,7 +168,7 @@ func (p *SoundTriggerModuleProxy) UnloadModel(
 func (p *SoundTriggerModuleProxy) StartRecognition(
 	ctx context.Context,
 	modelHandle int32,
-	config hardwareSoundtrigger.SoundTriggerRecognitionConfig,
+	config soundtrigger.RecognitionConfig,
 ) (binder.IBinder, error) {
 	var _result binder.IBinder
 	_data := parcel.New()
@@ -472,7 +471,7 @@ func (s *SoundTriggerModuleStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_config hardwareSoundtrigger.SoundTriggerRecognitionConfig
+		var _arg_config soundtrigger.RecognitionConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -603,7 +602,7 @@ type ISoundTriggerModuleServer interface {
 	LoadModel(ctx context.Context, model soundtrigger.SoundModel) (int32, error)
 	LoadPhraseModel(ctx context.Context, model soundtrigger.PhraseSoundModel) (int32, error)
 	UnloadModel(ctx context.Context, modelHandle int32) error
-	StartRecognition(ctx context.Context, modelHandle int32, config hardwareSoundtrigger.SoundTriggerRecognitionConfig) (binder.IBinder, error)
+	StartRecognition(ctx context.Context, modelHandle int32, config soundtrigger.RecognitionConfig) (binder.IBinder, error)
 	StopRecognition(ctx context.Context, modelHandle int32) error
 	ForceRecognitionEvent(ctx context.Context, modelHandle int32) error
 	SetModelParameter(ctx context.Context, modelHandle int32, modelParam soundtrigger.ModelParameter, value int32) error
@@ -645,7 +644,7 @@ func (w *soundTriggerModuleStubWrapper) UnloadModel(
 func (w *soundTriggerModuleStubWrapper) StartRecognition(
 	ctx context.Context,
 	modelHandle int32,
-	config hardwareSoundtrigger.SoundTriggerRecognitionConfig,
+	config soundtrigger.RecognitionConfig,
 ) (binder.IBinder, error) {
 	return w.impl.StartRecognition(ctx, modelHandle, config)
 }

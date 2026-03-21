@@ -471,6 +471,8 @@ interfaces:
                 name: boolean
           return_type:
             name: void
+      nested_types:
+        - IBiometricContextListener.FoldState
     - name: IBiometricEnabledOnKeyguardCallback
       descriptor: android.hardware.biometrics.IBiometricEnabledOnKeyguardCallback
       oneway: true
@@ -1077,9 +1079,91 @@ interfaces:
 parcelables:
     - name: BiometricSourceType
     - name: ComponentInfoInternal
+      java_wire_format:
+        - name: ComponentId
+          write_method: string16
+        - name: HardwareVersion
+          write_method: string16
+        - name: FirmwareVersion
+          write_method: string16
+        - name: SerialNumber
+          write_method: string16
+        - name: SoftwareVersion
+          write_method: string16
     - name: PromptInfo
+      java_wire_format:
+        - name: LogoRes
+          write_method: int32
+        - name: LogoBitmap
+          write_method: opaque
+        - name: LogoDescription
+          write_method: string16
+        - name: Title
+          write_method: opaque
+        - name: UseDefaultTitle
+          write_method: bool
+        - name: Subtitle
+          write_method: opaque
+        - name: UseDefaultSubtitle
+          write_method: bool
+        - name: Description
+          write_method: opaque
+        - name: ContentView
+          write_method: opaque
+        - name: DeviceCredentialTitle
+          write_method: opaque
+        - name: DeviceCredentialSubtitle
+          write_method: opaque
+        - name: DeviceCredentialDescription
+          write_method: opaque
+        - name: NegativeButtonText
+          write_method: opaque
+        - name: ConfirmationRequested
+          write_method: bool
+        - name: DeviceCredentialAllowed
+          write_method: bool
+        - name: Authenticators
+          write_method: int32
+        - name: DisallowBiometricsIfPolicyExists
+          write_method: bool
+        - name: ReceiveSystemEvents
+          write_method: bool
+        - name: AllowedSensorIds
+          write_method: opaque
+        - name: AllowBackgroundAuthentication
+          write_method: bool
+        - name: IgnoreEnrollmentState
+          write_method: bool
+        - name: IsForLegacyFingerprintManager
+          write_method: bool
+        - name: ShowEmergencyCallButton
+          write_method: bool
+        - name: UseParentProfileForDeviceCredential
+          write_method: bool
     - name: SensorLocationInternal
+      java_wire_format:
+        - name: DisplayId
+          write_method: string16
+        - name: SensorLocationX
+          write_method: int32
+        - name: SensorLocationY
+          write_method: int32
+        - name: SensorRadius
+          write_method: int32
     - name: SensorPropertiesInternal
+      java_wire_format:
+        - name: SensorId
+          write_method: int32
+        - name: SensorStrength
+          write_method: int32
+        - name: MaxEnrollmentsPerUser
+          write_method: int32
+        - name: ComponentInfo
+          write_method: opaque
+        - name: ResetLockoutRequiresHardwareAuthToken
+          write_method: bool
+        - name: ResetLockoutRequiresChallenge
+          write_method: bool
 enums:
     - name: IBiometricContextListener.FoldState
       backing_type: int

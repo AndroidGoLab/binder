@@ -3,7 +3,7 @@ package classification
 import (
 	"context"
 	"fmt"
-	common "github.com/xaionaro-go/binder/android/hardware/biometrics/common"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -30,7 +30,7 @@ const (
 
 type IFieldClassificationCallback interface {
 	AsBinder() binder.IBinder
-	OnCancellable(ctx context.Context, cancellation common.ICancellationSignal) error
+	OnCancellable(ctx context.Context, cancellation os.ICancellationSignal) error
 	OnSuccess(ctx context.Context, response FieldClassificationResponse) error
 	OnFailure(ctx context.Context) error
 	IsCompleted(ctx context.Context) (bool, error)
@@ -55,7 +55,7 @@ var _ IFieldClassificationCallback = (*FieldClassificationCallbackProxy)(nil)
 
 func (p *FieldClassificationCallbackProxy) OnCancellable(
 	ctx context.Context,
-	cancellation common.ICancellationSignal,
+	cancellation os.ICancellationSignal,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -214,13 +214,13 @@ func (s *FieldClassificationCallbackStub) OnTransaction(
 
 	switch code {
 	case TransactionIFieldClassificationCallbackOnCancellable:
-		var _arg_cancellation common.ICancellationSignal
+		var _arg_cancellation os.ICancellationSignal
 		{
 			_cancellationHandle, _err := _data.ReadStrongBinder()
 			if _err != nil {
 				return nil, _err
 			}
-			_arg_cancellation = common.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationHandle))
+			_arg_cancellation = os.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationHandle))
 		}
 		_err := s.Impl.OnCancellable(ctx, _arg_cancellation)
 		_reply := parcel.New()
@@ -288,7 +288,7 @@ func (s *FieldClassificationCallbackStub) OnTransaction(
 // provide to NewFieldClassificationCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IFieldClassificationCallbackServer interface {
-	OnCancellable(ctx context.Context, cancellation common.ICancellationSignal) error
+	OnCancellable(ctx context.Context, cancellation os.ICancellationSignal) error
 	OnSuccess(ctx context.Context, response FieldClassificationResponse) error
 	OnFailure(ctx context.Context) error
 	IsCompleted(ctx context.Context) (bool, error)
@@ -306,7 +306,7 @@ func (w *fieldClassificationCallbackStubWrapper) AsBinder() binder.IBinder {
 
 func (w *fieldClassificationCallbackStubWrapper) OnCancellable(
 	ctx context.Context,
-	cancellation common.ICancellationSignal,
+	cancellation os.ICancellationSignal,
 ) error {
 	return w.impl.OnCancellable(ctx, cancellation)
 }

@@ -68,6 +68,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IVibratorController
       descriptor: android.frameworks.vibrator.IVibratorController
       methods:
@@ -89,6 +91,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: ScaleParam
       fields:

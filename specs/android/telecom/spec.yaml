@@ -2,30 +2,371 @@ package: android.telecom
 go_package: android/telecom
 parcelables:
     - name: AudioState
+      java_wire_format:
+        - name: (byte)(isMuted?1:0)
+          write_method: int32
+        - name: Route
+          write_method: int32
+        - name: SupportedRouteMask
+          write_method: int32
     - name: BluetoothCallQualityReport
+      java_wire_format:
+        - name: SentTimestampMillis
+          write_method: int64
+        - name: ChoppyVoice
+          write_method: bool
+        - name: RssiDbm
+          write_method: int32
+        - name: SnrDb
+          write_method: int32
+        - name: RetransmittedPacketsCount
+          write_method: int32
+        - name: PacketsNotReceivedCount
+          write_method: int32
+        - name: NegativeAcknowledgementCount
+          write_method: int32
     - name: CallAttributes
+      java_wire_format:
+        - name: PhoneAccountHandle
+          write_method: opaque
+        - name: DisplayName
+          write_method: opaque
+        - name: Address
+          write_method: opaque
+        - name: Direction
+          write_method: int32
+        - name: CallType
+          write_method: int32
+        - name: CallCapabilities
+          write_method: int32
     - name: CallAudioState
+      java_wire_format:
+        - name: (byte)(isMuted?1:0)
+          write_method: int32
+        - name: Route
+          write_method: int32
+        - name: SupportedRouteMask
+          write_method: int32
+        - name: ActiveBluetoothDevice
+          write_method: opaque
+        - name: NewArrayList<>(supportedBluetoothDevices)
+          write_method: opaque
     - name: CallControl
     - name: CallEndpoint
+      java_wire_format:
+        - name: Name
+          write_method: opaque
+        - name: Type
+          write_method: int32
+        - name: Destination
+          write_method: opaque
     - name: CallEndpointException
+      java_wire_format:
+        - name: Message
+          write_method: string8
+        - name: Code
+          write_method: int32
     - name: CallException
+      java_wire_format:
+        - name: Message
+          write_method: string8
+        - name: Code
+          write_method: int32
     - name: CallScreeningService.ParcelableCallResponse
     - name: ConferenceParticipant
     - name: Connection.CallFilteringCompletionInfo
     - name: ConnectionRequest
+      java_wire_format:
+        - name: AccountHandle
+          write_method: opaque
+        - name: Address
+          write_method: opaque
+        - name: Extras
+          write_method: opaque
+        - name: VideoState
+          write_method: int32
+        - name: TelecomCallId
+          write_method: string16
+        - name: ShouldShowIncomingCallUi?1:0
+          write_method: int32
+        - name: RttPipeFromInCall
+          write_method: opaque
+        - name: RttPipeToInCall
+          write_method: opaque
+        - name: Participants
+          write_method: opaque
+        - name: IsAdhocConference?1:0
+          write_method: int32
     - name: DisconnectCause
+      java_wire_format:
+        - name: DisconnectCode
+          write_method: int32
+        - name: DisconnectLabel
+          write_method: opaque
+        - name: DisconnectDescription
+          write_method: opaque
+        - name: DisconnectReason
+          write_method: string16
+        - name: ToneToPlay
+          write_method: int32
+        - name: TelephonyDisconnectCause
+          write_method: int32
+        - name: TelephonyPreciseDisconnectCause
+          write_method: int32
+        - name: ImsReasonInfo
+          write_method: opaque
     - name: GatewayInfo
+      java_wire_format:
+        - name: GatewayProviderPackageName
+          write_method: string16
+        - name: Destination
+          write_method: opaque
+        - name: Destination
+          write_method: opaque
     - name: Logging.Session.Info
     - name: ParcelableCall
+      java_wire_format:
+        - name: Id
+          write_method: string16
+        - name: State
+          write_method: int32
+        - name: DisconnectCause
+          write_method: opaque
+        - name: CannedSmsResponses
+          write_method: opaque
+        - name: Capabilities
+          write_method: int32
+        - name: Properties
+          write_method: int32
+        - name: ConnectTimeMillis
+          write_method: int64
+        - name: Destination
+          write_method: opaque
+        - name: HandlePresentation
+          write_method: int32
+        - name: CallerDisplayName
+          write_method: string16
+        - name: CallerDisplayNamePresentation
+          write_method: int32
+        - name: GatewayInfo
+          write_method: opaque
+        - name: AccountHandle
+          write_method: opaque
+        - name: (byte)(mIsVideoCallProviderChanged?1:0)
+          write_method: int32
+        - name: VideoCallProvider!=null?mVideoCallProvider.asBinder():null
+          write_method: opaque
+        - name: ParentCallId
+          write_method: string16
+        - name: ChildCallIds
+          write_method: opaque
+        - name: StatusHints
+          write_method: opaque
+        - name: VideoState
+          write_method: int32
+        - name: ConferenceableCallIds
+          write_method: opaque
+        - name: IntentExtras
+          write_method: opaque
+        - name: Extras
+          write_method: opaque
+        - name: SupportedAudioRoutes
+          write_method: int32
+        - name: (byte)(mIsRttCallChanged?1:0)
+          write_method: int32
+        - name: RttCall
+          write_method: opaque
+        - name: CreationTimeMillis
+          write_method: int64
+        - name: CallDirection
+          write_method: int32
+        - name: CallerNumberVerificationStatus
+          write_method: int32
+        - name: ContactDisplayName
+          write_method: string16
+        - name: ActiveChildCallId
+          write_method: string16
+        - name: ContactPhotoUri
+          write_method: opaque
     - name: ParcelableConference
+      java_wire_format:
+        - name: PhoneAccount
+          write_method: opaque
+        - name: State
+          write_method: int32
+        - name: ConnectionCapabilities
+          write_method: int32
+        - name: ConnectionIds
+          write_method: opaque
+        - name: ConnectTimeMillis
+          write_method: int64
+        - name: VideoProvider!=null?mVideoProvider.asBinder():null
+          write_method: opaque
+        - name: VideoState
+          write_method: int32
+        - name: StatusHints
+          write_method: opaque
+        - name: Extras
+          write_method: opaque
+        - name: ConnectionProperties
+          write_method: int32
+        - name: ConnectElapsedTimeMillis
+          write_method: int64
+        - name: Address
+          write_method: opaque
+        - name: AddressPresentation
+          write_method: int32
+        - name: CallerDisplayName
+          write_method: string16
+        - name: CallerDisplayNamePresentation
+          write_method: int32
+        - name: DisconnectCause
+          write_method: opaque
+        - name: RingbackRequested?1:0
+          write_method: int32
+        - name: CallDirection
+          write_method: int32
     - name: ParcelableConnection
+      java_wire_format:
+        - name: PhoneAccount
+          write_method: opaque
+        - name: State
+          write_method: int32
+        - name: ConnectionCapabilities
+          write_method: int32
+        - name: Address
+          write_method: opaque
+        - name: AddressPresentation
+          write_method: int32
+        - name: CallerDisplayName
+          write_method: string16
+        - name: CallerDisplayNamePresentation
+          write_method: int32
+        - name: VideoProvider!=null?mVideoProvider.asBinder():null
+          write_method: opaque
+        - name: VideoState
+          write_method: int32
+        - name: (byte)(mRingbackRequested?1:0)
+          write_method: int32
+        - name: (byte)(mIsVoipAudioMode?1:0)
+          write_method: int32
+        - name: ConnectTimeMillis
+          write_method: int64
+        - name: StatusHints
+          write_method: opaque
+        - name: DisconnectCause
+          write_method: opaque
+        - name: ConferenceableConnectionIds
+          write_method: opaque
+        - name: Extras
+          write_method: opaque
+        - name: ConnectionProperties
+          write_method: int32
+        - name: SupportedAudioRoutes
+          write_method: int32
+        - name: ParentCallId
+          write_method: string16
+        - name: ConnectElapsedTimeMillis
+          write_method: int64
+        - name: CallDirection
+          write_method: int32
+        - name: CallerNumberVerificationStatus
+          write_method: int32
     - name: ParcelableRttCall
+      java_wire_format:
+        - name: RttMode
+          write_method: int32
+        - name: TransmitStream
+          write_method: opaque
+        - name: ReceiveStream
+          write_method: opaque
     - name: PhoneAccount
+      java_wire_format:
+        - name: "0"
+          write_method: int32
+          condition: mAccountHandle==null
+        - name: "0"
+          write_method: int32
+          condition: mAddress==null
+        - name: "0"
+          write_method: int32
+          condition: mSubscriptionAddress==null
+        - name: Capabilities
+          write_method: int32
+        - name: HighlightColor
+          write_method: int32
+        - name: Label
+          write_method: opaque
+        - name: ShortDescription
+          write_method: opaque
+        - name: SupportedUriSchemes
+          write_method: opaque
+        - name: "0"
+          write_method: int32
+          condition: mIcon==null
+        - name: (byte)(mIsEnabled?1:0)
+          write_method: int32
+        - name: Extras
+          write_method: opaque
+        - name: GroupId
+          write_method: string16
+        - name: SupportedAudioRoutes
+          write_method: int32
+        - name: "False"
+          write_method: bool
+          condition: mSimultaneousCallingRestriction==null
     - name: PhoneAccountHandle
+      java_wire_format:
+        - name: Out
+          write_method: opaque
+        - name: Id
+          write_method: string16
+        - name: Out
+          write_method: opaque
     - name: PhoneAccountSuggestion
+      java_wire_format:
+        - name: Handle
+          write_method: opaque
+        - name: Reason
+          write_method: int32
+        - name: (byte)(mShouldAutoSelect?1:0)
+          write_method: int32
     - name: QueryLocationException
+      java_wire_format:
+        - name: Message
+          write_method: string8
+        - name: Code
+          write_method: int32
     - name: StatusHints
+      java_wire_format:
+        - name: Label
+          write_method: opaque
+        - name: Icon
+          write_method: opaque
+        - name: Extras
+          write_method: opaque
     - name: StreamingCall
+      java_wire_format:
+        - name: ComponentName
+          write_method: opaque
+        - name: DisplayName
+          write_method: opaque
+        - name: Address
+          write_method: opaque
+        - name: Extras
+          write_method: opaque
+        - name: State
+          write_method: int32
     - name: TelecomAnalytics
+      java_wire_format:
+        - name: SessionTimings
+          write_method: opaque
+        - name: CallAnalytics
+          write_method: opaque
     - name: VideoProfile
+      java_wire_format:
+        - name: VideoState
+          write_method: int32
+        - name: Quality
+          write_method: int32
     - name: VideoProfile.CameraCapabilities

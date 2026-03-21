@@ -13,6 +13,8 @@ interfaces:
             - name: rawKeys
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
           return_type:
             name: String
@@ -28,6 +30,8 @@ interfaces:
             - name: rawKeysAndValues
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
             - name: syncParameters
               type:
@@ -47,6 +51,8 @@ interfaces:
             - name: rawValue
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
           return_type:
             name: VendorParameter
@@ -57,6 +63,8 @@ interfaces:
             - name: rawValue
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
           return_type:
             name: VendorParameter
@@ -76,6 +84,8 @@ interfaces:
             name: String
           annotations:
             - utf8InCpp
+      nested_types:
+        - IHalAdapterVendorExtension.ParameterScope
 enums:
     - name: IHalAdapterVendorExtension.ParameterScope
       backing_type: ""

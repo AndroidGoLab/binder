@@ -1,8 +1,6 @@
 package common
 
 import (
-	vibrator "github.com/xaionaro-go/binder/android/hardware/tests/extension/vibrator"
-	location "github.com/xaionaro-go/binder/android/location"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -11,11 +9,11 @@ import (
 type MicrophoneInfo struct {
 	Id                string
 	Device            AudioDevice
-	Location          location.Location
+	Location          MicrophoneInfoLocation
 	Group             int32
 	IndexInTheGroup   int32
 	Sensitivity       *MicrophoneInfoSensitivity
-	Directionality    vibrator.Directionality
+	Directionality    MicrophoneInfoDirectionality
 	FrequencyResponse []MicrophoneInfoFrequencyResponsePoint
 	Position          *MicrophoneInfoCoordinate
 	Orientation       *MicrophoneInfoCoordinate
@@ -36,9 +34,7 @@ func (s *MicrophoneInfo) MarshalParcel(
 	if _err := s.Device.MarshalParcel(p); _err != nil {
 		return _err
 	}
-	if _err := s.Location.MarshalParcel(p); _err != nil {
-		return _err
-	}
+	p.WriteInt32(int32(s.Location))
 	p.WriteInt32(s.Group)
 	p.WriteInt32(s.IndexInTheGroup)
 	if s.Sensitivity == nil {
@@ -114,9 +110,11 @@ func (s *MicrophoneInfo) UnmarshalParcel(
 		return nil
 	}
 
-	if _err = s.Location.UnmarshalParcel(p); _err != nil {
+	_locationRaw, _err := p.ReadInt32()
+	if _err != nil {
 		return _err
 	}
+	s.Location = MicrophoneInfoLocation(_locationRaw)
 
 	if p.Position() >= _endPos {
 		parcel.SkipToParcelableEnd(p, _endPos)
@@ -166,7 +164,7 @@ func (s *MicrophoneInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	s.Directionality = vibrator.Directionality(_directionalityRaw)
+	s.Directionality = MicrophoneInfoDirectionality(_directionalityRaw)
 
 	if p.Position() >= _endPos {
 		parcel.SkipToParcelableEnd(p, _endPos)

@@ -15,7 +15,7 @@ const (
 type BassBoostId struct {
 	Tag                int32
 	VendorExtensionTag VendorExtension
-	CommonTag          BassBoostTag
+	CommonTag          any
 }
 
 var _ parcel.Parcelable = (*BassBoostId)(nil)
@@ -34,16 +34,16 @@ func (u *BassBoostId) SetVendorExtensionTag(
 	*u = BassBoostId{Tag: BassBoostIdTagVendorExtensionTag, VendorExtensionTag: v}
 }
 
-func (u *BassBoostId) GetCommonTag() (BassBoostTag, bool) {
+func (u *BassBoostId) GetCommonTag() (any, bool) {
 	if u.Tag != BassBoostIdTagCommonTag {
-		var _zero BassBoostTag
+		var _zero any
 		return _zero, false
 	}
 	return u.CommonTag, true
 }
 
 func (u *BassBoostId) SetCommonTag(
-	v BassBoostTag,
+	v any,
 ) {
 	*u = BassBoostId{Tag: BassBoostIdTagCommonTag, CommonTag: v}
 }
@@ -61,7 +61,6 @@ func (u *BassBoostId) MarshalParcel(
 			return _err
 		}
 	case BassBoostIdTagCommonTag:
-		p.WriteInt32(int32(u.CommonTag))
 	default:
 		return fmt.Errorf("unknown union tag %d for BassBoostId", u.Tag)
 	}
@@ -92,11 +91,6 @@ func (u *BassBoostId) UnmarshalParcel(
 			return _err
 		}
 	case BassBoostIdTagCommonTag:
-		_raw, _err := p.ReadInt32()
-		if _err != nil {
-			return _err
-		}
-		u.CommonTag = BassBoostTag(_raw)
 	default:
 		return fmt.Errorf("unknown union tag %d for BassBoostId", u.Tag)
 	}

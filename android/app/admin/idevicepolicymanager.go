@@ -871,7 +871,7 @@ type IDevicePolicyManager interface {
 	SendLostModeLocationUpdate(ctx context.Context, future infra.AndroidFuture) error
 	SetGlobalProxy(ctx context.Context, admin content.ComponentName, proxySpec string, exclusionList string) (content.ComponentName, error)
 	GetGlobalProxyAdmin(ctx context.Context) (content.ComponentName, error)
-	SetRecommendedGlobalProxy(ctx context.Context, admin content.ComponentName, proxyInfo net.ProxyInfo) error
+	SetRecommendedGlobalProxy(ctx context.Context, admin content.ComponentName, proxyInfo any) error
 	SetStorageEncryption(ctx context.Context, who content.ComponentName, encrypt bool) (int32, error)
 	GetStorageEncryption(ctx context.Context, who content.ComponentName) (bool, error)
 	GetStorageEncryptionStatus(ctx context.Context, callerPackage string) (int32, error)
@@ -2931,7 +2931,7 @@ func (p *DevicePolicyManagerProxy) GetGlobalProxyAdmin(
 func (p *DevicePolicyManagerProxy) SetRecommendedGlobalProxy(
 	ctx context.Context,
 	admin content.ComponentName,
-	proxyInfo net.ProxyInfo,
+	proxyInfo any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -2940,10 +2940,7 @@ func (p *DevicePolicyManagerProxy) SetRecommendedGlobalProxy(
 	if _err := admin.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := proxyInfo.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param proxyInfo (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIDevicePolicyManager, MethodIDevicePolicyManagerSetRecommendedGlobalProxy)
 	if _err != nil {
@@ -16829,18 +16826,7 @@ func (s *DevicePolicyManagerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_proxyInfo net.ProxyInfo
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_proxyInfo.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_proxyInfo any
 		_err := s.Impl.SetRecommendedGlobalProxy(ctx, _arg_admin, _arg_proxyInfo)
 		_reply := parcel.New()
 		if _err != nil {
@@ -25347,7 +25333,7 @@ type IDevicePolicyManagerServer interface {
 	SendLostModeLocationUpdate(ctx context.Context, future infra.AndroidFuture) error
 	SetGlobalProxy(ctx context.Context, admin content.ComponentName, proxySpec string, exclusionList string) (content.ComponentName, error)
 	GetGlobalProxyAdmin(ctx context.Context) (content.ComponentName, error)
-	SetRecommendedGlobalProxy(ctx context.Context, admin content.ComponentName, proxyInfo net.ProxyInfo) error
+	SetRecommendedGlobalProxy(ctx context.Context, admin content.ComponentName, proxyInfo any) error
 	SetStorageEncryption(ctx context.Context, who content.ComponentName, encrypt bool) (int32, error)
 	GetStorageEncryption(ctx context.Context, who content.ComponentName) (bool, error)
 	GetStorageEncryptionStatus(ctx context.Context, callerPackage string) (int32, error)
@@ -26097,7 +26083,7 @@ func (w *devicePolicyManagerStubWrapper) GetGlobalProxyAdmin(
 func (w *devicePolicyManagerStubWrapper) SetRecommendedGlobalProxy(
 	ctx context.Context,
 	admin content.ComponentName,
-	proxyInfo net.ProxyInfo,
+	proxyInfo any,
 ) error {
 	return w.impl.SetRecommendedGlobalProxy(ctx, admin, proxyInfo)
 }

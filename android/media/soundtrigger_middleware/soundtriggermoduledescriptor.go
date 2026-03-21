@@ -1,7 +1,7 @@
 package soundtrigger_middleware
 
 import (
-	broadcastradio "github.com/xaionaro-go/binder/android/hardware/broadcastradio"
+	soundtrigger "github.com/xaionaro-go/binder/android/media/soundtrigger"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -9,7 +9,7 @@ import (
 
 type SoundTriggerModuleDescriptor struct {
 	Handle     int32
-	Properties broadcastradio.Properties
+	Properties soundtrigger.Properties
 }
 
 var _ parcel.Parcelable = (*SoundTriggerModuleDescriptor)(nil)

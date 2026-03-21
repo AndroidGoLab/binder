@@ -2378,4 +2378,18 @@ interfaces:
             name: void
 parcelables:
     - name: AppLinkInfo
+      java_wire_format:
+        - name: Dest
+          write_method: opaque
+        - name: UriString
+          write_method: string16
     - name: TvInteractiveAppServiceInfo
+      java_wire_format:
+        - name: Dest
+          write_method: opaque
+        - name: Id
+          write_method: string16
+        - name: Types
+          write_method: int32
+        - name: ExtraTypes
+          write_method: opaque

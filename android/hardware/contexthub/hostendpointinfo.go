@@ -1,7 +1,6 @@
 package contexthub
 
 import (
-	hardware "github.com/xaionaro-go/binder/android/hardware"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -9,7 +8,7 @@ import (
 
 type HostEndpointInfo struct {
 	HostEndpointId uint16
-	Type           hardware.CameraExtensionSessionStatsType
+	Type           HostEndpointInfoType
 	PackageName    string
 	AttributionTag string
 }
@@ -57,7 +56,7 @@ func (s *HostEndpointInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	s.Type = hardware.CameraExtensionSessionStatsType(_typeRaw)
+	s.Type = HostEndpointInfoType(_typeRaw)
 
 	if p.Position() >= _endPos {
 		parcel.SkipToParcelableEnd(p, _endPos)

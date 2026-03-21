@@ -310,14 +310,206 @@ interfaces:
             name: StatusBarNotification
 parcelables:
     - name: Adjustment
+      java_wire_format:
+        - name: "1"
+          write_method: int32
+          condition: mPackage!=null
+        - name: Package
+          write_method: string16
+          condition: mPackage!=null
+        - name: "1"
+          write_method: int32
+          condition: mKey!=null
+        - name: Key
+          write_method: string16
+          condition: mKey!=null
+        - name: "1"
+          write_method: int32
+          condition: mExplanation!=null
+        - name: Explanation
+          write_method: opaque
+          condition: mExplanation!=null
+        - name: Signals
+          write_method: opaque
+        - name: User
+          write_method: int32
+        - name: Issuer
+          write_method: string16
     - name: Condition
+      java_wire_format:
+        - name: Id
+          write_method: opaque
+        - name: Summary
+          write_method: string16
+        - name: Line1
+          write_method: string16
+        - name: Line2
+          write_method: string16
+        - name: Icon
+          write_method: int32
+        - name: State
+          write_method: int32
+        - name: This.source
+          write_method: int32
+          condition: Flags.modesApi()
+        - name: This.flags
+          write_method: int32
     - name: ConversationChannelWrapper
+      java_wire_format:
+        - name: NotificationChannel
+          write_method: opaque
+        - name: GroupLabel
+          write_method: opaque
+        - name: ParentChannelLabel
+          write_method: opaque
+        - name: ShortcutInfo
+          write_method: opaque
+        - name: Pkg
+          write_method: opaque
+        - name: Uid
+          write_method: int32
     - name: NotificationListenerFilter
+      java_wire_format:
+        - name: AllowedNotificationTypes
+          write_method: int32
+        - name: DisallowedPackages
+          write_method: opaque
     - name: NotificationRankingUpdate
     - name: NotificationStats
+      java_wire_format:
+        - name: (byte)(mSeen?1:0)
+          write_method: int32
+        - name: (byte)(mExpanded?1:0)
+          write_method: int32
+        - name: (byte)(mDirectReplied?1:0)
+          write_method: int32
+        - name: (byte)(mSmartReplied?1:0)
+          write_method: int32
+          condition: Flags.lifetimeExtensionRefactor()
+        - name: (byte)(mSnoozed?1:0)
+          write_method: int32
+        - name: (byte)(mViewedSettings?1:0)
+          write_method: int32
+        - name: (byte)(mInteracted?1:0)
+          write_method: int32
+        - name: DismissalSurface
+          write_method: int32
+        - name: DismissalSentiment
+          write_method: int32
     - name: NotifyingApp
+      java_wire_format:
+        - name: UserId
+          write_method: int32
+        - name: Pkg
+          write_method: string16
+        - name: LastNotified
+          write_method: int64
     - name: SnoozeCriterion
+      java_wire_format:
+        - name: (byte)1
+          write_method: int32
+          condition: mId!=null
+        - name: Id
+          write_method: string16
+          condition: mId!=null
+        - name: (byte)1
+          write_method: int32
+          condition: mExplanation!=null
+        - name: Explanation
+          write_method: opaque
+          condition: mExplanation!=null
+        - name: (byte)1
+          write_method: int32
+          condition: mConfirmation!=null
+        - name: Confirmation
+          write_method: opaque
+          condition: mConfirmation!=null
     - name: StatusBarNotification
+      java_wire_format:
+        - name: This.pkg
+          write_method: string16
+        - name: This.opPkg
+          write_method: string16
+        - name: This.id
+          write_method: int32
+        - name: "1"
+          write_method: int32
+          condition: this.tag!=null
+        - name: This.tag
+          write_method: string16
+          condition: this.tag!=null
+        - name: This.uid
+          write_method: int32
+        - name: This.initialPid
+          write_method: int32
+        - name: Out
+          write_method: opaque
+        - name: Out
+          write_method: opaque
+        - name: This.postTime
+          write_method: int64
+        - name: "1"
+          write_method: int32
+          condition: this.overrideGroupKey!=null
+        - name: This.overrideGroupKey
+          write_method: string16
+          condition: this.overrideGroupKey!=null
+        - name: "1"
+          write_method: int32
+          condition: this.mInstanceId!=null
+        - name: Out
+          write_method: opaque
+          condition: this.mInstanceId!=null
     - name: ZenModeConfig
+      java_wire_format:
+        - name: AllowCalls?1:0
+          write_method: int32
+        - name: AllowRepeatCallers?1:0
+          write_method: int32
+        - name: AllowMessages?1:0
+          write_method: int32
+        - name: AllowReminders?1:0
+          write_method: int32
+        - name: AllowEvents?1:0
+          write_method: int32
+        - name: AllowCallsFrom
+          write_method: int32
+        - name: AllowMessagesFrom
+          write_method: int32
+        - name: User
+          write_method: int32
+        - name: ManualRule
+          write_method: opaque
+        - name: AllowAlarms?1:0
+          write_method: int32
+        - name: AllowMedia?1:0
+          write_method: int32
+        - name: AllowSystem?1:0
+          write_method: int32
+        - name: SuppressedVisualEffects
+          write_method: int32
+        - name: AreChannelsBypassingDnd?1:0
+          write_method: int32
+        - name: AllowConversations
+          write_method: bool
+        - name: AllowConversationsFrom
+          write_method: int32
+        - name: AllowPriorityChannels
+          write_method: bool
+          condition: Flags.modesApi()
     - name: ZenModeConfig.ZenRule
     - name: ZenPolicy
+      java_wire_format:
+        - name: PriorityCategories
+          write_method: opaque
+        - name: VisualEffects
+          write_method: opaque
+        - name: PriorityMessages
+          write_method: int32
+        - name: PriorityCalls
+          write_method: int32
+        - name: ConversationSenders
+          write_method: int32
+        - name: AllowChannels
+          write_method: int32
+          condition: Flags.modesApi()

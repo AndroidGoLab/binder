@@ -87,6 +87,8 @@ interfaces:
         - name: STATUS_CALLBACK_DIED
           type: int
           value: "4"
+      annotations:
+        - VintfStability
     - name: IHealthInfoCallback
       descriptor: android.hardware.health.IHealthInfoCallback
       methods:
@@ -100,6 +102,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: BatteryHealthData
       fields:

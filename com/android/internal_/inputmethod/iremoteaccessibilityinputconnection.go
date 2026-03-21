@@ -3,10 +3,10 @@ package inputmethod
 import (
 	"context"
 	"fmt"
-	view "github.com/xaionaro-go/binder/android/view"
 	viewInputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
 	"github.com/xaionaro-go/binder/binder"
 	infra "github.com/xaionaro-go/binder/com/android/internal_/infra"
+	inputflinger "github.com/xaionaro-go/binder/com/android/server/inputflinger"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -44,7 +44,7 @@ type IRemoteAccessibilityInputConnection interface {
 	SetSelection(ctx context.Context, header InputConnectionCommandHeader, start int32, end int32) error
 	GetSurroundingText(ctx context.Context, header InputConnectionCommandHeader, beforeLength int32, afterLength int32, flags int32, future infra.AndroidFuture) error
 	DeleteSurroundingText(ctx context.Context, header InputConnectionCommandHeader, beforeLength int32, afterLength int32) error
-	SendKeyEvent(ctx context.Context, header InputConnectionCommandHeader, event view.KeyEvent) error
+	SendKeyEvent(ctx context.Context, header InputConnectionCommandHeader, event inputflinger.KeyEvent) error
 	PerformEditorAction(ctx context.Context, header InputConnectionCommandHeader, actionCode int32) error
 	PerformContextMenuAction(ctx context.Context, header InputConnectionCommandHeader, id int32) error
 	GetCursorCapsMode(ctx context.Context, header InputConnectionCommandHeader, reqModes int32, future infra.AndroidFuture) error
@@ -182,7 +182,7 @@ func (p *RemoteAccessibilityInputConnectionProxy) DeleteSurroundingText(
 func (p *RemoteAccessibilityInputConnectionProxy) SendKeyEvent(
 	ctx context.Context,
 	header InputConnectionCommandHeader,
-	event view.KeyEvent,
+	event inputflinger.KeyEvent,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -458,7 +458,7 @@ func (s *RemoteAccessibilityInputConnectionStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_event view.KeyEvent
+		var _arg_event inputflinger.KeyEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -573,7 +573,7 @@ type IRemoteAccessibilityInputConnectionServer interface {
 	SetSelection(ctx context.Context, header InputConnectionCommandHeader, start int32, end int32) error
 	GetSurroundingText(ctx context.Context, header InputConnectionCommandHeader, beforeLength int32, afterLength int32, flags int32, future infra.AndroidFuture) error
 	DeleteSurroundingText(ctx context.Context, header InputConnectionCommandHeader, beforeLength int32, afterLength int32) error
-	SendKeyEvent(ctx context.Context, header InputConnectionCommandHeader, event view.KeyEvent) error
+	SendKeyEvent(ctx context.Context, header InputConnectionCommandHeader, event inputflinger.KeyEvent) error
 	PerformEditorAction(ctx context.Context, header InputConnectionCommandHeader, actionCode int32) error
 	PerformContextMenuAction(ctx context.Context, header InputConnectionCommandHeader, id int32) error
 	GetCursorCapsMode(ctx context.Context, header InputConnectionCommandHeader, reqModes int32, future infra.AndroidFuture) error
@@ -631,7 +631,7 @@ func (w *remoteAccessibilityInputConnectionStubWrapper) DeleteSurroundingText(
 func (w *remoteAccessibilityInputConnectionStubWrapper) SendKeyEvent(
 	ctx context.Context,
 	header InputConnectionCommandHeader,
-	event view.KeyEvent,
+	event inputflinger.KeyEvent,
 ) error {
 	return w.impl.SendKeyEvent(ctx, header, event)
 }

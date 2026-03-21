@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	types "github.com/xaionaro-go/binder/android/app/types"
-	common "github.com/xaionaro-go/binder/android/hardware/biometrics/common"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -45,7 +44,7 @@ type IVoiceInteractor interface {
 	StartCommand(ctx context.Context, callback IVoiceInteractorCallback, command string, extras os.Bundle) (IVoiceInteractorRequest, error)
 	SupportsCommands(ctx context.Context, commands []string) ([]bool, error)
 	NotifyDirectActionsChanged(ctx context.Context, taskId int32, assistToken binder.IBinder) error
-	SetKillCallback(ctx context.Context, callback common.ICancellationSignal) error
+	SetKillCallback(ctx context.Context, callback os.ICancellationSignal) error
 }
 
 type VoiceInteractorProxy struct {
@@ -365,7 +364,7 @@ func (p *VoiceInteractorProxy) NotifyDirectActionsChanged(
 
 func (p *VoiceInteractorProxy) SetKillCallback(
 	ctx context.Context,
-	callback common.ICancellationSignal,
+	callback os.ICancellationSignal,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -660,13 +659,13 @@ func (s *VoiceInteractorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVoiceInteractorSetKillCallback:
-		var _arg_callback common.ICancellationSignal
+		var _arg_callback os.ICancellationSignal
 		{
 			_callbackHandle, _err := _data.ReadStrongBinder()
 			if _err != nil {
 				return nil, _err
 			}
-			_arg_callback = common.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
+			_arg_callback = os.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
 		_err := s.Impl.SetKillCallback(ctx, _arg_callback)
 		_reply := parcel.New()
@@ -692,7 +691,7 @@ type IVoiceInteractorServer interface {
 	StartCommand(ctx context.Context, callback IVoiceInteractorCallback, command string, extras os.Bundle) (IVoiceInteractorRequest, error)
 	SupportsCommands(ctx context.Context, commands []string) ([]bool, error)
 	NotifyDirectActionsChanged(ctx context.Context, taskId int32, assistToken binder.IBinder) error
-	SetKillCallback(ctx context.Context, callback common.ICancellationSignal) error
+	SetKillCallback(ctx context.Context, callback os.ICancellationSignal) error
 }
 
 type voiceInteractorStubWrapper struct {
@@ -767,7 +766,7 @@ func (w *voiceInteractorStubWrapper) NotifyDirectActionsChanged(
 
 func (w *voiceInteractorStubWrapper) SetKillCallback(
 	ctx context.Context,
-	callback common.ICancellationSignal,
+	callback os.ICancellationSignal,
 ) error {
 	return w.impl.SetKillCallback(ctx, callback)
 }

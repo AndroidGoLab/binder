@@ -63,5 +63,42 @@ interfaces:
             name: void
 parcelables:
     - name: VirtualSensor
+      java_wire_format:
+        - name: Handle
+          write_method: int32
+        - name: Type
+          write_method: int32
+        - name: Name
+          write_method: string8
+        - name: VirtualDevice.asBinder()
+          write_method: opaque
+        - name: Token
+          write_method: opaque
     - name: VirtualSensorConfig
+      java_wire_format:
+        - name: Type
+          write_method: int32
+        - name: Name
+          write_method: string8
+        - name: Vendor
+          write_method: string8
+        - name: MaximumRange
+          write_method: float32
+        - name: Resolution
+          write_method: float32
+        - name: Power
+          write_method: float32
+        - name: MinDelay
+          write_method: int32
+        - name: MaxDelay
+          write_method: int32
+        - name: Flags
+          write_method: int32
     - name: VirtualSensorEvent
+      java_wire_format:
+        - name: Values.length
+          write_method: int32
+        - name: Values
+          write_method: opaque
+        - name: TimestampNanos
+          write_method: int64

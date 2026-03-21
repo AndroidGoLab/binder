@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
-	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -39,15 +38,15 @@ const (
 
 type IBluetoothSap interface {
 	AsBinder() binder.IBinder
-	GetState(ctx context.Context, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetClient(ctx context.Context, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	Disconnect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	IsConnected(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
+	GetState(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
+	GetClient(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
+	Disconnect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	IsConnected(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
+	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource, receiver any) error
+	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource, receiver any) error
+	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
 }
 
 type BluetoothSapProxy struct {
@@ -69,7 +68,7 @@ var _ IBluetoothSap = (*BluetoothSapProxy)(nil)
 func (p *BluetoothSapProxy) GetState(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -78,10 +77,7 @@ func (p *BluetoothSapProxy) GetState(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothSap, MethodIBluetoothSapGetState)
 	if _err != nil {
@@ -95,7 +91,7 @@ func (p *BluetoothSapProxy) GetState(
 func (p *BluetoothSapProxy) GetClient(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -104,10 +100,7 @@ func (p *BluetoothSapProxy) GetClient(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothSap, MethodIBluetoothSapGetClient)
 	if _err != nil {
@@ -122,7 +115,7 @@ func (p *BluetoothSapProxy) Disconnect(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -135,10 +128,7 @@ func (p *BluetoothSapProxy) Disconnect(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothSap, MethodIBluetoothSapDisconnect)
 	if _err != nil {
@@ -153,7 +143,7 @@ func (p *BluetoothSapProxy) IsConnected(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -166,10 +156,7 @@ func (p *BluetoothSapProxy) IsConnected(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothSap, MethodIBluetoothSapIsConnected)
 	if _err != nil {
@@ -183,7 +170,7 @@ func (p *BluetoothSapProxy) IsConnected(
 func (p *BluetoothSapProxy) GetConnectedDevices(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -192,10 +179,7 @@ func (p *BluetoothSapProxy) GetConnectedDevices(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothSap, MethodIBluetoothSapGetConnectedDevices)
 	if _err != nil {
@@ -210,7 +194,7 @@ func (p *BluetoothSapProxy) GetDevicesMatchingConnectionStates(
 	ctx context.Context,
 	states []int32,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -227,10 +211,7 @@ func (p *BluetoothSapProxy) GetDevicesMatchingConnectionStates(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothSap, MethodIBluetoothSapGetDevicesMatchingConnectionStates)
 	if _err != nil {
@@ -245,7 +226,7 @@ func (p *BluetoothSapProxy) GetConnectionState(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -258,10 +239,7 @@ func (p *BluetoothSapProxy) GetConnectionState(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothSap, MethodIBluetoothSapGetConnectionState)
 	if _err != nil {
@@ -277,7 +255,7 @@ func (p *BluetoothSapProxy) SetConnectionPolicy(
 	device BluetoothDevice,
 	connectionPolicy int32,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -291,10 +269,7 @@ func (p *BluetoothSapProxy) SetConnectionPolicy(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothSap, MethodIBluetoothSapSetConnectionPolicy)
 	if _err != nil {
@@ -309,7 +284,7 @@ func (p *BluetoothSapProxy) GetConnectionPolicy(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -322,10 +297,7 @@ func (p *BluetoothSapProxy) GetConnectionPolicy(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothSap, MethodIBluetoothSapGetConnectionPolicy)
 	if _err != nil {
@@ -372,18 +344,7 @@ func (s *BluetoothSapStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.GetState(ctx, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothSapGetClient:
@@ -399,18 +360,7 @@ func (s *BluetoothSapStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.GetClient(ctx, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothSapDisconnect:
@@ -438,18 +388,7 @@ func (s *BluetoothSapStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.Disconnect(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothSapIsConnected:
@@ -477,18 +416,7 @@ func (s *BluetoothSapStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.IsConnected(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothSapGetConnectedDevices:
@@ -504,18 +432,7 @@ func (s *BluetoothSapStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.GetConnectedDevices(ctx, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothSapGetDevicesMatchingConnectionStates:
@@ -550,18 +467,7 @@ func (s *BluetoothSapStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.GetDevicesMatchingConnectionStates(ctx, _arg_states, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothSapGetConnectionState:
@@ -589,18 +495,7 @@ func (s *BluetoothSapStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.GetConnectionState(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothSapSetConnectionPolicy:
@@ -632,18 +527,7 @@ func (s *BluetoothSapStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err = s.Impl.SetConnectionPolicy(ctx, _arg_device, _arg_connectionPolicy, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothSapGetConnectionPolicy:
@@ -671,18 +555,7 @@ func (s *BluetoothSapStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.GetConnectionPolicy(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	default:
@@ -694,15 +567,15 @@ func (s *BluetoothSapStub) OnTransaction(
 // provide to NewBluetoothSapStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IBluetoothSapServer interface {
-	GetState(ctx context.Context, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetClient(ctx context.Context, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	Disconnect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	IsConnected(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
+	GetState(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
+	GetClient(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
+	Disconnect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	IsConnected(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
+	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource, receiver any) error
+	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource, receiver any) error
+	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
 }
 
 type bluetoothSapStubWrapper struct {
@@ -717,7 +590,7 @@ func (w *bluetoothSapStubWrapper) AsBinder() binder.IBinder {
 func (w *bluetoothSapStubWrapper) GetState(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.GetState(ctx, attributionSource, receiver)
 }
@@ -725,7 +598,7 @@ func (w *bluetoothSapStubWrapper) GetState(
 func (w *bluetoothSapStubWrapper) GetClient(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.GetClient(ctx, attributionSource, receiver)
 }
@@ -734,7 +607,7 @@ func (w *bluetoothSapStubWrapper) Disconnect(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.Disconnect(ctx, device, attributionSource, receiver)
 }
@@ -743,7 +616,7 @@ func (w *bluetoothSapStubWrapper) IsConnected(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.IsConnected(ctx, device, attributionSource, receiver)
 }
@@ -751,7 +624,7 @@ func (w *bluetoothSapStubWrapper) IsConnected(
 func (w *bluetoothSapStubWrapper) GetConnectedDevices(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.GetConnectedDevices(ctx, attributionSource, receiver)
 }
@@ -760,7 +633,7 @@ func (w *bluetoothSapStubWrapper) GetDevicesMatchingConnectionStates(
 	ctx context.Context,
 	states []int32,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.GetDevicesMatchingConnectionStates(ctx, states, attributionSource, receiver)
 }
@@ -769,7 +642,7 @@ func (w *bluetoothSapStubWrapper) GetConnectionState(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.GetConnectionState(ctx, device, attributionSource, receiver)
 }
@@ -779,7 +652,7 @@ func (w *bluetoothSapStubWrapper) SetConnectionPolicy(
 	device BluetoothDevice,
 	connectionPolicy int32,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.SetConnectionPolicy(ctx, device, connectionPolicy, attributionSource, receiver)
 }
@@ -788,7 +661,7 @@ func (w *bluetoothSapStubWrapper) GetConnectionPolicy(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.GetConnectionPolicy(ctx, device, attributionSource, receiver)
 }

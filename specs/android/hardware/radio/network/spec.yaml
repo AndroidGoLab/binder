@@ -564,6 +564,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IRadioNetworkIndication
       descriptor: android.hardware.radio.network.IRadioNetworkIndication
       oneway: true
@@ -812,6 +814,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IRadioNetworkResponse
       descriptor: android.hardware.radio.network.IRadioNetworkResponse
       oneway: true
@@ -1348,6 +1352,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: BarringInfo
       fields:

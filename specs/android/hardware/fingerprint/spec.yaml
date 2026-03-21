@@ -937,7 +937,50 @@ interfaces:
             name: void
 parcelables:
     - name: Fingerprint
+      java_wire_format:
+        - name: GetName().toString()
+          write_method: string16
+        - name: GetBiometricId()
+          write_method: int32
+        - name: GetDeviceId()
+          write_method: int64
+        - name: GroupId
+          write_method: int32
     - name: FingerprintAuthenticateOptions
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: UserId
+          write_method: int32
+        - name: SensorId
+          write_method: int32
+        - name: DisplayState
+          write_method: int32
+        - name: OpPackageName
+          write_method: string16
+        - name: AttributionTag
+          write_method: string16
+          condition: mAttributionTag!=null
+        - name: VendorReason
+          write_method: opaque
+          condition: mVendorReason!=null
     - name: FingerprintEnrollOptions
+      java_wire_format:
+        - name: EnrollReason
+          write_method: int32
     - name: FingerprintSensorConfigurations
+      java_wire_format:
+        - name: (byte)(mResetLockoutRequiresHardwareAuthToken?1:0)
+          write_method: int32
+        - name: SensorPropsMap
+          write_method: opaque
     - name: FingerprintSensorPropertiesInternal
+      java_wire_format:
+        - name: Dest
+          write_method: opaque
+        - name: SensorType
+          write_method: int32
+        - name: HalControlsIllumination
+          write_method: bool
+        - name: SensorLocations
+          write_method: opaque

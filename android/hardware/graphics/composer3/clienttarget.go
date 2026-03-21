@@ -1,7 +1,6 @@
 package composer3
 
 import (
-	graphics "github.com/xaionaro-go/binder/android/graphics"
 	common "github.com/xaionaro-go/binder/android/hardware/graphics/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -11,7 +10,7 @@ import (
 type ClientTarget struct {
 	Buffer      Buffer
 	Dataspace   common.Dataspace
-	Damage      []graphics.Rect
+	Damage      []common.Rect
 	HdrSdrRatio float32
 }
 
@@ -81,7 +80,7 @@ func (s *ClientTarget) UnmarshalParcel(
 		return _err
 	}
 	if _count0 >= 0 {
-		s.Damage = make([]graphics.Rect, _count0)
+		s.Damage = make([]common.Rect, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
 			if _, _err = p.ReadInt32(); _err != nil {
 				return _err

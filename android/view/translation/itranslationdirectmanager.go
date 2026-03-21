@@ -3,7 +3,7 @@ package translation
 import (
 	"context"
 	"fmt"
-	common "github.com/xaionaro-go/binder/android/hardware/biometrics/common"
+	os "github.com/xaionaro-go/binder/android/os"
 	serviceTranslation "github.com/xaionaro-go/binder/android/service/translation"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -25,7 +25,7 @@ const (
 
 type ITranslationDirectManager interface {
 	AsBinder() binder.IBinder
-	OnTranslationRequest(ctx context.Context, request TranslationRequest, sessionId int32, transport common.ICancellationSignal, callback serviceTranslation.ITranslationCallback) error
+	OnTranslationRequest(ctx context.Context, request TranslationRequest, sessionId int32, transport os.ICancellationSignal, callback serviceTranslation.ITranslationCallback) error
 	OnFinishTranslationSession(ctx context.Context, sessionId int32) error
 }
 
@@ -49,7 +49,7 @@ func (p *TranslationDirectManagerProxy) OnTranslationRequest(
 	ctx context.Context,
 	request TranslationRequest,
 	sessionId int32,
-	transport common.ICancellationSignal,
+	transport os.ICancellationSignal,
 	callback serviceTranslation.ITranslationCallback,
 ) error {
 	_data := parcel.New()
@@ -130,13 +130,13 @@ func (s *TranslationDirectManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_transport common.ICancellationSignal
+		var _arg_transport os.ICancellationSignal
 		{
 			_transportHandle, _err := _data.ReadStrongBinder()
 			if _err != nil {
 				return nil, _err
 			}
-			_arg_transport = common.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _transportHandle))
+			_arg_transport = os.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _transportHandle))
 		}
 		var _arg_callback serviceTranslation.ITranslationCallback
 		{
@@ -164,7 +164,7 @@ func (s *TranslationDirectManagerStub) OnTransaction(
 // provide to NewTranslationDirectManagerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ITranslationDirectManagerServer interface {
-	OnTranslationRequest(ctx context.Context, request TranslationRequest, sessionId int32, transport common.ICancellationSignal, callback serviceTranslation.ITranslationCallback) error
+	OnTranslationRequest(ctx context.Context, request TranslationRequest, sessionId int32, transport os.ICancellationSignal, callback serviceTranslation.ITranslationCallback) error
 	OnFinishTranslationSession(ctx context.Context, sessionId int32) error
 }
 
@@ -181,7 +181,7 @@ func (w *translationDirectManagerStubWrapper) OnTranslationRequest(
 	ctx context.Context,
 	request TranslationRequest,
 	sessionId int32,
-	transport common.ICancellationSignal,
+	transport os.ICancellationSignal,
 	callback serviceTranslation.ITranslationCallback,
 ) error {
 	return w.impl.OnTranslationRequest(ctx, request, sessionId, transport, callback)

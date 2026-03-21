@@ -10,6 +10,8 @@ interfaces:
             - name: path
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
           return_type:
             name: int
@@ -19,6 +21,8 @@ interfaces:
             - name: path
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
             - name: params
               type:
@@ -35,6 +39,8 @@ interfaces:
             - name: path
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
             - name: otherStorageId
               type:
@@ -90,10 +96,14 @@ interfaces:
             - name: sourcePath
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
             - name: targetFullPath
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
             - name: bindType
               type:
@@ -109,6 +119,8 @@ interfaces:
             - name: targetFullPath
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
           return_type:
             name: int
@@ -121,6 +133,8 @@ interfaces:
             - name: path
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
           return_type:
             name: int
@@ -133,6 +147,8 @@ interfaces:
             - name: path
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
           return_type:
             name: int
@@ -145,6 +161,8 @@ interfaces:
             - name: path
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
             - name: mode
               type:
@@ -170,10 +188,14 @@ interfaces:
             - name: targetPath
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
             - name: sourcePath
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
             - name: start
               type:
@@ -192,6 +214,8 @@ interfaces:
             - name: sourcePath
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
             - name: destStorageId
               type:
@@ -199,6 +223,8 @@ interfaces:
             - name: destPath
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
           return_type:
             name: int
@@ -211,6 +237,8 @@ interfaces:
             - name: path
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
           return_type:
             name: int
@@ -223,6 +251,8 @@ interfaces:
             - name: path
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
           return_type:
             name: int
@@ -251,6 +281,8 @@ interfaces:
             - name: path
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
           return_type:
             name: byte
@@ -294,14 +326,20 @@ interfaces:
             - name: apkFullPath
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
             - name: libDirRelativePath
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
             - name: abi
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
             - name: extractNativeLibs
               type:

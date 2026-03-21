@@ -49,5 +49,7 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - PermissionManuallyEnforced
 parcelables:
     - name: PackageConfig

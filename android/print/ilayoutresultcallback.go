@@ -3,7 +3,7 @@ package print
 import (
 	"context"
 	"fmt"
-	common "github.com/xaionaro-go/binder/android/hardware/biometrics/common"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -28,7 +28,7 @@ const (
 
 type ILayoutResultCallback interface {
 	AsBinder() binder.IBinder
-	OnLayoutStarted(ctx context.Context, cancellation common.ICancellationSignal, sequence int32) error
+	OnLayoutStarted(ctx context.Context, cancellation os.ICancellationSignal, sequence int32) error
 	OnLayoutFinished(ctx context.Context, info PrintDocumentInfo, changed bool, sequence int32) error
 	OnLayoutFailed(ctx context.Context, error_ string, sequence int32) error
 	OnLayoutCanceled(ctx context.Context, sequence int32) error
@@ -52,7 +52,7 @@ var _ ILayoutResultCallback = (*LayoutResultCallbackProxy)(nil)
 
 func (p *LayoutResultCallbackProxy) OnLayoutStarted(
 	ctx context.Context,
-	cancellation common.ICancellationSignal,
+	cancellation os.ICancellationSignal,
 	sequence int32,
 ) error {
 	_data := parcel.New()
@@ -157,13 +157,13 @@ func (s *LayoutResultCallbackStub) OnTransaction(
 
 	switch code {
 	case TransactionILayoutResultCallbackOnLayoutStarted:
-		var _arg_cancellation common.ICancellationSignal
+		var _arg_cancellation os.ICancellationSignal
 		{
 			_cancellationHandle, _err := _data.ReadStrongBinder()
 			if _err != nil {
 				return nil, _err
 			}
-			_arg_cancellation = common.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationHandle))
+			_arg_cancellation = os.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationHandle))
 		}
 		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
@@ -221,7 +221,7 @@ func (s *LayoutResultCallbackStub) OnTransaction(
 // provide to NewLayoutResultCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ILayoutResultCallbackServer interface {
-	OnLayoutStarted(ctx context.Context, cancellation common.ICancellationSignal, sequence int32) error
+	OnLayoutStarted(ctx context.Context, cancellation os.ICancellationSignal, sequence int32) error
 	OnLayoutFinished(ctx context.Context, info PrintDocumentInfo, changed bool, sequence int32) error
 	OnLayoutFailed(ctx context.Context, error_ string, sequence int32) error
 	OnLayoutCanceled(ctx context.Context, sequence int32) error
@@ -238,7 +238,7 @@ func (w *layoutResultCallbackStubWrapper) AsBinder() binder.IBinder {
 
 func (w *layoutResultCallbackStubWrapper) OnLayoutStarted(
 	ctx context.Context,
-	cancellation common.ICancellationSignal,
+	cancellation os.ICancellationSignal,
 	sequence int32,
 ) error {
 	return w.impl.OnLayoutStarted(ctx, cancellation, sequence)

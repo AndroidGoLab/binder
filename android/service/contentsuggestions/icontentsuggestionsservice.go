@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	appContentsuggestions "github.com/xaionaro-go/binder/android/app/contentsuggestions"
-	hardware "github.com/xaionaro-go/binder/android/hardware"
+	common "github.com/xaionaro-go/binder/android/hardware/graphics/common"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -30,7 +30,7 @@ const (
 
 type IContentSuggestionsService interface {
 	AsBinder() binder.IBinder
-	ProvideContextImage(ctx context.Context, taskId int32, contextImage hardware.HardwareBuffer, colorSpaceId int32, imageContextRequestExtras os.Bundle) error
+	ProvideContextImage(ctx context.Context, taskId int32, contextImage common.HardwareBuffer, colorSpaceId int32, imageContextRequestExtras os.Bundle) error
 	SuggestContentSelections(ctx context.Context, request appContentsuggestions.SelectionsRequest, callback appContentsuggestions.ISelectionsCallback) error
 	ClassifyContentSelections(ctx context.Context, request appContentsuggestions.ClassificationsRequest, callback appContentsuggestions.IClassificationsCallback) error
 	NotifyInteraction(ctx context.Context, requestId string, interaction os.Bundle) error
@@ -55,7 +55,7 @@ var _ IContentSuggestionsService = (*ContentSuggestionsServiceProxy)(nil)
 func (p *ContentSuggestionsServiceProxy) ProvideContextImage(
 	ctx context.Context,
 	taskId int32,
-	contextImage hardware.HardwareBuffer,
+	contextImage common.HardwareBuffer,
 	colorSpaceId int32,
 	imageContextRequestExtras os.Bundle,
 ) error {
@@ -179,7 +179,7 @@ func (s *ContentSuggestionsServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_contextImage hardware.HardwareBuffer
+		var _arg_contextImage common.HardwareBuffer
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -283,7 +283,7 @@ func (s *ContentSuggestionsServiceStub) OnTransaction(
 // provide to NewContentSuggestionsServiceStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IContentSuggestionsServiceServer interface {
-	ProvideContextImage(ctx context.Context, taskId int32, contextImage hardware.HardwareBuffer, colorSpaceId int32, imageContextRequestExtras os.Bundle) error
+	ProvideContextImage(ctx context.Context, taskId int32, contextImage common.HardwareBuffer, colorSpaceId int32, imageContextRequestExtras os.Bundle) error
 	SuggestContentSelections(ctx context.Context, request appContentsuggestions.SelectionsRequest, callback appContentsuggestions.ISelectionsCallback) error
 	ClassifyContentSelections(ctx context.Context, request appContentsuggestions.ClassificationsRequest, callback appContentsuggestions.IClassificationsCallback) error
 	NotifyInteraction(ctx context.Context, requestId string, interaction os.Bundle) error
@@ -301,7 +301,7 @@ func (w *contentSuggestionsServiceStubWrapper) AsBinder() binder.IBinder {
 func (w *contentSuggestionsServiceStubWrapper) ProvideContextImage(
 	ctx context.Context,
 	taskId int32,
-	contextImage hardware.HardwareBuffer,
+	contextImage common.HardwareBuffer,
 	colorSpaceId int32,
 	imageContextRequestExtras os.Bundle,
 ) error {

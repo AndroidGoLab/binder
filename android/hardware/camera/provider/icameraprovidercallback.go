@@ -3,7 +3,6 @@ package provider
 import (
 	"context"
 	"fmt"
-	service "github.com/xaionaro-go/binder/android/frameworks/cameraservice/service"
 	common "github.com/xaionaro-go/binder/android/hardware/camera/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -27,9 +26,9 @@ const (
 
 type ICameraProviderCallback interface {
 	AsBinder() binder.IBinder
-	CameraDeviceStatusChange(ctx context.Context, cameraDeviceName string, newStatus service.CameraDeviceStatus) error
+	CameraDeviceStatusChange(ctx context.Context, cameraDeviceName string, newStatus common.CameraDeviceStatus) error
 	TorchModeStatusChange(ctx context.Context, cameraDeviceName string, newStatus common.TorchModeStatus) error
-	PhysicalCameraDeviceStatusChange(ctx context.Context, cameraDeviceName string, physicalCameraDeviceName string, newStatus service.CameraDeviceStatus) error
+	PhysicalCameraDeviceStatusChange(ctx context.Context, cameraDeviceName string, physicalCameraDeviceName string, newStatus common.CameraDeviceStatus) error
 }
 
 type CameraProviderCallbackProxy struct {
@@ -51,7 +50,7 @@ var _ ICameraProviderCallback = (*CameraProviderCallbackProxy)(nil)
 func (p *CameraProviderCallbackProxy) CameraDeviceStatusChange(
 	ctx context.Context,
 	cameraDeviceName string,
-	newStatus service.CameraDeviceStatus,
+	newStatus common.CameraDeviceStatus,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -110,7 +109,7 @@ func (p *CameraProviderCallbackProxy) PhysicalCameraDeviceStatusChange(
 	ctx context.Context,
 	cameraDeviceName string,
 	physicalCameraDeviceName string,
-	newStatus service.CameraDeviceStatus,
+	newStatus common.CameraDeviceStatus,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -169,7 +168,7 @@ func (s *CameraProviderCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_newStatus := service.CameraDeviceStatus(_raw_newStatus)
+		_arg_newStatus := common.CameraDeviceStatus(_raw_newStatus)
 		_err = s.Impl.CameraDeviceStatusChange(ctx, _arg_cameraDeviceName, _arg_newStatus)
 		_reply := parcel.New()
 		if _err != nil {
@@ -209,7 +208,7 @@ func (s *CameraProviderCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_newStatus := service.CameraDeviceStatus(_raw_newStatus)
+		_arg_newStatus := common.CameraDeviceStatus(_raw_newStatus)
 		_err = s.Impl.PhysicalCameraDeviceStatusChange(ctx, _arg_cameraDeviceName, _arg_physicalCameraDeviceName, _arg_newStatus)
 		_reply := parcel.New()
 		if _err != nil {
@@ -227,9 +226,9 @@ func (s *CameraProviderCallbackStub) OnTransaction(
 // provide to NewCameraProviderCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ICameraProviderCallbackServer interface {
-	CameraDeviceStatusChange(ctx context.Context, cameraDeviceName string, newStatus service.CameraDeviceStatus) error
+	CameraDeviceStatusChange(ctx context.Context, cameraDeviceName string, newStatus common.CameraDeviceStatus) error
 	TorchModeStatusChange(ctx context.Context, cameraDeviceName string, newStatus common.TorchModeStatus) error
-	PhysicalCameraDeviceStatusChange(ctx context.Context, cameraDeviceName string, physicalCameraDeviceName string, newStatus service.CameraDeviceStatus) error
+	PhysicalCameraDeviceStatusChange(ctx context.Context, cameraDeviceName string, physicalCameraDeviceName string, newStatus common.CameraDeviceStatus) error
 }
 
 type cameraProviderCallbackStubWrapper struct {
@@ -244,7 +243,7 @@ func (w *cameraProviderCallbackStubWrapper) AsBinder() binder.IBinder {
 func (w *cameraProviderCallbackStubWrapper) CameraDeviceStatusChange(
 	ctx context.Context,
 	cameraDeviceName string,
-	newStatus service.CameraDeviceStatus,
+	newStatus common.CameraDeviceStatus,
 ) error {
 	return w.impl.CameraDeviceStatusChange(ctx, cameraDeviceName, newStatus)
 }
@@ -261,7 +260,7 @@ func (w *cameraProviderCallbackStubWrapper) PhysicalCameraDeviceStatusChange(
 	ctx context.Context,
 	cameraDeviceName string,
 	physicalCameraDeviceName string,
-	newStatus service.CameraDeviceStatus,
+	newStatus common.CameraDeviceStatus,
 ) error {
 	return w.impl.PhysicalCameraDeviceStatusChange(ctx, cameraDeviceName, physicalCameraDeviceName, newStatus)
 }

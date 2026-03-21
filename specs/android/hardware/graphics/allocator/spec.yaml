@@ -44,6 +44,8 @@ interfaces:
           transaction_code_offset: 3
           return_type:
             name: String
+      annotations:
+        - VintfStability
 parcelables:
     - name: AllocationResult
       fields:

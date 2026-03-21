@@ -2,6 +2,32 @@ package: android.telephony.euicc
 go_package: android/telephony/euicc
 parcelables:
     - name: DownloadableSubscription
+      java_wire_format:
+        - name: EncodedActivationCode
+          write_method: string16
+        - name: ConfirmationCode
+          write_method: string16
+        - name: CarrierName
+          write_method: string16
+        - name: AccessRules
+          write_method: opaque
     - name: EuiccInfo
+      java_wire_format:
+        - name: OsVersion
+          write_method: string16
     - name: EuiccNotification
+      java_wire_format:
+        - name: Seq
+          write_method: int32
+        - name: TargetAddr
+          write_method: string16
+        - name: Event
+          write_method: int32
+        - name: Data
+          write_method: opaque
     - name: EuiccRulesAuthTable
+      java_wire_format:
+        - name: PolicyRules
+          write_method: opaque
+        - name: PolicyRuleFlags
+          write_method: opaque

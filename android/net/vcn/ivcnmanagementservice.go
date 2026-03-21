@@ -3,7 +3,6 @@ package vcn
 import (
 	"context"
 	"fmt"
-	net "github.com/xaionaro-go/binder/android/net"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -42,7 +41,7 @@ type IVcnManagementService interface {
 	GetConfiguredSubscriptionGroups(ctx context.Context, opPkgName string) ([]os.ParcelUuid, error)
 	AddVcnUnderlyingNetworkPolicyListener(ctx context.Context, listener IVcnUnderlyingNetworkPolicyListener) error
 	RemoveVcnUnderlyingNetworkPolicyListener(ctx context.Context, listener IVcnUnderlyingNetworkPolicyListener) error
-	GetUnderlyingNetworkPolicy(ctx context.Context, nc net.NetworkCapabilities, lp net.LinkProperties) (VcnUnderlyingNetworkPolicy, error)
+	GetUnderlyingNetworkPolicy(ctx context.Context, nc any, lp any) (VcnUnderlyingNetworkPolicy, error)
 	RegisterVcnStatusCallback(ctx context.Context, subscriptionGroup os.ParcelUuid, callback IVcnStatusCallback, opPkgName string) error
 	UnregisterVcnStatusCallback(ctx context.Context, callback IVcnStatusCallback) error
 }
@@ -235,21 +234,15 @@ func (p *VcnManagementServiceProxy) RemoveVcnUnderlyingNetworkPolicyListener(
 
 func (p *VcnManagementServiceProxy) GetUnderlyingNetworkPolicy(
 	ctx context.Context,
-	nc net.NetworkCapabilities,
-	lp net.LinkProperties,
+	nc any,
+	lp any,
 ) (VcnUnderlyingNetworkPolicy, error) {
 	var _result VcnUnderlyingNetworkPolicy
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIVcnManagementService)
-	_data.WriteInt32(1)
-	if _err := nc.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-	_data.WriteInt32(1)
-	if _err := lp.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
+	// WARNING: param nc (type any) cannot be serialized — type not resolved
+	// WARNING: param lp (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVcnManagementService, MethodIVcnManagementServiceGetUnderlyingNetworkPolicy)
 	if _err != nil {
@@ -483,30 +476,8 @@ func (s *VcnManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVcnManagementServiceGetUnderlyingNetworkPolicy:
-		var _arg_nc net.NetworkCapabilities
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_nc.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		var _arg_lp net.LinkProperties
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_lp.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_nc any
+		var _arg_lp any
 		_result, _err := s.Impl.GetUnderlyingNetworkPolicy(ctx, _arg_nc, _arg_lp)
 		_reply := parcel.New()
 		if _err != nil {
@@ -583,7 +554,7 @@ type IVcnManagementServiceServer interface {
 	GetConfiguredSubscriptionGroups(ctx context.Context, opPkgName string) ([]os.ParcelUuid, error)
 	AddVcnUnderlyingNetworkPolicyListener(ctx context.Context, listener IVcnUnderlyingNetworkPolicyListener) error
 	RemoveVcnUnderlyingNetworkPolicyListener(ctx context.Context, listener IVcnUnderlyingNetworkPolicyListener) error
-	GetUnderlyingNetworkPolicy(ctx context.Context, nc net.NetworkCapabilities, lp net.LinkProperties) (VcnUnderlyingNetworkPolicy, error)
+	GetUnderlyingNetworkPolicy(ctx context.Context, nc any, lp any) (VcnUnderlyingNetworkPolicy, error)
 	RegisterVcnStatusCallback(ctx context.Context, subscriptionGroup os.ParcelUuid, callback IVcnStatusCallback, opPkgName string) error
 	UnregisterVcnStatusCallback(ctx context.Context, callback IVcnStatusCallback) error
 }
@@ -637,8 +608,8 @@ func (w *vcnManagementServiceStubWrapper) RemoveVcnUnderlyingNetworkPolicyListen
 
 func (w *vcnManagementServiceStubWrapper) GetUnderlyingNetworkPolicy(
 	ctx context.Context,
-	nc net.NetworkCapabilities,
-	lp net.LinkProperties,
+	nc any,
+	lp any,
 ) (VcnUnderlyingNetworkPolicy, error) {
 	return w.impl.GetUnderlyingNetworkPolicy(ctx, nc, lp)
 }

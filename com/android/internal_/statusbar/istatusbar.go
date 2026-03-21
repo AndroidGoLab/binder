@@ -10,9 +10,9 @@ import (
 	fingerprint "github.com/xaionaro-go/binder/android/hardware/fingerprint"
 	media "github.com/xaionaro-go/binder/android/media"
 	os "github.com/xaionaro-go/binder/android/os"
-	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
-	internalView "github.com/xaionaro-go/binder/com/android/internal_/view"
+	view "github.com/xaionaro-go/binder/com/android/internal_/view"
+	inputflinger "github.com/xaionaro-go/binder/com/android/server/inputflinger"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -225,7 +225,7 @@ type IStatusBar interface {
 	RemQsTile(ctx context.Context, tile content.ComponentName) error
 	SetQsTiles(ctx context.Context, tiles []string) error
 	ClickQsTile(ctx context.Context, tile content.ComponentName) error
-	HandleSystemKey(ctx context.Context, key view.KeyEvent) error
+	HandleSystemKey(ctx context.Context, key inputflinger.KeyEvent) error
 	ShowPinningEnterExitToast(ctx context.Context, entering bool) error
 	ShowPinningEscapeToast(ctx context.Context) error
 	ShowShutdownUi(ctx context.Context, isReboot bool, reason string) error
@@ -238,7 +238,7 @@ type IStatusBar interface {
 	SetUdfpsRefreshRateCallback(ctx context.Context, callback fingerprint.IUdfpsRefreshRateRequestCallback) error
 	OnDisplayReady(ctx context.Context, displayId int32) error
 	OnRecentsAnimationStateChanged(ctx context.Context, running bool) error
-	OnSystemBarAttributesChanged(ctx context.Context, displayId int32, appearance int32, appearanceRegions []internalView.AppearanceRegion, navbarColorManagedByIme bool, behavior int32, requestedVisibleTypes int32, packageName string, letterboxDetails []LetterboxDetails) error
+	OnSystemBarAttributesChanged(ctx context.Context, displayId int32, appearance int32, appearanceRegions []view.AppearanceRegion, navbarColorManagedByIme bool, behavior int32, requestedVisibleTypes int32, packageName string, letterboxDetails []LetterboxDetails) error
 	ShowTransient(ctx context.Context, displayId int32, types int32, isGestureOnSystemBar bool) error
 	AbortTransient(ctx context.Context, displayId int32, types int32) error
 	ShowInattentiveSleepWarning(ctx context.Context) error
@@ -1014,7 +1014,7 @@ func (p *StatusBarProxy) ClickQsTile(
 
 func (p *StatusBarProxy) HandleSystemKey(
 	ctx context.Context,
-	key view.KeyEvent,
+	key inputflinger.KeyEvent,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -1284,7 +1284,7 @@ func (p *StatusBarProxy) OnSystemBarAttributesChanged(
 	ctx context.Context,
 	displayId int32,
 	appearance int32,
-	appearanceRegions []internalView.AppearanceRegion,
+	appearanceRegions []view.AppearanceRegion,
 	navbarColorManagedByIme bool,
 	behavior int32,
 	requestedVisibleTypes int32,
@@ -2240,7 +2240,7 @@ func (s *StatusBarStub) OnTransaction(
 		_err := s.Impl.ClickQsTile(ctx, _arg_tile)
 		return nil, _err
 	case TransactionIStatusBarHandleSystemKey:
-		var _arg_key view.KeyEvent
+		var _arg_key inputflinger.KeyEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -2424,7 +2424,7 @@ func (s *StatusBarStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_appearanceRegions []internalView.AppearanceRegion
+		var _arg_appearanceRegions []view.AppearanceRegion
 		{
 			_count, _err := _data.ReadInt32()
 			if _err != nil {
@@ -2434,7 +2434,7 @@ func (s *StatusBarStub) OnTransaction(
 				return nil, fmt.Errorf("array count too large: %d", _count)
 			}
 			if _count >= 0 {
-				_arg_appearanceRegions = make([]internalView.AppearanceRegion, _count)
+				_arg_appearanceRegions = make([]view.AppearanceRegion, _count)
 				for _i := int32(0); _i < _count; _i++ {
 					if _, _err = _data.ReadInt32(); _err != nil {
 						return nil, _err
@@ -2903,7 +2903,7 @@ type IStatusBarServer interface {
 	RemQsTile(ctx context.Context, tile content.ComponentName) error
 	SetQsTiles(ctx context.Context, tiles []string) error
 	ClickQsTile(ctx context.Context, tile content.ComponentName) error
-	HandleSystemKey(ctx context.Context, key view.KeyEvent) error
+	HandleSystemKey(ctx context.Context, key inputflinger.KeyEvent) error
 	ShowPinningEnterExitToast(ctx context.Context, entering bool) error
 	ShowPinningEscapeToast(ctx context.Context) error
 	ShowShutdownUi(ctx context.Context, isReboot bool, reason string) error
@@ -2916,7 +2916,7 @@ type IStatusBarServer interface {
 	SetUdfpsRefreshRateCallback(ctx context.Context, callback fingerprint.IUdfpsRefreshRateRequestCallback) error
 	OnDisplayReady(ctx context.Context, displayId int32) error
 	OnRecentsAnimationStateChanged(ctx context.Context, running bool) error
-	OnSystemBarAttributesChanged(ctx context.Context, displayId int32, appearance int32, appearanceRegions []internalView.AppearanceRegion, navbarColorManagedByIme bool, behavior int32, requestedVisibleTypes int32, packageName string, letterboxDetails []LetterboxDetails) error
+	OnSystemBarAttributesChanged(ctx context.Context, displayId int32, appearance int32, appearanceRegions []view.AppearanceRegion, navbarColorManagedByIme bool, behavior int32, requestedVisibleTypes int32, packageName string, letterboxDetails []LetterboxDetails) error
 	ShowTransient(ctx context.Context, displayId int32, types int32, isGestureOnSystemBar bool) error
 	AbortTransient(ctx context.Context, displayId int32, types int32) error
 	ShowInattentiveSleepWarning(ctx context.Context) error
@@ -3230,7 +3230,7 @@ func (w *statusBarStubWrapper) ClickQsTile(
 
 func (w *statusBarStubWrapper) HandleSystemKey(
 	ctx context.Context,
-	key view.KeyEvent,
+	key inputflinger.KeyEvent,
 ) error {
 	return w.impl.HandleSystemKey(ctx, key)
 }
@@ -3332,7 +3332,7 @@ func (w *statusBarStubWrapper) OnSystemBarAttributesChanged(
 	ctx context.Context,
 	displayId int32,
 	appearance int32,
-	appearanceRegions []internalView.AppearanceRegion,
+	appearanceRegions []view.AppearanceRegion,
 	navbarColorManagedByIme bool,
 	behavior int32,
 	requestedVisibleTypes int32,

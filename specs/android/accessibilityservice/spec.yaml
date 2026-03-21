@@ -923,5 +923,70 @@ interfaces:
             name: void
 parcelables:
     - name: AccessibilityGestureEvent
+      java_wire_format:
+        - name: GestureId
+          write_method: int32
+        - name: DisplayId
+          write_method: int32
+        - name: NewParceledListSlice<MotionEvent>(mMotionEvents)
+          write_method: opaque
     - name: AccessibilityServiceInfo
+      java_wire_format:
+        - name: EventTypes
+          write_method: int32
+        - name: PackageNames
+          write_method: opaque
+        - name: FeedbackType
+          write_method: int32
+        - name: NotificationTimeout
+          write_method: int64
+        - name: NonInteractiveUiTimeout
+          write_method: int32
+        - name: InteractiveUiTimeout
+          write_method: int32
+        - name: Flags
+          write_method: int32
+        - name: Crashed?1:0
+          write_method: int32
+        - name: ComponentName
+          write_method: opaque
+        - name: ResolveInfo
+          write_method: opaque
+        - name: SettingsActivityName
+          write_method: string16
+        - name: Capabilities
+          write_method: int32
+        - name: SummaryResId
+          write_method: int32
+        - name: NonLocalizedSummary
+          write_method: string16
+        - name: DescriptionResId
+          write_method: int32
+        - name: AnimatedImageRes
+          write_method: int32
+        - name: HtmlDescriptionRes
+          write_method: int32
+        - name: NonLocalizedDescription
+          write_method: string16
+        - name: IsAccessibilityTool
+          write_method: bool
+        - name: TileServiceName
+          write_method: string16
+        - name: IntroResId
+          write_method: int32
+        - name: MotionEventSources
+          write_method: int32
+        - name: ObservedMotionEventSources
+          write_method: int32
     - name: MagnificationConfig
+      java_wire_format:
+        - name: Mode
+          write_method: int32
+        - name: Activated
+          write_method: bool
+        - name: Scale
+          write_method: float32
+        - name: CenterX
+          write_method: float32
+        - name: CenterY
+          write_method: float32

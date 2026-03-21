@@ -2,10 +2,63 @@ package: android.graphics
 go_package: android/graphics
 parcelables:
     - name: Bitmap
+      java_wire_format:
+        - name: "True"
+          write_method: bool
+          condition: hasGainmap()
+        - name: Gainmap
+          write_method: opaque
+          condition: hasGainmap()
     - name: GraphicBuffer
+      java_wire_format:
+        - name: Width
+          write_method: int32
+        - name: Height
+          write_method: int32
+        - name: Format
+          write_method: int32
+        - name: Usage
+          write_method: int32
     - name: Insets
+      java_wire_format:
+        - name: Left
+          write_method: int32
+        - name: Top
+          write_method: int32
+        - name: Right
+          write_method: int32
+        - name: Bottom
+          write_method: int32
     - name: Point
+      java_wire_format:
+        - name: x
+          write_method: int32
+        - name: "y"
+          write_method: int32
     - name: PointF
+      java_wire_format:
+        - name: x
+          write_method: float32
+        - name: "y"
+          write_method: float32
     - name: Rect
+      java_wire_format:
+        - name: Left
+          write_method: int32
+        - name: Top
+          write_method: int32
+        - name: Right
+          write_method: int32
+        - name: Bottom
+          write_method: int32
     - name: RectF
+      java_wire_format:
+        - name: Left
+          write_method: float32
+        - name: Top
+          write_method: float32
+        - name: Right
+          write_method: float32
+        - name: Bottom
+          write_method: float32
     - name: Region

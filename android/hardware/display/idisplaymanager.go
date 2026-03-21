@@ -4,9 +4,10 @@ import (
 	"context"
 	"fmt"
 	pm "github.com/xaionaro-go/binder/android/content/pm"
-	graphics "github.com/xaionaro-go/binder/android/graphics"
 	gui "github.com/xaionaro-go/binder/android/gui"
-	core "github.com/xaionaro-go/binder/android/hardware/audio/core"
+	hardware "github.com/xaionaro-go/binder/android/hardware"
+	drm "github.com/xaionaro-go/binder/android/hardware/drm"
+	common "github.com/xaionaro-go/binder/android/hardware/graphics/common"
 	projection "github.com/xaionaro-go/binder/android/media/projection"
 	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
@@ -164,7 +165,7 @@ type IDisplayManager interface {
 	SetVirtualDisplaySurface(ctx context.Context, token IVirtualDisplayCallback, surface view.Surface) error
 	ReleaseVirtualDisplay(ctx context.Context, token IVirtualDisplayCallback) error
 	SetVirtualDisplayState(ctx context.Context, token IVirtualDisplayCallback, isOn bool) error
-	GetStableDisplaySize(ctx context.Context) (graphics.Point, error)
+	GetStableDisplaySize(ctx context.Context) (common.Point, error)
 	GetBrightnessEvents(ctx context.Context) (pm.ParceledListSlice, error)
 	GetAmbientBrightnessStats(ctx context.Context) (pm.ParceledListSlice, error)
 	SetBrightnessConfigurationForUser(ctx context.Context, c BrightnessConfiguration, packageName string) error
@@ -180,9 +181,9 @@ type IDisplayManager interface {
 	GetMinimumBrightnessCurve(ctx context.Context) (Curve, error)
 	GetBrightnessInfo(ctx context.Context, displayId int32) (BrightnessInfo, error)
 	GetPreferredWideGamutColorSpaceId(ctx context.Context) (int32, error)
-	SetUserPreferredDisplayMode(ctx context.Context, displayId int32, mode core.IBluetoothScoConfigMode) error
-	GetUserPreferredDisplayMode(ctx context.Context, displayId int32) (core.IBluetoothScoConfigMode, error)
-	GetSystemPreferredDisplayMode(ctx context.Context, displayId int32) (core.IBluetoothScoConfigMode, error)
+	SetUserPreferredDisplayMode(ctx context.Context, displayId int32, mode drm.Mode) error
+	GetUserPreferredDisplayMode(ctx context.Context, displayId int32) (drm.Mode, error)
+	GetSystemPreferredDisplayMode(ctx context.Context, displayId int32) (drm.Mode, error)
 	SetHdrConversionMode(ctx context.Context, hdrConversionMode HdrConversionMode) error
 	GetHdrConversionModeSetting(ctx context.Context) (HdrConversionMode, error)
 	GetHdrConversionMode(ctx context.Context) (HdrConversionMode, error)
@@ -191,9 +192,9 @@ type IDisplayManager interface {
 	ShouldAlwaysRespectAppRequestedMode(ctx context.Context) (bool, error)
 	SetRefreshRateSwitchingType(ctx context.Context, newValue int32) error
 	GetRefreshRateSwitchingType(ctx context.Context) (int32, error)
-	GetDisplayDecorationSupport(ctx context.Context, displayId int32) (gui.DisplayDecorationSupport, error)
+	GetDisplayDecorationSupport(ctx context.Context, displayId int32) (common.DisplayDecorationSupport, error)
 	SetDisplayIdToMirror(ctx context.Context, token binder.IBinder, displayId int32) error
-	GetOverlaySupport(ctx context.Context) (gui.OverlayProperties, error)
+	GetOverlaySupport(ctx context.Context) (hardware.OverlayProperties, error)
 	EnableConnectedDisplay(ctx context.Context, displayId int32) error
 	DisableConnectedDisplay(ctx context.Context, displayId int32) error
 }
@@ -992,8 +993,8 @@ func (p *DisplayManagerProxy) SetVirtualDisplayState(
 
 func (p *DisplayManagerProxy) GetStableDisplaySize(
 	ctx context.Context,
-) (graphics.Point, error) {
-	var _result graphics.Point
+) (common.Point, error) {
+	var _result common.Point
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
@@ -1532,7 +1533,7 @@ func (p *DisplayManagerProxy) GetPreferredWideGamutColorSpaceId(
 func (p *DisplayManagerProxy) SetUserPreferredDisplayMode(
 	ctx context.Context,
 	displayId int32,
-	mode core.IBluetoothScoConfigMode,
+	mode drm.Mode,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -1561,8 +1562,8 @@ func (p *DisplayManagerProxy) SetUserPreferredDisplayMode(
 func (p *DisplayManagerProxy) GetUserPreferredDisplayMode(
 	ctx context.Context,
 	displayId int32,
-) (core.IBluetoothScoConfigMode, error) {
-	var _result core.IBluetoothScoConfigMode
+) (drm.Mode, error) {
+	var _result drm.Mode
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
@@ -1587,15 +1588,15 @@ func (p *DisplayManagerProxy) GetUserPreferredDisplayMode(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = core.IBluetoothScoConfigMode(_raw)
+	_result = drm.Mode(_raw)
 	return _result, nil
 }
 
 func (p *DisplayManagerProxy) GetSystemPreferredDisplayMode(
 	ctx context.Context,
 	displayId int32,
-) (core.IBluetoothScoConfigMode, error) {
-	var _result core.IBluetoothScoConfigMode
+) (drm.Mode, error) {
+	var _result drm.Mode
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
@@ -1620,7 +1621,7 @@ func (p *DisplayManagerProxy) GetSystemPreferredDisplayMode(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = core.IBluetoothScoConfigMode(_raw)
+	_result = drm.Mode(_raw)
 	return _result, nil
 }
 
@@ -1884,8 +1885,8 @@ func (p *DisplayManagerProxy) GetRefreshRateSwitchingType(
 func (p *DisplayManagerProxy) GetDisplayDecorationSupport(
 	ctx context.Context,
 	displayId int32,
-) (gui.DisplayDecorationSupport, error) {
-	var _result gui.DisplayDecorationSupport
+) (common.DisplayDecorationSupport, error) {
+	var _result common.DisplayDecorationSupport
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
@@ -1949,8 +1950,8 @@ func (p *DisplayManagerProxy) SetDisplayIdToMirror(
 
 func (p *DisplayManagerProxy) GetOverlaySupport(
 	ctx context.Context,
-) (gui.OverlayProperties, error) {
-	var _result gui.OverlayProperties
+) (hardware.OverlayProperties, error) {
+	var _result hardware.OverlayProperties
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIDisplayManager)
@@ -2784,7 +2785,7 @@ func (s *DisplayManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mode := core.IBluetoothScoConfigMode(_raw_mode)
+		_arg_mode := drm.Mode(_raw_mode)
 		_err = s.Impl.SetUserPreferredDisplayMode(ctx, _arg_displayId, _arg_mode)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3042,7 +3043,7 @@ type IDisplayManagerServer interface {
 	SetVirtualDisplaySurface(ctx context.Context, token IVirtualDisplayCallback, surface view.Surface) error
 	ReleaseVirtualDisplay(ctx context.Context, token IVirtualDisplayCallback) error
 	SetVirtualDisplayState(ctx context.Context, token IVirtualDisplayCallback, isOn bool) error
-	GetStableDisplaySize(ctx context.Context) (graphics.Point, error)
+	GetStableDisplaySize(ctx context.Context) (common.Point, error)
 	GetBrightnessEvents(ctx context.Context) (pm.ParceledListSlice, error)
 	GetAmbientBrightnessStats(ctx context.Context) (pm.ParceledListSlice, error)
 	SetBrightnessConfigurationForUser(ctx context.Context, c BrightnessConfiguration, packageName string) error
@@ -3058,9 +3059,9 @@ type IDisplayManagerServer interface {
 	GetMinimumBrightnessCurve(ctx context.Context) (Curve, error)
 	GetBrightnessInfo(ctx context.Context, displayId int32) (BrightnessInfo, error)
 	GetPreferredWideGamutColorSpaceId(ctx context.Context) (int32, error)
-	SetUserPreferredDisplayMode(ctx context.Context, displayId int32, mode core.IBluetoothScoConfigMode) error
-	GetUserPreferredDisplayMode(ctx context.Context, displayId int32) (core.IBluetoothScoConfigMode, error)
-	GetSystemPreferredDisplayMode(ctx context.Context, displayId int32) (core.IBluetoothScoConfigMode, error)
+	SetUserPreferredDisplayMode(ctx context.Context, displayId int32, mode drm.Mode) error
+	GetUserPreferredDisplayMode(ctx context.Context, displayId int32) (drm.Mode, error)
+	GetSystemPreferredDisplayMode(ctx context.Context, displayId int32) (drm.Mode, error)
 	SetHdrConversionMode(ctx context.Context, hdrConversionMode HdrConversionMode) error
 	GetHdrConversionModeSetting(ctx context.Context) (HdrConversionMode, error)
 	GetHdrConversionMode(ctx context.Context) (HdrConversionMode, error)
@@ -3069,9 +3070,9 @@ type IDisplayManagerServer interface {
 	ShouldAlwaysRespectAppRequestedMode(ctx context.Context) (bool, error)
 	SetRefreshRateSwitchingType(ctx context.Context, newValue int32) error
 	GetRefreshRateSwitchingType(ctx context.Context) (int32, error)
-	GetDisplayDecorationSupport(ctx context.Context, displayId int32) (gui.DisplayDecorationSupport, error)
+	GetDisplayDecorationSupport(ctx context.Context, displayId int32) (common.DisplayDecorationSupport, error)
 	SetDisplayIdToMirror(ctx context.Context, token binder.IBinder, displayId int32) error
-	GetOverlaySupport(ctx context.Context) (gui.OverlayProperties, error)
+	GetOverlaySupport(ctx context.Context) (hardware.OverlayProperties, error)
 	EnableConnectedDisplay(ctx context.Context, displayId int32) error
 	DisableConnectedDisplay(ctx context.Context, displayId int32) error
 }
@@ -3267,7 +3268,7 @@ func (w *displayManagerStubWrapper) SetVirtualDisplayState(
 
 func (w *displayManagerStubWrapper) GetStableDisplaySize(
 	ctx context.Context,
-) (graphics.Point, error) {
+) (common.Point, error) {
 	return w.impl.GetStableDisplaySize(ctx)
 }
 
@@ -3378,7 +3379,7 @@ func (w *displayManagerStubWrapper) GetPreferredWideGamutColorSpaceId(
 func (w *displayManagerStubWrapper) SetUserPreferredDisplayMode(
 	ctx context.Context,
 	displayId int32,
-	mode core.IBluetoothScoConfigMode,
+	mode drm.Mode,
 ) error {
 	return w.impl.SetUserPreferredDisplayMode(ctx, displayId, mode)
 }
@@ -3386,14 +3387,14 @@ func (w *displayManagerStubWrapper) SetUserPreferredDisplayMode(
 func (w *displayManagerStubWrapper) GetUserPreferredDisplayMode(
 	ctx context.Context,
 	displayId int32,
-) (core.IBluetoothScoConfigMode, error) {
+) (drm.Mode, error) {
 	return w.impl.GetUserPreferredDisplayMode(ctx, displayId)
 }
 
 func (w *displayManagerStubWrapper) GetSystemPreferredDisplayMode(
 	ctx context.Context,
 	displayId int32,
-) (core.IBluetoothScoConfigMode, error) {
+) (drm.Mode, error) {
 	return w.impl.GetSystemPreferredDisplayMode(ctx, displayId)
 }
 
@@ -3451,7 +3452,7 @@ func (w *displayManagerStubWrapper) GetRefreshRateSwitchingType(
 func (w *displayManagerStubWrapper) GetDisplayDecorationSupport(
 	ctx context.Context,
 	displayId int32,
-) (gui.DisplayDecorationSupport, error) {
+) (common.DisplayDecorationSupport, error) {
 	return w.impl.GetDisplayDecorationSupport(ctx, displayId)
 }
 
@@ -3465,7 +3466,7 @@ func (w *displayManagerStubWrapper) SetDisplayIdToMirror(
 
 func (w *displayManagerStubWrapper) GetOverlaySupport(
 	ctx context.Context,
-) (gui.OverlayProperties, error) {
+) (hardware.OverlayProperties, error) {
 	return w.impl.GetOverlaySupport(ctx)
 }
 

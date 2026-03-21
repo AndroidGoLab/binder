@@ -15,7 +15,7 @@ const (
 type DownmixId struct {
 	Tag                int32
 	VendorExtensionTag VendorExtension
-	CommonTag          DownmixTag
+	CommonTag          any
 }
 
 var _ parcel.Parcelable = (*DownmixId)(nil)
@@ -34,16 +34,16 @@ func (u *DownmixId) SetVendorExtensionTag(
 	*u = DownmixId{Tag: DownmixIdTagVendorExtensionTag, VendorExtensionTag: v}
 }
 
-func (u *DownmixId) GetCommonTag() (DownmixTag, bool) {
+func (u *DownmixId) GetCommonTag() (any, bool) {
 	if u.Tag != DownmixIdTagCommonTag {
-		var _zero DownmixTag
+		var _zero any
 		return _zero, false
 	}
 	return u.CommonTag, true
 }
 
 func (u *DownmixId) SetCommonTag(
-	v DownmixTag,
+	v any,
 ) {
 	*u = DownmixId{Tag: DownmixIdTagCommonTag, CommonTag: v}
 }
@@ -61,7 +61,6 @@ func (u *DownmixId) MarshalParcel(
 			return _err
 		}
 	case DownmixIdTagCommonTag:
-		p.WriteInt32(int32(u.CommonTag))
 	default:
 		return fmt.Errorf("unknown union tag %d for DownmixId", u.Tag)
 	}
@@ -92,11 +91,6 @@ func (u *DownmixId) UnmarshalParcel(
 			return _err
 		}
 	case DownmixIdTagCommonTag:
-		_raw, _err := p.ReadInt32()
-		if _err != nil {
-			return _err
-		}
-		u.CommonTag = DownmixTag(_raw)
 	default:
 		return fmt.Errorf("unknown union tag %d for DownmixId", u.Tag)
 	}

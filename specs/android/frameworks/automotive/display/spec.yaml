@@ -54,6 +54,8 @@ interfaces:
               direction: in
           return_type:
             name: Surface
+      annotations:
+        - VintfStability
 parcelables:
     - name: DisplayDesc
       fields:

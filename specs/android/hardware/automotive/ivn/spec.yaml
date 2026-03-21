@@ -42,6 +42,8 @@ interfaces:
                 name: int
           return_type:
             name: EndpointInfo
+      annotations:
+        - VintfStability
 parcelables:
     - name: EndpointInfo
       fields:

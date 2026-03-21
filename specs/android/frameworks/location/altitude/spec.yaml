@@ -22,6 +22,8 @@ interfaces:
               direction: in
           return_type:
             name: GetGeoidHeightResponse
+      annotations:
+        - VintfStability
 parcelables:
     - name: AddMslAltitudeToLocationRequest
       fields:

@@ -51,6 +51,8 @@ interfaces:
         - name: STATUS_THROTTLE
           type: int
           value: "3"
+      annotations:
+        - VintfStability
 parcelables:
     - name: WeaverConfig
       fields:

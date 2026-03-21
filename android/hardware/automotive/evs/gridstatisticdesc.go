@@ -1,7 +1,7 @@
 package evs
 
 import (
-	graphics "github.com/xaionaro-go/binder/android/graphics"
+	common "github.com/xaionaro-go/binder/android/hardware/graphics/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -10,7 +10,7 @@ import (
 type GridStatisticDesc struct {
 	Channel  ColorChannel
 	Type     GridStatisticType
-	Roi      graphics.Rect
+	Roi      common.Rect
 	CellSize Size
 	BitDepth int32
 }

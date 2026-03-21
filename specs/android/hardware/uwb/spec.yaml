@@ -18,6 +18,8 @@ interfaces:
                 name: String
           return_type:
             name: IUwbChip
+      annotations:
+        - VintfStability
     - name: IUwbChip
       descriptor: android.hardware.uwb.IUwbChip
       methods:
@@ -64,6 +66,8 @@ interfaces:
               direction: in
           return_type:
             name: int
+      annotations:
+        - VintfStability
     - name: IUwbClientCallback
       descriptor: android.hardware.uwb.IUwbClientCallback
       oneway: true
@@ -91,6 +95,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 enums:
     - name: UwbEvent
       backing_type: int

@@ -226,3 +226,16 @@ interfaces:
             name: void
 parcelables:
     - name: PrintServiceInfo
+      java_wire_format:
+        - name: Id
+          write_method: string16
+        - name: (byte)(mIsEnabled?1:0)
+          write_method: int32
+        - name: ResolveInfo
+          write_method: opaque
+        - name: SettingsActivityName
+          write_method: string16
+        - name: AddPrintersActivityName
+          write_method: string16
+        - name: AdvancedPrintOptionsActivityName
+          write_method: string16

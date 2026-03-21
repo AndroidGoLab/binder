@@ -1094,56 +1094,125 @@ interfaces:
           transaction_code_offset: 24
           return_type:
             name: void
-    - name: ITetheringStatsProvider
-      descriptor: android.net.ITetheringStatsProvider
-      methods:
-        - name: getTetherStats
-          transaction_code_offset: 0
-          params:
-            - name: how
-              type:
-                name: int
-          return_type:
-            name: NetworkStats
-        - name: setInterfaceQuota
-          transaction_code_offset: 1
-          params:
-            - name: iface
-              type:
-                name: String
-            - name: quotaBytes
-              type:
-                name: long
-          return_type:
-            name: void
-      constants:
-        - name: QUOTA_UNLIMITED
-          type: int
-          value: "-1"
 parcelables:
     - name: ConnectivityMetricsEvent
+      java_wire_format:
+        - name: Timestamp
+          write_method: int64
+        - name: Transports
+          write_method: int64
+        - name: NetId
+          write_method: int32
+        - name: Ifname
+          write_method: string16
+        - name: Data
+          write_method: opaque
     - name: InterfaceConfiguration
+      java_wire_format:
+        - name: HwAddr
+          write_method: string16
+        - name: (byte)1
+          write_method: int32
+          condition: mAddr!=null
+        - name: Addr
+          write_method: opaque
+          condition: mAddr!=null
+        - name: Flags.size()
+          write_method: int32
     - name: LinkQualityInfo
+      java_wire_format:
+        - name: ObjectType
+          write_method: int32
+        - name: NetworkType
+          write_method: int32
+        - name: NormalizedSignalStrength
+          write_method: int32
+        - name: PacketCount
+          write_method: int64
+        - name: PacketErrorCount
+          write_method: int64
+        - name: TheoreticalTxBandwidth
+          write_method: int32
+        - name: TheoreticalRxBandwidth
+          write_method: int32
+        - name: TheoreticalLatency
+          write_method: int32
+        - name: LastDataSampleTime
+          write_method: int64
+        - name: DataSampleDuration
+          write_method: int32
     - name: NattKeepalivePacketData
       annotations:
         - JavaOnlyStableParcelable
     - name: NetworkKey
+      java_wire_format:
+        - name: Type
+          write_method: int32
     - name: NetworkPolicy
-    - name: NetworkStats
+      java_wire_format:
+        - name: Template
+          write_method: opaque
+        - name: CycleRule
+          write_method: opaque
+        - name: WarningBytes
+          write_method: int64
+        - name: LimitBytes
+          write_method: int64
+        - name: LastWarningSnooze
+          write_method: int64
+        - name: LastLimitSnooze
+          write_method: int64
+        - name: LastRapidSnooze
+          write_method: int64
+        - name: Metered?1:0
+          write_method: int32
+        - name: Inferred?1:0
+          write_method: int32
     - name: NetworkQuotaInfo
     - name: NetworkScorerAppData
+      java_wire_format:
+        - name: PackageUid
+          write_method: int32
+        - name: RecommendationService
+          write_method: opaque
+        - name: RecommendationServiceLabel
+          write_method: string16
+        - name: EnableUseOpenWifiActivity
+          write_method: opaque
+        - name: NetworkAvailableNotificationChannelId
+          write_method: string16
     - name: NetworkState
     - name: ScoredNetwork
+      java_wire_format:
+        - name: Out
+          write_method: opaque
+        - name: (byte)1
+          write_method: int32
+          condition: rssiCurve!=null
+        - name: Out
+          write_method: opaque
+          condition: rssiCurve!=null
+        - name: (byte)(meteredHint?1:0)
+          write_method: int32
+        - name: Attributes
+          write_method: opaque
     - name: TcpKeepalivePacketData
       annotations:
         - JavaOnlyStableParcelable
-    - name: LinkProperties
-    - name: Network
-    - name: NetworkCapabilities
-    - name: NetworkTemplate
-    - name: ProxyInfo
-    - name: RouteInfo
     - name: Uri
       annotations:
         - JavaOnlyStableParcelable
+      java_wire_format:
+        - name: NULL_TYPE_ID
+          write_method: int32
+          condition: uri==null
     - name: VpnProfileState
+      java_wire_format:
+        - name: State
+          write_method: int32
+        - name: SessionKey
+          write_method: string16
+        - name: AlwaysOn
+          write_method: bool
+        - name: Lockdown
+          write_method: bool

@@ -85,7 +85,9 @@ func run(
 
 // mergeServiceMappings extracts service name -> AIDL descriptor mappings from
 // Context.java + SystemServiceRegistry.java and writes them to the
-// servicemanager package spec.
+// servicemanager package spec.  It also includes all _SERVICE constants from
+// Context.java that lack a SystemServiceRegistry match (with empty descriptor)
+// so that the generated ServiceName constants cover every well-known service.
 func mergeServiceMappings(
 	frameworksBase string,
 	specs map[string]*spec.PackageSpec,
@@ -95,12 +97,35 @@ func mergeServiceMappings(
 		return fmt.Errorf("building service map: %w", err)
 	}
 
-	mappings := make([]spec.ServiceMapping, 0, len(svcMap))
+	// Read all _SERVICE constants from Context.java so we can include
+	// services that are not registered in SystemServiceRegistry.
+	contextPath := filepath.Join(frameworksBase, "core/java/android/content/Context.java")
+	contextSrc, err := os.ReadFile(contextPath)
+	if err != nil {
+		return fmt.Errorf("reading Context.java: %w", err)
+	}
+	allConstants := servicemap.ExtractContextConstants(string(contextSrc))
+
+	// Start with registry-matched entries (have descriptor).
+	seen := map[string]bool{}
+	mappings := make([]spec.ServiceMapping, 0, len(svcMap)+len(allConstants))
 	for _, entry := range svcMap {
 		mappings = append(mappings, spec.ServiceMapping{
 			ServiceName:  entry.ServiceName,
 			ConstantName: entry.ConstantName,
 			Descriptor:   entry.AIDLDescriptor,
+		})
+		seen[entry.ConstantName] = true
+	}
+
+	// Add remaining Context.java constants (no descriptor).
+	for constName, svcName := range allConstants {
+		if seen[constName] {
+			continue
+		}
+		mappings = append(mappings, spec.ServiceMapping{
+			ServiceName:  svcName,
+			ConstantName: constName,
 		})
 	}
 

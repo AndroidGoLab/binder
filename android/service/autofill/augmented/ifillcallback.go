@@ -3,7 +3,6 @@ package augmented
 import (
 	"context"
 	"fmt"
-	common "github.com/xaionaro-go/binder/android/hardware/biometrics/common"
 	os "github.com/xaionaro-go/binder/android/os"
 	autofill "github.com/xaionaro-go/binder/android/service/autofill"
 	"github.com/xaionaro-go/binder/binder"
@@ -30,7 +29,7 @@ const (
 
 type IFillCallback interface {
 	AsBinder() binder.IBinder
-	OnCancellable(ctx context.Context, cancellation common.ICancellationSignal) error
+	OnCancellable(ctx context.Context, cancellation os.ICancellationSignal) error
 	OnSuccess(ctx context.Context, inlineSuggestionsData []autofill.Dataset, clientState *os.Bundle, showingFillWindow bool) error
 	IsCompleted(ctx context.Context) (bool, error)
 	Cancel(ctx context.Context) error
@@ -54,7 +53,7 @@ var _ IFillCallback = (*FillCallbackProxy)(nil)
 
 func (p *FillCallbackProxy) OnCancellable(
 	ctx context.Context,
-	cancellation common.ICancellationSignal,
+	cancellation os.ICancellationSignal,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -206,13 +205,13 @@ func (s *FillCallbackStub) OnTransaction(
 
 	switch code {
 	case TransactionIFillCallbackOnCancellable:
-		var _arg_cancellation common.ICancellationSignal
+		var _arg_cancellation os.ICancellationSignal
 		{
 			_cancellationHandle, _err := _data.ReadStrongBinder()
 			if _err != nil {
 				return nil, _err
 			}
-			_arg_cancellation = common.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationHandle))
+			_arg_cancellation = os.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationHandle))
 		}
 		_err := s.Impl.OnCancellable(ctx, _arg_cancellation)
 		_reply := parcel.New()
@@ -297,7 +296,7 @@ func (s *FillCallbackStub) OnTransaction(
 // provide to NewFillCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IFillCallbackServer interface {
-	OnCancellable(ctx context.Context, cancellation common.ICancellationSignal) error
+	OnCancellable(ctx context.Context, cancellation os.ICancellationSignal) error
 	OnSuccess(ctx context.Context, inlineSuggestionsData []autofill.Dataset, clientState *os.Bundle, showingFillWindow bool) error
 	IsCompleted(ctx context.Context) (bool, error)
 	Cancel(ctx context.Context) error
@@ -314,7 +313,7 @@ func (w *fillCallbackStubWrapper) AsBinder() binder.IBinder {
 
 func (w *fillCallbackStubWrapper) OnCancellable(
 	ctx context.Context,
-	cancellation common.ICancellationSignal,
+	cancellation os.ICancellationSignal,
 ) error {
 	return w.impl.OnCancellable(ctx, cancellation)
 }

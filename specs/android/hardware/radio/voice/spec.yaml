@@ -464,6 +464,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IRadioVoiceIndication
       descriptor: android.hardware.radio.voice.IRadioVoiceIndication
       oneway: true
@@ -657,6 +659,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IRadioVoiceResponse
       descriptor: android.hardware.radio.voice.IRadioVoiceResponse
       oneway: true
@@ -1053,6 +1057,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: Call
       fields:

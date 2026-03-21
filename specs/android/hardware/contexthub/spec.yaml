@@ -188,6 +188,8 @@ interfaces:
         - name: EX_CONTEXT_HUB_UNSPECIFIED
           type: int
           value: "-1"
+      annotations:
+        - VintfStability
     - name: IContextHubCallback
       descriptor: android.hardware.contexthub.IContextHubCallback
       methods:
@@ -273,6 +275,8 @@ interfaces:
         - name: CONTEXTHUB_NAN_TRANSACTION_TIMEOUT_MS
           type: int
           value: "10000"
+      annotations:
+        - VintfStability
 parcelables:
     - name: ContextHubInfo
       fields:

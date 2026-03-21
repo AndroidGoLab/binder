@@ -94,6 +94,66 @@ interfaces:
             name: void
 parcelables:
     - name: SmartspaceConfig
+      java_wire_format:
+        - name: UiSurface
+          write_method: string16
+        - name: SmartspaceTargetCount
+          write_method: int32
+        - name: PackageName
+          write_method: string16
+        - name: Extras
+          write_method: opaque
     - name: SmartspaceSessionId
+      java_wire_format:
+        - name: Id
+          write_method: string16
+        - name: This.mUserHandle
+          write_method: opaque
     - name: SmartspaceTarget
+      java_wire_format:
+        - name: This.mSmartspaceTargetId
+          write_method: string16
+        - name: This.mHeaderAction
+          write_method: opaque
+        - name: This.mBaseAction
+          write_method: opaque
+        - name: This.mCreationTimeMillis
+          write_method: int64
+        - name: This.mExpiryTimeMillis
+          write_method: int64
+        - name: This.mScore
+          write_method: float32
+        - name: This.mActionChips
+          write_method: opaque
+        - name: This.mIconGrid
+          write_method: opaque
+        - name: This.mFeatureType
+          write_method: int32
+        - name: This.mSensitive
+          write_method: bool
+        - name: This.mShouldShowExpanded
+          write_method: bool
+        - name: This.mSourceNotificationKey
+          write_method: string16
+        - name: This.mComponentName
+          write_method: opaque
+        - name: This.mUserHandle
+          write_method: opaque
+        - name: This.mAssociatedSmartspaceTargetId
+          write_method: string16
+        - name: This.mSliceUri
+          write_method: opaque
+        - name: This.mWidget
+          write_method: opaque
+        - name: This.mTemplateData
+          write_method: opaque
+        - name: This.mRemoteViews
+          write_method: opaque
     - name: SmartspaceTargetEvent
+      java_wire_format:
+        - name: SmartspaceTarget
+          write_method: opaque
+        - name: SmartspaceActionId
+          write_method: string16
+        - name: EventType
+          write_method: int32

@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	appOndeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
-	common "github.com/xaionaro-go/binder/android/hardware/biometrics/common"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	infra "github.com/xaionaro-go/binder/com/android/internal_/infra"
@@ -45,7 +44,7 @@ type IOnDeviceIntelligenceService interface {
 	GetFeatureDetails(ctx context.Context, feature appOndeviceintelligence.Feature, featureDetailsCallback appOndeviceintelligence.IFeatureDetailsCallback) error
 	GetReadOnlyFileDescriptor(ctx context.Context, fileName string, future infra.AndroidFuture) error
 	GetReadOnlyFeatureFileDescriptorMap(ctx context.Context, feature appOndeviceintelligence.Feature, remoteCallback os.RemoteCallback) error
-	RequestFeatureDownload(ctx context.Context, feature appOndeviceintelligence.Feature, cancellationSignal common.ICancellationSignal, downloadCallback appOndeviceintelligence.IDownloadCallback) error
+	RequestFeatureDownload(ctx context.Context, feature appOndeviceintelligence.Feature, cancellationSignal os.ICancellationSignal, downloadCallback appOndeviceintelligence.IDownloadCallback) error
 	RegisterRemoteServices(ctx context.Context, remoteProcessingService IRemoteProcessingService) error
 }
 
@@ -199,7 +198,7 @@ func (p *OnDeviceIntelligenceServiceProxy) GetReadOnlyFeatureFileDescriptorMap(
 func (p *OnDeviceIntelligenceServiceProxy) RequestFeatureDownload(
 	ctx context.Context,
 	feature appOndeviceintelligence.Feature,
-	cancellationSignal common.ICancellationSignal,
+	cancellationSignal os.ICancellationSignal,
 	downloadCallback appOndeviceintelligence.IDownloadCallback,
 ) error {
 	_data := parcel.New()
@@ -385,13 +384,13 @@ func (s *OnDeviceIntelligenceServiceStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_cancellationSignal common.ICancellationSignal
+		var _arg_cancellationSignal os.ICancellationSignal
 		{
 			_cancellationSignalHandle, _err := _data.ReadStrongBinder()
 			if _err != nil {
 				return nil, _err
 			}
-			_arg_cancellationSignal = common.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationSignalHandle))
+			_arg_cancellationSignal = os.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationSignalHandle))
 		}
 		var _arg_downloadCallback appOndeviceintelligence.IDownloadCallback
 		{
@@ -429,7 +428,7 @@ type IOnDeviceIntelligenceServiceServer interface {
 	GetFeatureDetails(ctx context.Context, feature appOndeviceintelligence.Feature, featureDetailsCallback appOndeviceintelligence.IFeatureDetailsCallback) error
 	GetReadOnlyFileDescriptor(ctx context.Context, fileName string, future infra.AndroidFuture) error
 	GetReadOnlyFeatureFileDescriptorMap(ctx context.Context, feature appOndeviceintelligence.Feature, remoteCallback os.RemoteCallback) error
-	RequestFeatureDownload(ctx context.Context, feature appOndeviceintelligence.Feature, cancellationSignal common.ICancellationSignal, downloadCallback appOndeviceintelligence.IDownloadCallback) error
+	RequestFeatureDownload(ctx context.Context, feature appOndeviceintelligence.Feature, cancellationSignal os.ICancellationSignal, downloadCallback appOndeviceintelligence.IDownloadCallback) error
 	RegisterRemoteServices(ctx context.Context, remoteProcessingService IRemoteProcessingService) error
 }
 
@@ -491,7 +490,7 @@ func (w *onDeviceIntelligenceServiceStubWrapper) GetReadOnlyFeatureFileDescripto
 func (w *onDeviceIntelligenceServiceStubWrapper) RequestFeatureDownload(
 	ctx context.Context,
 	feature appOndeviceintelligence.Feature,
-	cancellationSignal common.ICancellationSignal,
+	cancellationSignal os.ICancellationSignal,
 	downloadCallback appOndeviceintelligence.IDownloadCallback,
 ) error {
 	return w.impl.RequestFeatureDownload(ctx, feature, cancellationSignal, downloadCallback)

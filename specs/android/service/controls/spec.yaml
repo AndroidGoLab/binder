@@ -141,3 +141,46 @@ interfaces:
             name: void
 parcelables:
     - name: Control
+      java_wire_format:
+        - name: ControlId
+          write_method: string16
+        - name: DeviceType
+          write_method: int32
+        - name: Title
+          write_method: opaque
+        - name: Subtitle
+          write_method: opaque
+        - name: (byte)1
+          write_method: int32
+          condition: mStructure!=null
+        - name: Structure
+          write_method: opaque
+          condition: mStructure!=null
+        - name: (byte)1
+          write_method: int32
+          condition: mZone!=null
+        - name: Zone
+          write_method: opaque
+          condition: mZone!=null
+        - name: Dest
+          write_method: opaque
+        - name: (byte)1
+          write_method: int32
+          condition: mCustomIcon!=null
+        - name: Dest
+          write_method: opaque
+          condition: mCustomIcon!=null
+        - name: (byte)1
+          write_method: int32
+          condition: mCustomColor!=null
+        - name: Dest
+          write_method: opaque
+          condition: mCustomColor!=null
+        - name: Status
+          write_method: int32
+        - name: Dest
+          write_method: opaque
+        - name: StatusText
+          write_method: opaque
+        - name: AuthRequired
+          write_method: bool

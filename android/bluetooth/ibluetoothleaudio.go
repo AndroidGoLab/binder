@@ -89,40 +89,40 @@ const (
 
 type IBluetoothLeAudio interface {
 	AsBinder() binder.IBinder
-	Connect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	Disconnect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	SetActiveDevice(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetActiveDevices(ctx context.Context, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetConnectedGroupLeadDevice(ctx context.Context, groupId int32, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetCodecStatus(ctx context.Context, groupId int32, source content.AttributionSource, receiver os.SynchronousResultReceiver) error
+	Connect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	Disconnect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
+	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource, receiver any) error
+	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	SetActiveDevice(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	GetActiveDevices(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
+	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource, receiver any) error
+	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	GetConnectedGroupLeadDevice(ctx context.Context, groupId int32, attributionSource content.AttributionSource, receiver any) error
+	GetCodecStatus(ctx context.Context, groupId int32, source content.AttributionSource, receiver any) error
 	SetCodecConfigPreference(ctx context.Context, groupId int32, inputCodecConfig BluetoothLeAudioCodecConfig, outputCodecConfig BluetoothLeAudioCodecConfig, source content.AttributionSource) error
-	RegisterCallback(ctx context.Context, callback IBluetoothLeAudioCallback, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	UnregisterCallback(ctx context.Context, callback IBluetoothLeAudioCallback, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	SetCcidInformation(ctx context.Context, userUuid os.ParcelUuid, ccid int32, contextType int32, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	SetInCall(ctx context.Context, inCall bool, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	SetInactiveForHfpHandover(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetGroupId(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	SetVolume(ctx context.Context, volume int32, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GroupAddNode(ctx context.Context, group_id int32, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GroupRemoveNode(ctx context.Context, group_id int32, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetAudioLocation(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	IsInbandRingtoneEnabled(ctx context.Context, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver, groupId int32) error
-	RegisterLeBroadcastCallback(ctx context.Context, callback IBluetoothLeBroadcastCallback, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	UnregisterLeBroadcastCallback(ctx context.Context, callback IBluetoothLeBroadcastCallback, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	StartBroadcast(ctx context.Context, broadcastSettings BluetoothLeBroadcastSettings, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	StopBroadcast(ctx context.Context, broadcastId int32, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	UpdateBroadcast(ctx context.Context, broadcastId int32, broadcastSettings BluetoothLeBroadcastSettings, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	IsPlaying(ctx context.Context, broadcastId int32, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetAllBroadcastMetadata(ctx context.Context, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetMaximumNumberOfBroadcasts(ctx context.Context, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetMaximumStreamsPerBroadcast(ctx context.Context, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetMaximumSubgroupsPerBroadcast(ctx context.Context, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	IsBroadcastActive(ctx context.Context, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
+	RegisterCallback(ctx context.Context, callback IBluetoothLeAudioCallback, attributionSource content.AttributionSource, receiver any) error
+	UnregisterCallback(ctx context.Context, callback IBluetoothLeAudioCallback, attributionSource content.AttributionSource, receiver any) error
+	SetCcidInformation(ctx context.Context, userUuid os.ParcelUuid, ccid int32, contextType int32, attributionSource content.AttributionSource, receiver any) error
+	SetInCall(ctx context.Context, inCall bool, attributionSource content.AttributionSource, receiver any) error
+	SetInactiveForHfpHandover(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	GetGroupId(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	SetVolume(ctx context.Context, volume int32, attributionSource content.AttributionSource, receiver any) error
+	GroupAddNode(ctx context.Context, group_id int32, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	GroupRemoveNode(ctx context.Context, group_id int32, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	GetAudioLocation(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	IsInbandRingtoneEnabled(ctx context.Context, attributionSource content.AttributionSource, receiver any, groupId int32) error
+	RegisterLeBroadcastCallback(ctx context.Context, callback IBluetoothLeBroadcastCallback, attributionSource content.AttributionSource, receiver any) error
+	UnregisterLeBroadcastCallback(ctx context.Context, callback IBluetoothLeBroadcastCallback, attributionSource content.AttributionSource, receiver any) error
+	StartBroadcast(ctx context.Context, broadcastSettings BluetoothLeBroadcastSettings, attributionSource content.AttributionSource, receiver any) error
+	StopBroadcast(ctx context.Context, broadcastId int32, attributionSource content.AttributionSource, receiver any) error
+	UpdateBroadcast(ctx context.Context, broadcastId int32, broadcastSettings BluetoothLeBroadcastSettings, attributionSource content.AttributionSource, receiver any) error
+	IsPlaying(ctx context.Context, broadcastId int32, attributionSource content.AttributionSource, receiver any) error
+	GetAllBroadcastMetadata(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
+	GetMaximumNumberOfBroadcasts(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
+	GetMaximumStreamsPerBroadcast(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
+	GetMaximumSubgroupsPerBroadcast(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
+	IsBroadcastActive(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
 }
 
 const (
@@ -156,7 +156,7 @@ func (p *BluetoothLeAudioProxy) Connect(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -169,10 +169,7 @@ func (p *BluetoothLeAudioProxy) Connect(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudio, MethodIBluetoothLeAudioConnect)
 	if _err != nil {
@@ -187,7 +184,7 @@ func (p *BluetoothLeAudioProxy) Disconnect(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -200,10 +197,7 @@ func (p *BluetoothLeAudioProxy) Disconnect(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudio, MethodIBluetoothLeAudioDisconnect)
 	if _err != nil {
@@ -217,7 +211,7 @@ func (p *BluetoothLeAudioProxy) Disconnect(
 func (p *BluetoothLeAudioProxy) GetConnectedDevices(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -226,10 +220,7 @@ func (p *BluetoothLeAudioProxy) GetConnectedDevices(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudio, MethodIBluetoothLeAudioGetConnectedDevices)
 	if _err != nil {
@@ -244,7 +235,7 @@ func (p *BluetoothLeAudioProxy) GetDevicesMatchingConnectionStates(
 	ctx context.Context,
 	states []int32,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -261,10 +252,7 @@ func (p *BluetoothLeAudioProxy) GetDevicesMatchingConnectionStates(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudio, MethodIBluetoothLeAudioGetDevicesMatchingConnectionStates)
 	if _err != nil {
@@ -279,7 +267,7 @@ func (p *BluetoothLeAudioProxy) GetConnectionState(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -292,10 +280,7 @@ func (p *BluetoothLeAudioProxy) GetConnectionState(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudio, MethodIBluetoothLeAudioGetConnectionState)
 	if _err != nil {
@@ -310,7 +295,7 @@ func (p *BluetoothLeAudioProxy) SetActiveDevice(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -323,10 +308,7 @@ func (p *BluetoothLeAudioProxy) SetActiveDevice(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudio, MethodIBluetoothLeAudioSetActiveDevice)
 	if _err != nil {
@@ -340,7 +322,7 @@ func (p *BluetoothLeAudioProxy) SetActiveDevice(
 func (p *BluetoothLeAudioProxy) GetActiveDevices(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -349,10 +331,7 @@ func (p *BluetoothLeAudioProxy) GetActiveDevices(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudio, MethodIBluetoothLeAudioGetActiveDevices)
 	if _err != nil {
@@ -368,7 +347,7 @@ func (p *BluetoothLeAudioProxy) SetConnectionPolicy(
 	device BluetoothDevice,
 	connectionPolicy int32,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -382,10 +361,7 @@ func (p *BluetoothLeAudioProxy) SetConnectionPolicy(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudio, MethodIBluetoothLeAudioSetConnectionPolicy)
 	if _err != nil {
@@ -400,7 +376,7 @@ func (p *BluetoothLeAudioProxy) GetConnectionPolicy(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -413,10 +389,7 @@ func (p *BluetoothLeAudioProxy) GetConnectionPolicy(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudio, MethodIBluetoothLeAudioGetConnectionPolicy)
 	if _err != nil {
@@ -431,7 +404,7 @@ func (p *BluetoothLeAudioProxy) GetConnectedGroupLeadDevice(
 	ctx context.Context,
 	groupId int32,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -441,10 +414,7 @@ func (p *BluetoothLeAudioProxy) GetConnectedGroupLeadDevice(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudio, MethodIBluetoothLeAudioGetConnectedGroupLeadDevice)
 	if _err != nil {
@@ -459,7 +429,7 @@ func (p *BluetoothLeAudioProxy) GetCodecStatus(
 	ctx context.Context,
 	groupId int32,
 	source content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -469,10 +439,7 @@ func (p *BluetoothLeAudioProxy) GetCodecStatus(
 	if _err := source.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudio, MethodIBluetoothLeAudioGetCodecStatus)
 	if _err != nil {
@@ -520,7 +487,7 @@ func (p *BluetoothLeAudioProxy) RegisterCallback(
 	ctx context.Context,
 	callback IBluetoothLeAudioCallback,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -530,10 +497,7 @@ func (p *BluetoothLeAudioProxy) RegisterCallback(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudio, MethodIBluetoothLeAudioRegisterCallback)
 	if _err != nil {
@@ -548,7 +512,7 @@ func (p *BluetoothLeAudioProxy) UnregisterCallback(
 	ctx context.Context,
 	callback IBluetoothLeAudioCallback,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -558,10 +522,7 @@ func (p *BluetoothLeAudioProxy) UnregisterCallback(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudio, MethodIBluetoothLeAudioUnregisterCallback)
 	if _err != nil {
@@ -578,7 +539,7 @@ func (p *BluetoothLeAudioProxy) SetCcidInformation(
 	ccid int32,
 	contextType int32,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -593,10 +554,7 @@ func (p *BluetoothLeAudioProxy) SetCcidInformation(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudio, MethodIBluetoothLeAudioSetCcidInformation)
 	if _err != nil {
@@ -611,7 +569,7 @@ func (p *BluetoothLeAudioProxy) SetInCall(
 	ctx context.Context,
 	inCall bool,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -621,10 +579,7 @@ func (p *BluetoothLeAudioProxy) SetInCall(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudio, MethodIBluetoothLeAudioSetInCall)
 	if _err != nil {
@@ -639,7 +594,7 @@ func (p *BluetoothLeAudioProxy) SetInactiveForHfpHandover(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -652,10 +607,7 @@ func (p *BluetoothLeAudioProxy) SetInactiveForHfpHandover(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudio, MethodIBluetoothLeAudioSetInactiveForHfpHandover)
 	if _err != nil {
@@ -670,7 +622,7 @@ func (p *BluetoothLeAudioProxy) GetGroupId(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -683,10 +635,7 @@ func (p *BluetoothLeAudioProxy) GetGroupId(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudio, MethodIBluetoothLeAudioGetGroupId)
 	if _err != nil {
@@ -701,7 +650,7 @@ func (p *BluetoothLeAudioProxy) SetVolume(
 	ctx context.Context,
 	volume int32,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -711,10 +660,7 @@ func (p *BluetoothLeAudioProxy) SetVolume(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudio, MethodIBluetoothLeAudioSetVolume)
 	if _err != nil {
@@ -730,7 +676,7 @@ func (p *BluetoothLeAudioProxy) GroupAddNode(
 	group_id int32,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -744,10 +690,7 @@ func (p *BluetoothLeAudioProxy) GroupAddNode(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudio, MethodIBluetoothLeAudioGroupAddNode)
 	if _err != nil {
@@ -763,7 +706,7 @@ func (p *BluetoothLeAudioProxy) GroupRemoveNode(
 	group_id int32,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -777,10 +720,7 @@ func (p *BluetoothLeAudioProxy) GroupRemoveNode(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudio, MethodIBluetoothLeAudioGroupRemoveNode)
 	if _err != nil {
@@ -795,7 +735,7 @@ func (p *BluetoothLeAudioProxy) GetAudioLocation(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -808,10 +748,7 @@ func (p *BluetoothLeAudioProxy) GetAudioLocation(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudio, MethodIBluetoothLeAudioGetAudioLocation)
 	if _err != nil {
@@ -825,7 +762,7 @@ func (p *BluetoothLeAudioProxy) GetAudioLocation(
 func (p *BluetoothLeAudioProxy) IsInbandRingtoneEnabled(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 	groupId int32,
 ) error {
 	_data := parcel.New()
@@ -835,10 +772,7 @@ func (p *BluetoothLeAudioProxy) IsInbandRingtoneEnabled(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 	_data.WriteInt32(groupId)
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudio, MethodIBluetoothLeAudioIsInbandRingtoneEnabled)
@@ -854,7 +788,7 @@ func (p *BluetoothLeAudioProxy) RegisterLeBroadcastCallback(
 	ctx context.Context,
 	callback IBluetoothLeBroadcastCallback,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -864,10 +798,7 @@ func (p *BluetoothLeAudioProxy) RegisterLeBroadcastCallback(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudio, MethodIBluetoothLeAudioRegisterLeBroadcastCallback)
 	if _err != nil {
@@ -882,7 +813,7 @@ func (p *BluetoothLeAudioProxy) UnregisterLeBroadcastCallback(
 	ctx context.Context,
 	callback IBluetoothLeBroadcastCallback,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -892,10 +823,7 @@ func (p *BluetoothLeAudioProxy) UnregisterLeBroadcastCallback(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudio, MethodIBluetoothLeAudioUnregisterLeBroadcastCallback)
 	if _err != nil {
@@ -910,7 +838,7 @@ func (p *BluetoothLeAudioProxy) StartBroadcast(
 	ctx context.Context,
 	broadcastSettings BluetoothLeBroadcastSettings,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -923,10 +851,7 @@ func (p *BluetoothLeAudioProxy) StartBroadcast(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudio, MethodIBluetoothLeAudioStartBroadcast)
 	if _err != nil {
@@ -941,7 +866,7 @@ func (p *BluetoothLeAudioProxy) StopBroadcast(
 	ctx context.Context,
 	broadcastId int32,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -951,10 +876,7 @@ func (p *BluetoothLeAudioProxy) StopBroadcast(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudio, MethodIBluetoothLeAudioStopBroadcast)
 	if _err != nil {
@@ -970,7 +892,7 @@ func (p *BluetoothLeAudioProxy) UpdateBroadcast(
 	broadcastId int32,
 	broadcastSettings BluetoothLeBroadcastSettings,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -984,10 +906,7 @@ func (p *BluetoothLeAudioProxy) UpdateBroadcast(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudio, MethodIBluetoothLeAudioUpdateBroadcast)
 	if _err != nil {
@@ -1002,7 +921,7 @@ func (p *BluetoothLeAudioProxy) IsPlaying(
 	ctx context.Context,
 	broadcastId int32,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -1012,10 +931,7 @@ func (p *BluetoothLeAudioProxy) IsPlaying(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudio, MethodIBluetoothLeAudioIsPlaying)
 	if _err != nil {
@@ -1029,7 +945,7 @@ func (p *BluetoothLeAudioProxy) IsPlaying(
 func (p *BluetoothLeAudioProxy) GetAllBroadcastMetadata(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -1038,10 +954,7 @@ func (p *BluetoothLeAudioProxy) GetAllBroadcastMetadata(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudio, MethodIBluetoothLeAudioGetAllBroadcastMetadata)
 	if _err != nil {
@@ -1055,7 +968,7 @@ func (p *BluetoothLeAudioProxy) GetAllBroadcastMetadata(
 func (p *BluetoothLeAudioProxy) GetMaximumNumberOfBroadcasts(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -1064,10 +977,7 @@ func (p *BluetoothLeAudioProxy) GetMaximumNumberOfBroadcasts(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudio, MethodIBluetoothLeAudioGetMaximumNumberOfBroadcasts)
 	if _err != nil {
@@ -1081,7 +991,7 @@ func (p *BluetoothLeAudioProxy) GetMaximumNumberOfBroadcasts(
 func (p *BluetoothLeAudioProxy) GetMaximumStreamsPerBroadcast(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -1090,10 +1000,7 @@ func (p *BluetoothLeAudioProxy) GetMaximumStreamsPerBroadcast(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudio, MethodIBluetoothLeAudioGetMaximumStreamsPerBroadcast)
 	if _err != nil {
@@ -1107,7 +1014,7 @@ func (p *BluetoothLeAudioProxy) GetMaximumStreamsPerBroadcast(
 func (p *BluetoothLeAudioProxy) GetMaximumSubgroupsPerBroadcast(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -1116,10 +1023,7 @@ func (p *BluetoothLeAudioProxy) GetMaximumSubgroupsPerBroadcast(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudio, MethodIBluetoothLeAudioGetMaximumSubgroupsPerBroadcast)
 	if _err != nil {
@@ -1133,7 +1037,7 @@ func (p *BluetoothLeAudioProxy) GetMaximumSubgroupsPerBroadcast(
 func (p *BluetoothLeAudioProxy) IsBroadcastActive(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -1142,10 +1046,7 @@ func (p *BluetoothLeAudioProxy) IsBroadcastActive(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothLeAudio, MethodIBluetoothLeAudioIsBroadcastActive)
 	if _err != nil {
@@ -1204,18 +1105,7 @@ func (s *BluetoothLeAudioStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.Connect(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothLeAudioDisconnect:
@@ -1243,18 +1133,7 @@ func (s *BluetoothLeAudioStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.Disconnect(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothLeAudioGetConnectedDevices:
@@ -1270,18 +1149,7 @@ func (s *BluetoothLeAudioStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.GetConnectedDevices(ctx, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothLeAudioGetDevicesMatchingConnectionStates:
@@ -1316,18 +1184,7 @@ func (s *BluetoothLeAudioStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.GetDevicesMatchingConnectionStates(ctx, _arg_states, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothLeAudioGetConnectionState:
@@ -1355,18 +1212,7 @@ func (s *BluetoothLeAudioStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.GetConnectionState(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothLeAudioSetActiveDevice:
@@ -1394,18 +1240,7 @@ func (s *BluetoothLeAudioStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.SetActiveDevice(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothLeAudioGetActiveDevices:
@@ -1421,18 +1256,7 @@ func (s *BluetoothLeAudioStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.GetActiveDevices(ctx, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothLeAudioSetConnectionPolicy:
@@ -1464,18 +1288,7 @@ func (s *BluetoothLeAudioStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err = s.Impl.SetConnectionPolicy(ctx, _arg_device, _arg_connectionPolicy, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothLeAudioGetConnectionPolicy:
@@ -1503,18 +1316,7 @@ func (s *BluetoothLeAudioStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.GetConnectionPolicy(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothLeAudioGetConnectedGroupLeadDevice:
@@ -1534,18 +1336,7 @@ func (s *BluetoothLeAudioStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err = s.Impl.GetConnectedGroupLeadDevice(ctx, _arg_groupId, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothLeAudioGetCodecStatus:
@@ -1565,18 +1356,7 @@ func (s *BluetoothLeAudioStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err = s.Impl.GetCodecStatus(ctx, _arg_groupId, _arg_source, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothLeAudioSetCodecConfigPreference:
@@ -1643,18 +1423,7 @@ func (s *BluetoothLeAudioStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.RegisterCallback(ctx, _arg_callback, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothLeAudioUnregisterCallback:
@@ -1678,18 +1447,7 @@ func (s *BluetoothLeAudioStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.UnregisterCallback(ctx, _arg_callback, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothLeAudioSetCcidInformation:
@@ -1725,18 +1483,7 @@ func (s *BluetoothLeAudioStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err = s.Impl.SetCcidInformation(ctx, _arg_userUuid, _arg_ccid, _arg_contextType, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothLeAudioSetInCall:
@@ -1756,18 +1503,7 @@ func (s *BluetoothLeAudioStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err = s.Impl.SetInCall(ctx, _arg_inCall, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothLeAudioSetInactiveForHfpHandover:
@@ -1795,18 +1531,7 @@ func (s *BluetoothLeAudioStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.SetInactiveForHfpHandover(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothLeAudioGetGroupId:
@@ -1834,18 +1559,7 @@ func (s *BluetoothLeAudioStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.GetGroupId(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothLeAudioSetVolume:
@@ -1865,18 +1579,7 @@ func (s *BluetoothLeAudioStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err = s.Impl.SetVolume(ctx, _arg_volume, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothLeAudioGroupAddNode:
@@ -1908,18 +1611,7 @@ func (s *BluetoothLeAudioStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err = s.Impl.GroupAddNode(ctx, _arg_group_id, _arg_device, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothLeAudioGroupRemoveNode:
@@ -1951,18 +1643,7 @@ func (s *BluetoothLeAudioStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err = s.Impl.GroupRemoveNode(ctx, _arg_group_id, _arg_device, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothLeAudioGetAudioLocation:
@@ -1990,18 +1671,7 @@ func (s *BluetoothLeAudioStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.GetAudioLocation(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothLeAudioIsInbandRingtoneEnabled:
@@ -2017,18 +1687,7 @@ func (s *BluetoothLeAudioStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_arg_groupId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2056,18 +1715,7 @@ func (s *BluetoothLeAudioStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.RegisterLeBroadcastCallback(ctx, _arg_callback, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothLeAudioUnregisterLeBroadcastCallback:
@@ -2091,18 +1739,7 @@ func (s *BluetoothLeAudioStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.UnregisterLeBroadcastCallback(ctx, _arg_callback, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothLeAudioStartBroadcast:
@@ -2130,18 +1767,7 @@ func (s *BluetoothLeAudioStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.StartBroadcast(ctx, _arg_broadcastSettings, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothLeAudioStopBroadcast:
@@ -2161,18 +1787,7 @@ func (s *BluetoothLeAudioStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err = s.Impl.StopBroadcast(ctx, _arg_broadcastId, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothLeAudioUpdateBroadcast:
@@ -2204,18 +1819,7 @@ func (s *BluetoothLeAudioStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err = s.Impl.UpdateBroadcast(ctx, _arg_broadcastId, _arg_broadcastSettings, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothLeAudioIsPlaying:
@@ -2235,18 +1839,7 @@ func (s *BluetoothLeAudioStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err = s.Impl.IsPlaying(ctx, _arg_broadcastId, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothLeAudioGetAllBroadcastMetadata:
@@ -2262,18 +1855,7 @@ func (s *BluetoothLeAudioStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.GetAllBroadcastMetadata(ctx, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothLeAudioGetMaximumNumberOfBroadcasts:
@@ -2289,18 +1871,7 @@ func (s *BluetoothLeAudioStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.GetMaximumNumberOfBroadcasts(ctx, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothLeAudioGetMaximumStreamsPerBroadcast:
@@ -2316,18 +1887,7 @@ func (s *BluetoothLeAudioStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.GetMaximumStreamsPerBroadcast(ctx, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothLeAudioGetMaximumSubgroupsPerBroadcast:
@@ -2343,18 +1903,7 @@ func (s *BluetoothLeAudioStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.GetMaximumSubgroupsPerBroadcast(ctx, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothLeAudioIsBroadcastActive:
@@ -2370,18 +1919,7 @@ func (s *BluetoothLeAudioStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.IsBroadcastActive(ctx, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	default:
@@ -2393,40 +1931,40 @@ func (s *BluetoothLeAudioStub) OnTransaction(
 // provide to NewBluetoothLeAudioStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IBluetoothLeAudioServer interface {
-	Connect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	Disconnect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	SetActiveDevice(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetActiveDevices(ctx context.Context, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetConnectedGroupLeadDevice(ctx context.Context, groupId int32, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetCodecStatus(ctx context.Context, groupId int32, source content.AttributionSource, receiver os.SynchronousResultReceiver) error
+	Connect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	Disconnect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
+	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource, receiver any) error
+	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	SetActiveDevice(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	GetActiveDevices(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
+	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource, receiver any) error
+	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	GetConnectedGroupLeadDevice(ctx context.Context, groupId int32, attributionSource content.AttributionSource, receiver any) error
+	GetCodecStatus(ctx context.Context, groupId int32, source content.AttributionSource, receiver any) error
 	SetCodecConfigPreference(ctx context.Context, groupId int32, inputCodecConfig BluetoothLeAudioCodecConfig, outputCodecConfig BluetoothLeAudioCodecConfig, source content.AttributionSource) error
-	RegisterCallback(ctx context.Context, callback IBluetoothLeAudioCallback, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	UnregisterCallback(ctx context.Context, callback IBluetoothLeAudioCallback, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	SetCcidInformation(ctx context.Context, userUuid os.ParcelUuid, ccid int32, contextType int32, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	SetInCall(ctx context.Context, inCall bool, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	SetInactiveForHfpHandover(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetGroupId(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	SetVolume(ctx context.Context, volume int32, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GroupAddNode(ctx context.Context, group_id int32, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GroupRemoveNode(ctx context.Context, group_id int32, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetAudioLocation(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	IsInbandRingtoneEnabled(ctx context.Context, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver, groupId int32) error
-	RegisterLeBroadcastCallback(ctx context.Context, callback IBluetoothLeBroadcastCallback, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	UnregisterLeBroadcastCallback(ctx context.Context, callback IBluetoothLeBroadcastCallback, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	StartBroadcast(ctx context.Context, broadcastSettings BluetoothLeBroadcastSettings, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	StopBroadcast(ctx context.Context, broadcastId int32, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	UpdateBroadcast(ctx context.Context, broadcastId int32, broadcastSettings BluetoothLeBroadcastSettings, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	IsPlaying(ctx context.Context, broadcastId int32, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetAllBroadcastMetadata(ctx context.Context, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetMaximumNumberOfBroadcasts(ctx context.Context, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetMaximumStreamsPerBroadcast(ctx context.Context, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetMaximumSubgroupsPerBroadcast(ctx context.Context, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	IsBroadcastActive(ctx context.Context, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
+	RegisterCallback(ctx context.Context, callback IBluetoothLeAudioCallback, attributionSource content.AttributionSource, receiver any) error
+	UnregisterCallback(ctx context.Context, callback IBluetoothLeAudioCallback, attributionSource content.AttributionSource, receiver any) error
+	SetCcidInformation(ctx context.Context, userUuid os.ParcelUuid, ccid int32, contextType int32, attributionSource content.AttributionSource, receiver any) error
+	SetInCall(ctx context.Context, inCall bool, attributionSource content.AttributionSource, receiver any) error
+	SetInactiveForHfpHandover(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	GetGroupId(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	SetVolume(ctx context.Context, volume int32, attributionSource content.AttributionSource, receiver any) error
+	GroupAddNode(ctx context.Context, group_id int32, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	GroupRemoveNode(ctx context.Context, group_id int32, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	GetAudioLocation(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	IsInbandRingtoneEnabled(ctx context.Context, attributionSource content.AttributionSource, receiver any, groupId int32) error
+	RegisterLeBroadcastCallback(ctx context.Context, callback IBluetoothLeBroadcastCallback, attributionSource content.AttributionSource, receiver any) error
+	UnregisterLeBroadcastCallback(ctx context.Context, callback IBluetoothLeBroadcastCallback, attributionSource content.AttributionSource, receiver any) error
+	StartBroadcast(ctx context.Context, broadcastSettings BluetoothLeBroadcastSettings, attributionSource content.AttributionSource, receiver any) error
+	StopBroadcast(ctx context.Context, broadcastId int32, attributionSource content.AttributionSource, receiver any) error
+	UpdateBroadcast(ctx context.Context, broadcastId int32, broadcastSettings BluetoothLeBroadcastSettings, attributionSource content.AttributionSource, receiver any) error
+	IsPlaying(ctx context.Context, broadcastId int32, attributionSource content.AttributionSource, receiver any) error
+	GetAllBroadcastMetadata(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
+	GetMaximumNumberOfBroadcasts(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
+	GetMaximumStreamsPerBroadcast(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
+	GetMaximumSubgroupsPerBroadcast(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
+	IsBroadcastActive(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
 }
 
 type bluetoothLeAudioStubWrapper struct {
@@ -2442,7 +1980,7 @@ func (w *bluetoothLeAudioStubWrapper) Connect(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.Connect(ctx, device, attributionSource, receiver)
 }
@@ -2451,7 +1989,7 @@ func (w *bluetoothLeAudioStubWrapper) Disconnect(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.Disconnect(ctx, device, attributionSource, receiver)
 }
@@ -2459,7 +1997,7 @@ func (w *bluetoothLeAudioStubWrapper) Disconnect(
 func (w *bluetoothLeAudioStubWrapper) GetConnectedDevices(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.GetConnectedDevices(ctx, attributionSource, receiver)
 }
@@ -2468,7 +2006,7 @@ func (w *bluetoothLeAudioStubWrapper) GetDevicesMatchingConnectionStates(
 	ctx context.Context,
 	states []int32,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.GetDevicesMatchingConnectionStates(ctx, states, attributionSource, receiver)
 }
@@ -2477,7 +2015,7 @@ func (w *bluetoothLeAudioStubWrapper) GetConnectionState(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.GetConnectionState(ctx, device, attributionSource, receiver)
 }
@@ -2486,7 +2024,7 @@ func (w *bluetoothLeAudioStubWrapper) SetActiveDevice(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.SetActiveDevice(ctx, device, attributionSource, receiver)
 }
@@ -2494,7 +2032,7 @@ func (w *bluetoothLeAudioStubWrapper) SetActiveDevice(
 func (w *bluetoothLeAudioStubWrapper) GetActiveDevices(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.GetActiveDevices(ctx, attributionSource, receiver)
 }
@@ -2504,7 +2042,7 @@ func (w *bluetoothLeAudioStubWrapper) SetConnectionPolicy(
 	device BluetoothDevice,
 	connectionPolicy int32,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.SetConnectionPolicy(ctx, device, connectionPolicy, attributionSource, receiver)
 }
@@ -2513,7 +2051,7 @@ func (w *bluetoothLeAudioStubWrapper) GetConnectionPolicy(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.GetConnectionPolicy(ctx, device, attributionSource, receiver)
 }
@@ -2522,7 +2060,7 @@ func (w *bluetoothLeAudioStubWrapper) GetConnectedGroupLeadDevice(
 	ctx context.Context,
 	groupId int32,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.GetConnectedGroupLeadDevice(ctx, groupId, attributionSource, receiver)
 }
@@ -2531,7 +2069,7 @@ func (w *bluetoothLeAudioStubWrapper) GetCodecStatus(
 	ctx context.Context,
 	groupId int32,
 	source content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.GetCodecStatus(ctx, groupId, source, receiver)
 }
@@ -2550,7 +2088,7 @@ func (w *bluetoothLeAudioStubWrapper) RegisterCallback(
 	ctx context.Context,
 	callback IBluetoothLeAudioCallback,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.RegisterCallback(ctx, callback, attributionSource, receiver)
 }
@@ -2559,7 +2097,7 @@ func (w *bluetoothLeAudioStubWrapper) UnregisterCallback(
 	ctx context.Context,
 	callback IBluetoothLeAudioCallback,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.UnregisterCallback(ctx, callback, attributionSource, receiver)
 }
@@ -2570,7 +2108,7 @@ func (w *bluetoothLeAudioStubWrapper) SetCcidInformation(
 	ccid int32,
 	contextType int32,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.SetCcidInformation(ctx, userUuid, ccid, contextType, attributionSource, receiver)
 }
@@ -2579,7 +2117,7 @@ func (w *bluetoothLeAudioStubWrapper) SetInCall(
 	ctx context.Context,
 	inCall bool,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.SetInCall(ctx, inCall, attributionSource, receiver)
 }
@@ -2588,7 +2126,7 @@ func (w *bluetoothLeAudioStubWrapper) SetInactiveForHfpHandover(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.SetInactiveForHfpHandover(ctx, device, attributionSource, receiver)
 }
@@ -2597,7 +2135,7 @@ func (w *bluetoothLeAudioStubWrapper) GetGroupId(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.GetGroupId(ctx, device, attributionSource, receiver)
 }
@@ -2606,7 +2144,7 @@ func (w *bluetoothLeAudioStubWrapper) SetVolume(
 	ctx context.Context,
 	volume int32,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.SetVolume(ctx, volume, attributionSource, receiver)
 }
@@ -2616,7 +2154,7 @@ func (w *bluetoothLeAudioStubWrapper) GroupAddNode(
 	group_id int32,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.GroupAddNode(ctx, group_id, device, attributionSource, receiver)
 }
@@ -2626,7 +2164,7 @@ func (w *bluetoothLeAudioStubWrapper) GroupRemoveNode(
 	group_id int32,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.GroupRemoveNode(ctx, group_id, device, attributionSource, receiver)
 }
@@ -2635,7 +2173,7 @@ func (w *bluetoothLeAudioStubWrapper) GetAudioLocation(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.GetAudioLocation(ctx, device, attributionSource, receiver)
 }
@@ -2643,7 +2181,7 @@ func (w *bluetoothLeAudioStubWrapper) GetAudioLocation(
 func (w *bluetoothLeAudioStubWrapper) IsInbandRingtoneEnabled(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 	groupId int32,
 ) error {
 	return w.impl.IsInbandRingtoneEnabled(ctx, attributionSource, receiver, groupId)
@@ -2653,7 +2191,7 @@ func (w *bluetoothLeAudioStubWrapper) RegisterLeBroadcastCallback(
 	ctx context.Context,
 	callback IBluetoothLeBroadcastCallback,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.RegisterLeBroadcastCallback(ctx, callback, attributionSource, receiver)
 }
@@ -2662,7 +2200,7 @@ func (w *bluetoothLeAudioStubWrapper) UnregisterLeBroadcastCallback(
 	ctx context.Context,
 	callback IBluetoothLeBroadcastCallback,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.UnregisterLeBroadcastCallback(ctx, callback, attributionSource, receiver)
 }
@@ -2671,7 +2209,7 @@ func (w *bluetoothLeAudioStubWrapper) StartBroadcast(
 	ctx context.Context,
 	broadcastSettings BluetoothLeBroadcastSettings,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.StartBroadcast(ctx, broadcastSettings, attributionSource, receiver)
 }
@@ -2680,7 +2218,7 @@ func (w *bluetoothLeAudioStubWrapper) StopBroadcast(
 	ctx context.Context,
 	broadcastId int32,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.StopBroadcast(ctx, broadcastId, attributionSource, receiver)
 }
@@ -2690,7 +2228,7 @@ func (w *bluetoothLeAudioStubWrapper) UpdateBroadcast(
 	broadcastId int32,
 	broadcastSettings BluetoothLeBroadcastSettings,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.UpdateBroadcast(ctx, broadcastId, broadcastSettings, attributionSource, receiver)
 }
@@ -2699,7 +2237,7 @@ func (w *bluetoothLeAudioStubWrapper) IsPlaying(
 	ctx context.Context,
 	broadcastId int32,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.IsPlaying(ctx, broadcastId, attributionSource, receiver)
 }
@@ -2707,7 +2245,7 @@ func (w *bluetoothLeAudioStubWrapper) IsPlaying(
 func (w *bluetoothLeAudioStubWrapper) GetAllBroadcastMetadata(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.GetAllBroadcastMetadata(ctx, attributionSource, receiver)
 }
@@ -2715,7 +2253,7 @@ func (w *bluetoothLeAudioStubWrapper) GetAllBroadcastMetadata(
 func (w *bluetoothLeAudioStubWrapper) GetMaximumNumberOfBroadcasts(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.GetMaximumNumberOfBroadcasts(ctx, attributionSource, receiver)
 }
@@ -2723,7 +2261,7 @@ func (w *bluetoothLeAudioStubWrapper) GetMaximumNumberOfBroadcasts(
 func (w *bluetoothLeAudioStubWrapper) GetMaximumStreamsPerBroadcast(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.GetMaximumStreamsPerBroadcast(ctx, attributionSource, receiver)
 }
@@ -2731,7 +2269,7 @@ func (w *bluetoothLeAudioStubWrapper) GetMaximumStreamsPerBroadcast(
 func (w *bluetoothLeAudioStubWrapper) GetMaximumSubgroupsPerBroadcast(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.GetMaximumSubgroupsPerBroadcast(ctx, attributionSource, receiver)
 }
@@ -2739,7 +2277,7 @@ func (w *bluetoothLeAudioStubWrapper) GetMaximumSubgroupsPerBroadcast(
 func (w *bluetoothLeAudioStubWrapper) IsBroadcastActive(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.IsBroadcastActive(ctx, attributionSource, receiver)
 }

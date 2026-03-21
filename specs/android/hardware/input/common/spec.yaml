@@ -368,35 +368,35 @@ enums:
         - name: UNKNOWN
           value: "0"
         - name: KEYBOARD
-          value: 1 << 8 | SourceClass.BUTTON
+          value: (1 << 8) | SourceClass.BUTTON
         - name: DPAD
-          value: 1 << 9 | SourceClass.BUTTON
+          value: (1 << 9) | SourceClass.BUTTON
         - name: GAMEPAD
-          value: 1 << 10 | SourceClass.BUTTON
+          value: (1 << 10) | SourceClass.BUTTON
         - name: TOUCHSCREEN
-          value: 1 << 12 | SourceClass.POINTER
+          value: (1 << 12) | SourceClass.POINTER
         - name: MOUSE
-          value: 1 << 13 | SourceClass.POINTER
+          value: (1 << 13) | SourceClass.POINTER
         - name: STYLUS
-          value: 1 << 14 | SourceClass.POINTER
+          value: (1 << 14) | SourceClass.POINTER
         - name: BLUETOOTH_STYLUS
-          value: 1 << 15 | STYLUS
+          value: (1 << 15) | STYLUS
         - name: TRACKBALL
-          value: 1 << 16 | SourceClass.NAVIGATION
+          value: (1 << 16) | SourceClass.NAVIGATION
         - name: MOUSE_RELATIVE
-          value: 1 << 17 | SourceClass.NAVIGATION
+          value: (1 << 17) | SourceClass.NAVIGATION
         - name: TOUCHPAD
-          value: 1 << 20 | SourceClass.POSITION
+          value: (1 << 20) | SourceClass.POSITION
         - name: TOUCH_NAVIGATION
-          value: 1 << 21 | SourceClass.NONE
+          value: (1 << 21) | SourceClass.NONE
         - name: ROTARY_ENCODER
-          value: 1 << 22 | SourceClass.NONE
+          value: (1 << 22) | SourceClass.NONE
         - name: JOYSTICK
-          value: 1 << 24 | SourceClass.JOYSTICK
+          value: (1 << 24) | SourceClass.JOYSTICK
         - name: HDMI
-          value: 1 << 25 | SourceClass.BUTTON
+          value: (1 << 25) | SourceClass.BUTTON
         - name: SENSOR
-          value: 1 << 26 | SourceClass.NONE
+          value: (1 << 26) | SourceClass.NONE
         - name: ANY
           value: "0xFFFFFF00"
       annotations:

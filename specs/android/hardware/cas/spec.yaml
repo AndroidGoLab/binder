@@ -151,6 +151,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: ICasListener
       descriptor: android.hardware.cas.ICasListener
       methods:
@@ -208,6 +210,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IDescrambler
       descriptor: android.hardware.cas.IDescrambler
       methods:
@@ -264,6 +268,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IMediaCasService
       descriptor: android.hardware.cas.IMediaCasService
       methods:
@@ -312,6 +318,8 @@ interfaces:
               direction: in
           return_type:
             name: boolean
+      annotations:
+        - VintfStability
 parcelables:
     - name: AidlCasPluginDescriptor
       fields:

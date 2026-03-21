@@ -1455,6 +1455,8 @@ interfaces:
             - name: name
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
           return_type:
             name: InputChannelCore
@@ -1679,6 +1681,8 @@ interfaces:
               type:
                 name: String
                 is_array: true
+                annotations:
+                    - utf8InCpp
               direction: in
             - name: userId
               type:
@@ -1698,6 +1702,8 @@ interfaces:
               type:
                 name: String
                 is_array: true
+                annotations:
+                    - utf8InCpp
               direction: in
           return_type:
             name: long
@@ -1761,6 +1767,8 @@ interfaces:
               type:
                 name: String
                 is_array: true
+                annotations:
+                    - utf8InCpp
               direction: in
             - name: userId
               type:
@@ -2267,6 +2275,8 @@ interfaces:
               type:
                 name: String
                 is_array: true
+                annotations:
+                    - utf8InCpp
               direction: in
             - name: volume_uuid
               type:
@@ -2366,6 +2376,8 @@ interfaces:
             - name: packageName
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
             - name: userId
               type:
@@ -2390,6 +2402,8 @@ interfaces:
             - name: packageName
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
             - name: appId
               type:
@@ -2597,6 +2611,8 @@ interfaces:
         - name: FLAG_CLEAR_APP_DATA_KEEP_ART_PROFILES
           type: int
           value: "0x20000"
+      nested_types:
+        - IInstalld.IFsveritySetupAuthToken
     - name: IInstalld.IFsveritySetupAuthToken
       descriptor: android.os.IInstalld.IFsveritySetupAuthToken
     - name: IMessenger
@@ -3782,6 +3798,9 @@ interfaces:
         - name: GO_TO_SLEEP_FLAG_NO_DOZE
           type: int
           value: 1 << 0
+      nested_types:
+        - IPowerManager.LowPowerStandbyPolicy
+        - IPowerManager.LowPowerStandbyPortDescription
     - name: IPowerStatsService
       descriptor: android.os.IPowerStatsService
       methods:
@@ -4295,7 +4314,7 @@ interfaces:
           value: 1 << 3
         - name: DUMP_FLAG_PRIORITY_ALL
           type: int
-          value: DUMP_FLAG_PRIORITY_CRITICAL | DUMP_FLAG_PRIORITY_HIGH | DUMP_FLAG_PRIORITY_NORMAL | DUMP_FLAG_PRIORITY_DEFAULT
+          value: ((DUMP_FLAG_PRIORITY_CRITICAL | DUMP_FLAG_PRIORITY_HIGH) | DUMP_FLAG_PRIORITY_NORMAL) | DUMP_FLAG_PRIORITY_DEFAULT
         - name: DUMP_FLAG_PROTO
           type: int
           value: 1 << 4
@@ -5713,36 +5732,6 @@ interfaces:
               direction: in
           return_type:
             name: void
-    - name: IVoldTaskListener
-      descriptor: android.os.IVoldTaskListener
-      oneway: true
-      methods:
-        - name: onStatus
-          transaction_code_offset: 0
-          params:
-            - name: status
-              type:
-                name: int
-              direction: in
-            - name: extras
-              type:
-                name: PersistableBundle
-              direction: in
-          return_type:
-            name: void
-        - name: onFinished
-          transaction_code_offset: 1
-          params:
-            - name: status
-              type:
-                name: int
-              direction: in
-            - name: extras
-              type:
-                name: PersistableBundle
-              direction: in
-          return_type:
-            name: void
     - name: IWakeLockCallback
       descriptor: android.os.IWakeLockCallback
       oneway: true
@@ -5759,12 +5748,116 @@ interfaces:
 parcelables:
     - name: AidlTest.TestParcelable
     - name: BatteryProperty
+      java_wire_format:
+        - name: ValueLong
+          write_method: int64
+        - name: ValueString
+          write_method: string8
     - name: BatterySaverPolicyConfig
+      java_wire_format:
+        - name: AdjustBrightnessFactor
+          write_method: float32
+        - name: AdvertiseIsEnabled
+          write_method: bool
+        - name: DeferFullBackup
+          write_method: bool
+        - name: DeferKeyValueBackup
+          write_method: bool
+        - name: Size
+          write_method: int32
+        - name: DisableAnimation
+          write_method: bool
+        - name: DisableAod
+          write_method: bool
+        - name: DisableLaunchBoost
+          write_method: bool
+        - name: DisableOptionalSensors
+          write_method: bool
+        - name: DisableVibration
+          write_method: bool
+        - name: EnableAdjustBrightness
+          write_method: bool
+        - name: EnableDataSaver
+          write_method: bool
+        - name: EnableFirewall
+          write_method: bool
+        - name: EnableNightMode
+          write_method: bool
+        - name: EnableQuickDoze
+          write_method: bool
+        - name: ForceAllAppsStandby
+          write_method: bool
+        - name: ForceBackgroundCheck
+          write_method: bool
+        - name: LocationMode
+          write_method: int32
+        - name: SoundTriggerMode
+          write_method: int32
     - name: BatteryUsageStats
+      java_wire_format:
+        - name: StatsStartTimestampMs
+          write_method: int64
+        - name: StatsEndTimestampMs
+          write_method: int64
+        - name: StatsDurationMs
+          write_method: int64
+        - name: BatteryCapacityMah
+          write_method: float64
+        - name: DischargePercentage
+          write_method: int32
+        - name: DischargedPowerLowerBound
+          write_method: float64
+        - name: DischargedPowerUpperBound
+          write_method: float64
+        - name: DischargeDurationMs
+          write_method: int64
+        - name: BatteryTimeRemainingMs
+          write_method: int64
+        - name: ChargeTimeRemainingMs
+          write_method: int64
+        - name: CustomPowerComponentNames
+          write_method: opaque
+        - name: IncludesPowerModels
+          write_method: bool
+        - name: IncludesProcessStateData
+          write_method: bool
+        - name: Dest
+          write_method: opaque
+        - name: "True"
+          write_method: bool
+          condition: mBatteryStatsHistory!=null
+        - name: Dest
+          write_method: opaque
+          condition: mBatteryStatsHistory!=null
     - name: BatteryUsageStatsQuery
+      java_wire_format:
+        - name: Flags
+          write_method: int32
+        - name: UserIds.length
+          write_method: int32
+        - name: UserIds
+          write_method: opaque
+        - name: MaxStatsAgeMs
+          write_method: int64
+        - name: MinConsumedPowerThreshold
+          write_method: float64
+        - name: FromTimestamp
+          write_method: int64
+        - name: ToTimestamp
+          write_method: int64
+        - name: PowerComponents
+          write_method: opaque
     - name: BluetoothBatteryStats
+      java_wire_format:
+        - name: Size
+          write_method: int32
     - name: Bundle
     - name: CarrierAssociatedAppEntry
+      java_wire_format:
+        - name: PackageName
+          write_method: string16
+        - name: AddedInSdk
+          write_method: int32
     - name: CombinedVibration
     - name: ConnectionInfo
       fields:
@@ -5777,7 +5870,19 @@ parcelables:
           type:
             name: int
     - name: CoolingDevice
+      java_wire_format:
+        - name: Value
+          write_method: int64
+        - name: Type
+          write_method: int32
+        - name: Name
+          write_method: string16
     - name: CpuUsageInfo
+      java_wire_format:
+        - name: Active
+          write_method: int64
+        - name: Total
+          write_method: int64
     - name: CreateAppDataArgs
       fields:
         - name: uuid
@@ -5830,6 +5935,15 @@ parcelables:
     - name: Debug.MemoryInfo
     - name: DropBoxManager.Entry
     - name: ExternalVibration
+      java_wire_format:
+        - name: Uid
+          write_method: int32
+        - name: Pkg
+          write_method: string16
+        - name: Controller.asBinder()
+          write_method: opaque
+        - name: Token
+          write_method: opaque
     - name: ExternalVibrationScale
       fields:
         - name: scaleLevel
@@ -5972,6 +6086,19 @@ parcelables:
             - nullable
     - name: IncidentManager.IncidentReport
     - name: IncidentReportArgs
+      java_wire_format:
+        - name: All?1:0
+          write_method: int32
+        - name: "N"
+          write_method: int32
+        - name: "N"
+          write_method: int32
+        - name: PrivacyPolicy
+          write_method: int32
+        - name: ReceiverPkg
+          write_method: string16
+        - name: ReceiverCls
+          write_method: string16
     - name: InputChannelCore
       fields:
         - name: name
@@ -5986,15 +6113,65 @@ parcelables:
           type:
             name: IBinder
     - name: LocaleList
+      java_wire_format:
+        - name: StringRepresentation
+          write_method: string8
     - name: Message
+      java_wire_format:
+        - name: What
+          write_method: int32
+        - name: Arg1
+          write_method: int32
+        - name: Arg2
+          write_method: int32
+        - name: When
+          write_method: int64
+        - name: Data
+          write_method: opaque
+        - name: ReplyTo
+          write_method: opaque
+        - name: SendingUid
+          write_method: int32
+        - name: WorkSourceUid
+          write_method: int32
     - name: Messenger
+      java_wire_format:
+        - name: Target.asBinder()
+          write_method: opaque
     - name: PackageTagsList
+      java_wire_format:
+        - name: Count
+          write_method: int32
     - name: ParcelDuration
+      java_wire_format:
+        - name: Seconds
+          write_method: int64
+        - name: Nanos
+          write_method: int32
     - name: ParcelUuid
+      java_wire_format:
+        - name: Uuid.getMostSignificantBits()
+          write_method: int64
+        - name: Uuid.getLeastSignificantBits()
+          write_method: int64
     - name: ParcelableException
-    - name: ParcelableHolder
+      java_wire_format:
+        - name: T.getClass().getName()
+          write_method: string16
+        - name: T.getMessage()
+          write_method: string16
     - name: ParcelableParcel
+      java_wire_format:
+        - name: Parcel.dataSize()
+          write_method: int32
     - name: PatternMatcher
+      java_wire_format:
+        - name: Pattern
+          write_method: string16
+        - name: Type
+          write_method: int32
+        - name: ParsedPattern
+          write_method: opaque
     - name: PersistableBundle
       annotations:
         - JavaOnlyStableParcelable
@@ -6002,7 +6179,25 @@ parcelables:
     - name: PowerMonitor
       annotations:
         - JavaOnlyStableParcelable
+      java_wire_format:
+        - name: Index
+          write_method: int32
+        - name: Type
+          write_method: int32
+        - name: Name
+          write_method: string8
     - name: PowerSaveState
+      java_wire_format:
+        - name: (byte)(batterySaverEnabled?1:0)
+          write_method: int32
+        - name: (byte)(globalBatterySaverEnabled?1:0)
+          write_method: int32
+        - name: LocationMode
+          write_method: int32
+        - name: SoundTriggerMode
+          write_method: int32
+        - name: BrightnessFactor
+          write_method: float32
     - name: ReconcileSdkDataArgs
       fields:
         - name: uuid
@@ -6041,6 +6236,9 @@ parcelables:
           type:
             name: int
     - name: RemoteCallback
+      java_wire_format:
+        - name: Callback.asBinder()
+          write_method: opaque
     - name: ResultReceiver
       annotations:
         - JavaOnlyStableParcelable
@@ -6055,6 +6253,9 @@ parcelables:
           type:
             name: int
     - name: SharedMemory
+      java_wire_format:
+        - name: FileDescriptor
+          write_method: opaque
     - name: StatsBootstrapAtom
       fields:
         - name: atomId
@@ -6065,16 +6266,86 @@ parcelables:
             name: StatsBootstrapAtomValue
             is_array: true
     - name: StrictMode.ViolationInfo
-    - name: SynchronousResultReceiver
     - name: Temperature
+      java_wire_format:
+        - name: Value
+          write_method: float32
+        - name: Type
+          write_method: int32
+        - name: Name
+          write_method: string16
+        - name: Status
+          write_method: int32
     - name: UserHandle
+      java_wire_format:
+        - name: Out
+          write_method: opaque
+          condition: h!=null
     - name: UserManager.EnforcingUser
     - name: VibrationAttributes
+      java_wire_format:
+        - name: Usage
+          write_method: int32
+        - name: OriginalAudioUsage
+          write_method: int32
+        - name: Flags
+          write_method: int32
+        - name: Category
+          write_method: int32
     - name: VibrationEffect
     - name: VibratorInfo
+      java_wire_format:
+        - name: Id
+          write_method: int32
+        - name: Capabilities
+          write_method: int64
+        - name: SupportedEffects
+          write_method: opaque
+        - name: SupportedBraking
+          write_method: opaque
+        - name: SupportedPrimitives
+          write_method: opaque
+        - name: PrimitiveDelayMax
+          write_method: int32
+        - name: CompositionSizeMax
+          write_method: int32
+        - name: PwlePrimitiveDurationMax
+          write_method: int32
+        - name: PwleSizeMax
+          write_method: int32
+        - name: QFactor
+          write_method: float32
+        - name: Dest
+          write_method: opaque
     - name: WakeLockStats
+      java_wire_format:
+        - name: WakelockSize
+          write_method: int32
+        - name: AggregatedWakelockSize
+          write_method: int32
     - name: WorkDuration
+      java_wire_format:
+        - name: WorkPeriodStartTimestampNanos
+          write_method: int64
+        - name: ActualTotalDurationNanos
+          write_method: int64
+        - name: ActualCpuDurationNanos
+          write_method: int64
+        - name: ActualGpuDurationNanos
+          write_method: int64
+        - name: TimestampNanos
+          write_method: int64
     - name: WorkSource
+      java_wire_format:
+        - name: Num
+          write_method: int32
+        - name: Uids
+          write_method: opaque
+        - name: Names
+          write_method: opaque
+        - name: "-1"
+          write_method: int32
+          condition: mChains==null
 enums:
     - name: ExternalVibrationScale.ScaleLevel
       backing_type: int

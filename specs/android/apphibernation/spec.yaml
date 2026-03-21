@@ -83,3 +83,6 @@ interfaces:
             - JavaPassthrough
 parcelables:
     - name: HibernationStats
+      java_wire_format:
+        - name: DiskBytesSaved
+          write_method: int64

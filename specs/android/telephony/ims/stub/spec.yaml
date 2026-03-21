@@ -2,3 +2,6 @@ package: android.telephony.ims.stub
 go_package: android/telephony/ims/stub
 parcelables:
     - name: ImsFeatureConfiguration
+      java_wire_format:
+        - name: FeatureSlotPairs.length
+          write_method: int32

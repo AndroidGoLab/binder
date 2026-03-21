@@ -32,6 +32,10 @@ interfaces:
         - name: MIN_RS2
           type: int
           value: "80"
+      nested_types:
+        - ISoundDose.IHalSoundDoseCallback
+      annotations:
+        - VintfStability
     - name: ISoundDose.IHalSoundDoseCallback
       descriptor: android.hardware.audio.core.sounddose.ISoundDose.IHalSoundDoseCallback
       oneway: true
@@ -61,6 +65,10 @@ interfaces:
               direction: in
           return_type:
             name: void
+      nested_types:
+        - ISoundDose.IHalSoundDoseCallback.MelRecord
+      annotations:
+        - VintfStability
 parcelables:
     - name: ISoundDose.IHalSoundDoseCallback.MelRecord
       fields:

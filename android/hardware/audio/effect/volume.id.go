@@ -15,7 +15,7 @@ const (
 type VolumeId struct {
 	Tag                int32
 	VendorExtensionTag VendorExtension
-	CommonTag          VolumeTag
+	CommonTag          any
 }
 
 var _ parcel.Parcelable = (*VolumeId)(nil)
@@ -34,16 +34,16 @@ func (u *VolumeId) SetVendorExtensionTag(
 	*u = VolumeId{Tag: VolumeIdTagVendorExtensionTag, VendorExtensionTag: v}
 }
 
-func (u *VolumeId) GetCommonTag() (VolumeTag, bool) {
+func (u *VolumeId) GetCommonTag() (any, bool) {
 	if u.Tag != VolumeIdTagCommonTag {
-		var _zero VolumeTag
+		var _zero any
 		return _zero, false
 	}
 	return u.CommonTag, true
 }
 
 func (u *VolumeId) SetCommonTag(
-	v VolumeTag,
+	v any,
 ) {
 	*u = VolumeId{Tag: VolumeIdTagCommonTag, CommonTag: v}
 }
@@ -61,7 +61,6 @@ func (u *VolumeId) MarshalParcel(
 			return _err
 		}
 	case VolumeIdTagCommonTag:
-		p.WriteInt32(int32(u.CommonTag))
 	default:
 		return fmt.Errorf("unknown union tag %d for VolumeId", u.Tag)
 	}
@@ -92,11 +91,6 @@ func (u *VolumeId) UnmarshalParcel(
 			return _err
 		}
 	case VolumeIdTagCommonTag:
-		_raw, _err := p.ReadInt32()
-		if _err != nil {
-			return _err
-		}
-		u.CommonTag = VolumeTag(_raw)
 	default:
 		return fmt.Errorf("unknown union tag %d for VolumeId", u.Tag)
 	}

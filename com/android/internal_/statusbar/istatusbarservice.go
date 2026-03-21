@@ -11,9 +11,9 @@ import (
 	media "github.com/xaionaro-go/binder/android/media"
 	net "github.com/xaionaro-go/binder/android/net"
 	os "github.com/xaionaro-go/binder/android/os"
-	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	logging "github.com/xaionaro-go/binder/com/android/internal_/logging"
+	inputflinger "github.com/xaionaro-go/binder/com/android/server/inputflinger"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -217,7 +217,7 @@ type IStatusBarService interface {
 	AddTile(ctx context.Context, tile content.ComponentName) error
 	RemTile(ctx context.Context, tile content.ComponentName) error
 	ClickTile(ctx context.Context, tile content.ComponentName) error
-	HandleSystemKey(ctx context.Context, key view.KeyEvent) error
+	HandleSystemKey(ctx context.Context, key inputflinger.KeyEvent) error
 	GetLastSystemKey(ctx context.Context) (int32, error)
 	ShowPinningEnterExitToast(ctx context.Context, entering bool) error
 	ShowPinningEscapeToast(ctx context.Context) error
@@ -1556,7 +1556,7 @@ func (p *StatusBarServiceProxy) ClickTile(
 
 func (p *StatusBarServiceProxy) HandleSystemKey(
 	ctx context.Context,
-	key view.KeyEvent,
+	key inputflinger.KeyEvent,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -3372,7 +3372,7 @@ func (s *StatusBarServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStatusBarServiceHandleSystemKey:
-		var _arg_key view.KeyEvent
+		var _arg_key inputflinger.KeyEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -4027,7 +4027,7 @@ type IStatusBarServiceServer interface {
 	AddTile(ctx context.Context, tile content.ComponentName) error
 	RemTile(ctx context.Context, tile content.ComponentName) error
 	ClickTile(ctx context.Context, tile content.ComponentName) error
-	HandleSystemKey(ctx context.Context, key view.KeyEvent) error
+	HandleSystemKey(ctx context.Context, key inputflinger.KeyEvent) error
 	GetLastSystemKey(ctx context.Context) (int32, error)
 	ShowPinningEnterExitToast(ctx context.Context, entering bool) error
 	ShowPinningEscapeToast(ctx context.Context) error
@@ -4406,7 +4406,7 @@ func (w *statusBarServiceStubWrapper) ClickTile(
 
 func (w *statusBarServiceStubWrapper) HandleSystemKey(
 	ctx context.Context,
-	key view.KeyEvent,
+	key inputflinger.KeyEvent,
 ) error {
 	return w.impl.HandleSystemKey(ctx, key)
 }

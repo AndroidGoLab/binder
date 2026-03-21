@@ -1116,22 +1116,315 @@ interfaces:
             - UnsupportedAppUsage
 parcelables:
     - name: Address
+      java_wire_format:
+        - name: Locale.getLanguage()
+          write_method: string16
+        - name: Locale.getCountry()
+          write_method: string16
+        - name: "0"
+          write_method: int32
+          condition: mAddressLines==null
+        - name: FeatureName
+          write_method: string16
+        - name: AdminArea
+          write_method: string16
+        - name: SubAdminArea
+          write_method: string16
+        - name: Locality
+          write_method: string16
+        - name: SubLocality
+          write_method: string16
+        - name: Thoroughfare
+          write_method: string16
+        - name: SubThoroughfare
+          write_method: string16
+        - name: Premises
+          write_method: string16
+        - name: PostalCode
+          write_method: string16
+        - name: CountryCode
+          write_method: string16
+        - name: CountryName
+          write_method: string16
+        - name: HasLatitude?1:0
+          write_method: int32
+        - name: Latitude
+          write_method: float64
+          condition: mHasLatitude
+        - name: HasLongitude?1:0
+          write_method: int32
+        - name: Longitude
+          write_method: float64
+          condition: mHasLongitude
+        - name: Phone
+          write_method: string16
+        - name: Url
+          write_method: string16
+        - name: Extras
+          write_method: opaque
     - name: Country
+      java_wire_format:
+        - name: CountryIso
+          write_method: string16
+        - name: Source
+          write_method: int32
+        - name: Timestamp
+          write_method: int64
     - name: Criteria
+      java_wire_format:
+        - name: HorizontalAccuracy
+          write_method: int32
+        - name: VerticalAccuracy
+          write_method: int32
+        - name: SpeedAccuracy
+          write_method: int32
+        - name: BearingAccuracy
+          write_method: int32
+        - name: PowerRequirement
+          write_method: int32
+        - name: AltitudeRequired?1:0
+          write_method: int32
+        - name: BearingRequired?1:0
+          write_method: int32
+        - name: SpeedRequired?1:0
+          write_method: int32
+        - name: CostAllowed?1:0
+          write_method: int32
     - name: FusedBatchOptions
+      java_wire_format:
+        - name: MaxPowerAllocationInMW
+          write_method: float64
+        - name: PeriodInNS
+          write_method: int64
+        - name: SourcesToUse
+          write_method: int32
+        - name: Flags
+          write_method: int32
+        - name: SmallestDisplacementMeters
+          write_method: float32
     - name: Geofence
+      java_wire_format:
+        - name: Latitude
+          write_method: float64
+        - name: Longitude
+          write_method: float64
+        - name: Radius
+          write_method: float32
+        - name: ExpirationRealtimeMs
+          write_method: int64
     - name: GnssAntennaInfo
+      java_wire_format:
+        - name: CarrierFrequencyMHz
+          write_method: float64
+        - name: PhaseCenterOffset
+          write_method: opaque
+        - name: PhaseCenterVariationCorrections
+          write_method: opaque
+        - name: SignalGainCorrections
+          write_method: opaque
     - name: GnssAutomaticGainControl
+      java_wire_format:
+        - name: LevelDb
+          write_method: float64
+        - name: ConstellationType
+          write_method: int32
+        - name: CarrierFrequencyHz
+          write_method: int64
     - name: GnssCapabilities
+      java_wire_format:
+        - name: TopFlags
+          write_method: int32
+        - name: IsAdrCapabilityKnown
+          write_method: bool
+        - name: MeasurementCorrectionsFlags
+          write_method: int32
+        - name: PowerFlags
+          write_method: int32
+        - name: GnssSignalTypes
+          write_method: opaque
     - name: GnssMeasurementCorrections
+      java_wire_format:
+        - name: LatitudeDegrees
+          write_method: float64
+        - name: LongitudeDegrees
+          write_method: float64
+        - name: AltitudeMeters
+          write_method: float64
+        - name: HorizontalPositionUncertaintyMeters
+          write_method: float64
+        - name: VerticalPositionUncertaintyMeters
+          write_method: float64
+        - name: ToaGpsNanosecondsOfWeek
+          write_method: int64
+        - name: SingleSatCorrectionList
+          write_method: opaque
+        - name: HasEnvironmentBearing
+          write_method: bool
+        - name: EnvironmentBearingDegrees
+          write_method: float32
+          condition: mHasEnvironmentBearing
+        - name: EnvironmentBearingUncertaintyDegrees
+          write_method: float32
+          condition: mHasEnvironmentBearing
     - name: GnssMeasurementRequest
+      java_wire_format:
+        - name: FullTracking
+          write_method: bool
+        - name: CorrelationVectorOutputsEnabled
+          write_method: bool
+        - name: IntervalMillis
+          write_method: int32
+        - name: WorkSource
+          write_method: opaque
     - name: GnssMeasurementsEvent
+      java_wire_format:
+        - name: Flag
+          write_method: int32
+        - name: Clock
+          write_method: opaque
+        - name: Measurements
+          write_method: opaque
+        - name: GnssAgcs
+          write_method: opaque
+        - name: IsFullTracking
+          write_method: bool
     - name: GnssNavigationMessage
+      java_wire_format:
+        - name: Type
+          write_method: int32
+        - name: Svid
+          write_method: int32
+        - name: MessageId
+          write_method: int32
+        - name: SubmessageId
+          write_method: int32
+        - name: Data.length
+          write_method: int32
+        - name: Data
+          write_method: opaque
+        - name: Status
+          write_method: int32
     - name: GnssRequest
+      java_wire_format:
+        - name: FullTracking
+          write_method: bool
     - name: GnssSignalType
+      java_wire_format:
+        - name: ConstellationType
+          write_method: int32
+        - name: CarrierFrequencyHz
+          write_method: float64
+        - name: CodeType
+          write_method: string16
     - name: GnssStatus
+      java_wire_format:
+        - name: SvCount
+          write_method: int32
     - name: LastLocationRequest
+      java_wire_format:
+        - name: HiddenFromAppOps
+          write_method: bool
+        - name: AdasGnssBypass
+          write_method: bool
+        - name: LocationSettingsIgnored
+          write_method: bool
     - name: Location
+      java_wire_format:
+        - name: Provider
+          write_method: string8
+        - name: FieldsMask
+          write_method: int32
+        - name: TimeMs
+          write_method: int64
+        - name: ElapsedRealtimeNs
+          write_method: int64
+        - name: ElapsedRealtimeUncertaintyNs
+          write_method: float64
+          condition: FieldsMask & 256
+        - name: LatitudeDegrees
+          write_method: float64
+        - name: LongitudeDegrees
+          write_method: float64
+        - name: AltitudeMeters
+          write_method: float64
+          condition: FieldsMask & 1
+        - name: SpeedMetersPerSecond
+          write_method: float32
+          condition: FieldsMask & 2
+        - name: BearingDegrees
+          write_method: float32
+          condition: FieldsMask & 4
+        - name: HorizontalAccuracyMeters
+          write_method: float32
+          condition: FieldsMask & 8
+        - name: AltitudeAccuracyMeters
+          write_method: float32
+          condition: FieldsMask & 32
+        - name: SpeedAccuracyMetersPerSecond
+          write_method: float32
+          condition: FieldsMask & 64
+        - name: BearingAccuracyDegrees
+          write_method: float32
+          condition: FieldsMask & 128
+        - name: MslAltitudeMeters
+          write_method: float64
+          condition: FieldsMask & 512
+        - name: MslAltitudeAccuracyMeters
+          write_method: float32
+          condition: FieldsMask & 1024
+        - name: Extras
+          write_method: opaque
     - name: LocationRequest
+      java_wire_format:
+        - name: Provider
+          write_method: string16
+        - name: IntervalMillis
+          write_method: int64
+        - name: Quality
+          write_method: int32
+        - name: ExpireAtRealtimeMillis
+          write_method: int64
+        - name: DurationMillis
+          write_method: int64
+        - name: MaxUpdates
+          write_method: int32
+        - name: MinUpdateIntervalMillis
+          write_method: int64
+        - name: MinUpdateDistanceMeters
+          write_method: float32
+        - name: MaxUpdateDelayMillis
+          write_method: int64
+        - name: HideFromAppOps
+          write_method: bool
+        - name: AdasGnssBypass
+          write_method: bool
+        - name: Bypass
+          write_method: bool
+        - name: LowPower
+          write_method: bool
+        - name: WorkSource
+          write_method: opaque
     - name: LocationResult
+      java_wire_format:
+        - name: Locations
+          write_method: opaque
     - name: LocationTime
+      java_wire_format:
+        - name: UnixEpochTimeMillis
+          write_method: int64
+        - name: ElapsedRealtimeNanos
+          write_method: int64
+java_constants:
+    - name: LocationProvider
+      go_type: LocationProvider
+      values:
+        - name: FusedProvider
+          value: fused
+        - name: GpsHardwareProvider
+          value: gps_hardware
+        - name: GpsProvider
+          value: gps
+        - name: NetworkProvider
+          value: network
+        - name: PassiveProvider
+          value: passive

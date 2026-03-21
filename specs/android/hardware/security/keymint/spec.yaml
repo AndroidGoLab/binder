@@ -230,6 +230,9 @@ interfaces:
         - name: AUTH_TOKEN_MAC_LENGTH
           type: int
           value: "32"
+      annotations:
+        - VintfStability
+        - SensitiveData
     - name: IKeyMintOperation
       descriptor: android.hardware.security.keymint.IKeyMintOperation
       methods:
@@ -312,6 +315,9 @@ interfaces:
           transaction_code_offset: 3
           return_type:
             name: void
+      annotations:
+        - VintfStability
+        - SensitiveData
     - name: IRemotelyProvisionedComponent
       descriptor: android.hardware.security.keymint.IRemotelyProvisionedComponent
       methods:
@@ -401,6 +407,8 @@ interfaces:
         - name: STATUS_REMOVED
           type: int
           value: "6"
+      annotations:
+        - VintfStability
 parcelables:
     - name: AttestationKey
       fields:

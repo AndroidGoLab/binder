@@ -8592,7 +8592,16 @@ interfaces:
             name: void
 parcelables:
     - name: CallInfo
+      java_wire_format:
+        - name: Handle
+          write_method: string16
     - name: CellNetworkScanResult
+      java_wire_format:
+        - name: Status
+          write_method: int32
+        - name: Operators.size()
+          write_method: int32
+          condition: mOperators!=null&&mOperators.size()>0
     - name: IccLogicalChannelRequest
       fields:
         - name: subId
@@ -8633,4 +8642,20 @@ parcelables:
       annotations:
         - JavaDerive
     - name: OperatorInfo
+      java_wire_format:
+        - name: OperatorAlphaLong
+          write_method: string16
+        - name: OperatorAlphaShort
+          write_method: string16
+        - name: OperatorNumeric
+          write_method: string16
+        - name: State
+          write_method: opaque
+        - name: Ran
+          write_method: int32
     - name: SmsRawData
+      java_wire_format:
+        - name: Data.length
+          write_method: int32
+        - name: Data
+          write_method: opaque

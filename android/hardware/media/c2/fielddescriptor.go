@@ -1,7 +1,6 @@
 package c2
 
 import (
-	hardware "github.com/xaionaro-go/binder/android/hardware"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -9,7 +8,7 @@ import (
 
 type FieldDescriptor struct {
 	FieldId     FieldId
-	Type        hardware.CameraExtensionSessionStatsType
+	Type        FieldDescriptorType
 	StructIndex int32
 	Extent      int32
 	Name        string
@@ -71,7 +70,7 @@ func (s *FieldDescriptor) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	s.Type = hardware.CameraExtensionSessionStatsType(_typeRaw)
+	s.Type = FieldDescriptorType(_typeRaw)
 
 	if p.Position() >= _endPos {
 		parcel.SkipToParcelableEnd(p, _endPos)

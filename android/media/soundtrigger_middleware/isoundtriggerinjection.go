@@ -3,7 +3,6 @@ package soundtrigger_middleware
 import (
 	"context"
 	"fmt"
-	hardwareSoundtrigger "github.com/xaionaro-go/binder/android/hardware/soundtrigger"
 	soundtrigger "github.com/xaionaro-go/binder/android/media/soundtrigger"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -50,7 +49,7 @@ type ISoundTriggerInjection interface {
 	OnClientDetached(ctx context.Context, token binder.IBinder) error
 	OnSoundModelLoaded(ctx context.Context, model soundtrigger.SoundModel, phrases []soundtrigger.Phrase, modelInjection IInjectModelEvent, globalSession IInjectGlobalEvent) error
 	OnParamSet(ctx context.Context, modelParam int32, value int32, modelSession IInjectModelEvent) error
-	OnRecognitionStarted(ctx context.Context, audioSessionToken int32, config hardwareSoundtrigger.SoundTriggerRecognitionConfig, recognitionInjection IInjectRecognitionEvent, modelSession IInjectModelEvent) error
+	OnRecognitionStarted(ctx context.Context, audioSessionToken int32, config soundtrigger.RecognitionConfig, recognitionInjection IInjectRecognitionEvent, modelSession IInjectModelEvent) error
 	OnRecognitionStopped(ctx context.Context, recognitionSession IInjectRecognitionEvent) error
 	OnSoundModelUnloaded(ctx context.Context, modelSession IInjectModelEvent) error
 	OnPreempted(ctx context.Context) error
@@ -230,7 +229,7 @@ func (p *SoundTriggerInjectionProxy) OnParamSet(
 func (p *SoundTriggerInjectionProxy) OnRecognitionStarted(
 	ctx context.Context,
 	audioSessionToken int32,
-	config hardwareSoundtrigger.SoundTriggerRecognitionConfig,
+	config soundtrigger.RecognitionConfig,
 	recognitionInjection IInjectRecognitionEvent,
 	modelSession IInjectModelEvent,
 ) error {
@@ -468,7 +467,7 @@ func (s *SoundTriggerInjectionStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_config hardwareSoundtrigger.SoundTriggerRecognitionConfig
+		var _arg_config soundtrigger.RecognitionConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -539,7 +538,7 @@ type ISoundTriggerInjectionServer interface {
 	OnClientDetached(ctx context.Context, token binder.IBinder) error
 	OnSoundModelLoaded(ctx context.Context, model soundtrigger.SoundModel, phrases []soundtrigger.Phrase, modelInjection IInjectModelEvent, globalSession IInjectGlobalEvent) error
 	OnParamSet(ctx context.Context, modelParam int32, value int32, modelSession IInjectModelEvent) error
-	OnRecognitionStarted(ctx context.Context, audioSessionToken int32, config hardwareSoundtrigger.SoundTriggerRecognitionConfig, recognitionInjection IInjectRecognitionEvent, modelSession IInjectModelEvent) error
+	OnRecognitionStarted(ctx context.Context, audioSessionToken int32, config soundtrigger.RecognitionConfig, recognitionInjection IInjectRecognitionEvent, modelSession IInjectModelEvent) error
 	OnRecognitionStopped(ctx context.Context, recognitionSession IInjectRecognitionEvent) error
 	OnSoundModelUnloaded(ctx context.Context, modelSession IInjectModelEvent) error
 	OnPreempted(ctx context.Context) error
@@ -612,7 +611,7 @@ func (w *soundTriggerInjectionStubWrapper) OnParamSet(
 func (w *soundTriggerInjectionStubWrapper) OnRecognitionStarted(
 	ctx context.Context,
 	audioSessionToken int32,
-	config hardwareSoundtrigger.SoundTriggerRecognitionConfig,
+	config soundtrigger.RecognitionConfig,
 	recognitionInjection IInjectRecognitionEvent,
 	modelSession IInjectModelEvent,
 ) error {

@@ -1,7 +1,6 @@
 package sensors
 
 import (
-	drm "github.com/xaionaro-go/binder/android/hardware/drm"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -10,7 +9,7 @@ import (
 type DynamicSensorInfo struct {
 	Connected    bool
 	SensorHandle int32
-	Uuid         drm.Uuid
+	Uuid         DynamicSensorInfoUuid
 }
 
 var _ parcel.Parcelable = (*DynamicSensorInfo)(nil)

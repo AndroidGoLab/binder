@@ -85,6 +85,8 @@ interfaces:
         - name: COMMAND_FAILED
           type: int
           value: "-2"
+      annotations:
+        - VintfStability
 enums:
     - name: MergeStatus
       backing_type: int

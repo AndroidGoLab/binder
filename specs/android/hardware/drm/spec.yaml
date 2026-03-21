@@ -60,6 +60,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IDrmFactory
       descriptor: android.hardware.drm.IDrmFactory
       methods:
@@ -98,6 +100,8 @@ interfaces:
           transaction_code_offset: 2
           return_type:
             name: CryptoSchemes
+      annotations:
+        - VintfStability
     - name: IDrmPlugin
       descriptor: android.hardware.drm.IDrmPlugin
       methods:
@@ -566,6 +570,8 @@ interfaces:
               direction: in
           return_type:
             name: boolean
+      annotations:
+        - VintfStability
     - name: IDrmPluginListener
       descriptor: android.hardware.drm.IDrmPluginListener
       methods:
@@ -635,6 +641,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: CryptoSchemes
       fields:

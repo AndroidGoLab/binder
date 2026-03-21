@@ -39,3 +39,12 @@ interfaces:
             name: void
 parcelables:
     - name: RecommendationInfo
+      java_wire_format:
+        - name: PackageName
+          write_method: opaque
+        - name: Name
+          write_method: opaque
+        - name: NumDiscoveredPrinters
+          write_method: int32
+        - name: (byte)(mRecommendsMultiVendorService?1:0)
+          write_method: int32

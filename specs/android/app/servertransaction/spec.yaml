@@ -2,3 +2,9 @@ package: android.app.servertransaction
 go_package: android/app/servertransaction
 parcelables:
     - name: ClientTransaction
+      java_wire_format:
+        - name: WriteTransactionItems
+          write_method: bool
+        - name: TransactionItems
+          write_method: opaque
+          condition: writeTransactionItems

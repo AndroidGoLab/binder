@@ -395,5 +395,30 @@ interfaces:
             name: void
 parcelables:
     - name: Content
+      java_wire_format:
+        - name: Data
+          write_method: opaque
     - name: Feature
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: Id
+          write_method: int32
+        - name: Name
+          write_method: string8
+          condition: mName!=null
+        - name: ModelName
+          write_method: string8
+          condition: mModelName!=null
+        - name: Type
+          write_method: int32
+        - name: Variant
+          write_method: int32
+        - name: FeatureParams
+          write_method: opaque
     - name: FeatureDetails
+      java_wire_format:
+        - name: Status
+          write_method: int32
+        - name: FeatureDetailParams
+          write_method: opaque

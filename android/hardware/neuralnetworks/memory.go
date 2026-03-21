@@ -2,8 +2,8 @@ package neuralnetworks
 
 import (
 	"fmt"
-	hardware "github.com/xaionaro-go/binder/android/hardware"
 	common "github.com/xaionaro-go/binder/android/hardware/common"
+	graphicsCommon "github.com/xaionaro-go/binder/android/hardware/graphics/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -19,7 +19,7 @@ type Memory struct {
 	Tag            int32
 	Ashmem         common.Ashmem
 	MappableFile   common.MappableFile
-	HardwareBuffer hardware.HardwareBuffer
+	HardwareBuffer graphicsCommon.HardwareBuffer
 }
 
 var _ parcel.Parcelable = (*Memory)(nil)
@@ -52,16 +52,16 @@ func (u *Memory) SetMappableFile(
 	*u = Memory{Tag: MemoryTagMappableFile, MappableFile: v}
 }
 
-func (u *Memory) GetHardwareBuffer() (hardware.HardwareBuffer, bool) {
+func (u *Memory) GetHardwareBuffer() (graphicsCommon.HardwareBuffer, bool) {
 	if u.Tag != MemoryTagHardwareBuffer {
-		var _zero hardware.HardwareBuffer
+		var _zero graphicsCommon.HardwareBuffer
 		return _zero, false
 	}
 	return u.HardwareBuffer, true
 }
 
 func (u *Memory) SetHardwareBuffer(
-	v hardware.HardwareBuffer,
+	v graphicsCommon.HardwareBuffer,
 ) {
 	*u = Memory{Tag: MemoryTagHardwareBuffer, HardwareBuffer: v}
 }

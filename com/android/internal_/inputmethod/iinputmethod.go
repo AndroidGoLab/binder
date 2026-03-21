@@ -3,7 +3,6 @@ package inputmethod
 import (
 	"context"
 	"fmt"
-	common "github.com/xaionaro-go/binder/android/hardware/input/common"
 	os "github.com/xaionaro-go/binder/android/os"
 	view "github.com/xaionaro-go/binder/android/view"
 	viewInputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
@@ -76,7 +75,7 @@ type IInputMethod interface {
 	UpdateEditorToolType(ctx context.Context, toolType int32) error
 	ChangeInputMethodSubtype(ctx context.Context, subtype viewInputmethod.InputMethodSubtype) error
 	CanStartStylusHandwriting(ctx context.Context, requestId int32, connectionlessCallback IConnectionlessHandwritingCallback, cursorAnchorInfo viewInputmethod.CursorAnchorInfo, isConnectionlessForDelegation bool) error
-	StartStylusHandwriting(ctx context.Context, requestId int32, channel view.InputChannel, events []common.MotionEvent) error
+	StartStylusHandwriting(ctx context.Context, requestId int32, channel view.InputChannel, events []view.MotionEvent) error
 	CommitHandwritingDelegationTextIfAvailable(ctx context.Context) error
 	DiscardHandwritingDelegationText(ctx context.Context) error
 	InitInkWindow(ctx context.Context) error
@@ -394,7 +393,7 @@ func (p *InputMethodProxy) StartStylusHandwriting(
 	ctx context.Context,
 	requestId int32,
 	channel view.InputChannel,
-	events []common.MotionEvent,
+	events []view.MotionEvent,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -810,7 +809,7 @@ func (s *InputMethodStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_events []common.MotionEvent
+		var _arg_events []view.MotionEvent
 		{
 			_count, _err := _data.ReadInt32()
 			if _err != nil {
@@ -820,7 +819,7 @@ func (s *InputMethodStub) OnTransaction(
 				return nil, fmt.Errorf("array count too large: %d", _count)
 			}
 			if _count >= 0 {
-				_arg_events = make([]common.MotionEvent, _count)
+				_arg_events = make([]view.MotionEvent, _count)
 				for _i := int32(0); _i < _count; _i++ {
 					if _, _err = _data.ReadInt32(); _err != nil {
 						return nil, _err
@@ -877,7 +876,7 @@ type IInputMethodServer interface {
 	UpdateEditorToolType(ctx context.Context, toolType int32) error
 	ChangeInputMethodSubtype(ctx context.Context, subtype viewInputmethod.InputMethodSubtype) error
 	CanStartStylusHandwriting(ctx context.Context, requestId int32, connectionlessCallback IConnectionlessHandwritingCallback, cursorAnchorInfo viewInputmethod.CursorAnchorInfo, isConnectionlessForDelegation bool) error
-	StartStylusHandwriting(ctx context.Context, requestId int32, channel view.InputChannel, events []common.MotionEvent) error
+	StartStylusHandwriting(ctx context.Context, requestId int32, channel view.InputChannel, events []view.MotionEvent) error
 	CommitHandwritingDelegationTextIfAvailable(ctx context.Context) error
 	DiscardHandwritingDelegationText(ctx context.Context) error
 	InitInkWindow(ctx context.Context) error
@@ -1001,7 +1000,7 @@ func (w *inputMethodStubWrapper) StartStylusHandwriting(
 	ctx context.Context,
 	requestId int32,
 	channel view.InputChannel,
-	events []common.MotionEvent,
+	events []view.MotionEvent,
 ) error {
 	return w.impl.StartStylusHandwriting(ctx, requestId, channel, events)
 }

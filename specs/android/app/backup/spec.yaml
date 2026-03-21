@@ -969,6 +969,25 @@ interfaces:
             name: void
 parcelables:
     - name: BackupProgress
+      java_wire_format:
+        - name: BytesExpected
+          write_method: int64
+        - name: BytesTransferred
+          write_method: int64
     - name: BackupRestoreEventLogger.DataTypeResult
     - name: RestoreDescription
+      java_wire_format:
+        - name: PackageName
+          write_method: string16
+        - name: DataType
+          write_method: int32
     - name: RestoreSet
+      java_wire_format:
+        - name: Name
+          write_method: string16
+        - name: Device
+          write_method: string16
+        - name: Token
+          write_method: int64
+        - name: BackupTransportFlags
+          write_method: int32

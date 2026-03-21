@@ -68,5 +68,11 @@ interfaces:
             name: void
 parcelables:
     - name: FieldClassification
+      java_wire_format:
+        - name: AutofillId
+          write_method: opaque
     - name: FieldClassificationRequest
+      java_wire_format:
+        - name: AssistStructure
+          write_method: opaque
     - name: FieldClassificationResponse

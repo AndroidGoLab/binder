@@ -211,6 +211,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IRadioModemIndication
       descriptor: android.hardware.radio.modem.IRadioModemIndication
       oneway: true
@@ -290,6 +292,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IRadioModemResponse
       descriptor: android.hardware.radio.modem.IRadioModemResponse
       oneway: true
@@ -497,6 +501,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: ActivityStatsInfo
       fields:

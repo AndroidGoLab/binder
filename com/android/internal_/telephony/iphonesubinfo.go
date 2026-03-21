@@ -3,8 +3,8 @@ package telephony
 import (
 	"context"
 	"fmt"
-	sim "github.com/xaionaro-go/binder/android/hardware/radio/sim"
 	net "github.com/xaionaro-go/binder/android/net"
+	androidTelephony "github.com/xaionaro-go/binder/android/telephony"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -117,8 +117,8 @@ type IPhoneSubInfo interface {
 	GetMsisdnForSubscriber(ctx context.Context, subId int32) (string, error)
 	GetVoiceMailNumber(ctx context.Context) (string, error)
 	GetVoiceMailNumberForSubscriber(ctx context.Context, subId int32) (string, error)
-	GetCarrierInfoForImsiEncryption(ctx context.Context, subId int32, keyType int32) (sim.ImsiEncryptionInfo, error)
-	SetCarrierInfoForImsiEncryption(ctx context.Context, subId int32, imsiEncryptionInfo sim.ImsiEncryptionInfo) error
+	GetCarrierInfoForImsiEncryption(ctx context.Context, subId int32, keyType int32) (androidTelephony.ImsiEncryptionInfo, error)
+	SetCarrierInfoForImsiEncryption(ctx context.Context, subId int32, imsiEncryptionInfo androidTelephony.ImsiEncryptionInfo) error
 	ResetCarrierKeysForImsiEncryption(ctx context.Context, subId int32) error
 	GetVoiceMailAlphaTag(ctx context.Context) (string, error)
 	GetVoiceMailAlphaTagForSubscriber(ctx context.Context, subId int32) (string, error)
@@ -900,8 +900,8 @@ func (p *PhoneSubInfoProxy) GetCarrierInfoForImsiEncryption(
 	ctx context.Context,
 	subId int32,
 	keyType int32,
-) (sim.ImsiEncryptionInfo, error) {
-	var _result sim.ImsiEncryptionInfo
+) (androidTelephony.ImsiEncryptionInfo, error) {
+	var _result androidTelephony.ImsiEncryptionInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -940,7 +940,7 @@ func (p *PhoneSubInfoProxy) GetCarrierInfoForImsiEncryption(
 func (p *PhoneSubInfoProxy) SetCarrierInfoForImsiEncryption(
 	ctx context.Context,
 	subId int32,
-	imsiEncryptionInfo sim.ImsiEncryptionInfo,
+	imsiEncryptionInfo androidTelephony.ImsiEncryptionInfo,
 ) error {
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
@@ -1896,7 +1896,7 @@ func (s *PhoneSubInfoStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_imsiEncryptionInfo sim.ImsiEncryptionInfo
+		var _arg_imsiEncryptionInfo androidTelephony.ImsiEncryptionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -2204,8 +2204,8 @@ type IPhoneSubInfoServer interface {
 	GetMsisdnForSubscriber(ctx context.Context, subId int32) (string, error)
 	GetVoiceMailNumber(ctx context.Context) (string, error)
 	GetVoiceMailNumberForSubscriber(ctx context.Context, subId int32) (string, error)
-	GetCarrierInfoForImsiEncryption(ctx context.Context, subId int32, keyType int32) (sim.ImsiEncryptionInfo, error)
-	SetCarrierInfoForImsiEncryption(ctx context.Context, subId int32, imsiEncryptionInfo sim.ImsiEncryptionInfo) error
+	GetCarrierInfoForImsiEncryption(ctx context.Context, subId int32, keyType int32) (androidTelephony.ImsiEncryptionInfo, error)
+	SetCarrierInfoForImsiEncryption(ctx context.Context, subId int32, imsiEncryptionInfo androidTelephony.ImsiEncryptionInfo) error
 	ResetCarrierKeysForImsiEncryption(ctx context.Context, subId int32) error
 	GetVoiceMailAlphaTag(ctx context.Context) (string, error)
 	GetVoiceMailAlphaTagForSubscriber(ctx context.Context, subId int32) (string, error)
@@ -2378,14 +2378,14 @@ func (w *phoneSubInfoStubWrapper) GetCarrierInfoForImsiEncryption(
 	ctx context.Context,
 	subId int32,
 	keyType int32,
-) (sim.ImsiEncryptionInfo, error) {
+) (androidTelephony.ImsiEncryptionInfo, error) {
 	return w.impl.GetCarrierInfoForImsiEncryption(ctx, subId, keyType)
 }
 
 func (w *phoneSubInfoStubWrapper) SetCarrierInfoForImsiEncryption(
 	ctx context.Context,
 	subId int32,
-	imsiEncryptionInfo sim.ImsiEncryptionInfo,
+	imsiEncryptionInfo androidTelephony.ImsiEncryptionInfo,
 ) error {
 	return w.impl.SetCarrierInfoForImsiEncryption(ctx, subId, imsiEncryptionInfo)
 }

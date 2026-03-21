@@ -23,7 +23,7 @@ const (
 
 type IPooledGraphicBufferAllocator interface {
 	AsBinder() binder.IBinder
-	Allocate(ctx context.Context, desc IGraphicBufferAllocatorDescription) (IGraphicBufferAllocatorAllocation, error)
+	Allocate(ctx context.Context, desc IPooledGraphicBufferAllocatorDescription) (IPooledGraphicBufferAllocatorAllocation, error)
 	Deallocate(ctx context.Context, id int32) (bool, error)
 }
 
@@ -45,9 +45,9 @@ var _ IPooledGraphicBufferAllocator = (*PooledGraphicBufferAllocatorProxy)(nil)
 
 func (p *PooledGraphicBufferAllocatorProxy) Allocate(
 	ctx context.Context,
-	desc IGraphicBufferAllocatorDescription,
-) (IGraphicBufferAllocatorAllocation, error) {
-	var _result IGraphicBufferAllocatorAllocation
+	desc IPooledGraphicBufferAllocatorDescription,
+) (IPooledGraphicBufferAllocatorAllocation, error) {
+	var _result IPooledGraphicBufferAllocatorAllocation
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPooledGraphicBufferAllocator)
@@ -139,7 +139,7 @@ func (s *PooledGraphicBufferAllocatorStub) OnTransaction(
 
 	switch code {
 	case TransactionIPooledGraphicBufferAllocatorAllocate:
-		var _arg_desc IGraphicBufferAllocatorDescription
+		var _arg_desc IPooledGraphicBufferAllocatorDescription
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -186,7 +186,7 @@ func (s *PooledGraphicBufferAllocatorStub) OnTransaction(
 // provide to NewPooledGraphicBufferAllocatorStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IPooledGraphicBufferAllocatorServer interface {
-	Allocate(ctx context.Context, desc IGraphicBufferAllocatorDescription) (IGraphicBufferAllocatorAllocation, error)
+	Allocate(ctx context.Context, desc IPooledGraphicBufferAllocatorDescription) (IPooledGraphicBufferAllocatorAllocation, error)
 	Deallocate(ctx context.Context, id int32) (bool, error)
 }
 
@@ -201,8 +201,8 @@ func (w *pooledGraphicBufferAllocatorStubWrapper) AsBinder() binder.IBinder {
 
 func (w *pooledGraphicBufferAllocatorStubWrapper) Allocate(
 	ctx context.Context,
-	desc IGraphicBufferAllocatorDescription,
-) (IGraphicBufferAllocatorAllocation, error) {
+	desc IPooledGraphicBufferAllocatorDescription,
+) (IPooledGraphicBufferAllocatorAllocation, error) {
 	return w.impl.Allocate(ctx, desc)
 }
 

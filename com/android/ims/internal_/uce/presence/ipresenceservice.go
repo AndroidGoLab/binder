@@ -3,7 +3,6 @@ package presence
 import (
 	"context"
 	"fmt"
-	vehicle "github.com/xaionaro-go/binder/android/hardware/automotive/vehicle"
 	"github.com/xaionaro-go/binder/binder"
 	common "github.com/xaionaro-go/binder/com/android/ims/internal_/uce/common"
 	"github.com/xaionaro-go/binder/parcel"
@@ -37,14 +36,14 @@ const (
 
 type IPresenceService interface {
 	AsBinder() binder.IBinder
-	GetVersion(ctx context.Context, presenceServiceHdl int32) (vehicle.StatusCode, error)
-	AddListener(ctx context.Context, presenceServiceHdl int32, presenceServiceListener IPresenceListener, presenceServiceListenerHdl common.UceLong) (vehicle.StatusCode, error)
-	RemoveListener(ctx context.Context, presenceServiceHdl int32, presenceServiceListenerHdl common.UceLong) (vehicle.StatusCode, error)
-	ReenableService(ctx context.Context, presenceServiceHdl int32, userData int32) (vehicle.StatusCode, error)
-	PublishMyCap(ctx context.Context, presenceServiceHdl int32, myCapInfo PresCapInfo, userData int32) (vehicle.StatusCode, error)
-	GetContactCap(ctx context.Context, presenceServiceHdl int32, remoteUri string, userData int32) (vehicle.StatusCode, error)
-	GetContactListCap(ctx context.Context, presenceServiceHdl int32, remoteUriList []string, userData int32) (vehicle.StatusCode, error)
-	SetNewFeatureTag(ctx context.Context, presenceServiceHdl int32, featureTag string, serviceInfo PresServiceInfo, userData int32) (vehicle.StatusCode, error)
+	GetVersion(ctx context.Context, presenceServiceHdl int32) (common.StatusCode, error)
+	AddListener(ctx context.Context, presenceServiceHdl int32, presenceServiceListener IPresenceListener, presenceServiceListenerHdl common.UceLong) (common.StatusCode, error)
+	RemoveListener(ctx context.Context, presenceServiceHdl int32, presenceServiceListenerHdl common.UceLong) (common.StatusCode, error)
+	ReenableService(ctx context.Context, presenceServiceHdl int32, userData int32) (common.StatusCode, error)
+	PublishMyCap(ctx context.Context, presenceServiceHdl int32, myCapInfo PresCapInfo, userData int32) (common.StatusCode, error)
+	GetContactCap(ctx context.Context, presenceServiceHdl int32, remoteUri string, userData int32) (common.StatusCode, error)
+	GetContactListCap(ctx context.Context, presenceServiceHdl int32, remoteUriList []string, userData int32) (common.StatusCode, error)
+	SetNewFeatureTag(ctx context.Context, presenceServiceHdl int32, featureTag string, serviceInfo PresServiceInfo, userData int32) (common.StatusCode, error)
 }
 
 type PresenceServiceProxy struct {
@@ -66,8 +65,8 @@ var _ IPresenceService = (*PresenceServiceProxy)(nil)
 func (p *PresenceServiceProxy) GetVersion(
 	ctx context.Context,
 	presenceServiceHdl int32,
-) (vehicle.StatusCode, error) {
-	var _result vehicle.StatusCode
+) (common.StatusCode, error) {
+	var _result common.StatusCode
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceService)
@@ -88,11 +87,15 @@ func (p *PresenceServiceProxy) GetVersion(
 		return _result, _err
 	}
 
-	_raw, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	_result = vehicle.StatusCode(_raw)
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -101,8 +104,8 @@ func (p *PresenceServiceProxy) AddListener(
 	presenceServiceHdl int32,
 	presenceServiceListener IPresenceListener,
 	presenceServiceListenerHdl common.UceLong,
-) (vehicle.StatusCode, error) {
-	var _result vehicle.StatusCode
+) (common.StatusCode, error) {
+	var _result common.StatusCode
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceService)
@@ -139,11 +142,15 @@ func (p *PresenceServiceProxy) AddListener(
 		}
 	}
 
-	_raw, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	_result = vehicle.StatusCode(_raw)
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -151,8 +158,8 @@ func (p *PresenceServiceProxy) RemoveListener(
 	ctx context.Context,
 	presenceServiceHdl int32,
 	presenceServiceListenerHdl common.UceLong,
-) (vehicle.StatusCode, error) {
-	var _result vehicle.StatusCode
+) (common.StatusCode, error) {
+	var _result common.StatusCode
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceService)
@@ -177,11 +184,15 @@ func (p *PresenceServiceProxy) RemoveListener(
 		return _result, _err
 	}
 
-	_raw, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	_result = vehicle.StatusCode(_raw)
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -189,8 +200,8 @@ func (p *PresenceServiceProxy) ReenableService(
 	ctx context.Context,
 	presenceServiceHdl int32,
 	userData int32,
-) (vehicle.StatusCode, error) {
-	var _result vehicle.StatusCode
+) (common.StatusCode, error) {
+	var _result common.StatusCode
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceService)
@@ -212,11 +223,15 @@ func (p *PresenceServiceProxy) ReenableService(
 		return _result, _err
 	}
 
-	_raw, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	_result = vehicle.StatusCode(_raw)
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -225,8 +240,8 @@ func (p *PresenceServiceProxy) PublishMyCap(
 	presenceServiceHdl int32,
 	myCapInfo PresCapInfo,
 	userData int32,
-) (vehicle.StatusCode, error) {
-	var _result vehicle.StatusCode
+) (common.StatusCode, error) {
+	var _result common.StatusCode
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceService)
@@ -252,11 +267,15 @@ func (p *PresenceServiceProxy) PublishMyCap(
 		return _result, _err
 	}
 
-	_raw, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	_result = vehicle.StatusCode(_raw)
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -265,8 +284,8 @@ func (p *PresenceServiceProxy) GetContactCap(
 	presenceServiceHdl int32,
 	remoteUri string,
 	userData int32,
-) (vehicle.StatusCode, error) {
-	var _result vehicle.StatusCode
+) (common.StatusCode, error) {
+	var _result common.StatusCode
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceService)
@@ -289,11 +308,15 @@ func (p *PresenceServiceProxy) GetContactCap(
 		return _result, _err
 	}
 
-	_raw, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	_result = vehicle.StatusCode(_raw)
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -302,8 +325,8 @@ func (p *PresenceServiceProxy) GetContactListCap(
 	presenceServiceHdl int32,
 	remoteUriList []string,
 	userData int32,
-) (vehicle.StatusCode, error) {
-	var _result vehicle.StatusCode
+) (common.StatusCode, error) {
+	var _result common.StatusCode
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceService)
@@ -333,11 +356,15 @@ func (p *PresenceServiceProxy) GetContactListCap(
 		return _result, _err
 	}
 
-	_raw, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	_result = vehicle.StatusCode(_raw)
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -347,8 +374,8 @@ func (p *PresenceServiceProxy) SetNewFeatureTag(
 	featureTag string,
 	serviceInfo PresServiceInfo,
 	userData int32,
-) (vehicle.StatusCode, error) {
-	var _result vehicle.StatusCode
+) (common.StatusCode, error) {
+	var _result common.StatusCode
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPresenceService)
@@ -375,11 +402,15 @@ func (p *PresenceServiceProxy) SetNewFeatureTag(
 		return _result, _err
 	}
 
-	_raw, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	_result = vehicle.StatusCode(_raw)
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -418,7 +449,10 @@ func (s *PresenceServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(int32(_result))
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIPresenceServiceAddListener:
 		_arg_presenceServiceHdl, _err := _data.ReadInt32()
@@ -452,7 +486,10 @@ func (s *PresenceServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(int32(_result))
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		_reply.WriteInt32(1)
 		if _err := _arg_presenceServiceListenerHdl.MarshalParcel(_reply); _err != nil {
 			return nil, _err
@@ -482,7 +519,10 @@ func (s *PresenceServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(int32(_result))
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIPresenceServiceReenableService:
 		_arg_presenceServiceHdl, _err := _data.ReadInt32()
@@ -500,7 +540,10 @@ func (s *PresenceServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(int32(_result))
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIPresenceServicePublishMyCap:
 		_arg_presenceServiceHdl, _err := _data.ReadInt32()
@@ -530,7 +573,10 @@ func (s *PresenceServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(int32(_result))
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIPresenceServiceGetContactCap:
 		_arg_presenceServiceHdl, _err := _data.ReadInt32()
@@ -552,7 +598,10 @@ func (s *PresenceServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(int32(_result))
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIPresenceServiceGetContactListCap:
 		_arg_presenceServiceHdl, _err := _data.ReadInt32()
@@ -589,7 +638,10 @@ func (s *PresenceServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(int32(_result))
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIPresenceServiceSetNewFeatureTag:
 		_arg_presenceServiceHdl, _err := _data.ReadInt32()
@@ -623,7 +675,10 @@ func (s *PresenceServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(int32(_result))
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
@@ -634,14 +689,14 @@ func (s *PresenceServiceStub) OnTransaction(
 // provide to NewPresenceServiceStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IPresenceServiceServer interface {
-	GetVersion(ctx context.Context, presenceServiceHdl int32) (vehicle.StatusCode, error)
-	AddListener(ctx context.Context, presenceServiceHdl int32, presenceServiceListener IPresenceListener, presenceServiceListenerHdl common.UceLong) (vehicle.StatusCode, error)
-	RemoveListener(ctx context.Context, presenceServiceHdl int32, presenceServiceListenerHdl common.UceLong) (vehicle.StatusCode, error)
-	ReenableService(ctx context.Context, presenceServiceHdl int32, userData int32) (vehicle.StatusCode, error)
-	PublishMyCap(ctx context.Context, presenceServiceHdl int32, myCapInfo PresCapInfo, userData int32) (vehicle.StatusCode, error)
-	GetContactCap(ctx context.Context, presenceServiceHdl int32, remoteUri string, userData int32) (vehicle.StatusCode, error)
-	GetContactListCap(ctx context.Context, presenceServiceHdl int32, remoteUriList []string, userData int32) (vehicle.StatusCode, error)
-	SetNewFeatureTag(ctx context.Context, presenceServiceHdl int32, featureTag string, serviceInfo PresServiceInfo, userData int32) (vehicle.StatusCode, error)
+	GetVersion(ctx context.Context, presenceServiceHdl int32) (common.StatusCode, error)
+	AddListener(ctx context.Context, presenceServiceHdl int32, presenceServiceListener IPresenceListener, presenceServiceListenerHdl common.UceLong) (common.StatusCode, error)
+	RemoveListener(ctx context.Context, presenceServiceHdl int32, presenceServiceListenerHdl common.UceLong) (common.StatusCode, error)
+	ReenableService(ctx context.Context, presenceServiceHdl int32, userData int32) (common.StatusCode, error)
+	PublishMyCap(ctx context.Context, presenceServiceHdl int32, myCapInfo PresCapInfo, userData int32) (common.StatusCode, error)
+	GetContactCap(ctx context.Context, presenceServiceHdl int32, remoteUri string, userData int32) (common.StatusCode, error)
+	GetContactListCap(ctx context.Context, presenceServiceHdl int32, remoteUriList []string, userData int32) (common.StatusCode, error)
+	SetNewFeatureTag(ctx context.Context, presenceServiceHdl int32, featureTag string, serviceInfo PresServiceInfo, userData int32) (common.StatusCode, error)
 }
 
 type presenceServiceStubWrapper struct {
@@ -656,7 +711,7 @@ func (w *presenceServiceStubWrapper) AsBinder() binder.IBinder {
 func (w *presenceServiceStubWrapper) GetVersion(
 	ctx context.Context,
 	presenceServiceHdl int32,
-) (vehicle.StatusCode, error) {
+) (common.StatusCode, error) {
 	return w.impl.GetVersion(ctx, presenceServiceHdl)
 }
 
@@ -665,7 +720,7 @@ func (w *presenceServiceStubWrapper) AddListener(
 	presenceServiceHdl int32,
 	presenceServiceListener IPresenceListener,
 	presenceServiceListenerHdl common.UceLong,
-) (vehicle.StatusCode, error) {
+) (common.StatusCode, error) {
 	return w.impl.AddListener(ctx, presenceServiceHdl, presenceServiceListener, presenceServiceListenerHdl)
 }
 
@@ -673,7 +728,7 @@ func (w *presenceServiceStubWrapper) RemoveListener(
 	ctx context.Context,
 	presenceServiceHdl int32,
 	presenceServiceListenerHdl common.UceLong,
-) (vehicle.StatusCode, error) {
+) (common.StatusCode, error) {
 	return w.impl.RemoveListener(ctx, presenceServiceHdl, presenceServiceListenerHdl)
 }
 
@@ -681,7 +736,7 @@ func (w *presenceServiceStubWrapper) ReenableService(
 	ctx context.Context,
 	presenceServiceHdl int32,
 	userData int32,
-) (vehicle.StatusCode, error) {
+) (common.StatusCode, error) {
 	return w.impl.ReenableService(ctx, presenceServiceHdl, userData)
 }
 
@@ -690,7 +745,7 @@ func (w *presenceServiceStubWrapper) PublishMyCap(
 	presenceServiceHdl int32,
 	myCapInfo PresCapInfo,
 	userData int32,
-) (vehicle.StatusCode, error) {
+) (common.StatusCode, error) {
 	return w.impl.PublishMyCap(ctx, presenceServiceHdl, myCapInfo, userData)
 }
 
@@ -699,7 +754,7 @@ func (w *presenceServiceStubWrapper) GetContactCap(
 	presenceServiceHdl int32,
 	remoteUri string,
 	userData int32,
-) (vehicle.StatusCode, error) {
+) (common.StatusCode, error) {
 	return w.impl.GetContactCap(ctx, presenceServiceHdl, remoteUri, userData)
 }
 
@@ -708,7 +763,7 @@ func (w *presenceServiceStubWrapper) GetContactListCap(
 	presenceServiceHdl int32,
 	remoteUriList []string,
 	userData int32,
-) (vehicle.StatusCode, error) {
+) (common.StatusCode, error) {
 	return w.impl.GetContactListCap(ctx, presenceServiceHdl, remoteUriList, userData)
 }
 
@@ -718,7 +773,7 @@ func (w *presenceServiceStubWrapper) SetNewFeatureTag(
 	featureTag string,
 	serviceInfo PresServiceInfo,
 	userData int32,
-) (vehicle.StatusCode, error) {
+) (common.StatusCode, error) {
 	return w.impl.SetNewFeatureTag(ctx, presenceServiceHdl, featureTag, serviceInfo, userData)
 }
 

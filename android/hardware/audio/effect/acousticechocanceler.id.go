@@ -15,7 +15,7 @@ const (
 type AcousticEchoCancelerId struct {
 	Tag                int32
 	VendorExtensionTag VendorExtension
-	CommonTag          AcousticEchoCancelerTag
+	CommonTag          any
 }
 
 var _ parcel.Parcelable = (*AcousticEchoCancelerId)(nil)
@@ -34,16 +34,16 @@ func (u *AcousticEchoCancelerId) SetVendorExtensionTag(
 	*u = AcousticEchoCancelerId{Tag: AcousticEchoCancelerIdTagVendorExtensionTag, VendorExtensionTag: v}
 }
 
-func (u *AcousticEchoCancelerId) GetCommonTag() (AcousticEchoCancelerTag, bool) {
+func (u *AcousticEchoCancelerId) GetCommonTag() (any, bool) {
 	if u.Tag != AcousticEchoCancelerIdTagCommonTag {
-		var _zero AcousticEchoCancelerTag
+		var _zero any
 		return _zero, false
 	}
 	return u.CommonTag, true
 }
 
 func (u *AcousticEchoCancelerId) SetCommonTag(
-	v AcousticEchoCancelerTag,
+	v any,
 ) {
 	*u = AcousticEchoCancelerId{Tag: AcousticEchoCancelerIdTagCommonTag, CommonTag: v}
 }
@@ -61,7 +61,6 @@ func (u *AcousticEchoCancelerId) MarshalParcel(
 			return _err
 		}
 	case AcousticEchoCancelerIdTagCommonTag:
-		p.WriteInt32(int32(u.CommonTag))
 	default:
 		return fmt.Errorf("unknown union tag %d for AcousticEchoCancelerId", u.Tag)
 	}
@@ -92,11 +91,6 @@ func (u *AcousticEchoCancelerId) UnmarshalParcel(
 			return _err
 		}
 	case AcousticEchoCancelerIdTagCommonTag:
-		_raw, _err := p.ReadInt32()
-		if _err != nil {
-			return _err
-		}
-		u.CommonTag = AcousticEchoCancelerTag(_raw)
 	default:
 		return fmt.Errorf("unknown union tag %d for AcousticEchoCancelerId", u.Tag)
 	}

@@ -98,6 +98,8 @@ interfaces:
         - name: STATUS_INVALID_STATE
           type: int
           value: "4"
+      annotations:
+        - VintfStability
     - name: ITvInputCallback
       descriptor: android.hardware.tv.input.ITvInputCallback
       methods:
@@ -119,6 +121,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: TvInputDeviceInfo
       fields:

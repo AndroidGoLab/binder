@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
-	hardware "github.com/xaionaro-go/binder/android/hardware"
+	common "github.com/xaionaro-go/binder/android/hardware/graphics/common"
 	os "github.com/xaionaro-go/binder/android/os"
 	viewDisplayhash "github.com/xaionaro-go/binder/android/view/displayhash"
 	"github.com/xaionaro-go/binder/binder"
@@ -31,7 +31,7 @@ const (
 
 type IDisplayHashingService interface {
 	AsBinder() binder.IBinder
-	GenerateDisplayHash(ctx context.Context, salt []byte, buffer hardware.HardwareBuffer, bounds graphics.Rect, hashAlgorithm string, callback os.RemoteCallback) error
+	GenerateDisplayHash(ctx context.Context, salt []byte, buffer common.HardwareBuffer, bounds graphics.Rect, hashAlgorithm string, callback os.RemoteCallback) error
 	VerifyDisplayHash(ctx context.Context, salt []byte, displayHash viewDisplayhash.DisplayHash, callback os.RemoteCallback) error
 	GetDisplayHashAlgorithms(ctx context.Context, callback os.RemoteCallback) error
 	GetIntervalBetweenRequestsMillis(ctx context.Context, callback os.RemoteCallback) error
@@ -56,7 +56,7 @@ var _ IDisplayHashingService = (*DisplayHashingServiceProxy)(nil)
 func (p *DisplayHashingServiceProxy) GenerateDisplayHash(
 	ctx context.Context,
 	salt []byte,
-	buffer hardware.HardwareBuffer,
+	buffer common.HardwareBuffer,
 	bounds graphics.Rect,
 	hashAlgorithm string,
 	callback os.RemoteCallback,
@@ -190,7 +190,7 @@ func (s *DisplayHashingServiceStub) OnTransaction(
 			}
 			_arg_salt = _bytes
 		}
-		var _arg_buffer hardware.HardwareBuffer
+		var _arg_buffer common.HardwareBuffer
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -306,7 +306,7 @@ func (s *DisplayHashingServiceStub) OnTransaction(
 // provide to NewDisplayHashingServiceStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IDisplayHashingServiceServer interface {
-	GenerateDisplayHash(ctx context.Context, salt []byte, buffer hardware.HardwareBuffer, bounds graphics.Rect, hashAlgorithm string, callback os.RemoteCallback) error
+	GenerateDisplayHash(ctx context.Context, salt []byte, buffer common.HardwareBuffer, bounds graphics.Rect, hashAlgorithm string, callback os.RemoteCallback) error
 	VerifyDisplayHash(ctx context.Context, salt []byte, displayHash viewDisplayhash.DisplayHash, callback os.RemoteCallback) error
 	GetDisplayHashAlgorithms(ctx context.Context, callback os.RemoteCallback) error
 	GetIntervalBetweenRequestsMillis(ctx context.Context, callback os.RemoteCallback) error
@@ -324,7 +324,7 @@ func (w *displayHashingServiceStubWrapper) AsBinder() binder.IBinder {
 func (w *displayHashingServiceStubWrapper) GenerateDisplayHash(
 	ctx context.Context,
 	salt []byte,
-	buffer hardware.HardwareBuffer,
+	buffer common.HardwareBuffer,
 	bounds graphics.Rect,
 	hashAlgorithm string,
 	callback os.RemoteCallback,

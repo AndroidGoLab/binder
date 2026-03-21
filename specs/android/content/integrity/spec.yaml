@@ -44,3 +44,8 @@ interfaces:
                 - name: String
 parcelables:
     - name: Rule
+      java_wire_format:
+        - name: Formula
+          write_method: opaque
+        - name: Effect
+          write_method: int32

@@ -2,3 +2,12 @@ package: android.graphics.fonts
 go_package: android/graphics/fonts
 parcelables:
     - name: FontUpdateRequest
+      java_wire_format:
+        - name: Type
+          write_method: int32
+        - name: Fd
+          write_method: opaque
+        - name: Signature
+          write_method: opaque
+        - name: FontFamily
+          write_method: opaque

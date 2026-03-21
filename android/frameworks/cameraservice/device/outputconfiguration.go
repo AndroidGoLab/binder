@@ -1,7 +1,6 @@
 package device
 
 import (
-	display "github.com/xaionaro-go/binder/android/frameworks/automotive/display"
 	common "github.com/xaionaro-go/binder/android/hardware/common"
 	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/parcel"
@@ -11,7 +10,7 @@ import (
 
 type OutputConfiguration struct {
 	WindowHandles    []common.NativeHandle
-	Rotation         display.Rotation
+	Rotation         OutputConfigurationRotation
 	WindowGroupId    int32
 	PhysicalCameraId string
 	Width            int32
@@ -98,7 +97,7 @@ func (s *OutputConfiguration) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	s.Rotation = display.Rotation(_rotationRaw)
+	s.Rotation = OutputConfigurationRotation(_rotationRaw)
 
 	if p.Position() >= _endPos {
 		parcel.SkipToParcelableEnd(p, _endPos)

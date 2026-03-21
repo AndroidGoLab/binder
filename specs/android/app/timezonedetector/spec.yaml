@@ -75,4 +75,20 @@ interfaces:
             name: void
 parcelables:
     - name: ManualTimeZoneSuggestion
+      java_wire_format:
+        - name: ZoneId
+          write_method: string16
+        - name: DebugInfo
+          write_method: opaque
     - name: TelephonyTimeZoneSuggestion
+      java_wire_format:
+        - name: SlotIndex
+          write_method: int32
+        - name: ZoneId
+          write_method: string16
+        - name: MatchType
+          write_method: int32
+        - name: Quality
+          write_method: int32
+        - name: DebugInfo
+          write_method: opaque

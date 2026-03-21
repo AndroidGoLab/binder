@@ -77,6 +77,8 @@ interfaces:
             name: Arc
             is_array: true
             fixed_size: "2"
+      annotations:
+        - VintfStability
 parcelables:
     - name: Arc
       fields:

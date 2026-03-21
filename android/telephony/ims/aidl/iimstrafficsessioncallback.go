@@ -3,7 +3,7 @@ package aidl
 import (
 	"context"
 	"fmt"
-	ims "github.com/xaionaro-go/binder/android/hardware/radio/ims"
+	feature "github.com/xaionaro-go/binder/android/telephony/ims/feature"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -25,7 +25,7 @@ const (
 type IImsTrafficSessionCallback interface {
 	AsBinder() binder.IBinder
 	OnReady(ctx context.Context) error
-	OnError(ctx context.Context, info ims.ConnectionFailureInfo) error
+	OnError(ctx context.Context, info feature.ConnectionFailureInfo) error
 }
 
 type ImsTrafficSessionCallbackProxy struct {
@@ -62,7 +62,7 @@ func (p *ImsTrafficSessionCallbackProxy) OnReady(
 
 func (p *ImsTrafficSessionCallbackProxy) OnError(
 	ctx context.Context,
-	info ims.ConnectionFailureInfo,
+	info feature.ConnectionFailureInfo,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -108,7 +108,7 @@ func (s *ImsTrafficSessionCallbackStub) OnTransaction(
 		_err := s.Impl.OnReady(ctx)
 		return nil, _err
 	case TransactionIImsTrafficSessionCallbackOnError:
-		var _arg_info ims.ConnectionFailureInfo
+		var _arg_info feature.ConnectionFailureInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -132,7 +132,7 @@ func (s *ImsTrafficSessionCallbackStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IImsTrafficSessionCallbackServer interface {
 	OnReady(ctx context.Context) error
-	OnError(ctx context.Context, info ims.ConnectionFailureInfo) error
+	OnError(ctx context.Context, info feature.ConnectionFailureInfo) error
 }
 
 type imsTrafficSessionCallbackStubWrapper struct {
@@ -152,7 +152,7 @@ func (w *imsTrafficSessionCallbackStubWrapper) OnReady(
 
 func (w *imsTrafficSessionCallbackStubWrapper) OnError(
 	ctx context.Context,
-	info ims.ConnectionFailureInfo,
+	info feature.ConnectionFailureInfo,
 ) error {
 	return w.impl.OnError(ctx, info)
 }

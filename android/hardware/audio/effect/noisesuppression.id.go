@@ -15,7 +15,7 @@ const (
 type NoiseSuppressionId struct {
 	Tag                int32
 	VendorExtensionTag VendorExtension
-	CommonTag          NoiseSuppressionTag
+	CommonTag          any
 }
 
 var _ parcel.Parcelable = (*NoiseSuppressionId)(nil)
@@ -34,16 +34,16 @@ func (u *NoiseSuppressionId) SetVendorExtensionTag(
 	*u = NoiseSuppressionId{Tag: NoiseSuppressionIdTagVendorExtensionTag, VendorExtensionTag: v}
 }
 
-func (u *NoiseSuppressionId) GetCommonTag() (NoiseSuppressionTag, bool) {
+func (u *NoiseSuppressionId) GetCommonTag() (any, bool) {
 	if u.Tag != NoiseSuppressionIdTagCommonTag {
-		var _zero NoiseSuppressionTag
+		var _zero any
 		return _zero, false
 	}
 	return u.CommonTag, true
 }
 
 func (u *NoiseSuppressionId) SetCommonTag(
-	v NoiseSuppressionTag,
+	v any,
 ) {
 	*u = NoiseSuppressionId{Tag: NoiseSuppressionIdTagCommonTag, CommonTag: v}
 }
@@ -61,7 +61,6 @@ func (u *NoiseSuppressionId) MarshalParcel(
 			return _err
 		}
 	case NoiseSuppressionIdTagCommonTag:
-		p.WriteInt32(int32(u.CommonTag))
 	default:
 		return fmt.Errorf("unknown union tag %d for NoiseSuppressionId", u.Tag)
 	}
@@ -92,11 +91,6 @@ func (u *NoiseSuppressionId) UnmarshalParcel(
 			return _err
 		}
 	case NoiseSuppressionIdTagCommonTag:
-		_raw, _err := p.ReadInt32()
-		if _err != nil {
-			return _err
-		}
-		u.CommonTag = NoiseSuppressionTag(_raw)
 	default:
 		return fmt.Errorf("unknown union tag %d for NoiseSuppressionId", u.Tag)
 	}

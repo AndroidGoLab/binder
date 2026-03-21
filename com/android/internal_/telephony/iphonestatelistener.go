@@ -3,13 +3,9 @@ package telephony
 import (
 	"context"
 	"fmt"
-	config "github.com/xaionaro-go/binder/android/hardware/radio/config"
-	ims "github.com/xaionaro-go/binder/android/hardware/radio/ims"
-	media "github.com/xaionaro-go/binder/android/hardware/radio/ims/media"
-	network "github.com/xaionaro-go/binder/android/hardware/radio/network"
-	voice "github.com/xaionaro-go/binder/android/hardware/radio/voice"
 	androidTelephony "github.com/xaionaro-go/binder/android/telephony"
-	telephonyIms "github.com/xaionaro-go/binder/android/telephony/ims"
+	emergency "github.com/xaionaro-go/binder/android/telephony/emergency"
+	ims "github.com/xaionaro-go/binder/android/telephony/ims"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -112,13 +108,13 @@ type IPhoneStateListener interface {
 	OnSignalStrengthChanged(ctx context.Context, asu int32) error
 	OnMessageWaitingIndicatorChanged(ctx context.Context, mwi bool) error
 	OnCallForwardingIndicatorChanged(ctx context.Context, cfi bool) error
-	OnCellLocationChanged(ctx context.Context, location network.CellIdentity) error
+	OnCellLocationChanged(ctx context.Context, location androidTelephony.CellIdentity) error
 	OnLegacyCallStateChanged(ctx context.Context, state int32, incomingNumber string) error
 	OnCallStateChanged(ctx context.Context, state int32) error
 	OnDataConnectionStateChanged(ctx context.Context, state int32, networkType int32) error
 	OnDataActivity(ctx context.Context, direction int32) error
-	OnSignalStrengthsChanged(ctx context.Context, signalStrength network.SignalStrength) error
-	OnCellInfoChanged(ctx context.Context, cellInfo []network.CellInfo) error
+	OnSignalStrengthsChanged(ctx context.Context, signalStrength androidTelephony.SignalStrength) error
+	OnCellInfoChanged(ctx context.Context, cellInfo []androidTelephony.CellInfo) error
 	OnPreciseCallStateChanged(ctx context.Context, callState androidTelephony.PreciseCallState) error
 	OnPreciseDataConnectionStateChanged(ctx context.Context, dataConnectionState androidTelephony.PreciseDataConnectionState) error
 	OnDataConnectionRealTimeInfoChanged(ctx context.Context, dcRtInfo androidTelephony.DataConnectionRealTimeInfo) error
@@ -129,22 +125,22 @@ type IPhoneStateListener interface {
 	OnCarrierNetworkChange(ctx context.Context, active bool) error
 	OnUserMobileDataStateChanged(ctx context.Context, enabled bool) error
 	OnDisplayInfoChanged(ctx context.Context, telephonyDisplayInfo androidTelephony.TelephonyDisplayInfo) error
-	OnPhoneCapabilityChanged(ctx context.Context, capability config.PhoneCapability) error
+	OnPhoneCapabilityChanged(ctx context.Context, capability androidTelephony.PhoneCapability) error
 	OnActiveDataSubIdChanged(ctx context.Context, subId int32) error
 	OnRadioPowerStateChanged(ctx context.Context, state int32) error
-	OnCallStatesChanged(ctx context.Context, callStateList []ims.ImsCallCallState) error
+	OnCallStatesChanged(ctx context.Context, callStateList []androidTelephony.CallState) error
 	OnEmergencyNumberListChanged(ctx context.Context, emergencyNumberList map[any]any) error
-	OnOutgoingEmergencyCall(ctx context.Context, placedEmergencyNumber voice.EmergencyNumber, subscriptionId int32) error
-	OnOutgoingEmergencySms(ctx context.Context, sentEmergencyNumber voice.EmergencyNumber, subscriptionId int32) error
+	OnOutgoingEmergencyCall(ctx context.Context, placedEmergencyNumber emergency.EmergencyNumber, subscriptionId int32) error
+	OnOutgoingEmergencySms(ctx context.Context, sentEmergencyNumber emergency.EmergencyNumber, subscriptionId int32) error
 	OnCallDisconnectCauseChanged(ctx context.Context, disconnectCause int32, preciseDisconnectCause int32) error
-	OnImsCallDisconnectCauseChanged(ctx context.Context, imsReasonInfo telephonyIms.ImsReasonInfo) error
-	OnRegistrationFailed(ctx context.Context, cellIdentity network.CellIdentity, chosenPlmn string, domain int32, causeCode int32, additionalCauseCode int32) error
-	OnBarringInfoChanged(ctx context.Context, barringInfo network.BarringInfo) error
-	OnPhysicalChannelConfigChanged(ctx context.Context, configs []network.PhysicalChannelConfig) error
+	OnImsCallDisconnectCauseChanged(ctx context.Context, imsReasonInfo ims.ImsReasonInfo) error
+	OnRegistrationFailed(ctx context.Context, cellIdentity androidTelephony.CellIdentity, chosenPlmn string, domain int32, causeCode int32, additionalCauseCode int32) error
+	OnBarringInfoChanged(ctx context.Context, barringInfo androidTelephony.BarringInfo) error
+	OnPhysicalChannelConfigChanged(ctx context.Context, configs []androidTelephony.PhysicalChannelConfig) error
 	OnDataEnabledChanged(ctx context.Context, enabled bool, reason int32) error
 	OnAllowedNetworkTypesChanged(ctx context.Context, reason int32, allowedNetworkType int64) error
-	OnLinkCapacityEstimateChanged(ctx context.Context, linkCapacityEstimateList []network.LinkCapacityEstimate) error
-	OnMediaQualityStatusChanged(ctx context.Context, mediaQualityStatus media.MediaQualityStatus) error
+	OnLinkCapacityEstimateChanged(ctx context.Context, linkCapacityEstimateList []androidTelephony.LinkCapacityEstimate) error
+	OnMediaQualityStatusChanged(ctx context.Context, mediaQualityStatus ims.MediaQualityStatus) error
 	OnCallBackModeStarted(ctx context.Context, type_ int32) error
 	OnCallBackModeStopped(ctx context.Context, type_ int32, reason int32) error
 	OnSimultaneousCallingStateChanged(ctx context.Context, subIds []int32) error
@@ -244,7 +240,7 @@ func (p *PhoneStateListenerProxy) OnCallForwardingIndicatorChanged(
 
 func (p *PhoneStateListenerProxy) OnCellLocationChanged(
 	ctx context.Context,
-	location network.CellIdentity,
+	location androidTelephony.CellIdentity,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -341,7 +337,7 @@ func (p *PhoneStateListenerProxy) OnDataActivity(
 
 func (p *PhoneStateListenerProxy) OnSignalStrengthsChanged(
 	ctx context.Context,
-	signalStrength network.SignalStrength,
+	signalStrength androidTelephony.SignalStrength,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -362,7 +358,7 @@ func (p *PhoneStateListenerProxy) OnSignalStrengthsChanged(
 
 func (p *PhoneStateListenerProxy) OnCellInfoChanged(
 	ctx context.Context,
-	cellInfo []network.CellInfo,
+	cellInfo []androidTelephony.CellInfo,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -582,7 +578,7 @@ func (p *PhoneStateListenerProxy) OnDisplayInfoChanged(
 
 func (p *PhoneStateListenerProxy) OnPhoneCapabilityChanged(
 	ctx context.Context,
-	capability config.PhoneCapability,
+	capability androidTelephony.PhoneCapability,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -639,7 +635,7 @@ func (p *PhoneStateListenerProxy) OnRadioPowerStateChanged(
 
 func (p *PhoneStateListenerProxy) OnCallStatesChanged(
 	ctx context.Context,
-	callStateList []ims.ImsCallCallState,
+	callStateList []androidTelephony.CallState,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -649,7 +645,10 @@ func (p *PhoneStateListenerProxy) OnCallStatesChanged(
 	} else {
 		_data.WriteInt32(int32(len(callStateList)))
 		for _, _item := range callStateList {
-			_data.WriteInt32(int32(_item))
+			_data.WriteInt32(1)
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
 		}
 	}
 
@@ -690,7 +689,7 @@ func (p *PhoneStateListenerProxy) OnEmergencyNumberListChanged(
 
 func (p *PhoneStateListenerProxy) OnOutgoingEmergencyCall(
 	ctx context.Context,
-	placedEmergencyNumber voice.EmergencyNumber,
+	placedEmergencyNumber emergency.EmergencyNumber,
 	subscriptionId int32,
 ) error {
 	_data := parcel.New()
@@ -713,7 +712,7 @@ func (p *PhoneStateListenerProxy) OnOutgoingEmergencyCall(
 
 func (p *PhoneStateListenerProxy) OnOutgoingEmergencySms(
 	ctx context.Context,
-	sentEmergencyNumber voice.EmergencyNumber,
+	sentEmergencyNumber emergency.EmergencyNumber,
 	subscriptionId int32,
 ) error {
 	_data := parcel.New()
@@ -756,7 +755,7 @@ func (p *PhoneStateListenerProxy) OnCallDisconnectCauseChanged(
 
 func (p *PhoneStateListenerProxy) OnImsCallDisconnectCauseChanged(
 	ctx context.Context,
-	imsReasonInfo telephonyIms.ImsReasonInfo,
+	imsReasonInfo ims.ImsReasonInfo,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -777,7 +776,7 @@ func (p *PhoneStateListenerProxy) OnImsCallDisconnectCauseChanged(
 
 func (p *PhoneStateListenerProxy) OnRegistrationFailed(
 	ctx context.Context,
-	cellIdentity network.CellIdentity,
+	cellIdentity androidTelephony.CellIdentity,
 	chosenPlmn string,
 	domain int32,
 	causeCode int32,
@@ -806,7 +805,7 @@ func (p *PhoneStateListenerProxy) OnRegistrationFailed(
 
 func (p *PhoneStateListenerProxy) OnBarringInfoChanged(
 	ctx context.Context,
-	barringInfo network.BarringInfo,
+	barringInfo androidTelephony.BarringInfo,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -827,7 +826,7 @@ func (p *PhoneStateListenerProxy) OnBarringInfoChanged(
 
 func (p *PhoneStateListenerProxy) OnPhysicalChannelConfigChanged(
 	ctx context.Context,
-	configs []network.PhysicalChannelConfig,
+	configs []androidTelephony.PhysicalChannelConfig,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -895,7 +894,7 @@ func (p *PhoneStateListenerProxy) OnAllowedNetworkTypesChanged(
 
 func (p *PhoneStateListenerProxy) OnLinkCapacityEstimateChanged(
 	ctx context.Context,
-	linkCapacityEstimateList []network.LinkCapacityEstimate,
+	linkCapacityEstimateList []androidTelephony.LinkCapacityEstimate,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -923,7 +922,7 @@ func (p *PhoneStateListenerProxy) OnLinkCapacityEstimateChanged(
 
 func (p *PhoneStateListenerProxy) OnMediaQualityStatusChanged(
 	ctx context.Context,
-	mediaQualityStatus media.MediaQualityStatus,
+	mediaQualityStatus ims.MediaQualityStatus,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -1083,7 +1082,7 @@ func (s *PhoneStateListenerStub) OnTransaction(
 		_err = s.Impl.OnCallForwardingIndicatorChanged(ctx, _arg_cfi)
 		return nil, _err
 	case TransactionIPhoneStateListenerOnCellLocationChanged:
-		var _arg_location network.CellIdentity
+		var _arg_location androidTelephony.CellIdentity
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1134,7 +1133,7 @@ func (s *PhoneStateListenerStub) OnTransaction(
 		_err = s.Impl.OnDataActivity(ctx, _arg_direction)
 		return nil, _err
 	case TransactionIPhoneStateListenerOnSignalStrengthsChanged:
-		var _arg_signalStrength network.SignalStrength
+		var _arg_signalStrength androidTelephony.SignalStrength
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1149,7 +1148,7 @@ func (s *PhoneStateListenerStub) OnTransaction(
 		_err := s.Impl.OnSignalStrengthsChanged(ctx, _arg_signalStrength)
 		return nil, _err
 	case TransactionIPhoneStateListenerOnCellInfoChanged:
-		var _arg_cellInfo []network.CellInfo
+		var _arg_cellInfo []androidTelephony.CellInfo
 		{
 			_count, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1159,7 +1158,7 @@ func (s *PhoneStateListenerStub) OnTransaction(
 				return nil, fmt.Errorf("array count too large: %d", _count)
 			}
 			if _count >= 0 {
-				_arg_cellInfo = make([]network.CellInfo, _count)
+				_arg_cellInfo = make([]androidTelephony.CellInfo, _count)
 				for _i := int32(0); _i < _count; _i++ {
 					if _, _err = _data.ReadInt32(); _err != nil {
 						return nil, _err
@@ -1279,7 +1278,7 @@ func (s *PhoneStateListenerStub) OnTransaction(
 		_err := s.Impl.OnDisplayInfoChanged(ctx, _arg_telephonyDisplayInfo)
 		return nil, _err
 	case TransactionIPhoneStateListenerOnPhoneCapabilityChanged:
-		var _arg_capability config.PhoneCapability
+		var _arg_capability androidTelephony.PhoneCapability
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1308,7 +1307,7 @@ func (s *PhoneStateListenerStub) OnTransaction(
 		_err = s.Impl.OnRadioPowerStateChanged(ctx, _arg_state)
 		return nil, _err
 	case TransactionIPhoneStateListenerOnCallStatesChanged:
-		var _arg_callStateList []ims.ImsCallCallState
+		var _arg_callStateList []androidTelephony.CallState
 		{
 			_count, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1318,13 +1317,14 @@ func (s *PhoneStateListenerStub) OnTransaction(
 				return nil, fmt.Errorf("array count too large: %d", _count)
 			}
 			if _count >= 0 {
-				_arg_callStateList = make([]ims.ImsCallCallState, _count)
+				_arg_callStateList = make([]androidTelephony.CallState, _count)
 				for _i := int32(0); _i < _count; _i++ {
-					_raw, _err := _data.ReadInt32()
-					if _err != nil {
+					if _, _err = _data.ReadInt32(); _err != nil {
 						return nil, _err
 					}
-					_arg_callStateList[_i] = ims.ImsCallCallState(_raw)
+					if _err = _arg_callStateList[_i].UnmarshalParcel(_data); _err != nil {
+						return nil, _err
+					}
 				}
 			}
 		}
@@ -1355,7 +1355,7 @@ func (s *PhoneStateListenerStub) OnTransaction(
 		_err := s.Impl.OnEmergencyNumberListChanged(ctx, _arg_emergencyNumberList)
 		return nil, _err
 	case TransactionIPhoneStateListenerOnOutgoingEmergencyCall:
-		var _arg_placedEmergencyNumber voice.EmergencyNumber
+		var _arg_placedEmergencyNumber emergency.EmergencyNumber
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1374,7 +1374,7 @@ func (s *PhoneStateListenerStub) OnTransaction(
 		_err = s.Impl.OnOutgoingEmergencyCall(ctx, _arg_placedEmergencyNumber, _arg_subscriptionId)
 		return nil, _err
 	case TransactionIPhoneStateListenerOnOutgoingEmergencySms:
-		var _arg_sentEmergencyNumber voice.EmergencyNumber
+		var _arg_sentEmergencyNumber emergency.EmergencyNumber
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1404,7 +1404,7 @@ func (s *PhoneStateListenerStub) OnTransaction(
 		_err = s.Impl.OnCallDisconnectCauseChanged(ctx, _arg_disconnectCause, _arg_preciseDisconnectCause)
 		return nil, _err
 	case TransactionIPhoneStateListenerOnImsCallDisconnectCauseChanged:
-		var _arg_imsReasonInfo telephonyIms.ImsReasonInfo
+		var _arg_imsReasonInfo ims.ImsReasonInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1419,7 +1419,7 @@ func (s *PhoneStateListenerStub) OnTransaction(
 		_err := s.Impl.OnImsCallDisconnectCauseChanged(ctx, _arg_imsReasonInfo)
 		return nil, _err
 	case TransactionIPhoneStateListenerOnRegistrationFailed:
-		var _arg_cellIdentity network.CellIdentity
+		var _arg_cellIdentity androidTelephony.CellIdentity
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1450,7 +1450,7 @@ func (s *PhoneStateListenerStub) OnTransaction(
 		_err = s.Impl.OnRegistrationFailed(ctx, _arg_cellIdentity, _arg_chosenPlmn, _arg_domain, _arg_causeCode, _arg_additionalCauseCode)
 		return nil, _err
 	case TransactionIPhoneStateListenerOnBarringInfoChanged:
-		var _arg_barringInfo network.BarringInfo
+		var _arg_barringInfo androidTelephony.BarringInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1465,7 +1465,7 @@ func (s *PhoneStateListenerStub) OnTransaction(
 		_err := s.Impl.OnBarringInfoChanged(ctx, _arg_barringInfo)
 		return nil, _err
 	case TransactionIPhoneStateListenerOnPhysicalChannelConfigChanged:
-		var _arg_configs []network.PhysicalChannelConfig
+		var _arg_configs []androidTelephony.PhysicalChannelConfig
 		{
 			_count, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1475,7 +1475,7 @@ func (s *PhoneStateListenerStub) OnTransaction(
 				return nil, fmt.Errorf("array count too large: %d", _count)
 			}
 			if _count >= 0 {
-				_arg_configs = make([]network.PhysicalChannelConfig, _count)
+				_arg_configs = make([]androidTelephony.PhysicalChannelConfig, _count)
 				for _i := int32(0); _i < _count; _i++ {
 					if _, _err = _data.ReadInt32(); _err != nil {
 						return nil, _err
@@ -1511,7 +1511,7 @@ func (s *PhoneStateListenerStub) OnTransaction(
 		_err = s.Impl.OnAllowedNetworkTypesChanged(ctx, _arg_reason, _arg_allowedNetworkType)
 		return nil, _err
 	case TransactionIPhoneStateListenerOnLinkCapacityEstimateChanged:
-		var _arg_linkCapacityEstimateList []network.LinkCapacityEstimate
+		var _arg_linkCapacityEstimateList []androidTelephony.LinkCapacityEstimate
 		{
 			_count, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1521,7 +1521,7 @@ func (s *PhoneStateListenerStub) OnTransaction(
 				return nil, fmt.Errorf("array count too large: %d", _count)
 			}
 			if _count >= 0 {
-				_arg_linkCapacityEstimateList = make([]network.LinkCapacityEstimate, _count)
+				_arg_linkCapacityEstimateList = make([]androidTelephony.LinkCapacityEstimate, _count)
 				for _i := int32(0); _i < _count; _i++ {
 					if _, _err = _data.ReadInt32(); _err != nil {
 						return nil, _err
@@ -1535,7 +1535,7 @@ func (s *PhoneStateListenerStub) OnTransaction(
 		_err := s.Impl.OnLinkCapacityEstimateChanged(ctx, _arg_linkCapacityEstimateList)
 		return nil, _err
 	case TransactionIPhoneStateListenerOnMediaQualityStatusChanged:
-		var _arg_mediaQualityStatus media.MediaQualityStatus
+		var _arg_mediaQualityStatus ims.MediaQualityStatus
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1609,13 +1609,13 @@ type IPhoneStateListenerServer interface {
 	OnSignalStrengthChanged(ctx context.Context, asu int32) error
 	OnMessageWaitingIndicatorChanged(ctx context.Context, mwi bool) error
 	OnCallForwardingIndicatorChanged(ctx context.Context, cfi bool) error
-	OnCellLocationChanged(ctx context.Context, location network.CellIdentity) error
+	OnCellLocationChanged(ctx context.Context, location androidTelephony.CellIdentity) error
 	OnLegacyCallStateChanged(ctx context.Context, state int32, incomingNumber string) error
 	OnCallStateChanged(ctx context.Context, state int32) error
 	OnDataConnectionStateChanged(ctx context.Context, state int32, networkType int32) error
 	OnDataActivity(ctx context.Context, direction int32) error
-	OnSignalStrengthsChanged(ctx context.Context, signalStrength network.SignalStrength) error
-	OnCellInfoChanged(ctx context.Context, cellInfo []network.CellInfo) error
+	OnSignalStrengthsChanged(ctx context.Context, signalStrength androidTelephony.SignalStrength) error
+	OnCellInfoChanged(ctx context.Context, cellInfo []androidTelephony.CellInfo) error
 	OnPreciseCallStateChanged(ctx context.Context, callState androidTelephony.PreciseCallState) error
 	OnPreciseDataConnectionStateChanged(ctx context.Context, dataConnectionState androidTelephony.PreciseDataConnectionState) error
 	OnDataConnectionRealTimeInfoChanged(ctx context.Context, dcRtInfo androidTelephony.DataConnectionRealTimeInfo) error
@@ -1626,22 +1626,22 @@ type IPhoneStateListenerServer interface {
 	OnCarrierNetworkChange(ctx context.Context, active bool) error
 	OnUserMobileDataStateChanged(ctx context.Context, enabled bool) error
 	OnDisplayInfoChanged(ctx context.Context, telephonyDisplayInfo androidTelephony.TelephonyDisplayInfo) error
-	OnPhoneCapabilityChanged(ctx context.Context, capability config.PhoneCapability) error
+	OnPhoneCapabilityChanged(ctx context.Context, capability androidTelephony.PhoneCapability) error
 	OnActiveDataSubIdChanged(ctx context.Context, subId int32) error
 	OnRadioPowerStateChanged(ctx context.Context, state int32) error
-	OnCallStatesChanged(ctx context.Context, callStateList []ims.ImsCallCallState) error
+	OnCallStatesChanged(ctx context.Context, callStateList []androidTelephony.CallState) error
 	OnEmergencyNumberListChanged(ctx context.Context, emergencyNumberList map[any]any) error
-	OnOutgoingEmergencyCall(ctx context.Context, placedEmergencyNumber voice.EmergencyNumber, subscriptionId int32) error
-	OnOutgoingEmergencySms(ctx context.Context, sentEmergencyNumber voice.EmergencyNumber, subscriptionId int32) error
+	OnOutgoingEmergencyCall(ctx context.Context, placedEmergencyNumber emergency.EmergencyNumber, subscriptionId int32) error
+	OnOutgoingEmergencySms(ctx context.Context, sentEmergencyNumber emergency.EmergencyNumber, subscriptionId int32) error
 	OnCallDisconnectCauseChanged(ctx context.Context, disconnectCause int32, preciseDisconnectCause int32) error
-	OnImsCallDisconnectCauseChanged(ctx context.Context, imsReasonInfo telephonyIms.ImsReasonInfo) error
-	OnRegistrationFailed(ctx context.Context, cellIdentity network.CellIdentity, chosenPlmn string, domain int32, causeCode int32, additionalCauseCode int32) error
-	OnBarringInfoChanged(ctx context.Context, barringInfo network.BarringInfo) error
-	OnPhysicalChannelConfigChanged(ctx context.Context, configs []network.PhysicalChannelConfig) error
+	OnImsCallDisconnectCauseChanged(ctx context.Context, imsReasonInfo ims.ImsReasonInfo) error
+	OnRegistrationFailed(ctx context.Context, cellIdentity androidTelephony.CellIdentity, chosenPlmn string, domain int32, causeCode int32, additionalCauseCode int32) error
+	OnBarringInfoChanged(ctx context.Context, barringInfo androidTelephony.BarringInfo) error
+	OnPhysicalChannelConfigChanged(ctx context.Context, configs []androidTelephony.PhysicalChannelConfig) error
 	OnDataEnabledChanged(ctx context.Context, enabled bool, reason int32) error
 	OnAllowedNetworkTypesChanged(ctx context.Context, reason int32, allowedNetworkType int64) error
-	OnLinkCapacityEstimateChanged(ctx context.Context, linkCapacityEstimateList []network.LinkCapacityEstimate) error
-	OnMediaQualityStatusChanged(ctx context.Context, mediaQualityStatus media.MediaQualityStatus) error
+	OnLinkCapacityEstimateChanged(ctx context.Context, linkCapacityEstimateList []androidTelephony.LinkCapacityEstimate) error
+	OnMediaQualityStatusChanged(ctx context.Context, mediaQualityStatus ims.MediaQualityStatus) error
 	OnCallBackModeStarted(ctx context.Context, type_ int32) error
 	OnCallBackModeStopped(ctx context.Context, type_ int32, reason int32) error
 	OnSimultaneousCallingStateChanged(ctx context.Context, subIds []int32) error
@@ -1687,7 +1687,7 @@ func (w *phoneStateListenerStubWrapper) OnCallForwardingIndicatorChanged(
 
 func (w *phoneStateListenerStubWrapper) OnCellLocationChanged(
 	ctx context.Context,
-	location network.CellIdentity,
+	location androidTelephony.CellIdentity,
 ) error {
 	return w.impl.OnCellLocationChanged(ctx, location)
 }
@@ -1724,14 +1724,14 @@ func (w *phoneStateListenerStubWrapper) OnDataActivity(
 
 func (w *phoneStateListenerStubWrapper) OnSignalStrengthsChanged(
 	ctx context.Context,
-	signalStrength network.SignalStrength,
+	signalStrength androidTelephony.SignalStrength,
 ) error {
 	return w.impl.OnSignalStrengthsChanged(ctx, signalStrength)
 }
 
 func (w *phoneStateListenerStubWrapper) OnCellInfoChanged(
 	ctx context.Context,
-	cellInfo []network.CellInfo,
+	cellInfo []androidTelephony.CellInfo,
 ) error {
 	return w.impl.OnCellInfoChanged(ctx, cellInfo)
 }
@@ -1808,7 +1808,7 @@ func (w *phoneStateListenerStubWrapper) OnDisplayInfoChanged(
 
 func (w *phoneStateListenerStubWrapper) OnPhoneCapabilityChanged(
 	ctx context.Context,
-	capability config.PhoneCapability,
+	capability androidTelephony.PhoneCapability,
 ) error {
 	return w.impl.OnPhoneCapabilityChanged(ctx, capability)
 }
@@ -1829,7 +1829,7 @@ func (w *phoneStateListenerStubWrapper) OnRadioPowerStateChanged(
 
 func (w *phoneStateListenerStubWrapper) OnCallStatesChanged(
 	ctx context.Context,
-	callStateList []ims.ImsCallCallState,
+	callStateList []androidTelephony.CallState,
 ) error {
 	return w.impl.OnCallStatesChanged(ctx, callStateList)
 }
@@ -1843,7 +1843,7 @@ func (w *phoneStateListenerStubWrapper) OnEmergencyNumberListChanged(
 
 func (w *phoneStateListenerStubWrapper) OnOutgoingEmergencyCall(
 	ctx context.Context,
-	placedEmergencyNumber voice.EmergencyNumber,
+	placedEmergencyNumber emergency.EmergencyNumber,
 	subscriptionId int32,
 ) error {
 	return w.impl.OnOutgoingEmergencyCall(ctx, placedEmergencyNumber, subscriptionId)
@@ -1851,7 +1851,7 @@ func (w *phoneStateListenerStubWrapper) OnOutgoingEmergencyCall(
 
 func (w *phoneStateListenerStubWrapper) OnOutgoingEmergencySms(
 	ctx context.Context,
-	sentEmergencyNumber voice.EmergencyNumber,
+	sentEmergencyNumber emergency.EmergencyNumber,
 	subscriptionId int32,
 ) error {
 	return w.impl.OnOutgoingEmergencySms(ctx, sentEmergencyNumber, subscriptionId)
@@ -1867,14 +1867,14 @@ func (w *phoneStateListenerStubWrapper) OnCallDisconnectCauseChanged(
 
 func (w *phoneStateListenerStubWrapper) OnImsCallDisconnectCauseChanged(
 	ctx context.Context,
-	imsReasonInfo telephonyIms.ImsReasonInfo,
+	imsReasonInfo ims.ImsReasonInfo,
 ) error {
 	return w.impl.OnImsCallDisconnectCauseChanged(ctx, imsReasonInfo)
 }
 
 func (w *phoneStateListenerStubWrapper) OnRegistrationFailed(
 	ctx context.Context,
-	cellIdentity network.CellIdentity,
+	cellIdentity androidTelephony.CellIdentity,
 	chosenPlmn string,
 	domain int32,
 	causeCode int32,
@@ -1885,14 +1885,14 @@ func (w *phoneStateListenerStubWrapper) OnRegistrationFailed(
 
 func (w *phoneStateListenerStubWrapper) OnBarringInfoChanged(
 	ctx context.Context,
-	barringInfo network.BarringInfo,
+	barringInfo androidTelephony.BarringInfo,
 ) error {
 	return w.impl.OnBarringInfoChanged(ctx, barringInfo)
 }
 
 func (w *phoneStateListenerStubWrapper) OnPhysicalChannelConfigChanged(
 	ctx context.Context,
-	configs []network.PhysicalChannelConfig,
+	configs []androidTelephony.PhysicalChannelConfig,
 ) error {
 	return w.impl.OnPhysicalChannelConfigChanged(ctx, configs)
 }
@@ -1915,14 +1915,14 @@ func (w *phoneStateListenerStubWrapper) OnAllowedNetworkTypesChanged(
 
 func (w *phoneStateListenerStubWrapper) OnLinkCapacityEstimateChanged(
 	ctx context.Context,
-	linkCapacityEstimateList []network.LinkCapacityEstimate,
+	linkCapacityEstimateList []androidTelephony.LinkCapacityEstimate,
 ) error {
 	return w.impl.OnLinkCapacityEstimateChanged(ctx, linkCapacityEstimateList)
 }
 
 func (w *phoneStateListenerStubWrapper) OnMediaQualityStatusChanged(
 	ctx context.Context,
-	mediaQualityStatus media.MediaQualityStatus,
+	mediaQualityStatus ims.MediaQualityStatus,
 ) error {
 	return w.impl.OnMediaQualityStatusChanged(ctx, mediaQualityStatus)
 }

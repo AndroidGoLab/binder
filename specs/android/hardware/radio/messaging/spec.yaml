@@ -293,6 +293,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IRadioMessagingIndication
       descriptor: android.hardware.radio.messaging.IRadioMessagingIndication
       oneway: true
@@ -383,6 +385,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IRadioMessagingResponse
       descriptor: android.hardware.radio.messaging.IRadioMessagingResponse
       oneway: true
@@ -627,6 +631,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: CdmaBroadcastSmsConfigInfo
       fields:

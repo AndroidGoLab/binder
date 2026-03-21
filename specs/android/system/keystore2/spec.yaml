@@ -51,6 +51,9 @@ interfaces:
           transaction_code_offset: 3
           return_type:
             name: void
+      annotations:
+        - VintfStability
+        - SensitiveData
     - name: IKeystoreSecurityLevel
       descriptor: android.system.keystore2.IKeystoreSecurityLevel
       methods:
@@ -179,6 +182,9 @@ interfaces:
         - name: KEY_FLAG_AUTH_BOUND_WITHOUT_CRYPTOGRAPHIC_LSKF_BINDING
           type: int
           value: "0x1"
+      annotations:
+        - VintfStability
+        - SensitiveData
     - name: IKeystoreService
       descriptor: android.system.keystore2.IKeystoreService
       methods:
@@ -306,6 +312,8 @@ interfaces:
           return_type:
             name: KeyDescriptor
             is_array: true
+      annotations:
+        - VintfStability
 parcelables:
     - name: AuthenticatorSpec
       fields:

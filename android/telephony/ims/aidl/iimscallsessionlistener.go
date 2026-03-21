@@ -3,7 +3,7 @@ package aidl
 import (
 	"context"
 	"fmt"
-	media "github.com/xaionaro-go/binder/android/hardware/radio/ims/media"
+	telephony "github.com/xaionaro-go/binder/android/telephony"
 	ims "github.com/xaionaro-go/binder/android/telephony/ims"
 	"github.com/xaionaro-go/binder/binder"
 	internal "github.com/xaionaro-go/binder/com/android/ims/internal_"
@@ -148,8 +148,8 @@ type IImsCallSessionListener interface {
 	CallSessionTransferred(ctx context.Context) error
 	CallSessionTransferFailed(ctx context.Context, reasonInfo ims.ImsReasonInfo) error
 	CallSessionDtmfReceived(ctx context.Context, dtmf uint16) error
-	CallQualityChanged(ctx context.Context, callQuality media.CallQuality) error
-	CallSessionRtpHeaderExtensionsReceived(ctx context.Context, extensions []media.RtpHeaderExtension) error
+	CallQualityChanged(ctx context.Context, callQuality telephony.CallQuality) error
+	CallSessionRtpHeaderExtensionsReceived(ctx context.Context, extensions []ims.RtpHeaderExtension) error
 	CallSessionSendAnbrQuery(ctx context.Context, mediaType int32, direction int32, bitsPerSecond int32) error
 }
 
@@ -990,7 +990,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionDtmfReceived(
 
 func (p *ImsCallSessionListenerProxy) CallQualityChanged(
 	ctx context.Context,
-	callQuality media.CallQuality,
+	callQuality telephony.CallQuality,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -1011,7 +1011,7 @@ func (p *ImsCallSessionListenerProxy) CallQualityChanged(
 
 func (p *ImsCallSessionListenerProxy) CallSessionRtpHeaderExtensionsReceived(
 	ctx context.Context,
-	extensions []media.RtpHeaderExtension,
+	extensions []ims.RtpHeaderExtension,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -1636,7 +1636,7 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 		_err = s.Impl.CallSessionDtmfReceived(ctx, _arg_dtmf)
 		return nil, _err
 	case TransactionIImsCallSessionListenerCallQualityChanged:
-		var _arg_callQuality media.CallQuality
+		var _arg_callQuality telephony.CallQuality
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1651,7 +1651,7 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 		_err := s.Impl.CallQualityChanged(ctx, _arg_callQuality)
 		return nil, _err
 	case TransactionIImsCallSessionListenerCallSessionRtpHeaderExtensionsReceived:
-		var _arg_extensions []media.RtpHeaderExtension
+		var _arg_extensions []ims.RtpHeaderExtension
 		{
 			_count, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1661,7 +1661,7 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 				return nil, fmt.Errorf("array count too large: %d", _count)
 			}
 			if _count >= 0 {
-				_arg_extensions = make([]media.RtpHeaderExtension, _count)
+				_arg_extensions = make([]ims.RtpHeaderExtension, _count)
 				for _i := int32(0); _i < _count; _i++ {
 					if _, _err = _data.ReadInt32(); _err != nil {
 						return nil, _err
@@ -1738,8 +1738,8 @@ type IImsCallSessionListenerServer interface {
 	CallSessionTransferred(ctx context.Context) error
 	CallSessionTransferFailed(ctx context.Context, reasonInfo ims.ImsReasonInfo) error
 	CallSessionDtmfReceived(ctx context.Context, dtmf uint16) error
-	CallQualityChanged(ctx context.Context, callQuality media.CallQuality) error
-	CallSessionRtpHeaderExtensionsReceived(ctx context.Context, extensions []media.RtpHeaderExtension) error
+	CallQualityChanged(ctx context.Context, callQuality telephony.CallQuality) error
+	CallSessionRtpHeaderExtensionsReceived(ctx context.Context, extensions []ims.RtpHeaderExtension) error
 	CallSessionSendAnbrQuery(ctx context.Context, mediaType int32, direction int32, bitsPerSecond int32) error
 }
 
@@ -2040,14 +2040,14 @@ func (w *imsCallSessionListenerStubWrapper) CallSessionDtmfReceived(
 
 func (w *imsCallSessionListenerStubWrapper) CallQualityChanged(
 	ctx context.Context,
-	callQuality media.CallQuality,
+	callQuality telephony.CallQuality,
 ) error {
 	return w.impl.CallQualityChanged(ctx, callQuality)
 }
 
 func (w *imsCallSessionListenerStubWrapper) CallSessionRtpHeaderExtensionsReceived(
 	ctx context.Context,
-	extensions []media.RtpHeaderExtension,
+	extensions []ims.RtpHeaderExtension,
 ) error {
 	return w.impl.CallSessionRtpHeaderExtensionsReceived(ctx, extensions)
 }

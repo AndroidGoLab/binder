@@ -16,7 +16,7 @@ const (
 type VirtualizerId struct {
 	Tag                  int32
 	VendorExtensionTag   VendorExtension
-	CommonTag            VirtualizerTag
+	CommonTag            any
 	SpeakerAnglesPayload VirtualizerSpeakerAnglesPayload
 }
 
@@ -36,16 +36,16 @@ func (u *VirtualizerId) SetVendorExtensionTag(
 	*u = VirtualizerId{Tag: VirtualizerIdTagVendorExtensionTag, VendorExtensionTag: v}
 }
 
-func (u *VirtualizerId) GetCommonTag() (VirtualizerTag, bool) {
+func (u *VirtualizerId) GetCommonTag() (any, bool) {
 	if u.Tag != VirtualizerIdTagCommonTag {
-		var _zero VirtualizerTag
+		var _zero any
 		return _zero, false
 	}
 	return u.CommonTag, true
 }
 
 func (u *VirtualizerId) SetCommonTag(
-	v VirtualizerTag,
+	v any,
 ) {
 	*u = VirtualizerId{Tag: VirtualizerIdTagCommonTag, CommonTag: v}
 }
@@ -77,7 +77,6 @@ func (u *VirtualizerId) MarshalParcel(
 			return _err
 		}
 	case VirtualizerIdTagCommonTag:
-		p.WriteInt32(int32(u.CommonTag))
 	case VirtualizerIdTagSpeakerAnglesPayload:
 		p.WriteInt32(1)
 		if _err := u.SpeakerAnglesPayload.MarshalParcel(p); _err != nil {
@@ -113,11 +112,6 @@ func (u *VirtualizerId) UnmarshalParcel(
 			return _err
 		}
 	case VirtualizerIdTagCommonTag:
-		_raw, _err := p.ReadInt32()
-		if _err != nil {
-			return _err
-		}
-		u.CommonTag = VirtualizerTag(_raw)
 	case VirtualizerIdTagSpeakerAnglesPayload:
 		if _, _err = p.ReadInt32(); _err != nil {
 			return _err

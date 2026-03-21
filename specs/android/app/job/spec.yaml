@@ -410,7 +410,156 @@ interfaces:
             name: void
 parcelables:
     - name: JobInfo
+      java_wire_format:
+        - name: JobId
+          write_method: int32
+        - name: Extras
+          write_method: opaque
+        - name: TransientExtras
+          write_method: opaque
+        - name: "1"
+          write_method: int32
+          condition: clipData!=null
+        - name: Out
+          write_method: opaque
+          condition: clipData!=null
+        - name: ClipGrantFlags
+          write_method: int32
+          condition: clipData!=null
+        - name: Service
+          write_method: opaque
+        - name: ConstraintFlags
+          write_method: int32
+        - name: TriggerContentUris
+          write_method: opaque
+        - name: TriggerContentUpdateDelay
+          write_method: int64
+        - name: TriggerContentMaxDelay
+          write_method: int64
+        - name: "1"
+          write_method: int32
+          condition: networkRequest!=null
+        - name: Out
+          write_method: opaque
+          condition: networkRequest!=null
+        - name: NetworkDownloadBytes
+          write_method: int64
+        - name: NetworkUploadBytes
+          write_method: int64
+        - name: MinimumNetworkChunkBytes
+          write_method: int64
+        - name: MinLatencyMillis
+          write_method: int64
+        - name: MaxExecutionDelayMillis
+          write_method: int64
+        - name: IsPeriodic?1:0
+          write_method: int32
+        - name: IsPersisted?1:0
+          write_method: int32
+        - name: IntervalMillis
+          write_method: int64
+        - name: FlexMillis
+          write_method: int64
+        - name: InitialBackoffMillis
+          write_method: int64
+        - name: BackoffPolicy
+          write_method: int32
+        - name: HasEarlyConstraint?1:0
+          write_method: int32
+        - name: HasLateConstraint?1:0
+          write_method: int32
+        - name: Bias
+          write_method: int32
+        - name: Priority
+          write_method: int32
+        - name: This.flags
+          write_method: int32
+        - name: NumDebugTags
+          write_method: int32
+        - name: TraceTag
+          write_method: string16
     - name: JobParameters
+      java_wire_format:
+        - name: JobId
+          write_method: int32
+        - name: JobNamespace
+          write_method: string16
+        - name: Extras
+          write_method: opaque
+        - name: TransientExtras
+          write_method: opaque
+        - name: "1"
+          write_method: int32
+          condition: clipData!=null
+        - name: Dest
+          write_method: opaque
+          condition: clipData!=null
+        - name: ClipGrantFlags
+          write_method: int32
+          condition: clipData!=null
+        - name: Callback
+          write_method: opaque
+        - name: OverrideDeadlineExpired?1:0
+          write_method: int32
+        - name: IsExpedited
+          write_method: bool
+        - name: IsUserInitiated
+          write_method: bool
+        - name: TriggeredContentUris
+          write_method: opaque
+        - name: TriggeredContentAuthorities
+          write_method: opaque
+        - name: "1"
+          write_method: int32
+          condition: mNetwork!=null
+        - name: Dest
+          write_method: opaque
+          condition: mNetwork!=null
+        - name: StopReason
+          write_method: int32
+        - name: InternalStopReason
+          write_method: int32
+        - name: DebugStopReason
+          write_method: string16
     - name: JobSnapshot
+      java_wire_format:
+        - name: Out
+          write_method: opaque
+        - name: SatisfiedConstraints
+          write_method: int32
+        - name: IsRunnable
+          write_method: bool
     - name: JobWorkItem
+      java_wire_format:
+        - name: "1"
+          write_method: int32
+          condition: mIntent!=null
+        - name: Out
+          write_method: opaque
+          condition: mIntent!=null
+        - name: Extras
+          write_method: opaque
+        - name: NetworkDownloadBytes
+          write_method: int64
+        - name: NetworkUploadBytes
+          write_method: int64
+        - name: MinimumChunkBytes
+          write_method: int64
+        - name: DeliveryCount
+          write_method: int32
+        - name: WorkId
+          write_method: int32
     - name: UserVisibleJobSummary
+      java_wire_format:
+        - name: CallingUid
+          write_method: int32
+        - name: CallingPackageName
+          write_method: string16
+        - name: SourceUserId
+          write_method: int32
+        - name: SourcePackageName
+          write_method: string16
+        - name: Namespace
+          write_method: string16
+        - name: JobId
+          write_method: int32

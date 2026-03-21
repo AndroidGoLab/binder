@@ -23,6 +23,8 @@ interfaces:
         - name: CAPABILITY_REFLECTING_PLANE
           type: int
           value: 1 << 2
+      annotations:
+        - VintfStability
     - name: IMeasurementCorrectionsInterface
       descriptor: android.hardware.gnss.measurement_corrections.IMeasurementCorrectionsInterface
       methods:
@@ -44,6 +46,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: MeasurementCorrections
       fields:

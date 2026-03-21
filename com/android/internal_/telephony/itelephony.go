@@ -5,14 +5,11 @@ import (
 	"fmt"
 	app "github.com/xaionaro-go/binder/android/app"
 	androidContent "github.com/xaionaro-go/binder/android/content"
-	common "github.com/xaionaro-go/binder/android/hardware/biometrics/common"
-	radioConfig "github.com/xaionaro-go/binder/android/hardware/radio/config"
-	network "github.com/xaionaro-go/binder/android/hardware/radio/network"
-	voice "github.com/xaionaro-go/binder/android/hardware/radio/voice"
 	net "github.com/xaionaro-go/binder/android/net"
 	os "github.com/xaionaro-go/binder/android/os"
 	telecom "github.com/xaionaro-go/binder/android/telecom"
 	androidTelephony "github.com/xaionaro-go/binder/android/telephony"
+	emergency "github.com/xaionaro-go/binder/android/telephony/emergency"
 	gba "github.com/xaionaro-go/binder/android/telephony/gba"
 	ims "github.com/xaionaro-go/binder/android/telephony/ims"
 	types "github.com/xaionaro-go/binder/android/telephony/ims/aidl/types"
@@ -892,7 +889,7 @@ type ITelephony interface {
 	EnableDataConnectivity(ctx context.Context) (bool, error)
 	DisableDataConnectivity(ctx context.Context) (bool, error)
 	IsDataConnectivityPossible(ctx context.Context, subId int32) (bool, error)
-	GetCellLocation(ctx context.Context, callingPkg string) (network.CellIdentity, error)
+	GetCellLocation(ctx context.Context, callingPkg string) (androidTelephony.CellIdentity, error)
 	GetNetworkCountryIsoForPhone(ctx context.Context, phoneId int32) (string, error)
 	GetNeighboringCellInfo(ctx context.Context, callingPkg string) ([]androidTelephony.NeighboringCellInfo, error)
 	GetCallState(ctx context.Context) (int32, error)
@@ -933,7 +930,7 @@ type ITelephony interface {
 	HasIccCardUsingSlotIndex(ctx context.Context, slotIndex int32) (bool, error)
 	GetLteOnCdmaMode(ctx context.Context) (int32, error)
 	GetLteOnCdmaModeForSubscriber(ctx context.Context, subId int32) (int32, error)
-	GetAllCellInfo(ctx context.Context, callingPkg string) ([]network.CellInfo, error)
+	GetAllCellInfo(ctx context.Context, callingPkg string) ([]androidTelephony.CellInfo, error)
 	RequestCellInfoUpdate(ctx context.Context, subId int32, cb androidTelephony.ICellInfoCallback, callingPkg string) error
 	RequestCellInfoUpdateWithWorkSource(ctx context.Context, subId int32, cb androidTelephony.ICellInfoCallback, callingPkg string, ws os.WorkSource) error
 	SetCellInfoListRate(ctx context.Context, rateInMillis int32, subId int32) error
@@ -958,14 +955,14 @@ type ITelephony interface {
 	RegisterMmTelFeatureCallback(ctx context.Context, slotId int32, callback internal.IImsServiceFeatureCallback) error
 	UnregisterImsFeatureCallback(ctx context.Context, callback internal.IImsServiceFeatureCallback) error
 	GetImsRegistration(ctx context.Context, slotId int32, feature int32) (types.IImsRegistration, error)
-	GetImsConfig(ctx context.Context, slotId int32, feature int32) (types.IImsConfig, error)
+	GetImsConfig(ctx context.Context, slotId int32, feature int32) (internal.IImsConfig, error)
 	SetBoundImsServiceOverride(ctx context.Context, slotIndex int32, isCarrierService bool, featureTypes []int32, packageName string) (bool, error)
 	ClearCarrierImsServiceOverride(ctx context.Context, slotIndex int32) (bool, error)
 	GetBoundImsServicePackage(ctx context.Context, slotIndex int32, isCarrierImsService bool, featureType int32) (string, error)
 	GetImsMmTelFeatureState(ctx context.Context, subId int32, callback IIntegerConsumer) error
 	SetNetworkSelectionModeAutomatic(ctx context.Context, subId int32) error
 	GetCellNetworkScanResults(ctx context.Context, subId int32) (CellNetworkScanResult, error)
-	RequestNetworkScan(ctx context.Context, subId int32, renounceFineLocationAccess bool, request network.NetworkScanRequest, messenger os.Messenger, binder_ binder.IBinder) (int32, error)
+	RequestNetworkScan(ctx context.Context, subId int32, renounceFineLocationAccess bool, request androidTelephony.NetworkScanRequest, messenger os.Messenger, binder_ binder.IBinder) (int32, error)
 	StopNetworkScan(ctx context.Context, subId int32, scanId int32) error
 	SetNetworkSelectionModeManual(ctx context.Context, subId int32, operatorInfo OperatorInfo, persisSelection bool) (bool, error)
 	GetAllowedNetworkTypesForReason(ctx context.Context, subId int32, reason int32) (int64, error)
@@ -1051,7 +1048,7 @@ type ITelephony interface {
 	GetForbiddenPlmns(ctx context.Context, subId int32, appType int32) ([]string, error)
 	SetForbiddenPlmns(ctx context.Context, subId int32, appType int32, fplmns []string) (int32, error)
 	GetEmergencyCallbackMode(ctx context.Context, subId int32) (bool, error)
-	GetSignalStrength(ctx context.Context, subId int32) (network.SignalStrength, error)
+	GetSignalStrength(ctx context.Context, subId int32) (androidTelephony.SignalStrength, error)
 	GetCardIdForDefaultEuicc(ctx context.Context, subId int32) (int32, error)
 	GetUiccCardsInfo(ctx context.Context) ([]androidTelephony.UiccCardInfo, error)
 	GetUiccSlotsInfo(ctx context.Context) ([]androidTelephony.UiccSlotInfo, error)
@@ -1115,7 +1112,7 @@ type ITelephony interface {
 	SetImsProvisioningInt(ctx context.Context, subId int32, key int32, value int32) (int32, error)
 	SetImsProvisioningString(ctx context.Context, subId int32, key int32, value string) (int32, error)
 	StartEmergencyCallbackMode(ctx context.Context) error
-	UpdateEmergencyNumberListTestMode(ctx context.Context, action int32, num voice.EmergencyNumber) error
+	UpdateEmergencyNumberListTestMode(ctx context.Context, action int32, num emergency.EmergencyNumber) error
 	GetEmergencyNumberListTestMode(ctx context.Context) ([]string, error)
 	GetEmergencyNumberDbVersion(ctx context.Context, subId int32) (int32, error)
 	NotifyOtaEmergencyNumberDbInstalled(ctx context.Context) error
@@ -1134,8 +1131,8 @@ type ITelephony interface {
 	IsModemEnabledForSlot(ctx context.Context, slotIndex int32) (bool, error)
 	IsDataEnabledForApn(ctx context.Context, apnType int32, subId int32) (bool, error)
 	IsApnMetered(ctx context.Context, apnType int32, subId int32) (bool, error)
-	SetSystemSelectionChannels(ctx context.Context, specifiers []network.RadioAccessSpecifier, subId int32, resultCallback IBooleanConsumer) error
-	GetSystemSelectionChannels(ctx context.Context, subId int32) ([]network.RadioAccessSpecifier, error)
+	SetSystemSelectionChannels(ctx context.Context, specifiers []androidTelephony.RadioAccessSpecifier, subId int32, resultCallback IBooleanConsumer) error
+	GetSystemSelectionChannels(ctx context.Context, subId int32) ([]androidTelephony.RadioAccessSpecifier, error)
 	IsMvnoMatched(ctx context.Context, slotIndex int32, mvnoType int32, mvnoMatchData string) (bool, error)
 	EnqueueSmsPickResult(ctx context.Context, callingAttributeTag string, subIdResult IIntegerConsumer) error
 	ShowSwitchToManagedProfileDialog(ctx context.Context) error
@@ -1195,14 +1192,14 @@ type ITelephony interface {
 	SetCapabilitiesRequestTimeout(ctx context.Context, subId int32, timeoutAfterMs int64) (bool, error)
 	SetSignalStrengthUpdateRequest(ctx context.Context, subId int32, request androidTelephony.SignalStrengthUpdateRequest) error
 	ClearSignalStrengthUpdateRequest(ctx context.Context, subId int32, request androidTelephony.SignalStrengthUpdateRequest) error
-	GetPhoneCapability(ctx context.Context) (radioConfig.PhoneCapability, error)
+	GetPhoneCapability(ctx context.Context) (androidTelephony.PhoneCapability, error)
 	PrepareForUnattendedReboot(ctx context.Context) (int32, error)
 	GetSlicingConfig(ctx context.Context, callback os.ResultReceiver) error
 	IsPremiumCapabilityAvailableForPurchase(ctx context.Context, capability int32, subId int32) (bool, error)
 	PurchasePremiumCapability(ctx context.Context, capability int32, callback IIntegerConsumer, subId int32) error
 	RegisterImsStateCallback(ctx context.Context, subId int32, feature int32, cb IImsStateCallback) error
 	UnregisterImsStateCallback(ctx context.Context, cb IImsStateCallback) error
-	GetLastKnownCellIdentity(ctx context.Context, subId int32) (network.CellIdentity, error)
+	GetLastKnownCellIdentity(ctx context.Context, subId int32) (androidTelephony.CellIdentity, error)
 	SetModemService(ctx context.Context, serviceName string) (bool, error)
 	GetModemService(ctx context.Context) (string, error)
 	IsProvisioningRequiredForCapability(ctx context.Context, subId int32, capability int32, tech int32) (bool, error)
@@ -1228,7 +1225,7 @@ type ITelephony interface {
 	RequestSatelliteCapabilities(ctx context.Context, subId int32, receiver os.ResultReceiver) error
 	StartSatelliteTransmissionUpdates(ctx context.Context, subId int32, resultCallback IIntegerConsumer, callback satellite.ISatelliteTransmissionUpdateCallback) error
 	StopSatelliteTransmissionUpdates(ctx context.Context, subId int32, resultCallback IIntegerConsumer, callback satellite.ISatelliteTransmissionUpdateCallback) error
-	ProvisionSatelliteService(ctx context.Context, subId int32, token string, provisionData []byte, callback IIntegerConsumer) (common.ICancellationSignal, error)
+	ProvisionSatelliteService(ctx context.Context, subId int32, token string, provisionData []byte, callback IIntegerConsumer) (os.ICancellationSignal, error)
 	DeprovisionSatelliteService(ctx context.Context, subId int32, token string, callback IIntegerConsumer) error
 	RegisterForSatelliteProvisionStateChanged(ctx context.Context, subId int32, callback satellite.ISatelliteProvisionStateCallback) (int32, error)
 	UnregisterForSatelliteProvisionStateChanged(ctx context.Context, subId int32, callback satellite.ISatelliteProvisionStateCallback) error
@@ -2274,8 +2271,8 @@ func (p *TelephonyProxy) IsDataConnectivityPossible(
 func (p *TelephonyProxy) GetCellLocation(
 	ctx context.Context,
 	callingPkg string,
-) (network.CellIdentity, error) {
-	var _result network.CellIdentity
+) (androidTelephony.CellIdentity, error) {
+	var _result androidTelephony.CellIdentity
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -3652,8 +3649,8 @@ func (p *TelephonyProxy) GetLteOnCdmaModeForSubscriber(
 func (p *TelephonyProxy) GetAllCellInfo(
 	ctx context.Context,
 	callingPkg string,
-) ([]network.CellInfo, error) {
-	var _result []network.CellInfo
+) ([]androidTelephony.CellInfo, error) {
+	var _result []androidTelephony.CellInfo
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -3685,7 +3682,7 @@ func (p *TelephonyProxy) GetAllCellInfo(
 	}
 
 	if _count >= 0 {
-		_result = make([]network.CellInfo, _count)
+		_result = make([]androidTelephony.CellInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
 			if _, _err = _reply.ReadInt32(); _err != nil {
 				return _result, _err
@@ -4547,8 +4544,8 @@ func (p *TelephonyProxy) GetImsConfig(
 	ctx context.Context,
 	slotId int32,
 	feature int32,
-) (types.IImsConfig, error) {
-	var _result types.IImsConfig
+) (internal.IImsConfig, error) {
+	var _result internal.IImsConfig
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
@@ -4797,7 +4794,7 @@ func (p *TelephonyProxy) RequestNetworkScan(
 	ctx context.Context,
 	subId int32,
 	renounceFineLocationAccess bool,
-	request network.NetworkScanRequest,
+	request androidTelephony.NetworkScanRequest,
 	messenger os.Messenger,
 	binder_ binder.IBinder,
 ) (int32, error) {
@@ -7794,8 +7791,8 @@ func (p *TelephonyProxy) GetEmergencyCallbackMode(
 func (p *TelephonyProxy) GetSignalStrength(
 	ctx context.Context,
 	subId int32,
-) (network.SignalStrength, error) {
-	var _result network.SignalStrength
+) (androidTelephony.SignalStrength, error) {
+	var _result androidTelephony.SignalStrength
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
@@ -9903,7 +9900,7 @@ func (p *TelephonyProxy) StartEmergencyCallbackMode(
 func (p *TelephonyProxy) UpdateEmergencyNumberListTestMode(
 	ctx context.Context,
 	action int32,
-	num voice.EmergencyNumber,
+	num emergency.EmergencyNumber,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -10520,7 +10517,7 @@ func (p *TelephonyProxy) IsApnMetered(
 
 func (p *TelephonyProxy) SetSystemSelectionChannels(
 	ctx context.Context,
-	specifiers []network.RadioAccessSpecifier,
+	specifiers []androidTelephony.RadioAccessSpecifier,
 	subId int32,
 	resultCallback IBooleanConsumer,
 ) error {
@@ -10553,8 +10550,8 @@ func (p *TelephonyProxy) SetSystemSelectionChannels(
 func (p *TelephonyProxy) GetSystemSelectionChannels(
 	ctx context.Context,
 	subId int32,
-) ([]network.RadioAccessSpecifier, error) {
-	var _result []network.RadioAccessSpecifier
+) ([]androidTelephony.RadioAccessSpecifier, error) {
+	var _result []androidTelephony.RadioAccessSpecifier
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
@@ -10584,7 +10581,7 @@ func (p *TelephonyProxy) GetSystemSelectionChannels(
 	}
 
 	if _count >= 0 {
-		_result = make([]network.RadioAccessSpecifier, _count)
+		_result = make([]androidTelephony.RadioAccessSpecifier, _count)
 		for _i := int32(0); _i < _count; _i++ {
 			if _, _err = _reply.ReadInt32(); _err != nil {
 				return _result, _err
@@ -12470,8 +12467,8 @@ func (p *TelephonyProxy) ClearSignalStrengthUpdateRequest(
 
 func (p *TelephonyProxy) GetPhoneCapability(
 	ctx context.Context,
-) (radioConfig.PhoneCapability, error) {
-	var _result radioConfig.PhoneCapability
+) (androidTelephony.PhoneCapability, error) {
+	var _result androidTelephony.PhoneCapability
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
@@ -12691,8 +12688,8 @@ func (p *TelephonyProxy) UnregisterImsStateCallback(
 func (p *TelephonyProxy) GetLastKnownCellIdentity(
 	ctx context.Context,
 	subId int32,
-) (network.CellIdentity, error) {
-	var _result network.CellIdentity
+) (androidTelephony.CellIdentity, error) {
+	var _result androidTelephony.CellIdentity
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -13559,8 +13556,8 @@ func (p *TelephonyProxy) ProvisionSatelliteService(
 	token string,
 	provisionData []byte,
 	callback IIntegerConsumer,
-) (common.ICancellationSignal, error) {
-	var _result common.ICancellationSignal
+) (os.ICancellationSignal, error) {
+	var _result os.ICancellationSignal
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorITelephony)
@@ -13588,7 +13585,7 @@ func (p *TelephonyProxy) ProvisionSatelliteService(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = common.NewCancellationSignalProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
+	_result = os.NewCancellationSignalProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -17146,7 +17143,7 @@ func (s *TelephonyStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_request network.NetworkScanRequest
+		var _arg_request androidTelephony.NetworkScanRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -20067,7 +20064,7 @@ func (s *TelephonyStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_num voice.EmergencyNumber
+		var _arg_num emergency.EmergencyNumber
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -20364,7 +20361,7 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetSystemSelectionChannels:
-		var _arg_specifiers []network.RadioAccessSpecifier
+		var _arg_specifiers []androidTelephony.RadioAccessSpecifier
 		{
 			_count, _err := _data.ReadInt32()
 			if _err != nil {
@@ -20374,7 +20371,7 @@ func (s *TelephonyStub) OnTransaction(
 				return nil, fmt.Errorf("array count too large: %d", _count)
 			}
 			if _count >= 0 {
-				_arg_specifiers = make([]network.RadioAccessSpecifier, _count)
+				_arg_specifiers = make([]androidTelephony.RadioAccessSpecifier, _count)
 				for _i := int32(0); _i < _count; _i++ {
 					if _, _err = _data.ReadInt32(); _err != nil {
 						return nil, _err
@@ -23204,7 +23201,7 @@ type ITelephonyServer interface {
 	EnableDataConnectivity(ctx context.Context) (bool, error)
 	DisableDataConnectivity(ctx context.Context) (bool, error)
 	IsDataConnectivityPossible(ctx context.Context, subId int32) (bool, error)
-	GetCellLocation(ctx context.Context, callingPkg string) (network.CellIdentity, error)
+	GetCellLocation(ctx context.Context, callingPkg string) (androidTelephony.CellIdentity, error)
 	GetNetworkCountryIsoForPhone(ctx context.Context, phoneId int32) (string, error)
 	GetNeighboringCellInfo(ctx context.Context, callingPkg string) ([]androidTelephony.NeighboringCellInfo, error)
 	GetCallState(ctx context.Context) (int32, error)
@@ -23245,7 +23242,7 @@ type ITelephonyServer interface {
 	HasIccCardUsingSlotIndex(ctx context.Context, slotIndex int32) (bool, error)
 	GetLteOnCdmaMode(ctx context.Context) (int32, error)
 	GetLteOnCdmaModeForSubscriber(ctx context.Context, subId int32) (int32, error)
-	GetAllCellInfo(ctx context.Context, callingPkg string) ([]network.CellInfo, error)
+	GetAllCellInfo(ctx context.Context, callingPkg string) ([]androidTelephony.CellInfo, error)
 	RequestCellInfoUpdate(ctx context.Context, subId int32, cb androidTelephony.ICellInfoCallback, callingPkg string) error
 	RequestCellInfoUpdateWithWorkSource(ctx context.Context, subId int32, cb androidTelephony.ICellInfoCallback, callingPkg string, ws os.WorkSource) error
 	SetCellInfoListRate(ctx context.Context, rateInMillis int32, subId int32) error
@@ -23270,14 +23267,14 @@ type ITelephonyServer interface {
 	RegisterMmTelFeatureCallback(ctx context.Context, slotId int32, callback internal.IImsServiceFeatureCallback) error
 	UnregisterImsFeatureCallback(ctx context.Context, callback internal.IImsServiceFeatureCallback) error
 	GetImsRegistration(ctx context.Context, slotId int32, feature int32) (types.IImsRegistration, error)
-	GetImsConfig(ctx context.Context, slotId int32, feature int32) (types.IImsConfig, error)
+	GetImsConfig(ctx context.Context, slotId int32, feature int32) (internal.IImsConfig, error)
 	SetBoundImsServiceOverride(ctx context.Context, slotIndex int32, isCarrierService bool, featureTypes []int32, packageName string) (bool, error)
 	ClearCarrierImsServiceOverride(ctx context.Context, slotIndex int32) (bool, error)
 	GetBoundImsServicePackage(ctx context.Context, slotIndex int32, isCarrierImsService bool, featureType int32) (string, error)
 	GetImsMmTelFeatureState(ctx context.Context, subId int32, callback IIntegerConsumer) error
 	SetNetworkSelectionModeAutomatic(ctx context.Context, subId int32) error
 	GetCellNetworkScanResults(ctx context.Context, subId int32) (CellNetworkScanResult, error)
-	RequestNetworkScan(ctx context.Context, subId int32, renounceFineLocationAccess bool, request network.NetworkScanRequest, messenger os.Messenger, binder_ binder.IBinder) (int32, error)
+	RequestNetworkScan(ctx context.Context, subId int32, renounceFineLocationAccess bool, request androidTelephony.NetworkScanRequest, messenger os.Messenger, binder_ binder.IBinder) (int32, error)
 	StopNetworkScan(ctx context.Context, subId int32, scanId int32) error
 	SetNetworkSelectionModeManual(ctx context.Context, subId int32, operatorInfo OperatorInfo, persisSelection bool) (bool, error)
 	GetAllowedNetworkTypesForReason(ctx context.Context, subId int32, reason int32) (int64, error)
@@ -23363,7 +23360,7 @@ type ITelephonyServer interface {
 	GetForbiddenPlmns(ctx context.Context, subId int32, appType int32) ([]string, error)
 	SetForbiddenPlmns(ctx context.Context, subId int32, appType int32, fplmns []string) (int32, error)
 	GetEmergencyCallbackMode(ctx context.Context, subId int32) (bool, error)
-	GetSignalStrength(ctx context.Context, subId int32) (network.SignalStrength, error)
+	GetSignalStrength(ctx context.Context, subId int32) (androidTelephony.SignalStrength, error)
 	GetCardIdForDefaultEuicc(ctx context.Context, subId int32) (int32, error)
 	GetUiccCardsInfo(ctx context.Context) ([]androidTelephony.UiccCardInfo, error)
 	GetUiccSlotsInfo(ctx context.Context) ([]androidTelephony.UiccSlotInfo, error)
@@ -23427,7 +23424,7 @@ type ITelephonyServer interface {
 	SetImsProvisioningInt(ctx context.Context, subId int32, key int32, value int32) (int32, error)
 	SetImsProvisioningString(ctx context.Context, subId int32, key int32, value string) (int32, error)
 	StartEmergencyCallbackMode(ctx context.Context) error
-	UpdateEmergencyNumberListTestMode(ctx context.Context, action int32, num voice.EmergencyNumber) error
+	UpdateEmergencyNumberListTestMode(ctx context.Context, action int32, num emergency.EmergencyNumber) error
 	GetEmergencyNumberListTestMode(ctx context.Context) ([]string, error)
 	GetEmergencyNumberDbVersion(ctx context.Context, subId int32) (int32, error)
 	NotifyOtaEmergencyNumberDbInstalled(ctx context.Context) error
@@ -23446,8 +23443,8 @@ type ITelephonyServer interface {
 	IsModemEnabledForSlot(ctx context.Context, slotIndex int32) (bool, error)
 	IsDataEnabledForApn(ctx context.Context, apnType int32, subId int32) (bool, error)
 	IsApnMetered(ctx context.Context, apnType int32, subId int32) (bool, error)
-	SetSystemSelectionChannels(ctx context.Context, specifiers []network.RadioAccessSpecifier, subId int32, resultCallback IBooleanConsumer) error
-	GetSystemSelectionChannels(ctx context.Context, subId int32) ([]network.RadioAccessSpecifier, error)
+	SetSystemSelectionChannels(ctx context.Context, specifiers []androidTelephony.RadioAccessSpecifier, subId int32, resultCallback IBooleanConsumer) error
+	GetSystemSelectionChannels(ctx context.Context, subId int32) ([]androidTelephony.RadioAccessSpecifier, error)
 	IsMvnoMatched(ctx context.Context, slotIndex int32, mvnoType int32, mvnoMatchData string) (bool, error)
 	EnqueueSmsPickResult(ctx context.Context, callingAttributeTag string, subIdResult IIntegerConsumer) error
 	ShowSwitchToManagedProfileDialog(ctx context.Context) error
@@ -23507,14 +23504,14 @@ type ITelephonyServer interface {
 	SetCapabilitiesRequestTimeout(ctx context.Context, subId int32, timeoutAfterMs int64) (bool, error)
 	SetSignalStrengthUpdateRequest(ctx context.Context, subId int32, request androidTelephony.SignalStrengthUpdateRequest) error
 	ClearSignalStrengthUpdateRequest(ctx context.Context, subId int32, request androidTelephony.SignalStrengthUpdateRequest) error
-	GetPhoneCapability(ctx context.Context) (radioConfig.PhoneCapability, error)
+	GetPhoneCapability(ctx context.Context) (androidTelephony.PhoneCapability, error)
 	PrepareForUnattendedReboot(ctx context.Context) (int32, error)
 	GetSlicingConfig(ctx context.Context, callback os.ResultReceiver) error
 	IsPremiumCapabilityAvailableForPurchase(ctx context.Context, capability int32, subId int32) (bool, error)
 	PurchasePremiumCapability(ctx context.Context, capability int32, callback IIntegerConsumer, subId int32) error
 	RegisterImsStateCallback(ctx context.Context, subId int32, feature int32, cb IImsStateCallback) error
 	UnregisterImsStateCallback(ctx context.Context, cb IImsStateCallback) error
-	GetLastKnownCellIdentity(ctx context.Context, subId int32) (network.CellIdentity, error)
+	GetLastKnownCellIdentity(ctx context.Context, subId int32) (androidTelephony.CellIdentity, error)
 	SetModemService(ctx context.Context, serviceName string) (bool, error)
 	GetModemService(ctx context.Context) (string, error)
 	IsProvisioningRequiredForCapability(ctx context.Context, subId int32, capability int32, tech int32) (bool, error)
@@ -23540,7 +23537,7 @@ type ITelephonyServer interface {
 	RequestSatelliteCapabilities(ctx context.Context, subId int32, receiver os.ResultReceiver) error
 	StartSatelliteTransmissionUpdates(ctx context.Context, subId int32, resultCallback IIntegerConsumer, callback satellite.ISatelliteTransmissionUpdateCallback) error
 	StopSatelliteTransmissionUpdates(ctx context.Context, subId int32, resultCallback IIntegerConsumer, callback satellite.ISatelliteTransmissionUpdateCallback) error
-	ProvisionSatelliteService(ctx context.Context, subId int32, token string, provisionData []byte, callback IIntegerConsumer) (common.ICancellationSignal, error)
+	ProvisionSatelliteService(ctx context.Context, subId int32, token string, provisionData []byte, callback IIntegerConsumer) (os.ICancellationSignal, error)
 	DeprovisionSatelliteService(ctx context.Context, subId int32, token string, callback IIntegerConsumer) error
 	RegisterForSatelliteProvisionStateChanged(ctx context.Context, subId int32, callback satellite.ISatelliteProvisionStateCallback) (int32, error)
 	UnregisterForSatelliteProvisionStateChanged(ctx context.Context, subId int32, callback satellite.ISatelliteProvisionStateCallback) error
@@ -23817,7 +23814,7 @@ func (w *telephonyStubWrapper) IsDataConnectivityPossible(
 func (w *telephonyStubWrapper) GetCellLocation(
 	ctx context.Context,
 	callingPkg string,
-) (network.CellIdentity, error) {
+) (androidTelephony.CellIdentity, error) {
 	return w.impl.GetCellLocation(ctx, callingPkg)
 }
 
@@ -24105,7 +24102,7 @@ func (w *telephonyStubWrapper) GetLteOnCdmaModeForSubscriber(
 func (w *telephonyStubWrapper) GetAllCellInfo(
 	ctx context.Context,
 	callingPkg string,
-) ([]network.CellInfo, error) {
+) ([]androidTelephony.CellInfo, error) {
 	return w.impl.GetAllCellInfo(ctx, callingPkg)
 }
 
@@ -24325,7 +24322,7 @@ func (w *telephonyStubWrapper) GetImsConfig(
 	ctx context.Context,
 	slotId int32,
 	feature int32,
-) (types.IImsConfig, error) {
+) (internal.IImsConfig, error) {
 	return w.impl.GetImsConfig(ctx, slotId, feature)
 }
 
@@ -24381,7 +24378,7 @@ func (w *telephonyStubWrapper) RequestNetworkScan(
 	ctx context.Context,
 	subId int32,
 	renounceFineLocationAccess bool,
-	request network.NetworkScanRequest,
+	request androidTelephony.NetworkScanRequest,
 	messenger os.Messenger,
 	binder_ binder.IBinder,
 ) (int32, error) {
@@ -25021,7 +25018,7 @@ func (w *telephonyStubWrapper) GetEmergencyCallbackMode(
 func (w *telephonyStubWrapper) GetSignalStrength(
 	ctx context.Context,
 	subId int32,
-) (network.SignalStrength, error) {
+) (androidTelephony.SignalStrength, error) {
 	return w.impl.GetSignalStrength(ctx, subId)
 }
 
@@ -25523,7 +25520,7 @@ func (w *telephonyStubWrapper) StartEmergencyCallbackMode(
 func (w *telephonyStubWrapper) UpdateEmergencyNumberListTestMode(
 	ctx context.Context,
 	action int32,
-	num voice.EmergencyNumber,
+	num emergency.EmergencyNumber,
 ) error {
 	return w.impl.UpdateEmergencyNumberListTestMode(ctx, action, num)
 }
@@ -25653,7 +25650,7 @@ func (w *telephonyStubWrapper) IsApnMetered(
 
 func (w *telephonyStubWrapper) SetSystemSelectionChannels(
 	ctx context.Context,
-	specifiers []network.RadioAccessSpecifier,
+	specifiers []androidTelephony.RadioAccessSpecifier,
 	subId int32,
 	resultCallback IBooleanConsumer,
 ) error {
@@ -25663,7 +25660,7 @@ func (w *telephonyStubWrapper) SetSystemSelectionChannels(
 func (w *telephonyStubWrapper) GetSystemSelectionChannels(
 	ctx context.Context,
 	subId int32,
-) ([]network.RadioAccessSpecifier, error) {
+) ([]androidTelephony.RadioAccessSpecifier, error) {
 	return w.impl.GetSystemSelectionChannels(ctx, subId)
 }
 
@@ -26108,7 +26105,7 @@ func (w *telephonyStubWrapper) ClearSignalStrengthUpdateRequest(
 
 func (w *telephonyStubWrapper) GetPhoneCapability(
 	ctx context.Context,
-) (radioConfig.PhoneCapability, error) {
+) (androidTelephony.PhoneCapability, error) {
 	return w.impl.GetPhoneCapability(ctx)
 }
 
@@ -26161,7 +26158,7 @@ func (w *telephonyStubWrapper) UnregisterImsStateCallback(
 func (w *telephonyStubWrapper) GetLastKnownCellIdentity(
 	ctx context.Context,
 	subId int32,
-) (network.CellIdentity, error) {
+) (androidTelephony.CellIdentity, error) {
 	return w.impl.GetLastKnownCellIdentity(ctx, subId)
 }
 
@@ -26368,7 +26365,7 @@ func (w *telephonyStubWrapper) ProvisionSatelliteService(
 	token string,
 	provisionData []byte,
 	callback IIntegerConsumer,
-) (common.ICancellationSignal, error) {
+) (os.ICancellationSignal, error) {
 	return w.impl.ProvisionSatelliteService(ctx, subId, token, provisionData, callback)
 }
 

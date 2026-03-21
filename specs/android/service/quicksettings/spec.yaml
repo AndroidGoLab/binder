@@ -142,3 +142,28 @@ interfaces:
             name: void
 parcelables:
     - name: Tile
+      java_wire_format:
+        - name: (byte)1
+          write_method: int32
+          condition: mIcon!=null
+        - name: Dest
+          write_method: opaque
+          condition: mIcon!=null
+        - name: (byte)1
+          write_method: int32
+          condition: mPendingIntent!=null
+        - name: Dest
+          write_method: opaque
+          condition: mPendingIntent!=null
+        - name: State
+          write_method: int32
+        - name: Label
+          write_method: opaque
+        - name: DefaultLabel
+          write_method: opaque
+        - name: Subtitle
+          write_method: opaque
+        - name: ContentDescription
+          write_method: opaque
+        - name: StateDescription
+          write_method: opaque

@@ -15,7 +15,7 @@ const (
 type EnvironmentalReverbId struct {
 	Tag                int32
 	VendorExtensionTag VendorExtension
-	CommonTag          EnvironmentalReverbTag
+	CommonTag          any
 }
 
 var _ parcel.Parcelable = (*EnvironmentalReverbId)(nil)
@@ -34,16 +34,16 @@ func (u *EnvironmentalReverbId) SetVendorExtensionTag(
 	*u = EnvironmentalReverbId{Tag: EnvironmentalReverbIdTagVendorExtensionTag, VendorExtensionTag: v}
 }
 
-func (u *EnvironmentalReverbId) GetCommonTag() (EnvironmentalReverbTag, bool) {
+func (u *EnvironmentalReverbId) GetCommonTag() (any, bool) {
 	if u.Tag != EnvironmentalReverbIdTagCommonTag {
-		var _zero EnvironmentalReverbTag
+		var _zero any
 		return _zero, false
 	}
 	return u.CommonTag, true
 }
 
 func (u *EnvironmentalReverbId) SetCommonTag(
-	v EnvironmentalReverbTag,
+	v any,
 ) {
 	*u = EnvironmentalReverbId{Tag: EnvironmentalReverbIdTagCommonTag, CommonTag: v}
 }
@@ -61,7 +61,6 @@ func (u *EnvironmentalReverbId) MarshalParcel(
 			return _err
 		}
 	case EnvironmentalReverbIdTagCommonTag:
-		p.WriteInt32(int32(u.CommonTag))
 	default:
 		return fmt.Errorf("unknown union tag %d for EnvironmentalReverbId", u.Tag)
 	}
@@ -92,11 +91,6 @@ func (u *EnvironmentalReverbId) UnmarshalParcel(
 			return _err
 		}
 	case EnvironmentalReverbIdTagCommonTag:
-		_raw, _err := p.ReadInt32()
-		if _err != nil {
-			return _err
-		}
-		u.CommonTag = EnvironmentalReverbTag(_raw)
 	default:
 		return fmt.Errorf("unknown union tag %d for EnvironmentalReverbId", u.Tag)
 	}

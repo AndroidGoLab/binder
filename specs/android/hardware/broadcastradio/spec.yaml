@@ -15,6 +15,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IBroadcastRadio
       descriptor: android.hardware.broadcastradio.IBroadcastRadio
       methods:
@@ -178,6 +180,8 @@ interfaces:
         - name: TUNER_TIMEOUT_MS
           type: int
           value: "30000"
+      annotations:
+        - VintfStability
     - name: ICloseHandle
       descriptor: android.hardware.broadcastradio.ICloseHandle
       methods:
@@ -185,6 +189,8 @@ interfaces:
           transaction_code_offset: 0
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: ITunerCallback
       descriptor: android.hardware.broadcastradio.ITunerCallback
       oneway: true
@@ -252,6 +258,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: AmFmBandRange
       fields:

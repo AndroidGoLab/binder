@@ -3,7 +3,6 @@ package composer3
 import (
 	"context"
 	"fmt"
-	gui "github.com/xaionaro-go/binder/android/gui"
 	hardwareCommon "github.com/xaionaro-go/binder/android/hardware/common"
 	common "github.com/xaionaro-go/binder/android/hardware/graphics/common"
 	"github.com/xaionaro-go/binder/binder"
@@ -141,7 +140,7 @@ type IComposerClient interface {
 	GetReadbackBufferFence(ctx context.Context, display int64) (int32, error)
 	GetRenderIntents(ctx context.Context, display int64, mode ColorMode) ([]RenderIntent, error)
 	GetSupportedContentTypes(ctx context.Context, display int64) ([]ContentType, error)
-	GetDisplayDecorationSupport(ctx context.Context, display int64) (gui.DisplayDecorationSupport, error)
+	GetDisplayDecorationSupport(ctx context.Context, display int64) (common.DisplayDecorationSupport, error)
 	RegisterCallback(ctx context.Context, callback IComposerCallback) error
 	SetActiveConfig(ctx context.Context, display int64, config int32) error
 	SetActiveConfigWithConstraints(ctx context.Context, display int64, config int32, vsyncPeriodChangeConstraints VsyncPeriodChangeConstraints) (VsyncPeriodChangeTimeline, error)
@@ -158,8 +157,8 @@ type IComposerClient interface {
 	SetVsyncEnabled(ctx context.Context, display int64, enabled bool) error
 	SetIdleTimerEnabled(ctx context.Context, display int64, timeoutMs int32) error
 	GetOverlaySupport(ctx context.Context) (OverlayProperties, error)
-	GetHdrConversionCapabilities(ctx context.Context) ([]gui.HdrConversionCapability, error)
-	SetHdrConversionStrategy(ctx context.Context, conversionStrategy gui.HdrConversionStrategy) (common.Hdr, error)
+	GetHdrConversionCapabilities(ctx context.Context) ([]common.HdrConversionCapability, error)
+	SetHdrConversionStrategy(ctx context.Context, conversionStrategy common.HdrConversionStrategy) (common.Hdr, error)
 	SetRefreshRateChangedCallbackDebugEnabled(ctx context.Context, display int64, enabled bool) error
 	GetDisplayConfigurations(ctx context.Context, display int64, maxFrameIntervalNs int32) ([]DisplayConfiguration, error)
 	NotifyExpectedPresent(ctx context.Context, display int64, expectedPresentTime ClockMonotonicTimestamp, frameIntervalNs int32) error
@@ -1159,8 +1158,8 @@ func (p *ComposerClientProxy) GetSupportedContentTypes(
 func (p *ComposerClientProxy) GetDisplayDecorationSupport(
 	ctx context.Context,
 	display int64,
-) (gui.DisplayDecorationSupport, error) {
-	var _result gui.DisplayDecorationSupport
+) (common.DisplayDecorationSupport, error) {
+	var _result common.DisplayDecorationSupport
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
@@ -1694,8 +1693,8 @@ func (p *ComposerClientProxy) GetOverlaySupport(
 
 func (p *ComposerClientProxy) GetHdrConversionCapabilities(
 	ctx context.Context,
-) ([]gui.HdrConversionCapability, error) {
-	var _result []gui.HdrConversionCapability
+) ([]common.HdrConversionCapability, error) {
+	var _result []common.HdrConversionCapability
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIComposerClient)
@@ -1724,7 +1723,7 @@ func (p *ComposerClientProxy) GetHdrConversionCapabilities(
 	}
 
 	if _count >= 0 {
-		_result = make([]gui.HdrConversionCapability, _count)
+		_result = make([]common.HdrConversionCapability, _count)
 		for _i := int32(0); _i < _count; _i++ {
 			if _, _err = _reply.ReadInt32(); _err != nil {
 				return _result, _err
@@ -1739,7 +1738,7 @@ func (p *ComposerClientProxy) GetHdrConversionCapabilities(
 
 func (p *ComposerClientProxy) SetHdrConversionStrategy(
 	ctx context.Context,
-	conversionStrategy gui.HdrConversionStrategy,
+	conversionStrategy common.HdrConversionStrategy,
 ) (common.Hdr, error) {
 	var _result common.Hdr
 	_data := parcel.New()
@@ -2726,7 +2725,7 @@ func (s *ComposerClientStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIComposerClientSetHdrConversionStrategy:
-		var _arg_conversionStrategy gui.HdrConversionStrategy
+		var _arg_conversionStrategy common.HdrConversionStrategy
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -2849,7 +2848,7 @@ type IComposerClientServer interface {
 	GetReadbackBufferFence(ctx context.Context, display int64) (int32, error)
 	GetRenderIntents(ctx context.Context, display int64, mode ColorMode) ([]RenderIntent, error)
 	GetSupportedContentTypes(ctx context.Context, display int64) ([]ContentType, error)
-	GetDisplayDecorationSupport(ctx context.Context, display int64) (gui.DisplayDecorationSupport, error)
+	GetDisplayDecorationSupport(ctx context.Context, display int64) (common.DisplayDecorationSupport, error)
 	RegisterCallback(ctx context.Context, callback IComposerCallback) error
 	SetActiveConfig(ctx context.Context, display int64, config int32) error
 	SetActiveConfigWithConstraints(ctx context.Context, display int64, config int32, vsyncPeriodChangeConstraints VsyncPeriodChangeConstraints) (VsyncPeriodChangeTimeline, error)
@@ -2866,8 +2865,8 @@ type IComposerClientServer interface {
 	SetVsyncEnabled(ctx context.Context, display int64, enabled bool) error
 	SetIdleTimerEnabled(ctx context.Context, display int64, timeoutMs int32) error
 	GetOverlaySupport(ctx context.Context) (OverlayProperties, error)
-	GetHdrConversionCapabilities(ctx context.Context) ([]gui.HdrConversionCapability, error)
-	SetHdrConversionStrategy(ctx context.Context, conversionStrategy gui.HdrConversionStrategy) (common.Hdr, error)
+	GetHdrConversionCapabilities(ctx context.Context) ([]common.HdrConversionCapability, error)
+	SetHdrConversionStrategy(ctx context.Context, conversionStrategy common.HdrConversionStrategy) (common.Hdr, error)
 	SetRefreshRateChangedCallbackDebugEnabled(ctx context.Context, display int64, enabled bool) error
 	GetDisplayConfigurations(ctx context.Context, display int64, maxFrameIntervalNs int32) ([]DisplayConfiguration, error)
 	NotifyExpectedPresent(ctx context.Context, display int64, expectedPresentTime ClockMonotonicTimestamp, frameIntervalNs int32) error
@@ -3069,7 +3068,7 @@ func (w *composerClientStubWrapper) GetSupportedContentTypes(
 func (w *composerClientStubWrapper) GetDisplayDecorationSupport(
 	ctx context.Context,
 	display int64,
-) (gui.DisplayDecorationSupport, error) {
+) (common.DisplayDecorationSupport, error) {
 	return w.impl.GetDisplayDecorationSupport(ctx, display)
 }
 
@@ -3203,13 +3202,13 @@ func (w *composerClientStubWrapper) GetOverlaySupport(
 
 func (w *composerClientStubWrapper) GetHdrConversionCapabilities(
 	ctx context.Context,
-) ([]gui.HdrConversionCapability, error) {
+) ([]common.HdrConversionCapability, error) {
 	return w.impl.GetHdrConversionCapabilities(ctx)
 }
 
 func (w *composerClientStubWrapper) SetHdrConversionStrategy(
 	ctx context.Context,
-	conversionStrategy gui.HdrConversionStrategy,
+	conversionStrategy common.HdrConversionStrategy,
 ) (common.Hdr, error) {
 	return w.impl.SetHdrConversionStrategy(ctx, conversionStrategy)
 }

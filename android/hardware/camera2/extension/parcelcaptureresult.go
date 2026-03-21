@@ -1,7 +1,7 @@
 package extension
 
 import (
-	device "github.com/xaionaro-go/binder/android/frameworks/cameraservice/device"
+	camera2 "github.com/xaionaro-go/binder/android/hardware/camera2"
 	impl "github.com/xaionaro-go/binder/android/hardware/camera2/impl"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -11,7 +11,7 @@ import (
 type ParcelCaptureResult struct {
 	CameraId    string
 	Results     impl.CameraMetadataNative
-	Parent      device.CaptureRequest
+	Parent      camera2.CaptureRequest
 	SequenceId  int32
 	FrameNumber int64
 }

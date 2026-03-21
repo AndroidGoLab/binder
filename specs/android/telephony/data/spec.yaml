@@ -409,13 +409,216 @@ interfaces:
             name: void
 parcelables:
     - name: ApnSetting
+      java_wire_format:
+        - name: Id
+          write_method: int32
+        - name: OperatorNumeric
+          write_method: string16
+        - name: EntryName
+          write_method: string16
+        - name: ApnName
+          write_method: string16
+        - name: ProxyAddress
+          write_method: string16
+        - name: ProxyPort
+          write_method: int32
+        - name: Mmsc
+          write_method: opaque
+        - name: MmsProxyAddress
+          write_method: string16
+        - name: MmsProxyPort
+          write_method: int32
+        - name: User
+          write_method: string16
+        - name: Password
+          write_method: string16
+        - name: AuthType
+          write_method: int32
+        - name: ApnTypeBitmask
+          write_method: int32
+        - name: Protocol
+          write_method: int32
+        - name: RoamingProtocol
+          write_method: int32
+        - name: CarrierEnabled
+          write_method: bool
+        - name: NetworkTypeBitmask
+          write_method: int32
+        - name: LingeringNetworkTypeBitmask
+          write_method: int64
+        - name: ProfileId
+          write_method: int32
+        - name: Persistent
+          write_method: bool
+        - name: MaxConns
+          write_method: int32
+        - name: WaitTime
+          write_method: int32
+        - name: MaxConnsTime
+          write_method: int32
+        - name: MtuV4
+          write_method: int32
+        - name: MtuV6
+          write_method: int32
+        - name: MvnoType
+          write_method: int32
+        - name: MvnoMatchData
+          write_method: string16
+        - name: ApnSetId
+          write_method: int32
+        - name: CarrierId
+          write_method: int32
+        - name: Skip464Xlat
+          write_method: int32
+        - name: AlwaysOn
+          write_method: bool
+        - name: InfrastructureBitmask
+          write_method: int32
+        - name: EsimBootstrapProvisioning
+          write_method: bool
+        - name: EditedStatus
+          write_method: int32
     - name: DataCallResponse
+      java_wire_format:
+        - name: Cause
+          write_method: int32
+        - name: SuggestedRetryTime
+          write_method: int64
+        - name: Id
+          write_method: int32
+        - name: LinkStatus
+          write_method: int32
+        - name: ProtocolType
+          write_method: int32
+        - name: InterfaceName
+          write_method: string16
+        - name: Addresses
+          write_method: opaque
+        - name: DnsAddresses
+          write_method: opaque
+        - name: GatewayAddresses
+          write_method: opaque
+        - name: PcscfAddresses
+          write_method: opaque
+        - name: Mtu
+          write_method: int32
+        - name: MtuV4
+          write_method: int32
+        - name: MtuV6
+          write_method: int32
+        - name: HandoverFailureMode
+          write_method: int32
+        - name: PduSessionId
+          write_method: int32
+        - name: DefaultQos
+          write_method: opaque
+        - name: QosBearerSessions
+          write_method: opaque
+        - name: SliceInfo
+          write_method: opaque
+        - name: TrafficDescriptors
+          write_method: opaque
+        - name: NetworkValidationStatus
+          write_method: int32
     - name: DataProfile
+      java_wire_format:
+        - name: Type
+          write_method: int32
+        - name: ApnSetting
+          write_method: opaque
+        - name: TrafficDescriptor
+          write_method: opaque
+        - name: Preferred
+          write_method: bool
+        - name: SetupTimestamp
+          write_method: int64
     - name: EpsBearerQosSessionAttributes
+      java_wire_format:
+        - name: Qci
+          write_method: int32
+        - name: MaxDownlinkBitRate
+          write_method: int64
+        - name: MaxUplinkBitRate
+          write_method: int64
+        - name: GuaranteedDownlinkBitRate
+          write_method: int64
+        - name: GuaranteedUplinkBitRate
+          write_method: int64
+        - name: Size
+          write_method: int32
     - name: NetworkSliceInfo
+      java_wire_format:
+        - name: SliceServiceType
+          write_method: int32
+        - name: SliceDifferentiator
+          write_method: int32
+        - name: MappedHplmnSliceServiceType
+          write_method: int32
+        - name: MappedHplmnSliceDifferentiator
+          write_method: int32
+        - name: Status
+          write_method: int32
     - name: NetworkSlicingConfig
+      java_wire_format:
+        - name: UrspRules
+          write_method: opaque
+        - name: SliceInfo
+          write_method: opaque
     - name: NrQosSessionAttributes
+      java_wire_format:
+        - name: M5Qi
+          write_method: int32
+        - name: Qfi
+          write_method: int32
+        - name: MaxDownlinkBitRate
+          write_method: int64
+        - name: MaxUplinkBitRate
+          write_method: int64
+        - name: GuaranteedDownlinkBitRate
+          write_method: int64
+        - name: GuaranteedUplinkBitRate
+          write_method: int64
+        - name: AveragingWindow
+          write_method: int64
+        - name: Size
+          write_method: int32
     - name: RouteSelectionDescriptor
+      java_wire_format:
+        - name: Precedence
+          write_method: int32
+        - name: SessionType
+          write_method: int32
+        - name: SscMode
+          write_method: int32
+        - name: SliceInfo
+          write_method: opaque
+        - name: Dnn
+          write_method: opaque
     - name: ThrottleStatus
+      java_wire_format:
+        - name: SlotIndex
+          write_method: int32
+        - name: TransportType
+          write_method: int32
+        - name: ApnType
+          write_method: int32
+        - name: ThrottleExpiryTimeMillis
+          write_method: int64
+        - name: RetryType
+          write_method: int32
+        - name: ThrottleType
+          write_method: int32
     - name: TrafficDescriptor
+      java_wire_format:
+        - name: Dnn
+          write_method: string16
+        - name: OsAppId!=null?mOsAppId.getBytes():null
+          write_method: opaque
     - name: UrspRule
+      java_wire_format:
+        - name: Precedence
+          write_method: int32
+        - name: TrafficDescriptors
+          write_method: opaque
+        - name: RouteSelectionDescriptor
+          write_method: opaque

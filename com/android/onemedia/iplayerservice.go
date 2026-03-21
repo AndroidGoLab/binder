@@ -4,10 +4,10 @@ import (
 	"context"
 	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
-	extension "github.com/xaionaro-go/binder/android/hardware/camera2/extension"
 	session "github.com/xaionaro-go/binder/android/media/session"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
+	playback "github.com/xaionaro-go/binder/com/android/onemedia/playback"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -36,7 +36,7 @@ type IPlayerService interface {
 	GetSessionToken(ctx context.Context) (session.MediaSessionToken, error)
 	RegisterCallback(ctx context.Context, cb IPlayerCallback) error
 	UnregisterCallback(ctx context.Context, cb IPlayerCallback) error
-	SendRequest(ctx context.Context, action string, params os.Bundle, cb extension.IRequestCallback) error
+	SendRequest(ctx context.Context, action string, params os.Bundle, cb playback.IRequestCallback) error
 	SetIcon(ctx context.Context, icon graphics.Bitmap) error
 }
 
@@ -149,7 +149,7 @@ func (p *PlayerServiceProxy) SendRequest(
 	ctx context.Context,
 	action string,
 	params os.Bundle,
-	cb extension.IRequestCallback,
+	cb playback.IRequestCallback,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -296,13 +296,13 @@ func (s *PlayerServiceStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_cb extension.IRequestCallback
+		var _arg_cb playback.IRequestCallback
 		{
 			_cbHandle, _err := _data.ReadStrongBinder()
 			if _err != nil {
 				return nil, _err
 			}
-			_arg_cb = extension.NewRequestCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
+			_arg_cb = playback.NewRequestCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cbHandle))
 		}
 		_err = s.Impl.SendRequest(ctx, _arg_action, _arg_params, _arg_cb)
 		_reply := parcel.New()
@@ -345,7 +345,7 @@ type IPlayerServiceServer interface {
 	GetSessionToken(ctx context.Context) (session.MediaSessionToken, error)
 	RegisterCallback(ctx context.Context, cb IPlayerCallback) error
 	UnregisterCallback(ctx context.Context, cb IPlayerCallback) error
-	SendRequest(ctx context.Context, action string, params os.Bundle, cb extension.IRequestCallback) error
+	SendRequest(ctx context.Context, action string, params os.Bundle, cb playback.IRequestCallback) error
 	SetIcon(ctx context.Context, icon graphics.Bitmap) error
 }
 
@@ -382,7 +382,7 @@ func (w *playerServiceStubWrapper) SendRequest(
 	ctx context.Context,
 	action string,
 	params os.Bundle,
-	cb extension.IRequestCallback,
+	cb playback.IRequestCallback,
 ) error {
 	return w.impl.SendRequest(ctx, action, params, cb)
 }

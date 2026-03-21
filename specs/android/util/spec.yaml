@@ -63,3 +63,10 @@ interfaces:
 parcelables:
     - name: MemoryIntArray
     - name: MergedConfiguration
+      java_wire_format:
+        - name: Dest
+          write_method: opaque
+        - name: Dest
+          write_method: opaque
+        - name: Dest
+          write_method: opaque

@@ -22,6 +22,11 @@ interfaces:
               direction: in
           return_type:
             name: HfpConfig
+      nested_types:
+        - IBluetooth.ScoConfig
+        - IBluetooth.HfpConfig
+      annotations:
+        - VintfStability
     - name: IBluetoothA2dp
       descriptor: android.hardware.audio.core.IBluetoothA2dp
       methods:
@@ -51,6 +56,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IBluetoothLe
       descriptor: android.hardware.audio.core.IBluetoothLe
       methods:
@@ -80,6 +87,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IConfig
       descriptor: android.hardware.audio.core.IConfig
       methods:
@@ -91,6 +100,8 @@ interfaces:
           transaction_code_offset: 1
           return_type:
             name: AudioHalEngineConfig
+      annotations:
+        - VintfStability
     - name: IModule
       descriptor: android.hardware.audio.core.IModule
       methods:
@@ -323,6 +334,8 @@ interfaces:
               type:
                 name: String
                 is_array: true
+                annotations:
+                    - utf8InCpp
               direction: in
           return_type:
             name: VendorParameter
@@ -400,6 +413,15 @@ interfaces:
         - name: DEFAULT_AAUDIO_HARDWARE_BURST_MIN_DURATION_US
           type: int
           value: "1000"
+      nested_types:
+        - IModule.OpenInputStreamArguments
+        - IModule.OpenInputStreamReturn
+        - IModule.OpenOutputStreamArguments
+        - IModule.OpenOutputStreamReturn
+        - IModule.SupportedPlaybackRateFactors
+        - IModule.ScreenRotation
+      annotations:
+        - VintfStability
     - name: IStreamCallback
       descriptor: android.hardware.audio.core.IStreamCallback
       oneway: true
@@ -416,6 +438,8 @@ interfaces:
           transaction_code_offset: 2
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IStreamCommon
       descriptor: android.hardware.audio.core.IStreamCommon
       methods:
@@ -442,6 +466,8 @@ interfaces:
               type:
                 name: String
                 is_array: true
+                annotations:
+                    - utf8InCpp
               direction: in
           return_type:
             name: VendorParameter
@@ -477,6 +503,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IStreamIn
       descriptor: android.hardware.audio.core.IStreamIn
       methods:
@@ -553,6 +581,10 @@ interfaces:
         - name: HW_GAIN_MAX
           type: int
           value: "1"
+      nested_types:
+        - IStreamIn.MicrophoneDirection
+      annotations:
+        - VintfStability
     - name: IStreamOut
       descriptor: android.hardware.audio.core.IStreamOut
       methods:
@@ -664,6 +696,8 @@ interfaces:
         - name: AUDIO_DESCRIPTION_MIX_LEVEL_MAX
           type: int
           value: "48"
+      annotations:
+        - VintfStability
     - name: IStreamOutEventCallback
       descriptor: android.hardware.audio.core.IStreamOutEventCallback
       oneway: true
@@ -688,6 +722,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: ITelephony
       descriptor: android.hardware.audio.core.ITelephony
       methods:
@@ -713,6 +749,10 @@ interfaces:
               direction: in
           return_type:
             name: TelecomConfig
+      nested_types:
+        - ITelephony.TelecomConfig
+      annotations:
+        - VintfStability
 parcelables:
     - name: AudioPatch
       fields:

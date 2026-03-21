@@ -3,8 +3,8 @@ package telecom
 import (
 	"context"
 	"fmt"
-	media "github.com/xaionaro-go/binder/android/hardware/radio/ims/media"
 	androidTelecom "github.com/xaionaro-go/binder/android/telecom"
+	telephony "github.com/xaionaro-go/binder/android/telephony"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -45,7 +45,7 @@ type ICallDiagnosticService interface {
 	UpdateCallAudioState(ctx context.Context, callAudioState androidTelecom.CallAudioState) error
 	RemoveDiagnosticCall(ctx context.Context, callId string) error
 	ReceiveDeviceToDeviceMessage(ctx context.Context, callId string, message int32, value int32) error
-	CallQualityChanged(ctx context.Context, callId string, callQuality media.CallQuality) error
+	CallQualityChanged(ctx context.Context, callId string, callQuality telephony.CallQuality) error
 	ReceiveBluetoothCallQualityReport(ctx context.Context, qualityReport androidTelecom.BluetoothCallQualityReport) error
 	NotifyCallDisconnected(ctx context.Context, callId string, disconnectCause androidTelecom.DisconnectCause) error
 }
@@ -190,7 +190,7 @@ func (p *CallDiagnosticServiceProxy) ReceiveDeviceToDeviceMessage(
 func (p *CallDiagnosticServiceProxy) CallQualityChanged(
 	ctx context.Context,
 	callId string,
-	callQuality media.CallQuality,
+	callQuality telephony.CallQuality,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -360,7 +360,7 @@ func (s *CallDiagnosticServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callQuality media.CallQuality
+		var _arg_callQuality telephony.CallQuality
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -423,7 +423,7 @@ type ICallDiagnosticServiceServer interface {
 	UpdateCallAudioState(ctx context.Context, callAudioState androidTelecom.CallAudioState) error
 	RemoveDiagnosticCall(ctx context.Context, callId string) error
 	ReceiveDeviceToDeviceMessage(ctx context.Context, callId string, message int32, value int32) error
-	CallQualityChanged(ctx context.Context, callId string, callQuality media.CallQuality) error
+	CallQualityChanged(ctx context.Context, callId string, callQuality telephony.CallQuality) error
 	ReceiveBluetoothCallQualityReport(ctx context.Context, qualityReport androidTelecom.BluetoothCallQualityReport) error
 	NotifyCallDisconnected(ctx context.Context, callId string, disconnectCause androidTelecom.DisconnectCause) error
 }
@@ -484,7 +484,7 @@ func (w *callDiagnosticServiceStubWrapper) ReceiveDeviceToDeviceMessage(
 func (w *callDiagnosticServiceStubWrapper) CallQualityChanged(
 	ctx context.Context,
 	callId string,
-	callQuality media.CallQuality,
+	callQuality telephony.CallQuality,
 ) error {
 	return w.impl.CallQualityChanged(ctx, callId, callQuality)
 }

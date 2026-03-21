@@ -42,6 +42,10 @@ interfaces:
         - name: ERROR_DEVICE_LOGGING_NOT_ENABLED
           type: int
           value: "2"
+      nested_types:
+        - IDumpstateDevice.DumpstateMode
+      annotations:
+        - VintfStability
 enums:
     - name: IDumpstateDevice.DumpstateMode
       backing_type: int

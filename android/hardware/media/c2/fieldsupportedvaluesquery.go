@@ -1,7 +1,6 @@
 package c2
 
 import (
-	hardware "github.com/xaionaro-go/binder/android/hardware"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -9,7 +8,7 @@ import (
 
 type FieldSupportedValuesQuery struct {
 	Field ParamField
-	Type  hardware.CameraExtensionSessionStatsType
+	Type  FieldSupportedValuesQueryType
 }
 
 var _ parcel.Parcelable = (*FieldSupportedValuesQuery)(nil)
@@ -53,7 +52,7 @@ func (s *FieldSupportedValuesQuery) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	s.Type = hardware.CameraExtensionSessionStatsType(_typeRaw)
+	s.Type = FieldSupportedValuesQueryType(_typeRaw)
 
 	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil

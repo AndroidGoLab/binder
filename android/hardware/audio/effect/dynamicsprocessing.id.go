@@ -15,7 +15,7 @@ const (
 type DynamicsProcessingId struct {
 	Tag                int32
 	VendorExtensionTag VendorExtension
-	CommonTag          DynamicsProcessingTag
+	CommonTag          any
 }
 
 var _ parcel.Parcelable = (*DynamicsProcessingId)(nil)
@@ -34,16 +34,16 @@ func (u *DynamicsProcessingId) SetVendorExtensionTag(
 	*u = DynamicsProcessingId{Tag: DynamicsProcessingIdTagVendorExtensionTag, VendorExtensionTag: v}
 }
 
-func (u *DynamicsProcessingId) GetCommonTag() (DynamicsProcessingTag, bool) {
+func (u *DynamicsProcessingId) GetCommonTag() (any, bool) {
 	if u.Tag != DynamicsProcessingIdTagCommonTag {
-		var _zero DynamicsProcessingTag
+		var _zero any
 		return _zero, false
 	}
 	return u.CommonTag, true
 }
 
 func (u *DynamicsProcessingId) SetCommonTag(
-	v DynamicsProcessingTag,
+	v any,
 ) {
 	*u = DynamicsProcessingId{Tag: DynamicsProcessingIdTagCommonTag, CommonTag: v}
 }
@@ -61,7 +61,6 @@ func (u *DynamicsProcessingId) MarshalParcel(
 			return _err
 		}
 	case DynamicsProcessingIdTagCommonTag:
-		p.WriteInt32(int32(u.CommonTag))
 	default:
 		return fmt.Errorf("unknown union tag %d for DynamicsProcessingId", u.Tag)
 	}
@@ -92,11 +91,6 @@ func (u *DynamicsProcessingId) UnmarshalParcel(
 			return _err
 		}
 	case DynamicsProcessingIdTagCommonTag:
-		_raw, _err := p.ReadInt32()
-		if _err != nil {
-			return _err
-		}
-		u.CommonTag = DynamicsProcessingTag(_raw)
 	default:
 		return fmt.Errorf("unknown union tag %d for DynamicsProcessingId", u.Tag)
 	}

@@ -3,4 +3,14 @@ go_package: android/app/assist
 parcelables:
     - name: AssistContent
     - name: AssistStructure
+      java_wire_format:
+        - name: TaskId
+          write_method: int32
+        - name: ActivityComponent
+          write_method: opaque
+        - name: IsHomeActivity?1:0
+          write_method: int32
+        - name: SendChannel
+          write_method: opaque
+          condition: mHaveData
     - name: AssistStructure.ViewNodeParcelable

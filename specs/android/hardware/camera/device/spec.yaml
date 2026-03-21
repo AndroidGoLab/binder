@@ -95,6 +95,8 @@ interfaces:
               direction: in
           return_type:
             name: CameraMetadata
+      annotations:
+        - VintfStability
     - name: ICameraDeviceCallback
       descriptor: android.hardware.camera.device.ICameraDeviceCallback
       methods:
@@ -143,6 +145,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: ICameraDeviceSession
       descriptor: android.hardware.camera.device.ICameraDeviceSession
       methods:
@@ -267,6 +271,8 @@ interfaces:
               direction: in
           return_type:
             name: ConfigureStreamsRet
+      annotations:
+        - VintfStability
     - name: ICameraInjectionSession
       descriptor: android.hardware.camera.device.ICameraInjectionSession
       methods:
@@ -287,6 +293,8 @@ interfaces:
           transaction_code_offset: 1
           return_type:
             name: ICameraDeviceSession
+      annotations:
+        - VintfStability
     - name: ICameraOfflineSession
       descriptor: android.hardware.camera.device.ICameraOfflineSession
       methods:
@@ -310,6 +318,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: BufferCache
       fields:

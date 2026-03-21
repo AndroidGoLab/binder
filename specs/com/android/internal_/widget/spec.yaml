@@ -783,4 +783,20 @@ interfaces:
             name: void
 parcelables:
     - name: LockscreenCredential
+      java_wire_format:
+        - name: Type
+          write_method: int32
+        - name: Credential
+          write_method: opaque
+        - name: HasInvalidChars
+          write_method: bool
     - name: VerifyCredentialResponse
+      java_wire_format:
+        - name: ResponseCode
+          write_method: int32
+        - name: Timeout
+          write_method: int32
+        - name: GatekeeperHAT
+          write_method: opaque
+        - name: GatekeeperPasswordHandle
+          write_method: int64

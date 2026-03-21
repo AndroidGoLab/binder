@@ -61,6 +61,8 @@ interfaces:
             - name: destPath
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
             - name: destCreateMode
               type:
@@ -119,6 +121,8 @@ interfaces:
             - name: filePath
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
             - name: options
               type:
@@ -132,6 +136,8 @@ interfaces:
             - name: filePath
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
             - name: options
               type:
@@ -145,10 +151,14 @@ interfaces:
             - name: currentPath
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
             - name: destPath
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
             - name: options
               type:
@@ -162,6 +172,8 @@ interfaces:
             - name: path
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
             - name: readIntegrity
               type:

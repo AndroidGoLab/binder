@@ -140,7 +140,46 @@ interfaces:
             name: void
 parcelables:
     - name: AppPredictionContext
+      java_wire_format:
+        - name: UiSurface
+          write_method: string16
+        - name: PredictedTargetCount
+          write_method: int32
+        - name: PackageName
+          write_method: string16
+        - name: Extras
+          write_method: opaque
     - name: AppPredictionSessionId
+      java_wire_format:
+        - name: Id
+          write_method: string16
+        - name: UserId
+          write_method: int32
     - name: AppTarget
+      java_wire_format:
+        - name: Id
+          write_method: opaque
+        - name: ShortcutInfo
+          write_method: opaque
+        - name: PackageName
+          write_method: string16
+          condition: mShortcutInfo==null
+        - name: User.getIdentifier()
+          write_method: int32
+          condition: mShortcutInfo==null
+        - name: ClassName
+          write_method: string16
+        - name: Rank
+          write_method: int32
     - name: AppTargetEvent
+      java_wire_format:
+        - name: Target
+          write_method: opaque
+        - name: Location
+          write_method: string16
+        - name: Action
+          write_method: int32
     - name: AppTargetId
+      java_wire_format:
+        - name: Id
+          write_method: string16

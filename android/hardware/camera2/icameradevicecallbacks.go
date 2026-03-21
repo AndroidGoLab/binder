@@ -3,7 +3,6 @@ package camera2
 import (
 	"context"
 	"fmt"
-	device "github.com/xaionaro-go/binder/android/frameworks/cameraservice/device"
 	impl "github.com/xaionaro-go/binder/android/hardware/camera2/impl"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -35,10 +34,10 @@ const (
 
 type ICameraDeviceCallbacks interface {
 	AsBinder() binder.IBinder
-	OnDeviceError(ctx context.Context, errorCode int32, resultExtras device.CaptureResultExtras) error
+	OnDeviceError(ctx context.Context, errorCode int32, resultExtras impl.CaptureResultExtras) error
 	OnDeviceIdle(ctx context.Context) error
-	OnCaptureStarted(ctx context.Context, resultExtras device.CaptureResultExtras, timestamp int64) error
-	OnResultReceived(ctx context.Context, result impl.CameraMetadataNative, resultExtras device.CaptureResultExtras, physicalCaptureResultInfos []device.PhysicalCaptureResultInfo) error
+	OnCaptureStarted(ctx context.Context, resultExtras impl.CaptureResultExtras, timestamp int64) error
+	OnResultReceived(ctx context.Context, result impl.CameraMetadataNative, resultExtras impl.CaptureResultExtras, physicalCaptureResultInfos []impl.PhysicalCaptureResultInfo) error
 	OnPrepared(ctx context.Context, streamId int32) error
 	OnRepeatingRequestError(ctx context.Context, lastFrameNumber int64, repeatingRequestId int32) error
 	OnRequestQueueEmpty(ctx context.Context) error
@@ -74,7 +73,7 @@ var _ ICameraDeviceCallbacks = (*CameraDeviceCallbacksProxy)(nil)
 func (p *CameraDeviceCallbacksProxy) OnDeviceError(
 	ctx context.Context,
 	errorCode int32,
-	resultExtras device.CaptureResultExtras,
+	resultExtras impl.CaptureResultExtras,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -112,7 +111,7 @@ func (p *CameraDeviceCallbacksProxy) OnDeviceIdle(
 
 func (p *CameraDeviceCallbacksProxy) OnCaptureStarted(
 	ctx context.Context,
-	resultExtras device.CaptureResultExtras,
+	resultExtras impl.CaptureResultExtras,
 	timestamp int64,
 ) error {
 	_data := parcel.New()
@@ -136,8 +135,8 @@ func (p *CameraDeviceCallbacksProxy) OnCaptureStarted(
 func (p *CameraDeviceCallbacksProxy) OnResultReceived(
 	ctx context.Context,
 	result impl.CameraMetadataNative,
-	resultExtras device.CaptureResultExtras,
-	physicalCaptureResultInfos []device.PhysicalCaptureResultInfo,
+	resultExtras impl.CaptureResultExtras,
+	physicalCaptureResultInfos []impl.PhysicalCaptureResultInfo,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -253,7 +252,7 @@ func (s *CameraDeviceCallbacksStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_resultExtras device.CaptureResultExtras
+		var _arg_resultExtras impl.CaptureResultExtras
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -271,7 +270,7 @@ func (s *CameraDeviceCallbacksStub) OnTransaction(
 		_err := s.Impl.OnDeviceIdle(ctx)
 		return nil, _err
 	case TransactionICameraDeviceCallbacksOnCaptureStarted:
-		var _arg_resultExtras device.CaptureResultExtras
+		var _arg_resultExtras impl.CaptureResultExtras
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -302,7 +301,7 @@ func (s *CameraDeviceCallbacksStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_resultExtras device.CaptureResultExtras
+		var _arg_resultExtras impl.CaptureResultExtras
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -314,7 +313,7 @@ func (s *CameraDeviceCallbacksStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_physicalCaptureResultInfos []device.PhysicalCaptureResultInfo
+		var _arg_physicalCaptureResultInfos []impl.PhysicalCaptureResultInfo
 		{
 			_count, _err := _data.ReadInt32()
 			if _err != nil {
@@ -324,7 +323,7 @@ func (s *CameraDeviceCallbacksStub) OnTransaction(
 				return nil, fmt.Errorf("array count too large: %d", _count)
 			}
 			if _count >= 0 {
-				_arg_physicalCaptureResultInfos = make([]device.PhysicalCaptureResultInfo, _count)
+				_arg_physicalCaptureResultInfos = make([]impl.PhysicalCaptureResultInfo, _count)
 				for _i := int32(0); _i < _count; _i++ {
 					if _, _err = _data.ReadInt32(); _err != nil {
 						return nil, _err
@@ -367,10 +366,10 @@ func (s *CameraDeviceCallbacksStub) OnTransaction(
 // provide to NewCameraDeviceCallbacksStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ICameraDeviceCallbacksServer interface {
-	OnDeviceError(ctx context.Context, errorCode int32, resultExtras device.CaptureResultExtras) error
+	OnDeviceError(ctx context.Context, errorCode int32, resultExtras impl.CaptureResultExtras) error
 	OnDeviceIdle(ctx context.Context) error
-	OnCaptureStarted(ctx context.Context, resultExtras device.CaptureResultExtras, timestamp int64) error
-	OnResultReceived(ctx context.Context, result impl.CameraMetadataNative, resultExtras device.CaptureResultExtras, physicalCaptureResultInfos []device.PhysicalCaptureResultInfo) error
+	OnCaptureStarted(ctx context.Context, resultExtras impl.CaptureResultExtras, timestamp int64) error
+	OnResultReceived(ctx context.Context, result impl.CameraMetadataNative, resultExtras impl.CaptureResultExtras, physicalCaptureResultInfos []impl.PhysicalCaptureResultInfo) error
 	OnPrepared(ctx context.Context, streamId int32) error
 	OnRepeatingRequestError(ctx context.Context, lastFrameNumber int64, repeatingRequestId int32) error
 	OnRequestQueueEmpty(ctx context.Context) error
@@ -388,7 +387,7 @@ func (w *cameraDeviceCallbacksStubWrapper) AsBinder() binder.IBinder {
 func (w *cameraDeviceCallbacksStubWrapper) OnDeviceError(
 	ctx context.Context,
 	errorCode int32,
-	resultExtras device.CaptureResultExtras,
+	resultExtras impl.CaptureResultExtras,
 ) error {
 	return w.impl.OnDeviceError(ctx, errorCode, resultExtras)
 }
@@ -401,7 +400,7 @@ func (w *cameraDeviceCallbacksStubWrapper) OnDeviceIdle(
 
 func (w *cameraDeviceCallbacksStubWrapper) OnCaptureStarted(
 	ctx context.Context,
-	resultExtras device.CaptureResultExtras,
+	resultExtras impl.CaptureResultExtras,
 	timestamp int64,
 ) error {
 	return w.impl.OnCaptureStarted(ctx, resultExtras, timestamp)
@@ -410,8 +409,8 @@ func (w *cameraDeviceCallbacksStubWrapper) OnCaptureStarted(
 func (w *cameraDeviceCallbacksStubWrapper) OnResultReceived(
 	ctx context.Context,
 	result impl.CameraMetadataNative,
-	resultExtras device.CaptureResultExtras,
-	physicalCaptureResultInfos []device.PhysicalCaptureResultInfo,
+	resultExtras impl.CaptureResultExtras,
+	physicalCaptureResultInfos []impl.PhysicalCaptureResultInfo,
 ) error {
 	return w.impl.OnResultReceived(ctx, result, resultExtras, physicalCaptureResultInfos)
 }

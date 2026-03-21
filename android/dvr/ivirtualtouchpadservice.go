@@ -13,10 +13,10 @@ const DescriptorIVirtualTouchpadService = "android.dvr.IVirtualTouchpadService"
 
 const (
 	TransactionIVirtualTouchpadServiceAttach      = binder.FirstCallTransaction + 0
-	TransactionIVirtualTouchpadServiceDetach      = binder.FirstCallTransaction + 1
-	TransactionIVirtualTouchpadServiceTouch       = binder.FirstCallTransaction + 2
-	TransactionIVirtualTouchpadServiceButtonState = binder.FirstCallTransaction + 3
-	TransactionIVirtualTouchpadServiceScroll      = binder.FirstCallTransaction + 4
+	TransactionIVirtualTouchpadServiceDetach      = binder.FirstCallTransaction + 0
+	TransactionIVirtualTouchpadServiceTouch       = binder.FirstCallTransaction + 1
+	TransactionIVirtualTouchpadServiceButtonState = binder.FirstCallTransaction + 2
+	TransactionIVirtualTouchpadServiceScroll      = binder.FirstCallTransaction + 3
 )
 
 const (
@@ -224,15 +224,6 @@ func (s *VirtualTouchpadServiceStub) OnTransaction(
 	switch code {
 	case TransactionIVirtualTouchpadServiceAttach:
 		_err := s.Impl.Attach(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
-	case TransactionIVirtualTouchpadServiceDetach:
-		_err := s.Impl.Detach(ctx)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)

@@ -780,11 +780,91 @@ interfaces:
             - JavaPassthrough
 parcelables:
     - name: BroadcastResponseStats
+      java_wire_format:
+        - name: PackageName
+          write_method: string8
+        - name: Id
+          write_method: int64
+        - name: BroadcastsDispatchedCount
+          write_method: int32
+        - name: NotificationsPostedCount
+          write_method: int32
+        - name: NotificationsUpdatedCount
+          write_method: int32
+        - name: NotificationsCancelledCount
+          write_method: int32
     - name: BroadcastResponseStatsList
     - name: CacheQuotaHint
+      java_wire_format:
+        - name: Uuid
+          write_method: string16
+        - name: Uid
+          write_method: int32
+        - name: Quota
+          write_method: int64
+        - name: UsageStats
+          write_method: opaque
     - name: ExternalStorageStats
+      java_wire_format:
+        - name: TotalBytes
+          write_method: int64
+        - name: AudioBytes
+          write_method: int64
+        - name: VideoBytes
+          write_method: int64
+        - name: ImageBytes
+          write_method: int64
+        - name: AppBytes
+          write_method: int64
+        - name: ObbBytes
+          write_method: int64
     - name: PackageUsageStats
     - name: ParcelableUsageEventList
+      java_wire_format:
+        - name: "N"
+          write_method: int32
+        - name: "0"
+          write_method: int32
+          condition: N>0 && i<N
+        - name: Retriever
+          write_method: opaque
+          condition: N>0 && i<N
     - name: StorageStats
+      java_wire_format:
+        - name: CodeBytes
+          write_method: int64
+        - name: DataBytes
+          write_method: int64
+        - name: CacheBytes
+          write_method: int64
+        - name: DexoptBytes
+          write_method: int64
+        - name: RefProfBytes
+          write_method: int64
+        - name: CurProfBytes
+          write_method: int64
+        - name: ApkBytes
+          write_method: int64
+        - name: LibBytes
+          write_method: int64
+        - name: DmBytes
+          write_method: int64
+        - name: ExternalCacheBytes
+          write_method: int64
     - name: UsageEvents
     - name: UsageEventsQuery
+      java_wire_format:
+        - name: BeginTimeMillis
+          write_method: int64
+        - name: EndTimeMillis
+          write_method: int64
+        - name: EventTypes.length
+          write_method: int32
+        - name: EventTypes
+          write_method: opaque
+        - name: UserId
+          write_method: int32
+        - name: PackageNames.length
+          write_method: int32
+        - name: PackageNames
+          write_method: opaque

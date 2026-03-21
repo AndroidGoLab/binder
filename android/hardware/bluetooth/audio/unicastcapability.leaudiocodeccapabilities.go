@@ -16,7 +16,7 @@ const (
 type UnicastCapabilityLeAudioCodecCapabilities struct {
 	Tag                        int32
 	Lc3Capabilities            Lc3Capabilities
-	VendorCapabillities        BroadcastCapabilityVendorCapabilities
+	VendorCapabillities        UnicastCapabilityVendorCapabilities
 	AptxAdaptiveLeCapabilities AptxAdaptiveLeCapabilities
 }
 
@@ -36,16 +36,16 @@ func (u *UnicastCapabilityLeAudioCodecCapabilities) SetLc3Capabilities(
 	*u = UnicastCapabilityLeAudioCodecCapabilities{Tag: UnicastCapabilityLeAudioCodecCapabilitiesTagLc3Capabilities, Lc3Capabilities: v}
 }
 
-func (u *UnicastCapabilityLeAudioCodecCapabilities) GetVendorCapabillities() (BroadcastCapabilityVendorCapabilities, bool) {
+func (u *UnicastCapabilityLeAudioCodecCapabilities) GetVendorCapabillities() (UnicastCapabilityVendorCapabilities, bool) {
 	if u.Tag != UnicastCapabilityLeAudioCodecCapabilitiesTagVendorCapabillities {
-		var _zero BroadcastCapabilityVendorCapabilities
+		var _zero UnicastCapabilityVendorCapabilities
 		return _zero, false
 	}
 	return u.VendorCapabillities, true
 }
 
 func (u *UnicastCapabilityLeAudioCodecCapabilities) SetVendorCapabillities(
-	v BroadcastCapabilityVendorCapabilities,
+	v UnicastCapabilityVendorCapabilities,
 ) {
 	*u = UnicastCapabilityLeAudioCodecCapabilities{Tag: UnicastCapabilityLeAudioCodecCapabilitiesTagVendorCapabillities, VendorCapabillities: v}
 }

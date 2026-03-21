@@ -17,6 +17,8 @@ interfaces:
         - name: TIME_STAMP_MAC_LABEL
           type: String
           value: '"Auth Verification"'
+      annotations:
+        - VintfStability
 parcelables:
     - name: TimeStampToken
       fields:

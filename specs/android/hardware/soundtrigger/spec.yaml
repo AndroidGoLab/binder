@@ -57,6 +57,15 @@ interfaces:
             name: void
 parcelables:
     - name: KeyphraseMetadata
+      java_wire_format:
+        - name: Id
+          write_method: int32
+        - name: Keyphrase
+          write_method: string16
+        - name: SupportedLocales
+          write_method: opaque
+        - name: RecognitionModeFlags
+          write_method: int32
     - name: SoundTrigger.ConfidenceLevel
     - name: SoundTrigger.GenericRecognitionEvent
     - name: SoundTrigger.GenericSoundModel

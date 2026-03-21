@@ -3520,5 +3520,3 @@ interfaces:
               direction: in
           return_type:
             name: void
-parcelables:
-    - name: Session.Info

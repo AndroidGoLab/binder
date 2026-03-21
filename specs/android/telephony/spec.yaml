@@ -230,58 +230,809 @@ interfaces:
             name: void
 parcelables:
     - name: ActivityStatsTechSpecificInfo
+      java_wire_format:
+        - name: Rat
+          write_method: int32
+        - name: FrequencyRange
+          write_method: int32
+        - name: TxTimeMs
+          write_method: opaque
+        - name: RxTimeMs
+          write_method: int32
     - name: AvailableNetworkInfo
+      java_wire_format:
+        - name: SubId
+          write_method: int32
+        - name: Priority
+          write_method: int32
+        - name: MccMncs
+          write_method: opaque
+        - name: Bands
+          write_method: opaque
+        - name: RadioAccessSpecifiers
+          write_method: opaque
     - name: BarringInfo
+      java_wire_format:
+        - name: CellIdentity
+          write_method: opaque
+        - name: BarringServiceInfos
+          write_method: opaque
     - name: CallAttributes
+      java_wire_format:
+        - name: PreciseCallState
+          write_method: opaque
+        - name: NetworkType
+          write_method: int32
+        - name: CallQuality
+          write_method: opaque
     - name: CallForwardingInfo
+      java_wire_format:
+        - name: Number
+          write_method: string16
+        - name: Enabled
+          write_method: bool
+        - name: Reason
+          write_method: int32
+        - name: TimeSeconds
+          write_method: int32
     - name: CallQuality
+      java_wire_format:
+        - name: DownlinkCallQualityLevel
+          write_method: int32
+        - name: UplinkCallQualityLevel
+          write_method: int32
+        - name: CallDuration
+          write_method: int32
+        - name: NumRtpPacketsTransmitted
+          write_method: int32
+        - name: NumRtpPacketsReceived
+          write_method: int32
+        - name: NumRtpPacketsTransmittedLost
+          write_method: int32
+        - name: NumRtpPacketsNotReceived
+          write_method: int32
+        - name: AverageRelativeJitter
+          write_method: int32
+        - name: MaxRelativeJitter
+          write_method: int32
+        - name: AverageRoundTripTime
+          write_method: int32
+        - name: CodecType
+          write_method: int32
+        - name: RtpInactivityDetected
+          write_method: bool
+        - name: RxSilenceDetected
+          write_method: bool
+        - name: TxSilenceDetected
+          write_method: bool
+        - name: NumVoiceFrames
+          write_method: int32
+        - name: NumNoDataFrames
+          write_method: int32
+        - name: NumDroppedRtpPackets
+          write_method: int32
+        - name: MinPlayoutDelayMillis
+          write_method: int64
+        - name: MaxPlayoutDelayMillis
+          write_method: int64
+        - name: NumRtpSidPacketsReceived
+          write_method: int32
+        - name: NumRtpDuplicatePackets
+          write_method: int32
     - name: CallState
+      java_wire_format:
+        - name: PreciseCallState
+          write_method: int32
+        - name: NetworkType
+          write_method: int32
+        - name: CallQuality
+          write_method: opaque
+        - name: CallClassification
+          write_method: int32
+        - name: ImsCallId
+          write_method: string16
+        - name: ImsCallServiceType
+          write_method: int32
+        - name: ImsCallType
+          write_method: int32
     - name: CarrierRestrictionRules
+      java_wire_format:
+        - name: AllowedCarriers
+          write_method: opaque
+        - name: ExcludedCarriers
+          write_method: opaque
+        - name: CarrierRestrictionDefault
+          write_method: int32
+        - name: MultiSimPolicy
+          write_method: int32
+        - name: CarrierRestrictionStatus
+          write_method: int32
+        - name: AllowedCarrierInfo
+          write_method: opaque
+          condition: Flags.carrierRestrictionRulesEnhancement()
+        - name: ExcludedCarrierInfo
+          write_method: opaque
+          condition: Flags.carrierRestrictionRulesEnhancement()
+        - name: UseCarrierLockInfo
+          write_method: bool
+          condition: Flags.carrierRestrictionRulesEnhancement()
     - name: CellBroadcastIdRange
+      java_wire_format:
+        - name: StartId
+          write_method: int32
+        - name: EndId
+          write_method: int32
+        - name: Type
+          write_method: int32
+        - name: IsEnabled
+          write_method: bool
     - name: CellIdentity
+      java_wire_format:
+        - name: Type
+          write_method: int32
+        - name: MccStr
+          write_method: string16
+        - name: MncStr
+          write_method: string16
+        - name: AlphaLong
+          write_method: string16
+        - name: AlphaShort
+          write_method: string16
     - name: CellIdentityCdma
+      java_wire_format:
+        - name: Dest
+          write_method: opaque
+        - name: NetworkId
+          write_method: int32
+        - name: SystemId
+          write_method: int32
+        - name: BasestationId
+          write_method: int32
+        - name: Longitude
+          write_method: int32
+        - name: Latitude
+          write_method: int32
     - name: CellIdentityGsm
+      java_wire_format:
+        - name: Dest
+          write_method: opaque
+        - name: Lac
+          write_method: int32
+        - name: Cid
+          write_method: int32
+        - name: Arfcn
+          write_method: int32
+        - name: Bsic
+          write_method: int32
+        - name: AdditionalPlmns
+          write_method: opaque
     - name: CellIdentityLte
+      java_wire_format:
+        - name: Dest
+          write_method: opaque
+        - name: Ci
+          write_method: int32
+        - name: Pci
+          write_method: int32
+        - name: Tac
+          write_method: int32
+        - name: Earfcn
+          write_method: int32
+        - name: Bands
+          write_method: opaque
+        - name: Bandwidth
+          write_method: int32
+        - name: AdditionalPlmns
+          write_method: opaque
+        - name: CsgInfo
+          write_method: opaque
     - name: CellIdentityTdscdma
+      java_wire_format:
+        - name: Dest
+          write_method: opaque
+        - name: Lac
+          write_method: int32
+        - name: Cid
+          write_method: int32
+        - name: Cpid
+          write_method: int32
+        - name: Uarfcn
+          write_method: int32
+        - name: AdditionalPlmns
+          write_method: opaque
+        - name: CsgInfo
+          write_method: opaque
     - name: CellIdentityWcdma
+      java_wire_format:
+        - name: Dest
+          write_method: opaque
+        - name: Lac
+          write_method: int32
+        - name: Cid
+          write_method: int32
+        - name: Psc
+          write_method: int32
+        - name: Uarfcn
+          write_method: int32
+        - name: AdditionalPlmns
+          write_method: opaque
+        - name: CsgInfo
+          write_method: opaque
     - name: CellInfo
+      java_wire_format:
+        - name: Type
+          write_method: int32
+        - name: Registered?1:0
+          write_method: int32
+        - name: TimeStamp
+          write_method: int64
+        - name: CellConnectionStatus
+          write_method: int32
     - name: ClientRequestStats
+      java_wire_format:
+        - name: CallingPackage
+          write_method: string16
+        - name: CompletedRequestsWakelockTime
+          write_method: int64
+        - name: CompletedRequestsCount
+          write_method: int64
+        - name: PendingRequestsWakelockTime
+          write_method: int64
+        - name: PendingRequestsCount
+          write_method: int64
+        - name: GetRequestHistograms()
+          write_method: opaque
     - name: ClosedSubscriberGroupInfo
+      java_wire_format:
+        - name: CsgIndicator
+          write_method: bool
+        - name: HomeNodebName
+          write_method: string16
+        - name: CsgIdentity
+          write_method: int32
     - name: DataConnectionRealTimeInfo
+      java_wire_format:
+        - name: Time
+          write_method: int64
+        - name: DcPowerState
+          write_method: int32
     - name: DataThrottlingRequest
+      java_wire_format:
+        - name: DataThrottlingAction
+          write_method: int32
+        - name: CompletionDurationMillis
+          write_method: int64
     - name: DomainSelectionService.SelectionAttributes
     - name: EmergencyRegistrationResult
+      java_wire_format:
+        - name: AccessNetworkType
+          write_method: int32
+        - name: RegState
+          write_method: int32
+        - name: Domain
+          write_method: int32
+        - name: IsVopsSupported
+          write_method: bool
+        - name: IsEmcBearerSupported
+          write_method: bool
+        - name: NwProvidedEmc
+          write_method: int32
+        - name: NwProvidedEmf
+          write_method: int32
+        - name: Mcc
+          write_method: string8
+        - name: Mnc
+          write_method: string8
+        - name: CountryIso
+          write_method: string8
     - name: IccOpenLogicalChannelResponse
+      java_wire_format:
+        - name: Channel
+          write_method: int32
+        - name: Status
+          write_method: int32
+        - name: SelectResponse.length
+          write_method: int32
+          condition: mSelectResponse!=null&&mSelectResponse.length>0
+        - name: SelectResponse
+          write_method: opaque
+          condition: mSelectResponse!=null&&mSelectResponse.length>0
     - name: ImsiEncryptionInfo
+      java_wire_format:
+        - name: B.length
+          write_method: int32
+        - name: b
+          write_method: opaque
+        - name: Mcc
+          write_method: string16
+        - name: Mnc
+          write_method: string16
+        - name: KeyIdentifier
+          write_method: string16
+        - name: KeyType
+          write_method: int32
+        - name: ExpirationTime.getTime()
+          write_method: int64
+        - name: CarrierId
+          write_method: int32
     - name: LinkCapacityEstimate
+      java_wire_format:
+        - name: DownlinkCapacityKbps
+          write_method: int32
+        - name: UplinkCapacityKbps
+          write_method: int32
+        - name: Type
+          write_method: int32
     - name: LteVopsSupportInfo
+      java_wire_format:
+        - name: Out
+          write_method: opaque
+        - name: VopsSupport
+          write_method: int32
+        - name: EmcBearerSupport
+          write_method: int32
     - name: ModemActivityInfo
+      java_wire_format:
+        - name: Timestamp
+          write_method: int64
+        - name: SleepTimeMs
+          write_method: int32
+        - name: IdleTimeMs
+          write_method: int32
+        - name: ActivityStatsTechSpecificInfo
+          write_method: opaque
     - name: NeighboringCellInfo
+      java_wire_format:
+        - name: Rssi
+          write_method: int32
+        - name: Lac
+          write_method: int32
+        - name: Cid
+          write_method: int32
+        - name: Psc
+          write_method: int32
+        - name: NetworkType
+          write_method: int32
     - name: NetworkRegistrationInfo
+      java_wire_format:
+        - name: Domain
+          write_method: int32
+        - name: TransportType
+          write_method: int32
+        - name: RegistrationState
+          write_method: int32
+        - name: NetworkRegistrationState
+          write_method: int32
+        - name: RoamingType
+          write_method: int32
+        - name: AccessNetworkTechnology
+          write_method: int32
+        - name: RejectCause
+          write_method: int32
+        - name: EmergencyOnly
+          write_method: bool
+        - name: AvailableServices
+          write_method: opaque
+        - name: CellIdentity
+          write_method: opaque
+        - name: VoiceSpecificInfo
+          write_method: opaque
+        - name: DataSpecificInfo
+          write_method: opaque
+        - name: NrState
+          write_method: int32
+        - name: Rplmn
+          write_method: string16
+        - name: IsUsingCarrierAggregation
+          write_method: bool
+        - name: IsNonTerrestrialNetwork
+          write_method: bool
     - name: NetworkScanRequest
+      java_wire_format:
+        - name: ScanType
+          write_method: int32
+        - name: Specifiers
+          write_method: opaque
+        - name: SearchPeriodicity
+          write_method: int32
+        - name: MaxSearchTime
+          write_method: int32
+        - name: IncrementalResults
+          write_method: bool
+        - name: IncrementalResultsPeriodicity
+          write_method: int32
+        - name: MccMncs
+          write_method: opaque
     - name: NrVopsSupportInfo
+      java_wire_format:
+        - name: Out
+          write_method: opaque
+        - name: VopsSupport
+          write_method: int32
+        - name: EmcSupport
+          write_method: int32
+        - name: EmfSupport
+          write_method: int32
     - name: PcoData
+      java_wire_format:
+        - name: Cid
+          write_method: int32
+        - name: BearerProto
+          write_method: string16
+        - name: PcoId
+          write_method: int32
+        - name: Contents
+          write_method: opaque
     - name: PhoneCapability
+      java_wire_format:
+        - name: MaxActiveVoiceSubscriptions
+          write_method: int32
+        - name: MaxActiveDataSubscriptions
+          write_method: int32
+        - name: NetworkValidationBeforeSwitchSupported
+          write_method: bool
+        - name: LogicalModemList
+          write_method: opaque
+        - name: DeviceNrCapabilities
+          write_method: opaque
     - name: PhoneNumberRange
+      java_wire_format:
+        - name: CountryCode
+          write_method: string16
+        - name: Prefix
+          write_method: string16
+        - name: LowerBound
+          write_method: string16
+        - name: UpperBound
+          write_method: string16
     - name: PhysicalChannelConfig
+      java_wire_format:
+        - name: CellConnectionStatus
+          write_method: int32
+        - name: CellBandwidthDownlinkKhz
+          write_method: int32
+        - name: CellBandwidthUplinkKhz
+          write_method: int32
+        - name: NetworkType
+          write_method: int32
+        - name: DownlinkChannelNumber
+          write_method: int32
+        - name: UplinkChannelNumber
+          write_method: int32
+        - name: FrequencyRange
+          write_method: int32
+        - name: ContextIds
+          write_method: opaque
+        - name: PhysicalCellId
+          write_method: int32
+        - name: Band
+          write_method: int32
     - name: PreciseCallState
+      java_wire_format:
+        - name: RingingCallState
+          write_method: int32
+        - name: ForegroundCallState
+          write_method: int32
+        - name: BackgroundCallState
+          write_method: int32
+        - name: DisconnectCause
+          write_method: int32
+        - name: PreciseDisconnectCause
+          write_method: int32
     - name: PreciseDataConnectionState
+      java_wire_format:
+        - name: TransportType
+          write_method: int32
+        - name: Id
+          write_method: int32
+        - name: State
+          write_method: int32
+        - name: NetworkType
+          write_method: int32
+        - name: LinkProperties
+          write_method: opaque
+        - name: FailCause
+          write_method: int32
+        - name: ApnSetting
+          write_method: opaque
+        - name: DefaultQos
+          write_method: opaque
+        - name: NetworkValidationStatus
+          write_method: int32
     - name: RadioAccessFamily
+      java_wire_format:
+        - name: PhoneId
+          write_method: int32
+        - name: RadioAccessFamily
+          write_method: int32
     - name: RadioAccessSpecifier
+      java_wire_format:
+        - name: RadioAccessNetwork
+          write_method: int32
+        - name: Bands
+          write_method: opaque
+        - name: Channels
+          write_method: opaque
     - name: ServiceState
+      java_wire_format:
+        - name: VoiceRegState
+          write_method: int32
+        - name: DataRegState
+          write_method: int32
+        - name: OperatorAlphaLong
+          write_method: string16
+        - name: OperatorAlphaShort
+          write_method: string16
+        - name: OperatorNumeric
+          write_method: string16
+        - name: IsManualNetworkSelection?1:0
+          write_method: int32
+        - name: CssIndicator?1:0
+          write_method: int32
+        - name: NetworkId
+          write_method: int32
+        - name: SystemId
+          write_method: int32
+        - name: CdmaRoamingIndicator
+          write_method: int32
+        - name: CdmaDefaultRoamingIndicator
+          write_method: int32
+        - name: CdmaEriIconIndex
+          write_method: int32
+        - name: CdmaEriIconMode
+          write_method: int32
+        - name: IsEmergencyOnly?1:0
+          write_method: int32
+        - name: ArfcnRsrpBoost
+          write_method: int32
+        - name: ChannelNumber
+          write_method: int32
+        - name: CellBandwidths
+          write_method: opaque
+        - name: NrFrequencyRange
+          write_method: int32
+        - name: OperatorAlphaLongRaw
+          write_method: string16
+        - name: OperatorAlphaShortRaw
+          write_method: string16
+        - name: IsDataRoamingFromRegistration
+          write_method: bool
+        - name: IsIwlanPreferred
+          write_method: bool
     - name: SignalStrength
+      java_wire_format:
+        - name: Cdma
+          write_method: opaque
+        - name: Gsm
+          write_method: opaque
+        - name: Wcdma
+          write_method: opaque
+        - name: Tdscdma
+          write_method: opaque
+        - name: Lte
+          write_method: opaque
+        - name: Nr
+          write_method: opaque
+        - name: TimestampMillis
+          write_method: int64
     - name: SignalStrengthUpdateRequest
+      java_wire_format:
+        - name: SignalThresholdInfos
+          write_method: opaque
+        - name: IsReportingRequestedWhileIdle
+          write_method: bool
+        - name: IsSystemThresholdReportingRequestedWhileIdle
+          write_method: bool
+        - name: LiveToken
+          write_method: opaque
     - name: SubscriptionInfo
+      java_wire_format:
+        - name: Id
+          write_method: int32
+        - name: IccId
+          write_method: string16
+        - name: SimSlotIndex
+          write_method: int32
+        - name: DisplayName
+          write_method: opaque
+        - name: CarrierName
+          write_method: opaque
+        - name: DisplayNameSource
+          write_method: int32
+        - name: IconTint
+          write_method: int32
+        - name: Number
+          write_method: string16
+        - name: DataRoaming
+          write_method: int32
+        - name: Mcc
+          write_method: string16
+        - name: Mnc
+          write_method: string16
+        - name: CountryIso
+          write_method: string16
+        - name: IsEmbedded
+          write_method: bool
+        - name: NativeAccessRules
+          write_method: opaque
+        - name: CardString
+          write_method: string16
+        - name: CardId
+          write_method: int32
+        - name: PortIndex
+          write_method: int32
+        - name: IsOpportunistic
+          write_method: bool
+        - name: GroupUuid==null?null:mGroupUuid.toString()
+          write_method: string8
+        - name: IsGroupDisabled
+          write_method: bool
+        - name: CarrierId
+          write_method: int32
+        - name: ProfileClass
+          write_method: int32
+        - name: Type
+          write_method: int32
+        - name: Ehplmns
+          write_method: opaque
+        - name: Hplmns
+          write_method: opaque
+        - name: GroupOwner
+          write_method: string16
+        - name: CarrierConfigAccessRules
+          write_method: opaque
+        - name: AreUiccApplicationsEnabled
+          write_method: bool
+        - name: UsageSetting
+          write_method: int32
+        - name: IsOnlyNonTerrestrialNetwork
+          write_method: bool
+        - name: ServiceCapabilities
+          write_method: int32
+        - name: TransferStatus
+          write_method: int32
     - name: SubscriptionPlan
+      java_wire_format:
+        - name: CycleRule
+          write_method: opaque
+        - name: Title
+          write_method: opaque
+        - name: Summary
+          write_method: opaque
+        - name: DataLimitBytes
+          write_method: int64
+        - name: DataLimitBehavior
+          write_method: int32
+        - name: DataUsageBytes
+          write_method: int64
+        - name: DataUsageTime
+          write_method: int64
+        - name: NetworkTypes
+          write_method: opaque
     - name: TelephonyDisplayInfo
+      java_wire_format:
+        - name: NetworkType
+          write_method: int32
+        - name: OverrideNetworkType
+          write_method: int32
+        - name: IsRoaming
+          write_method: bool
     - name: TelephonyHistogram
+      java_wire_format:
+        - name: Category
+          write_method: int32
+        - name: Id
+          write_method: int32
+        - name: MinTimeMs
+          write_method: int32
+        - name: MaxTimeMs
+          write_method: int32
+        - name: AverageTimeMs
+          write_method: int32
+        - name: SampleCount
+          write_method: int32
+        - name: ABSENT
+          write_method: int32
+          condition: mInitialTimings==null
+        - name: BucketCount
+          write_method: int32
+        - name: BucketEndPoints
+          write_method: opaque
+        - name: BucketCounters
+          write_method: opaque
     - name: ThermalMitigationRequest
+      java_wire_format:
+        - name: ThermalMitigationAction
+          write_method: int32
+        - name: DataThrottlingRequest
+          write_method: opaque
     - name: UiccAccessRule
+      java_wire_format:
+        - name: CertificateHash
+          write_method: opaque
+        - name: PackageName
+          write_method: string16
+        - name: AccessType
+          write_method: int64
     - name: UiccCardInfo
+      java_wire_format:
+        - name: IsEuicc
+          write_method: bool
+        - name: CardId
+          write_method: int32
+        - name: Eid
+          write_method: string8
+        - name: IccId
+          write_method: string8
+        - name: PhysicalSlotIndex
+          write_method: int32
+        - name: IsRemovable
+          write_method: bool
+        - name: IsMultipleEnabledProfilesSupported
+          write_method: bool
+        - name: PortList
+          write_method: opaque
+        - name: IccIdAccessRestricted
+          write_method: bool
     - name: UiccPortInfo
+      java_wire_format:
+        - name: IccId
+          write_method: string8
+        - name: PortIndex
+          write_method: int32
+        - name: LogicalSlotIndex
+          write_method: int32
+        - name: IsActive
+          write_method: bool
     - name: UiccSlotInfo
+      java_wire_format:
+        - name: IsActive
+          write_method: bool
+        - name: IsEuicc
+          write_method: bool
+        - name: CardId
+          write_method: string8
+        - name: CardStateInfo
+          write_method: int32
+        - name: LogicalSlotIdx
+          write_method: int32
+        - name: IsExtendedApduSupported
+          write_method: bool
+        - name: IsRemovable
+          write_method: bool
+        - name: PortList
+          write_method: opaque
+        - name: LogicalSlotAccessRestricted
+          write_method: bool
     - name: UiccSlotMapping
+      java_wire_format:
+        - name: PortIndex
+          write_method: int32
+        - name: PhysicalSlotIndex
+          write_method: int32
+        - name: LogicalSlotIndex
+          write_method: int32
     - name: UssdResponse
+      java_wire_format:
+        - name: UssdRequest
+          write_method: string16
+        - name: ReturnMessage
+          write_method: opaque
     - name: VisualVoicemailSmsFilterSettings
+      java_wire_format:
+        - name: ClientPrefix
+          write_method: string16
+        - name: OriginatingNumbers
+          write_method: opaque
+        - name: DestinationPort
+          write_method: int32
+        - name: PackageName
+          write_method: string16
     - name: VoLteServiceState
+      java_wire_format:
+        - name: SrvccState
+          write_method: int32
     - name: VopsSupportInfo
+      java_wire_format:
+        - name: Type
+          write_method: int32

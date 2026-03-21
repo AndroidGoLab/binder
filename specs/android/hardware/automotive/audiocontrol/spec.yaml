@@ -131,6 +131,8 @@ interfaces:
           transaction_code_offset: 10
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IAudioGainCallback
       descriptor: android.hardware.automotive.audiocontrol.IAudioGainCallback
       oneway: true
@@ -150,6 +152,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IFocusListener
       descriptor: android.hardware.automotive.audiocontrol.IFocusListener
       methods:
@@ -217,6 +221,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IModuleChangeCallback
       descriptor: android.hardware.automotive.audiocontrol.IModuleChangeCallback
       oneway: true
@@ -231,6 +237,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: AudioGainConfigInfo
       fields:

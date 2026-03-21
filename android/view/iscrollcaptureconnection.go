@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
-	common "github.com/xaionaro-go/binder/android/hardware/biometrics/common"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -29,9 +29,9 @@ const (
 
 type IScrollCaptureConnection interface {
 	AsBinder() binder.IBinder
-	StartCapture(ctx context.Context, surface Surface, callbacks IScrollCaptureCallbacks) (common.ICancellationSignal, error)
-	RequestImage(ctx context.Context, captureArea graphics.Rect) (common.ICancellationSignal, error)
-	EndCapture(ctx context.Context) (common.ICancellationSignal, error)
+	StartCapture(ctx context.Context, surface Surface, callbacks IScrollCaptureCallbacks) (os.ICancellationSignal, error)
+	RequestImage(ctx context.Context, captureArea graphics.Rect) (os.ICancellationSignal, error)
+	EndCapture(ctx context.Context) (os.ICancellationSignal, error)
 	Close(ctx context.Context) error
 }
 
@@ -55,8 +55,8 @@ func (p *ScrollCaptureConnectionProxy) StartCapture(
 	ctx context.Context,
 	surface Surface,
 	callbacks IScrollCaptureCallbacks,
-) (common.ICancellationSignal, error) {
-	var _result common.ICancellationSignal
+) (os.ICancellationSignal, error) {
+	var _result os.ICancellationSignal
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIScrollCaptureConnection)
@@ -85,15 +85,15 @@ func (p *ScrollCaptureConnectionProxy) StartCapture(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = common.NewCancellationSignalProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
+	_result = os.NewCancellationSignalProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
 func (p *ScrollCaptureConnectionProxy) RequestImage(
 	ctx context.Context,
 	captureArea graphics.Rect,
-) (common.ICancellationSignal, error) {
-	var _result common.ICancellationSignal
+) (os.ICancellationSignal, error) {
+	var _result os.ICancellationSignal
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIScrollCaptureConnection)
@@ -121,14 +121,14 @@ func (p *ScrollCaptureConnectionProxy) RequestImage(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = common.NewCancellationSignalProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
+	_result = os.NewCancellationSignalProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
 func (p *ScrollCaptureConnectionProxy) EndCapture(
 	ctx context.Context,
-) (common.ICancellationSignal, error) {
-	var _result common.ICancellationSignal
+) (os.ICancellationSignal, error) {
+	var _result os.ICancellationSignal
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIScrollCaptureConnection)
@@ -152,7 +152,7 @@ func (p *ScrollCaptureConnectionProxy) EndCapture(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = common.NewCancellationSignalProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
+	_result = os.NewCancellationSignalProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -269,9 +269,9 @@ func (s *ScrollCaptureConnectionStub) OnTransaction(
 // provide to NewScrollCaptureConnectionStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IScrollCaptureConnectionServer interface {
-	StartCapture(ctx context.Context, surface Surface, callbacks IScrollCaptureCallbacks) (common.ICancellationSignal, error)
-	RequestImage(ctx context.Context, captureArea graphics.Rect) (common.ICancellationSignal, error)
-	EndCapture(ctx context.Context) (common.ICancellationSignal, error)
+	StartCapture(ctx context.Context, surface Surface, callbacks IScrollCaptureCallbacks) (os.ICancellationSignal, error)
+	RequestImage(ctx context.Context, captureArea graphics.Rect) (os.ICancellationSignal, error)
+	EndCapture(ctx context.Context) (os.ICancellationSignal, error)
 	Close(ctx context.Context) error
 }
 
@@ -288,20 +288,20 @@ func (w *scrollCaptureConnectionStubWrapper) StartCapture(
 	ctx context.Context,
 	surface Surface,
 	callbacks IScrollCaptureCallbacks,
-) (common.ICancellationSignal, error) {
+) (os.ICancellationSignal, error) {
 	return w.impl.StartCapture(ctx, surface, callbacks)
 }
 
 func (w *scrollCaptureConnectionStubWrapper) RequestImage(
 	ctx context.Context,
 	captureArea graphics.Rect,
-) (common.ICancellationSignal, error) {
+) (os.ICancellationSignal, error) {
 	return w.impl.RequestImage(ctx, captureArea)
 }
 
 func (w *scrollCaptureConnectionStubWrapper) EndCapture(
 	ctx context.Context,
-) (common.ICancellationSignal, error) {
+) (os.ICancellationSignal, error) {
 	return w.impl.EndCapture(ctx)
 }
 

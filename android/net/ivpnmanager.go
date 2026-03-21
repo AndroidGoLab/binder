@@ -75,7 +75,7 @@ type IVpnManager interface {
 	EstablishVpn(ctx context.Context, config internalNet.VpnConfig) (int32, error)
 	AddVpnAddress(ctx context.Context, address string, prefixLength int32) (bool, error)
 	RemoveVpnAddress(ctx context.Context, address string, prefixLength int32) (bool, error)
-	SetUnderlyingNetworksForVpn(ctx context.Context, networks []Network) (bool, error)
+	SetUnderlyingNetworksForVpn(ctx context.Context, networks []any) (bool, error)
 	ProvisionVpnProfile(ctx context.Context, profile internalNet.VpnProfile, packageName string) (bool, error)
 	DeleteVpnProfile(ctx context.Context, packageName string) error
 	StartVpnProfile(ctx context.Context, packageName string) (string, error)
@@ -285,7 +285,7 @@ func (p *VpnManagerProxy) RemoveVpnAddress(
 
 func (p *VpnManagerProxy) SetUnderlyingNetworksForVpn(
 	ctx context.Context,
-	networks []Network,
+	networks []any,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
@@ -295,12 +295,6 @@ func (p *VpnManagerProxy) SetUnderlyingNetworksForVpn(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(networks)))
-		for _, _item := range networks {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
-			}
-		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIVpnManager, MethodIVpnManagerSetUnderlyingNetworksForVpn)
@@ -1105,7 +1099,7 @@ func (s *VpnManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVpnManagerSetUnderlyingNetworksForVpn:
-		var _arg_networks []Network
+		var _arg_networks []any
 		{
 			_count, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1115,15 +1109,7 @@ func (s *VpnManagerStub) OnTransaction(
 				return nil, fmt.Errorf("array count too large: %d", _count)
 			}
 			if _count >= 0 {
-				_arg_networks = make([]Network, _count)
-				for _i := int32(0); _i < _count; _i++ {
-					if _, _err = _data.ReadInt32(); _err != nil {
-						return nil, _err
-					}
-					if _err = _arg_networks[_i].UnmarshalParcel(_data); _err != nil {
-						return nil, _err
-					}
-				}
+				_arg_networks = make([]any, _count)
 			}
 		}
 		_result, _err := s.Impl.SetUnderlyingNetworksForVpn(ctx, _arg_networks)
@@ -1487,7 +1473,7 @@ type IVpnManagerServer interface {
 	EstablishVpn(ctx context.Context, config internalNet.VpnConfig) (int32, error)
 	AddVpnAddress(ctx context.Context, address string, prefixLength int32) (bool, error)
 	RemoveVpnAddress(ctx context.Context, address string, prefixLength int32) (bool, error)
-	SetUnderlyingNetworksForVpn(ctx context.Context, networks []Network) (bool, error)
+	SetUnderlyingNetworksForVpn(ctx context.Context, networks []any) (bool, error)
 	ProvisionVpnProfile(ctx context.Context, profile internalNet.VpnProfile, packageName string) (bool, error)
 	DeleteVpnProfile(ctx context.Context, packageName string) error
 	StartVpnProfile(ctx context.Context, packageName string) (string, error)
@@ -1559,7 +1545,7 @@ func (w *vpnManagerStubWrapper) RemoveVpnAddress(
 
 func (w *vpnManagerStubWrapper) SetUnderlyingNetworksForVpn(
 	ctx context.Context,
-	networks []Network,
+	networks []any,
 ) (bool, error) {
 	return w.impl.SetUnderlyingNetworksForVpn(ctx, networks)
 }

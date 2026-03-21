@@ -914,10 +914,116 @@ interfaces:
             name: void
 parcelables:
     - name: PageRange
+      java_wire_format:
+        - name: Start
+          write_method: int32
+        - name: End
+          write_method: int32
     - name: PrintAttributes
+      java_wire_format:
+        - name: "1"
+          write_method: int32
+          condition: mMediaSize!=null
+        - name: Parcel
+          write_method: opaque
+          condition: mMediaSize!=null
+        - name: "1"
+          write_method: int32
+          condition: mResolution!=null
+        - name: Parcel
+          write_method: opaque
+          condition: mResolution!=null
+        - name: "1"
+          write_method: int32
+          condition: mMinMargins!=null
+        - name: Parcel
+          write_method: opaque
+          condition: mMinMargins!=null
+        - name: ColorMode
+          write_method: int32
+        - name: DuplexMode
+          write_method: int32
     - name: PrintDocumentInfo
+      java_wire_format:
+        - name: Name
+          write_method: string16
+        - name: PageCount
+          write_method: int32
+        - name: ContentType
+          write_method: int32
+        - name: DataSize
+          write_method: int64
     - name: PrintJobId
+      java_wire_format:
+        - name: Value
+          write_method: string16
     - name: PrintJobInfo
+      java_wire_format:
+        - name: Id
+          write_method: opaque
+        - name: Label
+          write_method: string16
+        - name: PrinterId
+          write_method: opaque
+        - name: PrinterName
+          write_method: string16
+        - name: State
+          write_method: int32
+        - name: AppId
+          write_method: int32
+        - name: Tag
+          write_method: string16
+        - name: CreationTime
+          write_method: int64
+        - name: Copies
+          write_method: int32
+        - name: PageRanges
+          write_method: opaque
+        - name: Attributes
+          write_method: opaque
+        - name: DocumentInfo
+          write_method: opaque
+        - name: Progress
+          write_method: float32
+        - name: Status
+          write_method: opaque
+        - name: StatusRes
+          write_method: int32
+        - name: StatusResAppPackageName
+          write_method: opaque
+        - name: Canceling?1:0
+          write_method: int32
+        - name: AdvancedOptions
+          write_method: opaque
     - name: PrinterCapabilitiesInfo
+      java_wire_format:
+        - name: ColorModes
+          write_method: int32
+        - name: DuplexModes
+          write_method: int32
     - name: PrinterId
+      java_wire_format:
+        - name: ServiceName
+          write_method: opaque
+        - name: LocalId
+          write_method: string16
     - name: PrinterInfo
+      java_wire_format:
+        - name: Id
+          write_method: opaque
+        - name: Name
+          write_method: string16
+        - name: Status
+          write_method: int32
+        - name: Description
+          write_method: string16
+        - name: Capabilities
+          write_method: opaque
+        - name: IconResourceId
+          write_method: int32
+        - name: (byte)(mHasCustomPrinterIcon?1:0)
+          write_method: int32
+        - name: CustomPrinterIconGen
+          write_method: int32
+        - name: InfoIntent
+          write_method: opaque

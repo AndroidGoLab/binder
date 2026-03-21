@@ -235,8 +235,52 @@ interfaces:
             name: void
 parcelables:
     - name: DownloadRequest
+      java_wire_format:
+        - name: FileServiceId
+          write_method: string16
+        - name: SourceUri
+          write_method: opaque
+        - name: DestinationUri
+          write_method: opaque
+        - name: SubscriptionId
+          write_method: int32
+        - name: SerializedResultIntentForApp
+          write_method: string16
+        - name: Version
+          write_method: int32
     - name: FileInfo
+      java_wire_format:
+        - name: Uri
+          write_method: opaque
+        - name: MimeType
+          write_method: string16
     - name: FileServiceInfo
+      java_wire_format:
+        - name: Dest
+          write_method: opaque
+        - name: Files
+          write_method: opaque
     - name: ServiceInfo
+      java_wire_format:
+        - name: KeySet.size()
+          write_method: int32
+        - name: ClassName
+          write_method: string16
+        - name: LocalesCount
+          write_method: int32
+        - name: ServiceId
+          write_method: string16
+        - name: SessionStartTime
+          write_method: opaque
+        - name: SessionEndTime
+          write_method: opaque
     - name: StreamingServiceInfo
+      java_wire_format:
+        - name: Dest
+          write_method: opaque
     - name: UriPathPair
+      java_wire_format:
+        - name: FilePathUri
+          write_method: opaque
+        - name: ContentUri
+          write_method: opaque

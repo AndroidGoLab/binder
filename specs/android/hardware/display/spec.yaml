@@ -751,13 +751,170 @@ interfaces:
             name: void
 parcelables:
     - name: AmbientBrightnessDayStats
+      java_wire_format:
+        - name: LocalDate.toString()
+          write_method: string16
+        - name: BucketBoundaries
+          write_method: opaque
+        - name: Stats
+          write_method: opaque
     - name: BrightnessChangeEvent
+      java_wire_format:
+        - name: Brightness
+          write_method: float32
+        - name: TimeStamp
+          write_method: int64
+        - name: PackageName
+          write_method: string16
+        - name: UserId
+          write_method: int32
+        - name: UniqueDisplayId
+          write_method: string16
+        - name: LuxValues
+          write_method: opaque
+        - name: LuxTimestamps
+          write_method: opaque
+        - name: BatteryLevel
+          write_method: float32
+        - name: PowerBrightnessFactor
+          write_method: float32
+        - name: NightMode
+          write_method: bool
+        - name: ColorTemperature
+          write_method: int32
+        - name: ReduceBrightColors
+          write_method: bool
+        - name: ReduceBrightColorsStrength
+          write_method: int32
+        - name: ReduceBrightColorsOffset
+          write_method: float32
+        - name: LastBrightness
+          write_method: float32
+        - name: IsDefaultBrightnessConfig
+          write_method: bool
+        - name: IsUserSetBrightness
+          write_method: bool
+        - name: ColorValueBuckets
+          write_method: opaque
+        - name: ColorSampleDuration
+          write_method: int64
     - name: BrightnessConfiguration
+      java_wire_format:
+        - name: Lux
+          write_method: opaque
+        - name: Nits
+          write_method: opaque
+        - name: CorrectionsByPackageName.size()
+          write_method: int32
+        - name: CorrectionsByCategory.size()
+          write_method: int32
+        - name: Description
+          write_method: string16
+        - name: ShouldCollectColorSamples
+          write_method: bool
+        - name: ShortTermModelTimeout
+          write_method: int64
+        - name: ShortTermModelLowerLuxMultiplier
+          write_method: float32
+        - name: ShortTermModelUpperLuxMultiplier
+          write_method: float32
     - name: BrightnessCorrection
+      java_wire_format:
+        - name: Dest
+          write_method: opaque
     - name: BrightnessInfo
+      java_wire_format:
+        - name: Brightness
+          write_method: float32
+        - name: AdjustedBrightness
+          write_method: float32
+        - name: BrightnessMinimum
+          write_method: float32
+        - name: BrightnessMaximum
+          write_method: float32
+        - name: HighBrightnessMode
+          write_method: int32
+        - name: HighBrightnessTransitionPoint
+          write_method: float32
+        - name: BrightnessMaxReason
+          write_method: int32
     - name: Curve
+      java_wire_format:
+        - name: X
+          write_method: opaque
+        - name: "Y"
+          write_method: opaque
     - name: HdrConversionMode
+      java_wire_format:
+        - name: ConversionMode
+          write_method: int32
+        - name: PreferredHdrOutputType
+          write_method: int32
     - name: Time
+      java_wire_format:
+        - name: Hour
+          write_method: int32
+        - name: Minute
+          write_method: int32
+        - name: Second
+          write_method: int32
+        - name: Nano
+          write_method: int32
     - name: VirtualDisplayConfig
+      java_wire_format:
+        - name: Name
+          write_method: string8
+        - name: Width
+          write_method: int32
+        - name: Height
+          write_method: int32
+        - name: DensityDpi
+          write_method: int32
+        - name: Flags
+          write_method: int32
+        - name: Surface
+          write_method: opaque
+        - name: UniqueId
+          write_method: string8
+        - name: DisplayIdToMirror
+          write_method: int32
+        - name: WindowManagerMirroringEnabled
+          write_method: bool
+        - name: DisplayCategories
+          write_method: opaque
+        - name: RequestedRefreshRate
+          write_method: float32
+        - name: IsHomeSupported
+          write_method: bool
     - name: WifiDisplay
+      java_wire_format:
+        - name: DeviceAddress
+          write_method: string16
+        - name: DeviceName
+          write_method: string16
+        - name: DeviceAlias
+          write_method: string16
+        - name: IsAvailable?1:0
+          write_method: int32
+        - name: CanConnect?1:0
+          write_method: int32
+        - name: IsRemembered?1:0
+          write_method: int32
     - name: WifiDisplayStatus
+      java_wire_format:
+        - name: FeatureState
+          write_method: int32
+        - name: ScanState
+          write_method: int32
+        - name: ActiveDisplayState
+          write_method: int32
+        - name: "1"
+          write_method: int32
+          condition: mActiveDisplay!=null
+        - name: Dest
+          write_method: opaque
+          condition: mActiveDisplay!=null
+        - name: Displays.length
+          write_method: int32
+        - name: Dest
+          write_method: opaque

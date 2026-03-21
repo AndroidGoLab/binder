@@ -1,7 +1,7 @@
 package evs
 
 import (
-	graphics "github.com/xaionaro-go/binder/android/graphics"
+	common "github.com/xaionaro-go/binder/android/hardware/graphics/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -9,7 +9,7 @@ import (
 
 type Histogram struct {
 	Channel  ColorChannel
-	Roi      graphics.Rect
+	Roi      common.Rect
 	Size     int32
 	Capacity int32
 	Bins     []int64

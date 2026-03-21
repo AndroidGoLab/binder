@@ -1674,8 +1674,72 @@ interfaces:
             name: void
 parcelables:
     - name: LetterboxDetails
+      java_wire_format:
+        - name: LetterboxInnerBounds
+          write_method: opaque
+        - name: LetterboxFullBounds
+          write_method: opaque
+        - name: AppAppearance
+          write_method: int32
     - name: NotificationVisibility
+      java_wire_format:
+        - name: This.key
+          write_method: string16
+        - name: This.rank
+          write_method: int32
+        - name: This.count
+          write_method: int32
+        - name: This.visible?1:0
+          write_method: int32
+        - name: This.location.name()
+          write_method: string16
     - name: RegisterStatusBarResult
+      java_wire_format:
+        - name: Icons
+          write_method: opaque
+        - name: DisabledFlags1
+          write_method: int32
+        - name: Appearance
+          write_method: int32
+        - name: AppearanceRegions
+          write_method: opaque
+        - name: ImeWindowVis
+          write_method: int32
+        - name: ImeBackDisposition
+          write_method: int32
+        - name: ShowImeSwitcher
+          write_method: bool
+        - name: DisabledFlags2
+          write_method: int32
+        - name: ImeToken
+          write_method: opaque
+        - name: NavbarColorManagedByIme
+          write_method: bool
+        - name: Behavior
+          write_method: int32
+        - name: RequestedVisibleTypes
+          write_method: int32
+        - name: PackageName
+          write_method: string16
+        - name: TransientBarTypes
+          write_method: int32
+        - name: LetterboxDetails
+          write_method: opaque
     - name: StatusBarIcon
+      java_wire_format:
+        - name: This.icon
+          write_method: opaque
+        - name: This.pkg
+          write_method: string16
+        - name: This.user
+          write_method: opaque
+        - name: This.iconLevel
+          write_method: int32
+        - name: This.visible?1:0
+          write_method: int32
+        - name: This.number
+          write_method: int32
+        - name: This.contentDescription
+          write_method: opaque
     - name: StatusBarIconList
     - name: StatusBarNotificationList

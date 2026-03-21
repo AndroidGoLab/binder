@@ -36,8 +36,12 @@ interfaces:
           transaction_code_offset: 5
           return_type:
             name: boolean
+      annotations:
+        - VintfStability
     - name: ISecureElementListener
       descriptor: android.se.omapi.ISecureElementListener
+      annotations:
+        - VintfStability
     - name: ISecureElementReader
       descriptor: android.se.omapi.ISecureElementReader
       methods:
@@ -57,6 +61,8 @@ interfaces:
           transaction_code_offset: 3
           return_type:
             name: boolean
+      annotations:
+        - VintfStability
     - name: ISecureElementService
       descriptor: android.se.omapi.ISecureElementService
       methods:
@@ -98,6 +104,8 @@ interfaces:
           return_type:
             name: boolean
             is_array: true
+      annotations:
+        - VintfStability
     - name: ISecureElementSession
       descriptor: android.se.omapi.ISecureElementSession
       methods:
@@ -154,3 +162,5 @@ interfaces:
               direction: in
           return_type:
             name: ISecureElementChannel
+      annotations:
+        - VintfStability

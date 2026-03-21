@@ -33,7 +33,7 @@ interfaces:
           return_type:
             name: void
         - name: onStorageStateChanged
-          transaction_code_offset: 1
+          transaction_code_offset: 0
           params:
             - name: path
               type:
@@ -50,7 +50,7 @@ interfaces:
           return_type:
             name: void
         - name: onVolumeStateChanged
-          transaction_code_offset: 2
+          transaction_code_offset: 1
           params:
             - name: vol
               type:
@@ -65,7 +65,7 @@ interfaces:
           return_type:
             name: void
         - name: onVolumeRecordChanged
-          transaction_code_offset: 3
+          transaction_code_offset: 2
           params:
             - name: rec
               type:
@@ -74,7 +74,7 @@ interfaces:
           return_type:
             name: void
         - name: onVolumeForgotten
-          transaction_code_offset: 4
+          transaction_code_offset: 3
           params:
             - name: fsUuid
               type:
@@ -83,7 +83,7 @@ interfaces:
           return_type:
             name: void
         - name: onDiskScanned
-          transaction_code_offset: 5
+          transaction_code_offset: 4
           params:
             - name: disk
               type:
@@ -95,7 +95,7 @@ interfaces:
           return_type:
             name: void
         - name: onDiskDestroyed
-          transaction_code_offset: 6
+          transaction_code_offset: 5
           params:
             - name: disk
               type:
@@ -115,7 +115,7 @@ interfaces:
           return_type:
             name: void
         - name: unregisterListener
-          transaction_code_offset: 1
+          transaction_code_offset: 0
           params:
             - name: listener
               type:
@@ -787,6 +787,17 @@ interfaces:
             name: void
 parcelables:
     - name: CrateInfo
+      java_wire_format:
+        - name: Label
+          write_method: opaque
+        - name: Expiration
+          write_method: int64
+        - name: Uid
+          write_method: int32
+        - name: PackageName
+          write_method: string16
+        - name: Id
+          write_method: string16
     - name: CrateMetadata
       fields:
         - name: uid
@@ -803,6 +814,100 @@ parcelables:
           annotations:
             - utf8InCpp
     - name: DiskInfo
+      java_wire_format:
+        - name: Id
+          write_method: string16
+        - name: This.flags
+          write_method: int32
+        - name: Size
+          write_method: int64
+        - name: Label
+          write_method: string16
+        - name: VolumeCount
+          write_method: int32
+        - name: SysPath
+          write_method: string16
     - name: StorageVolume
+      java_wire_format:
+        - name: Id
+          write_method: string8
+        - name: Path.toString()
+          write_method: string8
+        - name: InternalPath.toString()
+          write_method: string8
+        - name: Description
+          write_method: string8
+        - name: Primary?1:0
+          write_method: int32
+        - name: Removable?1:0
+          write_method: int32
+        - name: Emulated?1:0
+          write_method: int32
+        - name: ExternallyManaged?1:0
+          write_method: int32
+        - name: AllowMassStorage?1:0
+          write_method: int32
+        - name: MaxFileSize
+          write_method: int64
+        - name: Owner
+          write_method: opaque
+        - name: "1"
+          write_method: int32
+          condition: mUuid!=null
+        - name: StorageManager.convert(mUuid)
+          write_method: string8
+          condition: mUuid!=null
+        - name: FsUuid
+          write_method: string8
+        - name: State
+          write_method: string8
     - name: VolumeInfo
+      java_wire_format:
+        - name: Id
+          write_method: string8
+        - name: Type
+          write_method: int32
+        - name: "1"
+          write_method: int32
+          condition: disk!=null
+        - name: Parcel
+          write_method: opaque
+          condition: disk!=null
+        - name: PartGuid
+          write_method: string8
+        - name: MountFlags
+          write_method: int32
+        - name: MountUserId
+          write_method: int32
+        - name: State
+          write_method: int32
+        - name: FsType
+          write_method: string8
+        - name: FsUuid
+          write_method: string8
+        - name: FsLabel
+          write_method: string8
+        - name: Path
+          write_method: string8
+        - name: InternalPath
+          write_method: string8
     - name: VolumeRecord
+      java_wire_format:
+        - name: Type
+          write_method: int32
+        - name: FsUuid
+          write_method: string16
+        - name: PartGuid
+          write_method: string16
+        - name: Nickname
+          write_method: string16
+        - name: UserFlags
+          write_method: int32
+        - name: CreatedMillis
+          write_method: int64
+        - name: LastSeenMillis
+          write_method: int64
+        - name: LastTrimMillis
+          write_method: int64
+        - name: LastBenchMillis
+          write_method: int64

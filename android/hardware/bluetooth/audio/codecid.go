@@ -2,7 +2,6 @@ package audio
 
 import (
 	"fmt"
-	common "github.com/xaionaro-go/binder/android/hardware/biometrics/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -18,7 +17,7 @@ type CodecId struct {
 	Tag    int32
 	A2dp   CodecIdA2dp
 	Core   CodecIdCore
-	Vendor common.AuthenticateReasonVendor
+	Vendor CodecIdVendor
 }
 
 var _ parcel.Parcelable = (*CodecId)(nil)
@@ -51,16 +50,16 @@ func (u *CodecId) SetCore(
 	*u = CodecId{Tag: CodecIdTagCore, Core: v}
 }
 
-func (u *CodecId) GetVendor() (common.AuthenticateReasonVendor, bool) {
+func (u *CodecId) GetVendor() (CodecIdVendor, bool) {
 	if u.Tag != CodecIdTagVendor {
-		var _zero common.AuthenticateReasonVendor
+		var _zero CodecIdVendor
 		return _zero, false
 	}
 	return u.Vendor, true
 }
 
 func (u *CodecId) SetVendor(
-	v common.AuthenticateReasonVendor,
+	v CodecIdVendor,
 ) {
 	*u = CodecId{Tag: CodecIdTagVendor, Vendor: v}
 }

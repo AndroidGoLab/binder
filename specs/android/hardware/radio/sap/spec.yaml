@@ -107,6 +107,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: ISapCallback
       descriptor: android.hardware.radio.sap.ISapCallback
       oneway: true
@@ -264,6 +266,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 enums:
     - name: SapApduType
       backing_type: int

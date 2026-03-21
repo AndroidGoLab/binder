@@ -41,6 +41,8 @@ interfaces:
         - name: ERROR_BUSY
           type: int
           value: "3"
+      annotations:
+        - VintfStability
     - name: IThreadChipCallback
       descriptor: android.hardware.threadnetwork.IThreadChipCallback
       methods:
@@ -55,3 +57,5 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability

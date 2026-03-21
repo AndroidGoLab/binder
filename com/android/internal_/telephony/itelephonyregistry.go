@@ -3,11 +3,8 @@ package telephony
 import (
 	"context"
 	"fmt"
-	config "github.com/xaionaro-go/binder/android/hardware/radio/config"
-	media "github.com/xaionaro-go/binder/android/hardware/radio/ims/media"
-	network "github.com/xaionaro-go/binder/android/hardware/radio/network"
-	voice "github.com/xaionaro-go/binder/android/hardware/radio/voice"
 	androidTelephony "github.com/xaionaro-go/binder/android/telephony"
+	emergency "github.com/xaionaro-go/binder/android/telephony/emergency"
 	ims "github.com/xaionaro-go/binder/android/telephony/ims"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -140,18 +137,18 @@ type ITelephonyRegistry interface {
 	NotifyCallStateForAllSubs(ctx context.Context, state int32, incomingNumber string) error
 	NotifyCallState(ctx context.Context, phoneId int32, subId int32, state int32, incomingNumber string) error
 	NotifyServiceStateForPhoneId(ctx context.Context, phoneId int32, subId int32, state androidTelephony.ServiceState) error
-	NotifySignalStrengthForPhoneId(ctx context.Context, phoneId int32, subId int32, signalStrength network.SignalStrength) error
+	NotifySignalStrengthForPhoneId(ctx context.Context, phoneId int32, subId int32, signalStrength androidTelephony.SignalStrength) error
 	NotifyMessageWaitingChangedForPhoneId(ctx context.Context, phoneId int32, subId int32, mwi bool) error
 	NotifyCallForwardingChanged(ctx context.Context, cfi bool) error
 	NotifyCallForwardingChangedForSubscriber(ctx context.Context, subId int32, cfi bool) error
 	NotifyDataActivityForSubscriber(ctx context.Context, subId int32, state int32) error
 	NotifyDataActivityForSubscriberWithSlot(ctx context.Context, phoneId int32, subId int32, state int32) error
 	NotifyDataConnectionForSubscriber(ctx context.Context, phoneId int32, subId int32, preciseState androidTelephony.PreciseDataConnectionState) error
-	NotifyCellLocationForSubscriber(ctx context.Context, subId int32, cellLocation network.CellIdentity) error
-	NotifyCellInfo(ctx context.Context, cellInfo []network.CellInfo) error
+	NotifyCellLocationForSubscriber(ctx context.Context, subId int32, cellLocation androidTelephony.CellIdentity) error
+	NotifyCellInfo(ctx context.Context, cellInfo []androidTelephony.CellInfo) error
 	NotifyPreciseCallState(ctx context.Context, phoneId int32, subId int32, callStates []int32, imsCallIds []string, imsCallServiceTypes []int32, imsCallTypes []int32) error
 	NotifyDisconnectCause(ctx context.Context, phoneId int32, subId int32, disconnectCause int32, preciseDisconnectCause int32) error
-	NotifyCellInfoForSubscriber(ctx context.Context, subId int32, cellInfo []network.CellInfo) error
+	NotifyCellInfoForSubscriber(ctx context.Context, subId int32, cellInfo []androidTelephony.CellInfo) error
 	NotifySrvccStateChanged(ctx context.Context, subId int32, lteState int32) error
 	NotifySimActivationStateChangedForPhoneId(ctx context.Context, phoneId int32, subId int32, activationState int32, activationType int32) error
 	NotifyOemHookRawEventForSubscriber(ctx context.Context, phoneId int32, subId int32, rawData []byte) error
@@ -161,21 +158,21 @@ type ITelephonyRegistry interface {
 	NotifyCarrierNetworkChangeWithSubId(ctx context.Context, subId int32, active bool) error
 	NotifyUserMobileDataStateChangedForPhoneId(ctx context.Context, phoneId int32, subId int32, state bool) error
 	NotifyDisplayInfoChanged(ctx context.Context, slotIndex int32, subId int32, telephonyDisplayInfo androidTelephony.TelephonyDisplayInfo) error
-	NotifyPhoneCapabilityChanged(ctx context.Context, capability config.PhoneCapability) error
+	NotifyPhoneCapabilityChanged(ctx context.Context, capability androidTelephony.PhoneCapability) error
 	NotifyActiveDataSubIdChanged(ctx context.Context, activeDataSubId int32) error
 	NotifyRadioPowerStateChanged(ctx context.Context, phoneId int32, subId int32, state int32) error
 	NotifyEmergencyNumberList(ctx context.Context, phoneId int32, subId int32) error
-	NotifyOutgoingEmergencyCall(ctx context.Context, phoneId int32, subId int32, emergencyNumber voice.EmergencyNumber) error
-	NotifyOutgoingEmergencySms(ctx context.Context, phoneId int32, subId int32, emergencyNumber voice.EmergencyNumber) error
-	NotifyCallQualityChanged(ctx context.Context, callQuality media.CallQuality, phoneId int32, subId int32, callNetworkType int32) error
-	NotifyMediaQualityStatusChanged(ctx context.Context, phoneId int32, subId int32, status media.MediaQualityStatus) error
+	NotifyOutgoingEmergencyCall(ctx context.Context, phoneId int32, subId int32, emergencyNumber emergency.EmergencyNumber) error
+	NotifyOutgoingEmergencySms(ctx context.Context, phoneId int32, subId int32, emergencyNumber emergency.EmergencyNumber) error
+	NotifyCallQualityChanged(ctx context.Context, callQuality androidTelephony.CallQuality, phoneId int32, subId int32, callNetworkType int32) error
+	NotifyMediaQualityStatusChanged(ctx context.Context, phoneId int32, subId int32, status ims.MediaQualityStatus) error
 	NotifyImsDisconnectCause(ctx context.Context, subId int32, imsReasonInfo ims.ImsReasonInfo) error
-	NotifyRegistrationFailed(ctx context.Context, slotIndex int32, subId int32, cellIdentity network.CellIdentity, chosenPlmn string, domain int32, causeCode int32, additionalCauseCode int32) error
-	NotifyBarringInfoChanged(ctx context.Context, slotIndex int32, subId int32, barringInfo network.BarringInfo) error
-	NotifyPhysicalChannelConfigForSubscriber(ctx context.Context, phoneId int32, subId int32, configs []network.PhysicalChannelConfig) error
+	NotifyRegistrationFailed(ctx context.Context, slotIndex int32, subId int32, cellIdentity androidTelephony.CellIdentity, chosenPlmn string, domain int32, causeCode int32, additionalCauseCode int32) error
+	NotifyBarringInfoChanged(ctx context.Context, slotIndex int32, subId int32, barringInfo androidTelephony.BarringInfo) error
+	NotifyPhysicalChannelConfigForSubscriber(ctx context.Context, phoneId int32, subId int32, configs []androidTelephony.PhysicalChannelConfig) error
 	NotifyDataEnabled(ctx context.Context, phoneId int32, subId int32, enabled bool, reason int32) error
 	NotifyAllowedNetworkTypesChanged(ctx context.Context, phoneId int32, subId int32, reason int32, allowedNetworkType int64) error
-	NotifyLinkCapacityEstimateChanged(ctx context.Context, phoneId int32, subId int32, linkCapacityEstimateList []network.LinkCapacityEstimate) error
+	NotifyLinkCapacityEstimateChanged(ctx context.Context, phoneId int32, subId int32, linkCapacityEstimateList []androidTelephony.LinkCapacityEstimate) error
 	NotifySimultaneousCellularCallingSubscriptionsChanged(ctx context.Context, subIds []int32) error
 	AddCarrierPrivilegesCallback(ctx context.Context, phoneId int32, callback ICarrierPrivilegesCallback, pkg string, featureId string) error
 	RemoveCarrierPrivilegesCallback(ctx context.Context, callback ICarrierPrivilegesCallback, pkg string) error
@@ -444,7 +441,7 @@ func (p *TelephonyRegistryProxy) NotifySignalStrengthForPhoneId(
 	ctx context.Context,
 	phoneId int32,
 	subId int32,
-	signalStrength network.SignalStrength,
+	signalStrength androidTelephony.SignalStrength,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -658,7 +655,7 @@ func (p *TelephonyRegistryProxy) NotifyDataConnectionForSubscriber(
 func (p *TelephonyRegistryProxy) NotifyCellLocationForSubscriber(
 	ctx context.Context,
 	subId int32,
-	cellLocation network.CellIdentity,
+	cellLocation androidTelephony.CellIdentity,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -689,7 +686,7 @@ func (p *TelephonyRegistryProxy) NotifyCellLocationForSubscriber(
 
 func (p *TelephonyRegistryProxy) NotifyCellInfo(
 	ctx context.Context,
-	cellInfo []network.CellInfo,
+	cellInfo []androidTelephony.CellInfo,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -825,7 +822,7 @@ func (p *TelephonyRegistryProxy) NotifyDisconnectCause(
 func (p *TelephonyRegistryProxy) NotifyCellInfoForSubscriber(
 	ctx context.Context,
 	subId int32,
-	cellInfo []network.CellInfo,
+	cellInfo []androidTelephony.CellInfo,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -1127,7 +1124,7 @@ func (p *TelephonyRegistryProxy) NotifyDisplayInfoChanged(
 
 func (p *TelephonyRegistryProxy) NotifyPhoneCapabilityChanged(
 	ctx context.Context,
-	capability config.PhoneCapability,
+	capability androidTelephony.PhoneCapability,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -1246,7 +1243,7 @@ func (p *TelephonyRegistryProxy) NotifyOutgoingEmergencyCall(
 	ctx context.Context,
 	phoneId int32,
 	subId int32,
-	emergencyNumber voice.EmergencyNumber,
+	emergencyNumber emergency.EmergencyNumber,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -1280,7 +1277,7 @@ func (p *TelephonyRegistryProxy) NotifyOutgoingEmergencySms(
 	ctx context.Context,
 	phoneId int32,
 	subId int32,
-	emergencyNumber voice.EmergencyNumber,
+	emergencyNumber emergency.EmergencyNumber,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -1312,7 +1309,7 @@ func (p *TelephonyRegistryProxy) NotifyOutgoingEmergencySms(
 
 func (p *TelephonyRegistryProxy) NotifyCallQualityChanged(
 	ctx context.Context,
-	callQuality media.CallQuality,
+	callQuality androidTelephony.CallQuality,
 	phoneId int32,
 	subId int32,
 	callNetworkType int32,
@@ -1350,7 +1347,7 @@ func (p *TelephonyRegistryProxy) NotifyMediaQualityStatusChanged(
 	ctx context.Context,
 	phoneId int32,
 	subId int32,
-	status media.MediaQualityStatus,
+	status ims.MediaQualityStatus,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -1416,7 +1413,7 @@ func (p *TelephonyRegistryProxy) NotifyRegistrationFailed(
 	ctx context.Context,
 	slotIndex int32,
 	subId int32,
-	cellIdentity network.CellIdentity,
+	cellIdentity androidTelephony.CellIdentity,
 	chosenPlmn string,
 	domain int32,
 	causeCode int32,
@@ -1458,7 +1455,7 @@ func (p *TelephonyRegistryProxy) NotifyBarringInfoChanged(
 	ctx context.Context,
 	slotIndex int32,
 	subId int32,
-	barringInfo network.BarringInfo,
+	barringInfo androidTelephony.BarringInfo,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -1492,7 +1489,7 @@ func (p *TelephonyRegistryProxy) NotifyPhysicalChannelConfigForSubscriber(
 	ctx context.Context,
 	phoneId int32,
 	subId int32,
-	configs []network.PhysicalChannelConfig,
+	configs []androidTelephony.PhysicalChannelConfig,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -1599,7 +1596,7 @@ func (p *TelephonyRegistryProxy) NotifyLinkCapacityEstimateChanged(
 	ctx context.Context,
 	phoneId int32,
 	subId int32,
-	linkCapacityEstimateList []network.LinkCapacityEstimate,
+	linkCapacityEstimateList []androidTelephony.LinkCapacityEstimate,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -2228,7 +2225,7 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_signalStrength network.SignalStrength
+		var _arg_signalStrength androidTelephony.SignalStrength
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -2371,7 +2368,7 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_cellLocation network.CellIdentity
+		var _arg_cellLocation androidTelephony.CellIdentity
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -2392,7 +2389,7 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyCellInfo:
-		var _arg_cellInfo []network.CellInfo
+		var _arg_cellInfo []androidTelephony.CellInfo
 		{
 			_count, _err := _data.ReadInt32()
 			if _err != nil {
@@ -2402,7 +2399,7 @@ func (s *TelephonyRegistryStub) OnTransaction(
 				return nil, fmt.Errorf("array count too large: %d", _count)
 			}
 			if _count >= 0 {
-				_arg_cellInfo = make([]network.CellInfo, _count)
+				_arg_cellInfo = make([]androidTelephony.CellInfo, _count)
 				for _i := int32(0); _i < _count; _i++ {
 					if _, _err = _data.ReadInt32(); _err != nil {
 						return nil, _err
@@ -2544,7 +2541,7 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_cellInfo []network.CellInfo
+		var _arg_cellInfo []androidTelephony.CellInfo
 		{
 			_count, _err := _data.ReadInt32()
 			if _err != nil {
@@ -2554,7 +2551,7 @@ func (s *TelephonyRegistryStub) OnTransaction(
 				return nil, fmt.Errorf("array count too large: %d", _count)
 			}
 			if _count >= 0 {
-				_arg_cellInfo = make([]network.CellInfo, _count)
+				_arg_cellInfo = make([]androidTelephony.CellInfo, _count)
 				for _i := int32(0); _i < _count; _i++ {
 					if _, _err = _data.ReadInt32(); _err != nil {
 						return nil, _err
@@ -2739,7 +2736,7 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyPhoneCapabilityChanged:
-		var _arg_capability config.PhoneCapability
+		var _arg_capability androidTelephony.PhoneCapability
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -2819,7 +2816,7 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_emergencyNumber voice.EmergencyNumber
+		var _arg_emergencyNumber emergency.EmergencyNumber
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -2848,7 +2845,7 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_emergencyNumber voice.EmergencyNumber
+		var _arg_emergencyNumber emergency.EmergencyNumber
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -2869,7 +2866,7 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegistryNotifyCallQualityChanged:
-		var _arg_callQuality media.CallQuality
+		var _arg_callQuality androidTelephony.CallQuality
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -2910,7 +2907,7 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_status media.MediaQualityStatus
+		var _arg_status ims.MediaQualityStatus
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -2964,7 +2961,7 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_cellIdentity network.CellIdentity
+		var _arg_cellIdentity androidTelephony.CellIdentity
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -3009,7 +3006,7 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_barringInfo network.BarringInfo
+		var _arg_barringInfo androidTelephony.BarringInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -3038,7 +3035,7 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_configs []network.PhysicalChannelConfig
+		var _arg_configs []androidTelephony.PhysicalChannelConfig
 		{
 			_count, _err := _data.ReadInt32()
 			if _err != nil {
@@ -3048,7 +3045,7 @@ func (s *TelephonyRegistryStub) OnTransaction(
 				return nil, fmt.Errorf("array count too large: %d", _count)
 			}
 			if _count >= 0 {
-				_arg_configs = make([]network.PhysicalChannelConfig, _count)
+				_arg_configs = make([]androidTelephony.PhysicalChannelConfig, _count)
 				for _i := int32(0); _i < _count; _i++ {
 					if _, _err = _data.ReadInt32(); _err != nil {
 						return nil, _err
@@ -3126,7 +3123,7 @@ func (s *TelephonyRegistryStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_linkCapacityEstimateList []network.LinkCapacityEstimate
+		var _arg_linkCapacityEstimateList []androidTelephony.LinkCapacityEstimate
 		{
 			_count, _err := _data.ReadInt32()
 			if _err != nil {
@@ -3136,7 +3133,7 @@ func (s *TelephonyRegistryStub) OnTransaction(
 				return nil, fmt.Errorf("array count too large: %d", _count)
 			}
 			if _count >= 0 {
-				_arg_linkCapacityEstimateList = make([]network.LinkCapacityEstimate, _count)
+				_arg_linkCapacityEstimateList = make([]androidTelephony.LinkCapacityEstimate, _count)
 				for _i := int32(0); _i < _count; _i++ {
 					if _, _err = _data.ReadInt32(); _err != nil {
 						return nil, _err
@@ -3455,18 +3452,18 @@ type ITelephonyRegistryServer interface {
 	NotifyCallStateForAllSubs(ctx context.Context, state int32, incomingNumber string) error
 	NotifyCallState(ctx context.Context, phoneId int32, subId int32, state int32, incomingNumber string) error
 	NotifyServiceStateForPhoneId(ctx context.Context, phoneId int32, subId int32, state androidTelephony.ServiceState) error
-	NotifySignalStrengthForPhoneId(ctx context.Context, phoneId int32, subId int32, signalStrength network.SignalStrength) error
+	NotifySignalStrengthForPhoneId(ctx context.Context, phoneId int32, subId int32, signalStrength androidTelephony.SignalStrength) error
 	NotifyMessageWaitingChangedForPhoneId(ctx context.Context, phoneId int32, subId int32, mwi bool) error
 	NotifyCallForwardingChanged(ctx context.Context, cfi bool) error
 	NotifyCallForwardingChangedForSubscriber(ctx context.Context, subId int32, cfi bool) error
 	NotifyDataActivityForSubscriber(ctx context.Context, subId int32, state int32) error
 	NotifyDataActivityForSubscriberWithSlot(ctx context.Context, phoneId int32, subId int32, state int32) error
 	NotifyDataConnectionForSubscriber(ctx context.Context, phoneId int32, subId int32, preciseState androidTelephony.PreciseDataConnectionState) error
-	NotifyCellLocationForSubscriber(ctx context.Context, subId int32, cellLocation network.CellIdentity) error
-	NotifyCellInfo(ctx context.Context, cellInfo []network.CellInfo) error
+	NotifyCellLocationForSubscriber(ctx context.Context, subId int32, cellLocation androidTelephony.CellIdentity) error
+	NotifyCellInfo(ctx context.Context, cellInfo []androidTelephony.CellInfo) error
 	NotifyPreciseCallState(ctx context.Context, phoneId int32, subId int32, callStates []int32, imsCallIds []string, imsCallServiceTypes []int32, imsCallTypes []int32) error
 	NotifyDisconnectCause(ctx context.Context, phoneId int32, subId int32, disconnectCause int32, preciseDisconnectCause int32) error
-	NotifyCellInfoForSubscriber(ctx context.Context, subId int32, cellInfo []network.CellInfo) error
+	NotifyCellInfoForSubscriber(ctx context.Context, subId int32, cellInfo []androidTelephony.CellInfo) error
 	NotifySrvccStateChanged(ctx context.Context, subId int32, lteState int32) error
 	NotifySimActivationStateChangedForPhoneId(ctx context.Context, phoneId int32, subId int32, activationState int32, activationType int32) error
 	NotifyOemHookRawEventForSubscriber(ctx context.Context, phoneId int32, subId int32, rawData []byte) error
@@ -3476,21 +3473,21 @@ type ITelephonyRegistryServer interface {
 	NotifyCarrierNetworkChangeWithSubId(ctx context.Context, subId int32, active bool) error
 	NotifyUserMobileDataStateChangedForPhoneId(ctx context.Context, phoneId int32, subId int32, state bool) error
 	NotifyDisplayInfoChanged(ctx context.Context, slotIndex int32, subId int32, telephonyDisplayInfo androidTelephony.TelephonyDisplayInfo) error
-	NotifyPhoneCapabilityChanged(ctx context.Context, capability config.PhoneCapability) error
+	NotifyPhoneCapabilityChanged(ctx context.Context, capability androidTelephony.PhoneCapability) error
 	NotifyActiveDataSubIdChanged(ctx context.Context, activeDataSubId int32) error
 	NotifyRadioPowerStateChanged(ctx context.Context, phoneId int32, subId int32, state int32) error
 	NotifyEmergencyNumberList(ctx context.Context, phoneId int32, subId int32) error
-	NotifyOutgoingEmergencyCall(ctx context.Context, phoneId int32, subId int32, emergencyNumber voice.EmergencyNumber) error
-	NotifyOutgoingEmergencySms(ctx context.Context, phoneId int32, subId int32, emergencyNumber voice.EmergencyNumber) error
-	NotifyCallQualityChanged(ctx context.Context, callQuality media.CallQuality, phoneId int32, subId int32, callNetworkType int32) error
-	NotifyMediaQualityStatusChanged(ctx context.Context, phoneId int32, subId int32, status media.MediaQualityStatus) error
+	NotifyOutgoingEmergencyCall(ctx context.Context, phoneId int32, subId int32, emergencyNumber emergency.EmergencyNumber) error
+	NotifyOutgoingEmergencySms(ctx context.Context, phoneId int32, subId int32, emergencyNumber emergency.EmergencyNumber) error
+	NotifyCallQualityChanged(ctx context.Context, callQuality androidTelephony.CallQuality, phoneId int32, subId int32, callNetworkType int32) error
+	NotifyMediaQualityStatusChanged(ctx context.Context, phoneId int32, subId int32, status ims.MediaQualityStatus) error
 	NotifyImsDisconnectCause(ctx context.Context, subId int32, imsReasonInfo ims.ImsReasonInfo) error
-	NotifyRegistrationFailed(ctx context.Context, slotIndex int32, subId int32, cellIdentity network.CellIdentity, chosenPlmn string, domain int32, causeCode int32, additionalCauseCode int32) error
-	NotifyBarringInfoChanged(ctx context.Context, slotIndex int32, subId int32, barringInfo network.BarringInfo) error
-	NotifyPhysicalChannelConfigForSubscriber(ctx context.Context, phoneId int32, subId int32, configs []network.PhysicalChannelConfig) error
+	NotifyRegistrationFailed(ctx context.Context, slotIndex int32, subId int32, cellIdentity androidTelephony.CellIdentity, chosenPlmn string, domain int32, causeCode int32, additionalCauseCode int32) error
+	NotifyBarringInfoChanged(ctx context.Context, slotIndex int32, subId int32, barringInfo androidTelephony.BarringInfo) error
+	NotifyPhysicalChannelConfigForSubscriber(ctx context.Context, phoneId int32, subId int32, configs []androidTelephony.PhysicalChannelConfig) error
 	NotifyDataEnabled(ctx context.Context, phoneId int32, subId int32, enabled bool, reason int32) error
 	NotifyAllowedNetworkTypesChanged(ctx context.Context, phoneId int32, subId int32, reason int32, allowedNetworkType int64) error
-	NotifyLinkCapacityEstimateChanged(ctx context.Context, phoneId int32, subId int32, linkCapacityEstimateList []network.LinkCapacityEstimate) error
+	NotifyLinkCapacityEstimateChanged(ctx context.Context, phoneId int32, subId int32, linkCapacityEstimateList []androidTelephony.LinkCapacityEstimate) error
 	NotifySimultaneousCellularCallingSubscriptionsChanged(ctx context.Context, subIds []int32) error
 	AddCarrierPrivilegesCallback(ctx context.Context, phoneId int32, callback ICarrierPrivilegesCallback, pkg string, featureId string) error
 	RemoveCarrierPrivilegesCallback(ctx context.Context, callback ICarrierPrivilegesCallback, pkg string) error
@@ -3584,7 +3581,7 @@ func (w *telephonyRegistryStubWrapper) NotifySignalStrengthForPhoneId(
 	ctx context.Context,
 	phoneId int32,
 	subId int32,
-	signalStrength network.SignalStrength,
+	signalStrength androidTelephony.SignalStrength,
 ) error {
 	return w.impl.NotifySignalStrengthForPhoneId(ctx, phoneId, subId, signalStrength)
 }
@@ -3642,14 +3639,14 @@ func (w *telephonyRegistryStubWrapper) NotifyDataConnectionForSubscriber(
 func (w *telephonyRegistryStubWrapper) NotifyCellLocationForSubscriber(
 	ctx context.Context,
 	subId int32,
-	cellLocation network.CellIdentity,
+	cellLocation androidTelephony.CellIdentity,
 ) error {
 	return w.impl.NotifyCellLocationForSubscriber(ctx, subId, cellLocation)
 }
 
 func (w *telephonyRegistryStubWrapper) NotifyCellInfo(
 	ctx context.Context,
-	cellInfo []network.CellInfo,
+	cellInfo []androidTelephony.CellInfo,
 ) error {
 	return w.impl.NotifyCellInfo(ctx, cellInfo)
 }
@@ -3679,7 +3676,7 @@ func (w *telephonyRegistryStubWrapper) NotifyDisconnectCause(
 func (w *telephonyRegistryStubWrapper) NotifyCellInfoForSubscriber(
 	ctx context.Context,
 	subId int32,
-	cellInfo []network.CellInfo,
+	cellInfo []androidTelephony.CellInfo,
 ) error {
 	return w.impl.NotifyCellInfoForSubscriber(ctx, subId, cellInfo)
 }
@@ -3758,7 +3755,7 @@ func (w *telephonyRegistryStubWrapper) NotifyDisplayInfoChanged(
 
 func (w *telephonyRegistryStubWrapper) NotifyPhoneCapabilityChanged(
 	ctx context.Context,
-	capability config.PhoneCapability,
+	capability androidTelephony.PhoneCapability,
 ) error {
 	return w.impl.NotifyPhoneCapabilityChanged(ctx, capability)
 }
@@ -3791,7 +3788,7 @@ func (w *telephonyRegistryStubWrapper) NotifyOutgoingEmergencyCall(
 	ctx context.Context,
 	phoneId int32,
 	subId int32,
-	emergencyNumber voice.EmergencyNumber,
+	emergencyNumber emergency.EmergencyNumber,
 ) error {
 	return w.impl.NotifyOutgoingEmergencyCall(ctx, phoneId, subId, emergencyNumber)
 }
@@ -3800,14 +3797,14 @@ func (w *telephonyRegistryStubWrapper) NotifyOutgoingEmergencySms(
 	ctx context.Context,
 	phoneId int32,
 	subId int32,
-	emergencyNumber voice.EmergencyNumber,
+	emergencyNumber emergency.EmergencyNumber,
 ) error {
 	return w.impl.NotifyOutgoingEmergencySms(ctx, phoneId, subId, emergencyNumber)
 }
 
 func (w *telephonyRegistryStubWrapper) NotifyCallQualityChanged(
 	ctx context.Context,
-	callQuality media.CallQuality,
+	callQuality androidTelephony.CallQuality,
 	phoneId int32,
 	subId int32,
 	callNetworkType int32,
@@ -3819,7 +3816,7 @@ func (w *telephonyRegistryStubWrapper) NotifyMediaQualityStatusChanged(
 	ctx context.Context,
 	phoneId int32,
 	subId int32,
-	status media.MediaQualityStatus,
+	status ims.MediaQualityStatus,
 ) error {
 	return w.impl.NotifyMediaQualityStatusChanged(ctx, phoneId, subId, status)
 }
@@ -3836,7 +3833,7 @@ func (w *telephonyRegistryStubWrapper) NotifyRegistrationFailed(
 	ctx context.Context,
 	slotIndex int32,
 	subId int32,
-	cellIdentity network.CellIdentity,
+	cellIdentity androidTelephony.CellIdentity,
 	chosenPlmn string,
 	domain int32,
 	causeCode int32,
@@ -3849,7 +3846,7 @@ func (w *telephonyRegistryStubWrapper) NotifyBarringInfoChanged(
 	ctx context.Context,
 	slotIndex int32,
 	subId int32,
-	barringInfo network.BarringInfo,
+	barringInfo androidTelephony.BarringInfo,
 ) error {
 	return w.impl.NotifyBarringInfoChanged(ctx, slotIndex, subId, barringInfo)
 }
@@ -3858,7 +3855,7 @@ func (w *telephonyRegistryStubWrapper) NotifyPhysicalChannelConfigForSubscriber(
 	ctx context.Context,
 	phoneId int32,
 	subId int32,
-	configs []network.PhysicalChannelConfig,
+	configs []androidTelephony.PhysicalChannelConfig,
 ) error {
 	return w.impl.NotifyPhysicalChannelConfigForSubscriber(ctx, phoneId, subId, configs)
 }
@@ -3887,7 +3884,7 @@ func (w *telephonyRegistryStubWrapper) NotifyLinkCapacityEstimateChanged(
 	ctx context.Context,
 	phoneId int32,
 	subId int32,
-	linkCapacityEstimateList []network.LinkCapacityEstimate,
+	linkCapacityEstimateList []androidTelephony.LinkCapacityEstimate,
 ) error {
 	return w.impl.NotifyLinkCapacityEstimateChanged(ctx, phoneId, subId, linkCapacityEstimateList)
 }

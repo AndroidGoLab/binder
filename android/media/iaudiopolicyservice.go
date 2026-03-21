@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
-	tuner "github.com/xaionaro-go/binder/android/hardware/tv/tuner"
 	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -233,7 +232,7 @@ type IAudioPolicyService interface {
 	SetPhoneState(ctx context.Context, state common.AudioMode, uid int32) error
 	SetForceUse(ctx context.Context, usage AudioPolicyForceUse, config AudioPolicyForcedConfig) error
 	GetForceUse(ctx context.Context, usage AudioPolicyForceUse) (AudioPolicyForcedConfig, error)
-	GetOutput(ctx context.Context, stream tuner.AudioStreamType) (int32, error)
+	GetOutput(ctx context.Context, stream common.AudioStreamType) (int32, error)
 	GetOutputForAttr(ctx context.Context, attr AudioAttributes, session int32, attributionSource content.AttributionSourceState, config common.AudioConfig, flags int32, selectedDeviceId int32) (GetOutputForAttrResponse, error)
 	StartOutput(ctx context.Context, portId int32) error
 	StopOutput(ctx context.Context, portId int32) error
@@ -242,22 +241,22 @@ type IAudioPolicyService interface {
 	StartInput(ctx context.Context, portId int32) error
 	StopInput(ctx context.Context, portId int32) error
 	ReleaseInput(ctx context.Context, portId int32) error
-	InitStreamVolume(ctx context.Context, stream tuner.AudioStreamType, indexMin int32, indexMax int32) error
-	SetStreamVolumeIndex(ctx context.Context, stream tuner.AudioStreamType, device common.AudioDeviceDescription, index int32) error
-	GetStreamVolumeIndex(ctx context.Context, stream tuner.AudioStreamType, device common.AudioDeviceDescription) (int32, error)
+	InitStreamVolume(ctx context.Context, stream common.AudioStreamType, indexMin int32, indexMax int32) error
+	SetStreamVolumeIndex(ctx context.Context, stream common.AudioStreamType, device common.AudioDeviceDescription, index int32) error
+	GetStreamVolumeIndex(ctx context.Context, stream common.AudioStreamType, device common.AudioDeviceDescription) (int32, error)
 	SetVolumeIndexForAttributes(ctx context.Context, attr AudioAttributes, device common.AudioDeviceDescription, index int32) error
 	GetVolumeIndexForAttributes(ctx context.Context, attr AudioAttributes, device common.AudioDeviceDescription) (int32, error)
 	GetMaxVolumeIndexForAttributes(ctx context.Context, attr AudioAttributes) (int32, error)
 	GetMinVolumeIndexForAttributes(ctx context.Context, attr AudioAttributes) (int32, error)
-	GetStrategyForStream(ctx context.Context, stream tuner.AudioStreamType) (int32, error)
+	GetStrategyForStream(ctx context.Context, stream common.AudioStreamType) (int32, error)
 	GetDevicesForAttributes(ctx context.Context, attr AudioAttributes, forVolume bool) ([]common.AudioDevice, error)
 	GetOutputForEffect(ctx context.Context, desc EffectDescriptor) (int32, error)
 	RegisterEffect(ctx context.Context, desc EffectDescriptor, io int32, strategy int32, session int32, id int32) error
 	UnregisterEffect(ctx context.Context, id int32) error
 	SetEffectEnabled(ctx context.Context, id int32, enabled bool) error
 	MoveEffectsToIo(ctx context.Context, ids []int32, io int32) error
-	IsStreamActive(ctx context.Context, stream tuner.AudioStreamType, inPastMs int32) (bool, error)
-	IsStreamActiveRemotely(ctx context.Context, stream tuner.AudioStreamType, inPastMs int32) (bool, error)
+	IsStreamActive(ctx context.Context, stream common.AudioStreamType, inPastMs int32) (bool, error)
+	IsStreamActiveRemotely(ctx context.Context, stream common.AudioStreamType, inPastMs int32) (bool, error)
 	IsSourceActive(ctx context.Context, source common.AudioSource) (bool, error)
 	QueryDefaultPreProcessing(ctx context.Context, audioSession int32, count common.Int) ([]EffectDescriptor, error)
 	AddSourceDefaultEffect(ctx context.Context, type_ common.AudioUuid, uuid common.AudioUuid, priority int32, source common.AudioSource) (int32, error)
@@ -292,7 +291,7 @@ type IAudioPolicyService interface {
 	StopAudioSource(ctx context.Context, portId int32) error
 	SetMasterMono(ctx context.Context, mono bool) error
 	GetMasterMono(ctx context.Context) (bool, error)
-	GetStreamVolumeDB(ctx context.Context, stream tuner.AudioStreamType, index int32, device common.AudioDeviceDescription) (float32, error)
+	GetStreamVolumeDB(ctx context.Context, stream common.AudioStreamType, index int32, device common.AudioDeviceDescription) (float32, error)
 	GetSurroundFormats(ctx context.Context, count common.Int, formats []common.AudioFormatDescription, formatsEnabled []bool) error
 	GetReportedSurroundFormats(ctx context.Context, count common.Int, formats []common.AudioFormatDescription) error
 	GetHwOffloadFormatsSupportedForBluetoothMedia(ctx context.Context, device common.AudioDeviceDescription) ([]common.AudioFormatDescription, error)
@@ -565,7 +564,7 @@ func (p *AudioPolicyServiceProxy) GetForceUse(
 
 func (p *AudioPolicyServiceProxy) GetOutput(
 	ctx context.Context,
-	stream tuner.AudioStreamType,
+	stream common.AudioStreamType,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
@@ -875,7 +874,7 @@ func (p *AudioPolicyServiceProxy) ReleaseInput(
 
 func (p *AudioPolicyServiceProxy) InitStreamVolume(
 	ctx context.Context,
-	stream tuner.AudioStreamType,
+	stream common.AudioStreamType,
 	indexMin int32,
 	indexMax int32,
 ) error {
@@ -906,7 +905,7 @@ func (p *AudioPolicyServiceProxy) InitStreamVolume(
 
 func (p *AudioPolicyServiceProxy) SetStreamVolumeIndex(
 	ctx context.Context,
-	stream tuner.AudioStreamType,
+	stream common.AudioStreamType,
 	device common.AudioDeviceDescription,
 	index int32,
 ) error {
@@ -940,7 +939,7 @@ func (p *AudioPolicyServiceProxy) SetStreamVolumeIndex(
 
 func (p *AudioPolicyServiceProxy) GetStreamVolumeIndex(
 	ctx context.Context,
-	stream tuner.AudioStreamType,
+	stream common.AudioStreamType,
 	device common.AudioDeviceDescription,
 ) (int32, error) {
 	var _result int32
@@ -1124,7 +1123,7 @@ func (p *AudioPolicyServiceProxy) GetMinVolumeIndexForAttributes(
 
 func (p *AudioPolicyServiceProxy) GetStrategyForStream(
 	ctx context.Context,
-	stream tuner.AudioStreamType,
+	stream common.AudioStreamType,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
@@ -1373,7 +1372,7 @@ func (p *AudioPolicyServiceProxy) MoveEffectsToIo(
 
 func (p *AudioPolicyServiceProxy) IsStreamActive(
 	ctx context.Context,
-	stream tuner.AudioStreamType,
+	stream common.AudioStreamType,
 	inPastMs int32,
 ) (bool, error) {
 	var _result bool
@@ -1407,7 +1406,7 @@ func (p *AudioPolicyServiceProxy) IsStreamActive(
 
 func (p *AudioPolicyServiceProxy) IsStreamActiveRemotely(
 	ctx context.Context,
-	stream tuner.AudioStreamType,
+	stream common.AudioStreamType,
 	inPastMs int32,
 ) (bool, error) {
 	var _result bool
@@ -2684,7 +2683,7 @@ func (p *AudioPolicyServiceProxy) GetMasterMono(
 
 func (p *AudioPolicyServiceProxy) GetStreamVolumeDB(
 	ctx context.Context,
-	stream tuner.AudioStreamType,
+	stream common.AudioStreamType,
 	index int32,
 	device common.AudioDeviceDescription,
 ) (float32, error) {
@@ -4305,7 +4304,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_stream := tuner.AudioStreamType(_raw_stream)
+		_arg_stream := common.AudioStreamType(_raw_stream)
 		_result, _err := s.Impl.GetOutput(ctx, _arg_stream)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4528,7 +4527,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_stream := tuner.AudioStreamType(_raw_stream)
+		_arg_stream := common.AudioStreamType(_raw_stream)
 		_arg_indexMin, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4550,7 +4549,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_stream := tuner.AudioStreamType(_raw_stream)
+		_arg_stream := common.AudioStreamType(_raw_stream)
 		var _arg_device common.AudioDeviceDescription
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -4580,7 +4579,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_stream := tuner.AudioStreamType(_raw_stream)
+		_arg_stream := common.AudioStreamType(_raw_stream)
 		var _arg_device common.AudioDeviceDescription
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -4722,7 +4721,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_stream := tuner.AudioStreamType(_raw_stream)
+		_arg_stream := common.AudioStreamType(_raw_stream)
 		_result, _err := s.Impl.GetStrategyForStream(ctx, _arg_stream)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4894,7 +4893,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_stream := tuner.AudioStreamType(_raw_stream)
+		_arg_stream := common.AudioStreamType(_raw_stream)
 		_arg_inPastMs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -4913,7 +4912,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_stream := tuner.AudioStreamType(_raw_stream)
+		_arg_stream := common.AudioStreamType(_raw_stream)
 		_arg_inPastMs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -5720,7 +5719,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_stream := tuner.AudioStreamType(_raw_stream)
+		_arg_stream := common.AudioStreamType(_raw_stream)
 		_arg_index, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -6727,7 +6726,7 @@ type IAudioPolicyServiceServer interface {
 	SetPhoneState(ctx context.Context, state common.AudioMode, uid int32) error
 	SetForceUse(ctx context.Context, usage AudioPolicyForceUse, config AudioPolicyForcedConfig) error
 	GetForceUse(ctx context.Context, usage AudioPolicyForceUse) (AudioPolicyForcedConfig, error)
-	GetOutput(ctx context.Context, stream tuner.AudioStreamType) (int32, error)
+	GetOutput(ctx context.Context, stream common.AudioStreamType) (int32, error)
 	GetOutputForAttr(ctx context.Context, attr AudioAttributes, session int32, attributionSource content.AttributionSourceState, config common.AudioConfig, flags int32, selectedDeviceId int32) (GetOutputForAttrResponse, error)
 	StartOutput(ctx context.Context, portId int32) error
 	StopOutput(ctx context.Context, portId int32) error
@@ -6736,22 +6735,22 @@ type IAudioPolicyServiceServer interface {
 	StartInput(ctx context.Context, portId int32) error
 	StopInput(ctx context.Context, portId int32) error
 	ReleaseInput(ctx context.Context, portId int32) error
-	InitStreamVolume(ctx context.Context, stream tuner.AudioStreamType, indexMin int32, indexMax int32) error
-	SetStreamVolumeIndex(ctx context.Context, stream tuner.AudioStreamType, device common.AudioDeviceDescription, index int32) error
-	GetStreamVolumeIndex(ctx context.Context, stream tuner.AudioStreamType, device common.AudioDeviceDescription) (int32, error)
+	InitStreamVolume(ctx context.Context, stream common.AudioStreamType, indexMin int32, indexMax int32) error
+	SetStreamVolumeIndex(ctx context.Context, stream common.AudioStreamType, device common.AudioDeviceDescription, index int32) error
+	GetStreamVolumeIndex(ctx context.Context, stream common.AudioStreamType, device common.AudioDeviceDescription) (int32, error)
 	SetVolumeIndexForAttributes(ctx context.Context, attr AudioAttributes, device common.AudioDeviceDescription, index int32) error
 	GetVolumeIndexForAttributes(ctx context.Context, attr AudioAttributes, device common.AudioDeviceDescription) (int32, error)
 	GetMaxVolumeIndexForAttributes(ctx context.Context, attr AudioAttributes) (int32, error)
 	GetMinVolumeIndexForAttributes(ctx context.Context, attr AudioAttributes) (int32, error)
-	GetStrategyForStream(ctx context.Context, stream tuner.AudioStreamType) (int32, error)
+	GetStrategyForStream(ctx context.Context, stream common.AudioStreamType) (int32, error)
 	GetDevicesForAttributes(ctx context.Context, attr AudioAttributes, forVolume bool) ([]common.AudioDevice, error)
 	GetOutputForEffect(ctx context.Context, desc EffectDescriptor) (int32, error)
 	RegisterEffect(ctx context.Context, desc EffectDescriptor, io int32, strategy int32, session int32, id int32) error
 	UnregisterEffect(ctx context.Context, id int32) error
 	SetEffectEnabled(ctx context.Context, id int32, enabled bool) error
 	MoveEffectsToIo(ctx context.Context, ids []int32, io int32) error
-	IsStreamActive(ctx context.Context, stream tuner.AudioStreamType, inPastMs int32) (bool, error)
-	IsStreamActiveRemotely(ctx context.Context, stream tuner.AudioStreamType, inPastMs int32) (bool, error)
+	IsStreamActive(ctx context.Context, stream common.AudioStreamType, inPastMs int32) (bool, error)
+	IsStreamActiveRemotely(ctx context.Context, stream common.AudioStreamType, inPastMs int32) (bool, error)
 	IsSourceActive(ctx context.Context, source common.AudioSource) (bool, error)
 	QueryDefaultPreProcessing(ctx context.Context, audioSession int32, count common.Int) ([]EffectDescriptor, error)
 	AddSourceDefaultEffect(ctx context.Context, type_ common.AudioUuid, uuid common.AudioUuid, priority int32, source common.AudioSource) (int32, error)
@@ -6786,7 +6785,7 @@ type IAudioPolicyServiceServer interface {
 	StopAudioSource(ctx context.Context, portId int32) error
 	SetMasterMono(ctx context.Context, mono bool) error
 	GetMasterMono(ctx context.Context) (bool, error)
-	GetStreamVolumeDB(ctx context.Context, stream tuner.AudioStreamType, index int32, device common.AudioDeviceDescription) (float32, error)
+	GetStreamVolumeDB(ctx context.Context, stream common.AudioStreamType, index int32, device common.AudioDeviceDescription) (float32, error)
 	GetSurroundFormats(ctx context.Context, count common.Int, formats []common.AudioFormatDescription, formatsEnabled []bool) error
 	GetReportedSurroundFormats(ctx context.Context, count common.Int, formats []common.AudioFormatDescription) error
 	GetHwOffloadFormatsSupportedForBluetoothMedia(ctx context.Context, device common.AudioDeviceDescription) ([]common.AudioFormatDescription, error)
@@ -6889,7 +6888,7 @@ func (w *audioPolicyServiceStubWrapper) GetForceUse(
 
 func (w *audioPolicyServiceStubWrapper) GetOutput(
 	ctx context.Context,
-	stream tuner.AudioStreamType,
+	stream common.AudioStreamType,
 ) (int32, error) {
 	return w.impl.GetOutput(ctx, stream)
 }
@@ -6964,7 +6963,7 @@ func (w *audioPolicyServiceStubWrapper) ReleaseInput(
 
 func (w *audioPolicyServiceStubWrapper) InitStreamVolume(
 	ctx context.Context,
-	stream tuner.AudioStreamType,
+	stream common.AudioStreamType,
 	indexMin int32,
 	indexMax int32,
 ) error {
@@ -6973,7 +6972,7 @@ func (w *audioPolicyServiceStubWrapper) InitStreamVolume(
 
 func (w *audioPolicyServiceStubWrapper) SetStreamVolumeIndex(
 	ctx context.Context,
-	stream tuner.AudioStreamType,
+	stream common.AudioStreamType,
 	device common.AudioDeviceDescription,
 	index int32,
 ) error {
@@ -6982,7 +6981,7 @@ func (w *audioPolicyServiceStubWrapper) SetStreamVolumeIndex(
 
 func (w *audioPolicyServiceStubWrapper) GetStreamVolumeIndex(
 	ctx context.Context,
-	stream tuner.AudioStreamType,
+	stream common.AudioStreamType,
 	device common.AudioDeviceDescription,
 ) (int32, error) {
 	return w.impl.GetStreamVolumeIndex(ctx, stream, device)
@@ -7021,7 +7020,7 @@ func (w *audioPolicyServiceStubWrapper) GetMinVolumeIndexForAttributes(
 
 func (w *audioPolicyServiceStubWrapper) GetStrategyForStream(
 	ctx context.Context,
-	stream tuner.AudioStreamType,
+	stream common.AudioStreamType,
 ) (int32, error) {
 	return w.impl.GetStrategyForStream(ctx, stream)
 }
@@ -7077,7 +7076,7 @@ func (w *audioPolicyServiceStubWrapper) MoveEffectsToIo(
 
 func (w *audioPolicyServiceStubWrapper) IsStreamActive(
 	ctx context.Context,
-	stream tuner.AudioStreamType,
+	stream common.AudioStreamType,
 	inPastMs int32,
 ) (bool, error) {
 	return w.impl.IsStreamActive(ctx, stream, inPastMs)
@@ -7085,7 +7084,7 @@ func (w *audioPolicyServiceStubWrapper) IsStreamActive(
 
 func (w *audioPolicyServiceStubWrapper) IsStreamActiveRemotely(
 	ctx context.Context,
-	stream tuner.AudioStreamType,
+	stream common.AudioStreamType,
 	inPastMs int32,
 ) (bool, error) {
 	return w.impl.IsStreamActiveRemotely(ctx, stream, inPastMs)
@@ -7343,7 +7342,7 @@ func (w *audioPolicyServiceStubWrapper) GetMasterMono(
 
 func (w *audioPolicyServiceStubWrapper) GetStreamVolumeDB(
 	ctx context.Context,
-	stream tuner.AudioStreamType,
+	stream common.AudioStreamType,
 	index int32,
 	device common.AudioDeviceDescription,
 ) (float32, error) {

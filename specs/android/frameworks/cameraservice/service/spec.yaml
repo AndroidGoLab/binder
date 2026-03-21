@@ -50,6 +50,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: ICameraServiceListener
       descriptor: android.frameworks.cameraservice.service.ICameraServiceListener
       oneway: true
@@ -84,6 +86,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: CameraStatusAndId
       fields:

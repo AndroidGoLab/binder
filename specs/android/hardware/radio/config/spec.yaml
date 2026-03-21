@@ -103,6 +103,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IRadioConfigIndication
       descriptor: android.hardware.radio.config.IRadioConfigIndication
       oneway: true
@@ -131,6 +133,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IRadioConfigResponse
       descriptor: android.hardware.radio.config.IRadioConfigResponse
       oneway: true
@@ -229,6 +233,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: PhoneCapability
       fields:

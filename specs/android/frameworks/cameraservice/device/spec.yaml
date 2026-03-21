@@ -75,6 +75,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: ICameraDeviceUser
       descriptor: android.frameworks.cameraservice.device.ICameraDeviceUser
       methods:
@@ -201,6 +203,8 @@ interfaces:
           transaction_code_offset: 14
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: CameraMetadata
       fields:

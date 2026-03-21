@@ -305,4 +305,32 @@ interfaces:
             name: void
 parcelables:
     - name: MidiDeviceInfo
+      java_wire_format:
+        - name: Type
+          write_method: int32
+        - name: Id
+          write_method: int32
+        - name: InputPortCount
+          write_method: int32
+        - name: OutputPortCount
+          write_method: int32
+        - name: InputPortNames
+          write_method: opaque
+        - name: OutputPortNames
+          write_method: opaque
+        - name: IsPrivate?1:0
+          write_method: int32
+        - name: DefaultProtocol
+          write_method: int32
+        - name: GetBasicProperties(newString[]{PROPERTY_NAME,PROPERTY_MANUFACTURER,PROPERTY_PRODUCT,PROPERTY_VERSION,PROPERTY_SERIAL_NUMBER,PROPERTY_ALSA_CARD,PROPERTY_ALSA_DEVICE})
+          write_method: opaque
+        - name: Properties
+          write_method: opaque
     - name: MidiDeviceStatus
+      java_wire_format:
+        - name: DeviceInfo
+          write_method: opaque
+        - name: InputPortOpen
+          write_method: opaque
+        - name: OutputPortOpenCount
+          write_method: opaque

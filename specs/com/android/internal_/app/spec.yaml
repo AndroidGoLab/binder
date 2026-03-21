@@ -3811,3 +3811,10 @@ interfaces:
             name: void
 parcelables:
     - name: MessageSamplingConfig
+      java_wire_format:
+        - name: SampledOpCode
+          write_method: int32
+        - name: AcceptableLeftDistance
+          write_method: int32
+        - name: ExpirationTimeSinceBootMillis
+          write_method: int64

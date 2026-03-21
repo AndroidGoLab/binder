@@ -3,7 +3,6 @@ package audio
 import (
 	"context"
 	"fmt"
-	pm "github.com/xaionaro-go/binder/android/content/pm"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -28,7 +27,7 @@ type IBluetoothAudioProviderFactory interface {
 	AsBinder() binder.IBinder
 	GetProviderCapabilities(ctx context.Context, sessionType SessionType) ([]AudioCapabilities, error)
 	OpenProvider(ctx context.Context, sessionType SessionType) (IBluetoothAudioProvider, error)
-	GetProviderInfo(ctx context.Context, sessionType SessionType) (pm.ProviderInfo, error)
+	GetProviderInfo(ctx context.Context, sessionType SessionType) (IBluetoothAudioProviderFactoryProviderInfo, error)
 }
 
 type BluetoothAudioProviderFactoryProxy struct {
@@ -130,8 +129,8 @@ func (p *BluetoothAudioProviderFactoryProxy) OpenProvider(
 func (p *BluetoothAudioProviderFactoryProxy) GetProviderInfo(
 	ctx context.Context,
 	sessionType SessionType,
-) (pm.ProviderInfo, error) {
-	var _result pm.ProviderInfo
+) (IBluetoothAudioProviderFactoryProviderInfo, error) {
+	var _result IBluetoothAudioProviderFactoryProviderInfo
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioProviderFactory)
@@ -256,7 +255,7 @@ func (s *BluetoothAudioProviderFactoryStub) OnTransaction(
 type IBluetoothAudioProviderFactoryServer interface {
 	GetProviderCapabilities(ctx context.Context, sessionType SessionType) ([]AudioCapabilities, error)
 	OpenProvider(ctx context.Context, sessionType SessionType) (IBluetoothAudioProvider, error)
-	GetProviderInfo(ctx context.Context, sessionType SessionType) (pm.ProviderInfo, error)
+	GetProviderInfo(ctx context.Context, sessionType SessionType) (IBluetoothAudioProviderFactoryProviderInfo, error)
 }
 
 type bluetoothAudioProviderFactoryStubWrapper struct {
@@ -285,7 +284,7 @@ func (w *bluetoothAudioProviderFactoryStubWrapper) OpenProvider(
 func (w *bluetoothAudioProviderFactoryStubWrapper) GetProviderInfo(
 	ctx context.Context,
 	sessionType SessionType,
-) (pm.ProviderInfo, error) {
+) (IBluetoothAudioProviderFactoryProviderInfo, error) {
 	return w.impl.GetProviderInfo(ctx, sessionType)
 }
 

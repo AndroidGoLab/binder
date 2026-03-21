@@ -23,5 +23,85 @@ interfaces:
             name: boolean
 parcelables:
     - name: CompatibilityInfo
+      java_wire_format:
+        - name: CompatibilityFlags
+          write_method: int32
+        - name: ApplicationDensity
+          write_method: int32
+        - name: ApplicationScale
+          write_method: float32
+        - name: ApplicationInvertedScale
+          write_method: float32
+        - name: ApplicationDensityScale
+          write_method: float32
+        - name: ApplicationDensityInvertedScale
+          write_method: float32
     - name: Configuration
+      java_wire_format:
+        - name: FontScale
+          write_method: float32
+        - name: Mcc
+          write_method: int32
+        - name: Mnc
+          write_method: int32
+        - name: LocaleList
+          write_method: opaque
+        - name: "1"
+          write_method: int32
+          condition: userSetLocale
+        - name: Touchscreen
+          write_method: int32
+        - name: Keyboard
+          write_method: int32
+        - name: KeyboardHidden
+          write_method: int32
+        - name: HardKeyboardHidden
+          write_method: int32
+        - name: Navigation
+          write_method: int32
+        - name: NavigationHidden
+          write_method: int32
+        - name: Orientation
+          write_method: int32
+        - name: ScreenLayout
+          write_method: int32
+        - name: ColorMode
+          write_method: int32
+        - name: UiMode
+          write_method: int32
+        - name: ScreenWidthDp
+          write_method: int32
+        - name: ScreenHeightDp
+          write_method: int32
+        - name: SmallestScreenWidthDp
+          write_method: int32
+        - name: DensityDpi
+          write_method: int32
+        - name: CompatScreenWidthDp
+          write_method: int32
+        - name: CompatScreenHeightDp
+          write_method: int32
+        - name: CompatSmallestScreenWidthDp
+          write_method: int32
+        - name: Dest
+          write_method: opaque
+        - name: AssetsSeq
+          write_method: int32
+        - name: Seq
+          write_method: int32
+        - name: FontWeightAdjustment
+          write_method: int32
+        - name: GrammaticalGender
+          write_method: int32
     - name: ObbInfo
+      java_wire_format:
+        - name: Filename
+          write_method: string16
+        - name: PackageName
+          write_method: string16
+        - name: Version
+          write_method: int32
+        - name: Flags
+          write_method: int32
+        - name: Salt
+          write_method: opaque

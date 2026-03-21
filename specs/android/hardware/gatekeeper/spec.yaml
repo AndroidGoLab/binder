@@ -80,6 +80,9 @@ interfaces:
         - name: ERROR_NOT_IMPLEMENTED
           type: int
           value: "-3"
+      annotations:
+        - VintfStability
+        - SensitiveData
 parcelables:
     - name: GatekeeperEnrollResponse
       fields:

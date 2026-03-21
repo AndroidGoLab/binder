@@ -13,6 +13,10 @@ interfaces:
               direction: in
           return_type:
             name: ConnectionInfo
+      nested_types:
+        - IAccessor.ConnectionInfo
+      annotations:
+        - VintfStability
     - name: IClientManager
       descriptor: android.hardware.media.bufferpool2.IClientManager
       methods:
@@ -34,6 +38,10 @@ interfaces:
               direction: in
           return_type:
             name: Registration
+      nested_types:
+        - IClientManager.Registration
+      annotations:
+        - VintfStability
     - name: IConnection
       descriptor: android.hardware.media.bufferpool2.IConnection
       methods:
@@ -52,6 +60,11 @@ interfaces:
           transaction_code_offset: 1
           return_type:
             name: void
+      nested_types:
+        - IConnection.FetchInfo
+        - IConnection.FetchResult
+      annotations:
+        - VintfStability
     - name: IObserver
       descriptor: android.hardware.media.bufferpool2.IObserver
       methods:
@@ -69,6 +82,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: Buffer
       fields:

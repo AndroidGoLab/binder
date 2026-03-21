@@ -13,12 +13,12 @@ const DescriptorIStorageEventListener = "android.os.storage.IStorageEventListene
 
 const (
 	TransactionIStorageEventListenerOnUsbMassStorageConnectionChanged = binder.FirstCallTransaction + 0
-	TransactionIStorageEventListenerOnStorageStateChanged             = binder.FirstCallTransaction + 1
-	TransactionIStorageEventListenerOnVolumeStateChanged              = binder.FirstCallTransaction + 2
-	TransactionIStorageEventListenerOnVolumeRecordChanged             = binder.FirstCallTransaction + 3
-	TransactionIStorageEventListenerOnVolumeForgotten                 = binder.FirstCallTransaction + 4
-	TransactionIStorageEventListenerOnDiskScanned                     = binder.FirstCallTransaction + 5
-	TransactionIStorageEventListenerOnDiskDestroyed                   = binder.FirstCallTransaction + 6
+	TransactionIStorageEventListenerOnStorageStateChanged             = binder.FirstCallTransaction + 0
+	TransactionIStorageEventListenerOnVolumeStateChanged              = binder.FirstCallTransaction + 1
+	TransactionIStorageEventListenerOnVolumeRecordChanged             = binder.FirstCallTransaction + 2
+	TransactionIStorageEventListenerOnVolumeForgotten                 = binder.FirstCallTransaction + 3
+	TransactionIStorageEventListenerOnDiskScanned                     = binder.FirstCallTransaction + 4
+	TransactionIStorageEventListenerOnDiskDestroyed                   = binder.FirstCallTransaction + 5
 )
 
 const (
@@ -235,21 +235,6 @@ func (s *StorageEventListenerStub) OnTransaction(
 			return nil, _err
 		}
 		_err = s.Impl.OnUsbMassStorageConnectionChanged(ctx, _arg_connected)
-		return nil, _err
-	case TransactionIStorageEventListenerOnStorageStateChanged:
-		_arg_path, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_oldState, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_newState, _err := _data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.OnStorageStateChanged(ctx, _arg_path, _arg_oldState, _arg_newState)
 		return nil, _err
 	case TransactionIStorageEventListenerOnVolumeStateChanged:
 		var _arg_vol VolumeInfo

@@ -281,7 +281,7 @@ enums:
         - name: VENDOR_MASK
           value: 0xfL << 28
         - name: VENDOR_MASK_HI
-          value: 1L * 0xffff << 48
+          value: (1L * 0xffff) << 48
       annotations:
         - VintfStability
         - Backing
@@ -403,55 +403,55 @@ enums:
         - name: RANGE_EXTENDED
           value: 3 << 27
         - name: SRGB_LINEAR
-          value: 1 << 16 | 1 << 22 | 1 << 27
+          value: ((1 << 16) | (1 << 22)) | (1 << 27)
         - name: SCRGB_LINEAR
-          value: 1 << 16 | 1 << 22 | 3 << 27
+          value: ((1 << 16) | (1 << 22)) | (3 << 27)
         - name: SRGB
-          value: 1 << 16 | 2 << 22 | 1 << 27
+          value: ((1 << 16) | (2 << 22)) | (1 << 27)
         - name: SCRGB
-          value: 1 << 16 | 2 << 22 | 3 << 27
+          value: ((1 << 16) | (2 << 22)) | (3 << 27)
         - name: JFIF
-          value: 2 << 16 | 3 << 22 | 1 << 27
+          value: ((2 << 16) | (3 << 22)) | (1 << 27)
         - name: BT601_625
-          value: 2 << 16 | 3 << 22 | 2 << 27
+          value: ((2 << 16) | (3 << 22)) | (2 << 27)
         - name: BT601_525
-          value: 4 << 16 | 3 << 22 | 2 << 27
+          value: ((4 << 16) | (3 << 22)) | (2 << 27)
         - name: BT709
-          value: 1 << 16 | 3 << 22 | 2 << 27
+          value: ((1 << 16) | (3 << 22)) | (2 << 27)
         - name: DCI_P3_LINEAR
-          value: 10 << 16 | 1 << 22 | 1 << 27
+          value: ((10 << 16) | (1 << 22)) | (1 << 27)
         - name: DCI_P3
-          value: 10 << 16 | 5 << 22 | 1 << 27
+          value: ((10 << 16) | (5 << 22)) | (1 << 27)
         - name: DISPLAY_P3_LINEAR
-          value: 10 << 16 | 1 << 22 | 1 << 27
+          value: ((10 << 16) | (1 << 22)) | (1 << 27)
         - name: DISPLAY_P3
-          value: 10 << 16 | 2 << 22 | 1 << 27
+          value: ((10 << 16) | (2 << 22)) | (1 << 27)
         - name: ADOBE_RGB
-          value: 11 << 16 | 4 << 22 | 1 << 27
+          value: ((11 << 16) | (4 << 22)) | (1 << 27)
         - name: ADOBE_RGB_LINEAR
-          value: 11 << 16 | 1 << 22 | 1 << 27
+          value: ((11 << 16) | (1 << 22)) | (1 << 27)
         - name: BT2020_LINEAR
-          value: 6 << 16 | 1 << 22 | 1 << 27
+          value: ((6 << 16) | (1 << 22)) | (1 << 27)
         - name: BT2020
-          value: 6 << 16 | 3 << 22 | 1 << 27
+          value: ((6 << 16) | (3 << 22)) | (1 << 27)
         - name: BT2020_PQ
-          value: 6 << 16 | 7 << 22 | 1 << 27
+          value: ((6 << 16) | (7 << 22)) | (1 << 27)
         - name: BT2020_LINEAR_EXTENDED
-          value: 6 << 16 | 1 << 22 | 3 << 27
+          value: ((6 << 16) | (1 << 22)) | (3 << 27)
         - name: DEPTH
           value: "0x1000"
         - name: SENSOR
           value: "0x1001"
         - name: BT2020_ITU
-          value: 6 << 16 | 3 << 22 | 2 << 27
+          value: ((6 << 16) | (3 << 22)) | (2 << 27)
         - name: BT2020_ITU_PQ
-          value: 6 << 16 | 7 << 22 | 2 << 27
+          value: ((6 << 16) | (7 << 22)) | (2 << 27)
         - name: BT2020_ITU_HLG
-          value: 6 << 16 | 8 << 22 | 2 << 27
+          value: ((6 << 16) | (8 << 22)) | (2 << 27)
         - name: BT2020_HLG
-          value: 6 << 16 | 8 << 22 | 1 << 27
+          value: ((6 << 16) | (8 << 22)) | (1 << 27)
         - name: DISPLAY_BT2020
-          value: 6 << 16 | 2 << 22 | 1 << 27
+          value: ((6 << 16) | (2 << 22)) | (1 << 27)
         - name: DYNAMIC_DEPTH
           value: "0x1002"
         - name: JPEG_APP_SEGMENTS
@@ -461,7 +461,7 @@ enums:
         - name: JPEG_R
           value: "0x1005"
         - name: BT709_FULL_RANGE
-          value: 1 << 16 | 3 << 22 | 1 << 27
+          value: ((1 << 16) | (3 << 22)) | (1 << 27)
       annotations:
         - VintfStability
         - Backing
@@ -673,7 +673,7 @@ enums:
         - name: ROT_180
           value: FLIP_H | FLIP_V
         - name: ROT_270
-          value: FLIP_H | FLIP_V | ROT_90
+          value: (FLIP_H | FLIP_V) | ROT_90
       annotations:
         - VintfStability
         - Backing

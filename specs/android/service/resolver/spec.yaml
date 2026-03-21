@@ -50,3 +50,14 @@ interfaces:
             name: void
 parcelables:
     - name: ResolverTarget
+      java_wire_format:
+        - name: RecencyScore
+          write_method: float32
+        - name: TimeSpentScore
+          write_method: float32
+        - name: LaunchScore
+          write_method: float32
+        - name: ChooserScore
+          write_method: float32
+        - name: SelectProbability
+          write_method: float32

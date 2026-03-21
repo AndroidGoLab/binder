@@ -3,7 +3,6 @@ package rkp
 import (
 	"context"
 	"fmt"
-	device "github.com/xaionaro-go/binder/android/frameworks/cameraservice/device"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -28,7 +27,7 @@ type IGetKeyCallback interface {
 	AsBinder() binder.IBinder
 	OnSuccess(ctx context.Context, key RemotelyProvisionedKey) error
 	OnCancel(ctx context.Context) error
-	OnError(ctx context.Context, error_ device.ErrorCode, description string) error
+	OnError(ctx context.Context, error_ IGetKeyCallbackErrorCode, description string) error
 }
 
 type GetKeyCallbackProxy struct {
@@ -86,7 +85,7 @@ func (p *GetKeyCallbackProxy) OnCancel(
 
 func (p *GetKeyCallbackProxy) OnError(
 	ctx context.Context,
-	error_ device.ErrorCode,
+	error_ IGetKeyCallbackErrorCode,
 	description string,
 ) error {
 	_data := parcel.New()
@@ -150,7 +149,7 @@ func (s *GetKeyCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_error_ := device.ErrorCode(_raw_error_)
+		_arg_error_ := IGetKeyCallbackErrorCode(_raw_error_)
 		_arg_description, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -168,7 +167,7 @@ func (s *GetKeyCallbackStub) OnTransaction(
 type IGetKeyCallbackServer interface {
 	OnSuccess(ctx context.Context, key RemotelyProvisionedKey) error
 	OnCancel(ctx context.Context) error
-	OnError(ctx context.Context, error_ device.ErrorCode, description string) error
+	OnError(ctx context.Context, error_ IGetKeyCallbackErrorCode, description string) error
 }
 
 type getKeyCallbackStubWrapper struct {
@@ -195,7 +194,7 @@ func (w *getKeyCallbackStubWrapper) OnCancel(
 
 func (w *getKeyCallbackStubWrapper) OnError(
 	ctx context.Context,
-	error_ device.ErrorCode,
+	error_ IGetKeyCallbackErrorCode,
 	description string,
 ) error {
 	return w.impl.OnError(ctx, error_, description)

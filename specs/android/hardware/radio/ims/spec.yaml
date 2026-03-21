@@ -116,6 +116,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IRadioImsIndication
       descriptor: android.hardware.radio.ims.IRadioImsIndication
       oneway: true
@@ -169,6 +171,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IRadioImsResponse
       descriptor: android.hardware.radio.ims.IRadioImsResponse
       oneway: true
@@ -241,6 +245,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: ConnectionFailureInfo
       fields:

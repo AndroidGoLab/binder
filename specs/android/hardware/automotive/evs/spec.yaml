@@ -146,6 +146,8 @@ interfaces:
           transaction_code_offset: 17
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IEvsCameraStream
       descriptor: android.hardware.automotive.evs.IEvsCameraStream
       oneway: true
@@ -169,6 +171,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IEvsDisplay
       descriptor: android.hardware.automotive.evs.IEvsDisplay
       methods:
@@ -202,6 +206,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IEvsEnumerator
       descriptor: android.hardware.automotive.evs.IEvsEnumerator
       methods:
@@ -314,6 +320,8 @@ interfaces:
               direction: in
           return_type:
             name: DisplayState
+      annotations:
+        - VintfStability
     - name: IEvsEnumeratorStatusCallback
       descriptor: android.hardware.automotive.evs.IEvsEnumeratorStatusCallback
       oneway: true
@@ -328,6 +336,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IEvsUltrasonicsArray
       descriptor: android.hardware.automotive.evs.IEvsUltrasonicsArray
       methods:
@@ -366,6 +376,8 @@ interfaces:
           transaction_code_offset: 4
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IEvsUltrasonicsArrayStream
       descriptor: android.hardware.automotive.evs.IEvsUltrasonicsArrayStream
       methods:
@@ -389,6 +401,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: BufferDesc
       fields:

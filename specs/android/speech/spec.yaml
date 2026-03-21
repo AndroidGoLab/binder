@@ -289,6 +289,37 @@ interfaces:
             name: void
 parcelables:
     - name: AlternativeSpan
+      java_wire_format:
+        - name: StartPosition
+          write_method: int32
+        - name: EndPosition
+          write_method: int32
+        - name: Alternatives
+          write_method: opaque
     - name: AlternativeSpans
+      java_wire_format:
+        - name: Spans
+          write_method: opaque
     - name: RecognitionPart
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: RawText
+          write_method: string16
+        - name: FormattedText
+          write_method: string16
+          condition: mFormattedText!=null
+        - name: TimestampMillis
+          write_method: int64
+        - name: ConfidenceLevel
+          write_method: int32
     - name: RecognitionSupport
+      java_wire_format:
+        - name: InstalledOnDeviceLanguages
+          write_method: opaque
+        - name: PendingOnDeviceLanguages
+          write_method: opaque
+        - name: SupportedOnDeviceLanguages
+          write_method: opaque
+        - name: OnlineLanguages
+          write_method: opaque

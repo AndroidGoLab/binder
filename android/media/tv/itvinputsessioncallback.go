@@ -3,7 +3,7 @@ package tv
 import (
 	"context"
 	"fmt"
-	tuner "github.com/xaionaro-go/binder/android/hardware/tv/tuner"
+	media "github.com/xaionaro-go/binder/android/media"
 	net "github.com/xaionaro-go/binder/android/net"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
@@ -83,7 +83,7 @@ type ITvInputSessionCallback interface {
 	OnSessionCreated(ctx context.Context, session ITvInputSession, hardwareSessionToken binder.IBinder) error
 	OnSessionEvent(ctx context.Context, name string, args os.Bundle) error
 	OnChannelRetuned(ctx context.Context, channelUri net.Uri) error
-	OnAudioPresentationsChanged(ctx context.Context, tvAudioPresentations []tuner.AudioPresentation) error
+	OnAudioPresentationsChanged(ctx context.Context, tvAudioPresentations []media.AudioPresentation) error
 	OnAudioPresentationSelected(ctx context.Context, presentationId int32, programId int32) error
 	OnTracksChanged(ctx context.Context, tracks []TvTrackInfo) error
 	OnTrackSelected(ctx context.Context, type_ int32, trackId string) error
@@ -193,7 +193,7 @@ func (p *TvInputSessionCallbackProxy) OnChannelRetuned(
 
 func (p *TvInputSessionCallbackProxy) OnAudioPresentationsChanged(
 	ctx context.Context,
-	tvAudioPresentations []tuner.AudioPresentation,
+	tvAudioPresentations []media.AudioPresentation,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -797,7 +797,7 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 		_err := s.Impl.OnChannelRetuned(ctx, _arg_channelUri)
 		return nil, _err
 	case TransactionITvInputSessionCallbackOnAudioPresentationsChanged:
-		var _arg_tvAudioPresentations []tuner.AudioPresentation
+		var _arg_tvAudioPresentations []media.AudioPresentation
 		{
 			_count, _err := _data.ReadInt32()
 			if _err != nil {
@@ -807,7 +807,7 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 				return nil, fmt.Errorf("array count too large: %d", _count)
 			}
 			if _count >= 0 {
-				_arg_tvAudioPresentations = make([]tuner.AudioPresentation, _count)
+				_arg_tvAudioPresentations = make([]media.AudioPresentation, _count)
 				for _i := int32(0); _i < _count; _i++ {
 					if _, _err = _data.ReadInt32(); _err != nil {
 						return nil, _err
@@ -1123,7 +1123,7 @@ type ITvInputSessionCallbackServer interface {
 	OnSessionCreated(ctx context.Context, session ITvInputSession, hardwareSessionToken binder.IBinder) error
 	OnSessionEvent(ctx context.Context, name string, args os.Bundle) error
 	OnChannelRetuned(ctx context.Context, channelUri net.Uri) error
-	OnAudioPresentationsChanged(ctx context.Context, tvAudioPresentations []tuner.AudioPresentation) error
+	OnAudioPresentationsChanged(ctx context.Context, tvAudioPresentations []media.AudioPresentation) error
 	OnAudioPresentationSelected(ctx context.Context, presentationId int32, programId int32) error
 	OnTracksChanged(ctx context.Context, tracks []TvTrackInfo) error
 	OnTrackSelected(ctx context.Context, type_ int32, trackId string) error
@@ -1185,7 +1185,7 @@ func (w *tvInputSessionCallbackStubWrapper) OnChannelRetuned(
 
 func (w *tvInputSessionCallbackStubWrapper) OnAudioPresentationsChanged(
 	ctx context.Context,
-	tvAudioPresentations []tuner.AudioPresentation,
+	tvAudioPresentations []media.AudioPresentation,
 ) error {
 	return w.impl.OnAudioPresentationsChanged(ctx, tvAudioPresentations)
 }

@@ -13,6 +13,7 @@ import (
 	"fmt"
 	"go/format"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"sort"
 	"strings"
@@ -738,8 +739,145 @@ func run(
 		return fmt.Errorf("writing commands_gen.go: %w", err)
 	}
 
+	// Verify the generated code compiles. If not, identify broken
+	// methods and regenerate with them excluded.
+	if excluded := verifyAndExclude(outputDir); excluded > 0 {
+		fmt.Fprintf(os.Stderr, "Compile-check: excluded %d broken commands, regenerating...\n", excluded)
+		if err := writeRegistryGen(outputDir, interfaces); err != nil {
+			return fmt.Errorf("writing registry_gen.go (retry): %w", err)
+		}
+		if err := writeCommandsGen(outputDir, interfaces); err != nil {
+			return fmt.Errorf("writing commands_gen.go (retry): %w", err)
+		}
+	}
+
 	fmt.Fprintf(os.Stderr, "Generated registry_gen.go and commands_gen.go in %s\n", outputDir)
 	return nil
+}
+
+// verifyAndExclude runs `go build` on the generated package. If it fails,
+// parses error line numbers, identifies the enclosing command functions,
+// and marks them as excluded (via goProxyMethodsWithInterfaceParams) so
+// the next generation pass skips them. Returns the number of methods excluded.
+func verifyAndExclude(outputDir string) int {
+	cmd := exec.Command("go", "build", "./"+outputDir)
+	out, err := cmd.CombinedOutput()
+	if err == nil {
+		return 0 // compiles fine
+	}
+
+	// Parse error lines like "commands_gen.go:149258:39: ..."
+	genFile := filepath.Join(outputDir, "commands_gen.go")
+	data, readErr := os.ReadFile(genFile)
+	if readErr != nil {
+		return 0
+	}
+	lines := strings.Split(string(data), "\n")
+
+	// Collect error line numbers.
+	errorLines := map[int]bool{}
+	for _, line := range strings.Split(string(out), "\n") {
+		if !strings.Contains(line, "commands_gen.go:") {
+			continue
+		}
+		parts := strings.SplitN(line, ":", 4)
+		if len(parts) < 3 {
+			continue
+		}
+		lineNo := 0
+		fmt.Sscanf(parts[1], "%d", &lineNo)
+		if lineNo > 0 {
+			errorLines[lineNo] = true
+		}
+	}
+
+	if len(errorLines) == 0 {
+		return 0
+	}
+
+	// For each error line, find the enclosing command by scanning backwards
+	// for a "Use:" pattern to identify the command name, then backwards more
+	// for the interface descriptor to build the method key.
+	excluded := map[string]bool{}
+	for errLine := range errorLines {
+		// Find enclosing method key by looking for the RunE pattern.
+		methodKey := findMethodKeyForLine(lines, errLine)
+		if methodKey != "" {
+			excluded[methodKey] = true
+		}
+	}
+
+	for mk := range excluded {
+		goProxyMethodsWithInterfaceParams[mk] = true
+	}
+
+	return len(excluded)
+}
+
+// findMethodKeyForLine scans around a line number to find the
+// method key (importPath:MethodName) for the enclosing command function.
+func findMethodKeyForLine(lines []string, lineNo int) string {
+	if lineNo <= 0 || lineNo > len(lines) {
+		return ""
+	}
+
+	// Scan forward for "svcProxy.MethodName(" to extract the method name.
+	// The svcProxy call is usually after the struct-building code.
+	methodName := ""
+	for i := lineNo - 1; i < len(lines) && i < lineNo+200; i++ {
+		line := strings.TrimSpace(lines[i])
+		if strings.HasPrefix(line, "result") || strings.HasPrefix(line, "err") || strings.HasPrefix(line, "_, err") {
+			if strings.Contains(line, "svcProxy.") {
+				idx := strings.Index(line, "svcProxy.")
+				rest := line[idx+len("svcProxy."):]
+				if paren := strings.Index(rest, "("); paren > 0 {
+					methodName = rest[:paren]
+					break
+				}
+			}
+		}
+	}
+
+	// Also try backward if forward didn't find it.
+	if methodName == "" {
+		for i := lineNo - 1; i >= 0 && i > lineNo-200; i-- {
+			line := strings.TrimSpace(lines[i])
+			if strings.Contains(line, "svcProxy.") && !strings.HasPrefix(line, "svcProxy :=") {
+				idx := strings.Index(line, "svcProxy.")
+				rest := line[idx+len("svcProxy."):]
+				if paren := strings.Index(rest, "("); paren > 0 {
+					methodName = rest[:paren]
+					break
+				}
+			}
+		}
+	}
+
+	if methodName == "" {
+		return ""
+	}
+
+	// Scan backwards for findServiceByDescriptor to get the interface.
+	for i := lineNo - 1; i >= 0 && i > lineNo-500; i-- {
+		line := strings.TrimSpace(lines[i])
+		if strings.Contains(line, "findServiceByDescriptor") {
+			q1 := strings.LastIndex(line, "\"")
+			if q1 < 0 {
+				continue
+			}
+			q0 := strings.LastIndex(line[:q1], "\"")
+			if q0 < 0 {
+				continue
+			}
+			descriptor := line[q0+1 : q1]
+			goPkg := strings.ReplaceAll(descriptor[:strings.LastIndex(descriptor, ".")], ".", "/")
+			goPkg = strings.ReplaceAll(goPkg, "/internal/", "/internal_/")
+			importPath := modulePath + "/" + goPkg
+			return importPath + ":" + methodName
+		}
+	}
+
+	return ""
 }
 
 // collectStructsAndEnums populates knownStructs and knownEnums from a
@@ -1063,16 +1201,22 @@ func resolveTypeKey(
 
 	// Ambiguous short name (exists in multiple packages) — pick the
 	// entry whose import path shares the longest prefix with the
-	// calling interface's package, so types resolve to nearby packages.
+	// calling interface's package. Tiebreak: prefer shorter package
+	// path (more canonical) then alphabetically first.
 	if _, ok := typeByShortName[bare]; ok {
 		bestKey := ""
 		bestPrefix := 0
+		bestDepth := 999
 		for key := range knownStructs {
 			parts := strings.SplitN(key, ":", 2)
 			if len(parts) == 2 && parts[1] == bare {
 				prefix := commonPrefixLen(ifaceImportPath, parts[0])
-				if prefix > bestPrefix {
+				depth := strings.Count(parts[0], "/") + 1
+				if prefix > bestPrefix ||
+					(prefix == bestPrefix && depth < bestDepth) ||
+					(prefix == bestPrefix && depth == bestDepth && key < bestKey) {
 					bestPrefix = prefix
+					bestDepth = depth
 					bestKey = key
 				}
 			}
@@ -1081,8 +1225,12 @@ func resolveTypeKey(
 			parts := strings.SplitN(key, ":", 2)
 			if len(parts) == 2 && parts[1] == bare {
 				prefix := commonPrefixLen(ifaceImportPath, parts[0])
-				if prefix > bestPrefix {
+				depth := strings.Count(parts[0], "/") + 1
+				if prefix > bestPrefix ||
+					(prefix == bestPrefix && depth < bestDepth) ||
+					(prefix == bestPrefix && depth == bestDepth && key < bestKey) {
 					bestPrefix = prefix
+					bestDepth = depth
 					bestKey = key
 				}
 			}

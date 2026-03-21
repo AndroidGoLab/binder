@@ -50,5 +50,116 @@ interfaces:
             name: void
 parcelables:
     - name: LegacyVpnInfo
+      java_wire_format:
+        - name: Key
+          write_method: string16
+        - name: State
+          write_method: int32
+        - name: Intent
+          write_method: opaque
     - name: VpnConfig
+      java_wire_format:
+        - name: User
+          write_method: string16
+        - name: Interfaze
+          write_method: string16
+        - name: Session
+          write_method: string16
+        - name: Mtu
+          write_method: int32
+        - name: Addresses
+          write_method: opaque
+        - name: Routes
+          write_method: opaque
+        - name: DnsServers
+          write_method: opaque
+        - name: SearchDomains
+          write_method: opaque
+        - name: AllowedApplications
+          write_method: opaque
+        - name: DisallowedApplications
+          write_method: opaque
+        - name: ConfigureIntent
+          write_method: opaque
+        - name: StartTime
+          write_method: int64
+        - name: Legacy?1:0
+          write_method: int32
+        - name: Blocking?1:0
+          write_method: int32
+        - name: AllowBypass?1:0
+          write_method: int32
+        - name: AllowIPv4?1:0
+          write_method: int32
+        - name: AllowIPv6?1:0
+          write_method: int32
+        - name: IsMetered?1:0
+          write_method: int32
+        - name: RequiresInternetValidation?1:0
+          write_method: int32
+        - name: ExcludeLocalRoutes?1:0
+          write_method: int32
+        - name: UnderlyingNetworks
+          write_method: opaque
+        - name: ProxyInfo
+          write_method: opaque
     - name: VpnProfile
+      java_wire_format:
+        - name: Key
+          write_method: string16
+        - name: Name
+          write_method: string16
+        - name: Type
+          write_method: int32
+        - name: Server
+          write_method: string16
+        - name: Username
+          write_method: string16
+        - name: Password
+          write_method: string16
+        - name: DnsServers
+          write_method: string16
+        - name: SearchDomains
+          write_method: string16
+        - name: Routes
+          write_method: string16
+        - name: Mppe?1:0
+          write_method: int32
+        - name: L2tpSecret
+          write_method: string16
+        - name: IpsecIdentifier
+          write_method: string16
+        - name: IpsecSecret
+          write_method: string16
+        - name: IpsecUserCert
+          write_method: string16
+        - name: IpsecCaCert
+          write_method: string16
+        - name: IpsecServerCert
+          write_method: string16
+        - name: SaveLogin?1:0
+          write_method: int32
+        - name: Proxy
+          write_method: opaque
+        - name: AllowedAlgorithms
+          write_method: opaque
+        - name: IsBypassable
+          write_method: bool
+        - name: IsMetered
+          write_method: bool
+        - name: MaxMtu
+          write_method: int32
+        - name: AreAuthParamsInline
+          write_method: bool
+        - name: IsRestrictedToTestNetworks
+          write_method: bool
+        - name: ExcludeLocalRoutes
+          write_method: bool
+        - name: RequiresInternetValidation
+          write_method: bool
+        - name: IkeTunConnParams==null?null:TunnelConnectionParamsUtils.toPersistableBundle(ikeTunConnParams)
+          write_method: opaque
+        - name: AutomaticNattKeepaliveTimerEnabled
+          write_method: bool
+        - name: AutomaticIpVersionSelectionEnabled
+          write_method: bool

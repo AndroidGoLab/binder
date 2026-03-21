@@ -3,7 +3,6 @@ package options
 import (
 	"context"
 	"fmt"
-	vehicle "github.com/xaionaro-go/binder/android/hardware/automotive/vehicle"
 	"github.com/xaionaro-go/binder/binder"
 	common "github.com/xaionaro-go/binder/com/android/ims/internal_/uce/common"
 	"github.com/xaionaro-go/binder/parcel"
@@ -37,14 +36,14 @@ const (
 
 type IOptionsService interface {
 	AsBinder() binder.IBinder
-	GetVersion(ctx context.Context, optionsServiceHandle int32) (vehicle.StatusCode, error)
-	AddListener(ctx context.Context, optionsServiceHandle int32, optionsListener IOptionsListener, optionsServiceListenerHdl common.UceLong) (vehicle.StatusCode, error)
-	RemoveListener(ctx context.Context, optionsServiceHandle int32, optionsServiceListenerHdl common.UceLong) (vehicle.StatusCode, error)
-	SetMyInfo(ctx context.Context, optionsServiceHandle int32, capInfo common.CapInfo, reqUserData int32) (vehicle.StatusCode, error)
-	GetMyInfo(ctx context.Context, optionsServiceHandle int32, reqUserdata int32) (vehicle.StatusCode, error)
-	GetContactCap(ctx context.Context, optionsServiceHandle int32, remoteURI string, reqUserData int32) (vehicle.StatusCode, error)
-	GetContactListCap(ctx context.Context, optionsServiceHandle int32, remoteURIList []string, reqUserData int32) (vehicle.StatusCode, error)
-	ResponseIncomingOptions(ctx context.Context, optionsServiceHandle int32, tId int32, sipResponseCode int32, reasonPhrase string, capInfo OptionsCapInfo, bContactInBL bool) (vehicle.StatusCode, error)
+	GetVersion(ctx context.Context, optionsServiceHandle int32) (common.StatusCode, error)
+	AddListener(ctx context.Context, optionsServiceHandle int32, optionsListener IOptionsListener, optionsServiceListenerHdl common.UceLong) (common.StatusCode, error)
+	RemoveListener(ctx context.Context, optionsServiceHandle int32, optionsServiceListenerHdl common.UceLong) (common.StatusCode, error)
+	SetMyInfo(ctx context.Context, optionsServiceHandle int32, capInfo common.CapInfo, reqUserData int32) (common.StatusCode, error)
+	GetMyInfo(ctx context.Context, optionsServiceHandle int32, reqUserdata int32) (common.StatusCode, error)
+	GetContactCap(ctx context.Context, optionsServiceHandle int32, remoteURI string, reqUserData int32) (common.StatusCode, error)
+	GetContactListCap(ctx context.Context, optionsServiceHandle int32, remoteURIList []string, reqUserData int32) (common.StatusCode, error)
+	ResponseIncomingOptions(ctx context.Context, optionsServiceHandle int32, tId int32, sipResponseCode int32, reasonPhrase string, capInfo OptionsCapInfo, bContactInBL bool) (common.StatusCode, error)
 }
 
 type OptionsServiceProxy struct {
@@ -66,8 +65,8 @@ var _ IOptionsService = (*OptionsServiceProxy)(nil)
 func (p *OptionsServiceProxy) GetVersion(
 	ctx context.Context,
 	optionsServiceHandle int32,
-) (vehicle.StatusCode, error) {
-	var _result vehicle.StatusCode
+) (common.StatusCode, error) {
+	var _result common.StatusCode
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOptionsService)
@@ -88,11 +87,15 @@ func (p *OptionsServiceProxy) GetVersion(
 		return _result, _err
 	}
 
-	_raw, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	_result = vehicle.StatusCode(_raw)
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -101,8 +104,8 @@ func (p *OptionsServiceProxy) AddListener(
 	optionsServiceHandle int32,
 	optionsListener IOptionsListener,
 	optionsServiceListenerHdl common.UceLong,
-) (vehicle.StatusCode, error) {
-	var _result vehicle.StatusCode
+) (common.StatusCode, error) {
+	var _result common.StatusCode
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOptionsService)
@@ -139,11 +142,15 @@ func (p *OptionsServiceProxy) AddListener(
 		}
 	}
 
-	_raw, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	_result = vehicle.StatusCode(_raw)
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -151,8 +158,8 @@ func (p *OptionsServiceProxy) RemoveListener(
 	ctx context.Context,
 	optionsServiceHandle int32,
 	optionsServiceListenerHdl common.UceLong,
-) (vehicle.StatusCode, error) {
-	var _result vehicle.StatusCode
+) (common.StatusCode, error) {
+	var _result common.StatusCode
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOptionsService)
@@ -177,11 +184,15 @@ func (p *OptionsServiceProxy) RemoveListener(
 		return _result, _err
 	}
 
-	_raw, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	_result = vehicle.StatusCode(_raw)
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -190,8 +201,8 @@ func (p *OptionsServiceProxy) SetMyInfo(
 	optionsServiceHandle int32,
 	capInfo common.CapInfo,
 	reqUserData int32,
-) (vehicle.StatusCode, error) {
-	var _result vehicle.StatusCode
+) (common.StatusCode, error) {
+	var _result common.StatusCode
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOptionsService)
@@ -217,11 +228,15 @@ func (p *OptionsServiceProxy) SetMyInfo(
 		return _result, _err
 	}
 
-	_raw, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	_result = vehicle.StatusCode(_raw)
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -229,8 +244,8 @@ func (p *OptionsServiceProxy) GetMyInfo(
 	ctx context.Context,
 	optionsServiceHandle int32,
 	reqUserdata int32,
-) (vehicle.StatusCode, error) {
-	var _result vehicle.StatusCode
+) (common.StatusCode, error) {
+	var _result common.StatusCode
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOptionsService)
@@ -252,11 +267,15 @@ func (p *OptionsServiceProxy) GetMyInfo(
 		return _result, _err
 	}
 
-	_raw, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	_result = vehicle.StatusCode(_raw)
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -265,8 +284,8 @@ func (p *OptionsServiceProxy) GetContactCap(
 	optionsServiceHandle int32,
 	remoteURI string,
 	reqUserData int32,
-) (vehicle.StatusCode, error) {
-	var _result vehicle.StatusCode
+) (common.StatusCode, error) {
+	var _result common.StatusCode
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOptionsService)
@@ -289,11 +308,15 @@ func (p *OptionsServiceProxy) GetContactCap(
 		return _result, _err
 	}
 
-	_raw, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	_result = vehicle.StatusCode(_raw)
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -302,8 +325,8 @@ func (p *OptionsServiceProxy) GetContactListCap(
 	optionsServiceHandle int32,
 	remoteURIList []string,
 	reqUserData int32,
-) (vehicle.StatusCode, error) {
-	var _result vehicle.StatusCode
+) (common.StatusCode, error) {
+	var _result common.StatusCode
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOptionsService)
@@ -333,11 +356,15 @@ func (p *OptionsServiceProxy) GetContactListCap(
 		return _result, _err
 	}
 
-	_raw, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	_result = vehicle.StatusCode(_raw)
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -349,8 +376,8 @@ func (p *OptionsServiceProxy) ResponseIncomingOptions(
 	reasonPhrase string,
 	capInfo OptionsCapInfo,
 	bContactInBL bool,
-) (vehicle.StatusCode, error) {
-	var _result vehicle.StatusCode
+) (common.StatusCode, error) {
+	var _result common.StatusCode
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOptionsService)
@@ -379,11 +406,15 @@ func (p *OptionsServiceProxy) ResponseIncomingOptions(
 		return _result, _err
 	}
 
-	_raw, _err := _reply.ReadInt32()
+	_nullIndicator, _err := _reply.ReadInt32()
 	if _err != nil {
 		return _result, _err
 	}
-	_result = vehicle.StatusCode(_raw)
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -422,7 +453,10 @@ func (s *OptionsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(int32(_result))
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIOptionsServiceAddListener:
 		_arg_optionsServiceHandle, _err := _data.ReadInt32()
@@ -456,7 +490,10 @@ func (s *OptionsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(int32(_result))
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		_reply.WriteInt32(1)
 		if _err := _arg_optionsServiceListenerHdl.MarshalParcel(_reply); _err != nil {
 			return nil, _err
@@ -486,7 +523,10 @@ func (s *OptionsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(int32(_result))
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIOptionsServiceSetMyInfo:
 		_arg_optionsServiceHandle, _err := _data.ReadInt32()
@@ -516,7 +556,10 @@ func (s *OptionsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(int32(_result))
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIOptionsServiceGetMyInfo:
 		_arg_optionsServiceHandle, _err := _data.ReadInt32()
@@ -534,7 +577,10 @@ func (s *OptionsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(int32(_result))
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIOptionsServiceGetContactCap:
 		_arg_optionsServiceHandle, _err := _data.ReadInt32()
@@ -556,7 +602,10 @@ func (s *OptionsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(int32(_result))
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIOptionsServiceGetContactListCap:
 		_arg_optionsServiceHandle, _err := _data.ReadInt32()
@@ -593,7 +642,10 @@ func (s *OptionsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(int32(_result))
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIOptionsServiceResponseIncomingOptions:
 		_arg_optionsServiceHandle, _err := _data.ReadInt32()
@@ -635,7 +687,10 @@ func (s *OptionsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(int32(_result))
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
@@ -646,14 +701,14 @@ func (s *OptionsServiceStub) OnTransaction(
 // provide to NewOptionsServiceStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IOptionsServiceServer interface {
-	GetVersion(ctx context.Context, optionsServiceHandle int32) (vehicle.StatusCode, error)
-	AddListener(ctx context.Context, optionsServiceHandle int32, optionsListener IOptionsListener, optionsServiceListenerHdl common.UceLong) (vehicle.StatusCode, error)
-	RemoveListener(ctx context.Context, optionsServiceHandle int32, optionsServiceListenerHdl common.UceLong) (vehicle.StatusCode, error)
-	SetMyInfo(ctx context.Context, optionsServiceHandle int32, capInfo common.CapInfo, reqUserData int32) (vehicle.StatusCode, error)
-	GetMyInfo(ctx context.Context, optionsServiceHandle int32, reqUserdata int32) (vehicle.StatusCode, error)
-	GetContactCap(ctx context.Context, optionsServiceHandle int32, remoteURI string, reqUserData int32) (vehicle.StatusCode, error)
-	GetContactListCap(ctx context.Context, optionsServiceHandle int32, remoteURIList []string, reqUserData int32) (vehicle.StatusCode, error)
-	ResponseIncomingOptions(ctx context.Context, optionsServiceHandle int32, tId int32, sipResponseCode int32, reasonPhrase string, capInfo OptionsCapInfo, bContactInBL bool) (vehicle.StatusCode, error)
+	GetVersion(ctx context.Context, optionsServiceHandle int32) (common.StatusCode, error)
+	AddListener(ctx context.Context, optionsServiceHandle int32, optionsListener IOptionsListener, optionsServiceListenerHdl common.UceLong) (common.StatusCode, error)
+	RemoveListener(ctx context.Context, optionsServiceHandle int32, optionsServiceListenerHdl common.UceLong) (common.StatusCode, error)
+	SetMyInfo(ctx context.Context, optionsServiceHandle int32, capInfo common.CapInfo, reqUserData int32) (common.StatusCode, error)
+	GetMyInfo(ctx context.Context, optionsServiceHandle int32, reqUserdata int32) (common.StatusCode, error)
+	GetContactCap(ctx context.Context, optionsServiceHandle int32, remoteURI string, reqUserData int32) (common.StatusCode, error)
+	GetContactListCap(ctx context.Context, optionsServiceHandle int32, remoteURIList []string, reqUserData int32) (common.StatusCode, error)
+	ResponseIncomingOptions(ctx context.Context, optionsServiceHandle int32, tId int32, sipResponseCode int32, reasonPhrase string, capInfo OptionsCapInfo, bContactInBL bool) (common.StatusCode, error)
 }
 
 type optionsServiceStubWrapper struct {
@@ -668,7 +723,7 @@ func (w *optionsServiceStubWrapper) AsBinder() binder.IBinder {
 func (w *optionsServiceStubWrapper) GetVersion(
 	ctx context.Context,
 	optionsServiceHandle int32,
-) (vehicle.StatusCode, error) {
+) (common.StatusCode, error) {
 	return w.impl.GetVersion(ctx, optionsServiceHandle)
 }
 
@@ -677,7 +732,7 @@ func (w *optionsServiceStubWrapper) AddListener(
 	optionsServiceHandle int32,
 	optionsListener IOptionsListener,
 	optionsServiceListenerHdl common.UceLong,
-) (vehicle.StatusCode, error) {
+) (common.StatusCode, error) {
 	return w.impl.AddListener(ctx, optionsServiceHandle, optionsListener, optionsServiceListenerHdl)
 }
 
@@ -685,7 +740,7 @@ func (w *optionsServiceStubWrapper) RemoveListener(
 	ctx context.Context,
 	optionsServiceHandle int32,
 	optionsServiceListenerHdl common.UceLong,
-) (vehicle.StatusCode, error) {
+) (common.StatusCode, error) {
 	return w.impl.RemoveListener(ctx, optionsServiceHandle, optionsServiceListenerHdl)
 }
 
@@ -694,7 +749,7 @@ func (w *optionsServiceStubWrapper) SetMyInfo(
 	optionsServiceHandle int32,
 	capInfo common.CapInfo,
 	reqUserData int32,
-) (vehicle.StatusCode, error) {
+) (common.StatusCode, error) {
 	return w.impl.SetMyInfo(ctx, optionsServiceHandle, capInfo, reqUserData)
 }
 
@@ -702,7 +757,7 @@ func (w *optionsServiceStubWrapper) GetMyInfo(
 	ctx context.Context,
 	optionsServiceHandle int32,
 	reqUserdata int32,
-) (vehicle.StatusCode, error) {
+) (common.StatusCode, error) {
 	return w.impl.GetMyInfo(ctx, optionsServiceHandle, reqUserdata)
 }
 
@@ -711,7 +766,7 @@ func (w *optionsServiceStubWrapper) GetContactCap(
 	optionsServiceHandle int32,
 	remoteURI string,
 	reqUserData int32,
-) (vehicle.StatusCode, error) {
+) (common.StatusCode, error) {
 	return w.impl.GetContactCap(ctx, optionsServiceHandle, remoteURI, reqUserData)
 }
 
@@ -720,7 +775,7 @@ func (w *optionsServiceStubWrapper) GetContactListCap(
 	optionsServiceHandle int32,
 	remoteURIList []string,
 	reqUserData int32,
-) (vehicle.StatusCode, error) {
+) (common.StatusCode, error) {
 	return w.impl.GetContactListCap(ctx, optionsServiceHandle, remoteURIList, reqUserData)
 }
 
@@ -732,7 +787,7 @@ func (w *optionsServiceStubWrapper) ResponseIncomingOptions(
 	reasonPhrase string,
 	capInfo OptionsCapInfo,
 	bContactInBL bool,
-) (vehicle.StatusCode, error) {
+) (common.StatusCode, error) {
 	return w.impl.ResponseIncomingOptions(ctx, optionsServiceHandle, tId, sipResponseCode, reasonPhrase, capInfo, bContactInBL)
 }
 

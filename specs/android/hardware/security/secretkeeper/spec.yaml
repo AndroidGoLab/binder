@@ -43,6 +43,8 @@ interfaces:
         - name: ERROR_REQUEST_MALFORMED
           type: int
           value: "3"
+      annotations:
+        - VintfStability
 parcelables:
     - name: SecretId
       fields:

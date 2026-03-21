@@ -15,7 +15,7 @@ const (
 type EqualizerId struct {
 	Tag                int32
 	VendorExtensionTag VendorExtension
-	CommonTag          EqualizerTag
+	CommonTag          any
 }
 
 var _ parcel.Parcelable = (*EqualizerId)(nil)
@@ -34,16 +34,16 @@ func (u *EqualizerId) SetVendorExtensionTag(
 	*u = EqualizerId{Tag: EqualizerIdTagVendorExtensionTag, VendorExtensionTag: v}
 }
 
-func (u *EqualizerId) GetCommonTag() (EqualizerTag, bool) {
+func (u *EqualizerId) GetCommonTag() (any, bool) {
 	if u.Tag != EqualizerIdTagCommonTag {
-		var _zero EqualizerTag
+		var _zero any
 		return _zero, false
 	}
 	return u.CommonTag, true
 }
 
 func (u *EqualizerId) SetCommonTag(
-	v EqualizerTag,
+	v any,
 ) {
 	*u = EqualizerId{Tag: EqualizerIdTagCommonTag, CommonTag: v}
 }
@@ -61,7 +61,6 @@ func (u *EqualizerId) MarshalParcel(
 			return _err
 		}
 	case EqualizerIdTagCommonTag:
-		p.WriteInt32(int32(u.CommonTag))
 	default:
 		return fmt.Errorf("unknown union tag %d for EqualizerId", u.Tag)
 	}
@@ -92,11 +91,6 @@ func (u *EqualizerId) UnmarshalParcel(
 			return _err
 		}
 	case EqualizerIdTagCommonTag:
-		_raw, _err := p.ReadInt32()
-		if _err != nil {
-			return _err
-		}
-		u.CommonTag = EqualizerTag(_raw)
 	default:
 		return fmt.Errorf("unknown union tag %d for EqualizerId", u.Tag)
 	}

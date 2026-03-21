@@ -26,6 +26,8 @@ interfaces:
               direction: in
           return_type:
             name: ISession
+      annotations:
+        - VintfStability
     - name: ISession
       descriptor: android.hardware.biometrics.fingerprint.ISession
       methods:
@@ -217,6 +219,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: ISessionCallback
       descriptor: android.hardware.biometrics.fingerprint.ISessionCallback
       methods:
@@ -356,6 +360,8 @@ interfaces:
           transaction_code_offset: 15
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: PointerContext
       fields:

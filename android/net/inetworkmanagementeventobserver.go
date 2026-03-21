@@ -51,8 +51,8 @@ type INetworkManagementEventObserver interface {
 	LimitReached(ctx context.Context, limitName string, iface string) error
 	InterfaceClassDataActivityChanged(ctx context.Context, label int32, active bool, tsNanos int64, uid int32) error
 	InterfaceDnsServerInfo(ctx context.Context, iface string, lifetime int64, servers []string) error
-	RouteUpdated(ctx context.Context, route RouteInfo) error
-	RouteRemoved(ctx context.Context, route RouteInfo) error
+	RouteUpdated(ctx context.Context, route any) error
+	RouteRemoved(ctx context.Context, route any) error
 }
 
 type NetworkManagementEventObserverProxy struct {
@@ -268,15 +268,12 @@ func (p *NetworkManagementEventObserverProxy) InterfaceDnsServerInfo(
 
 func (p *NetworkManagementEventObserverProxy) RouteUpdated(
 	ctx context.Context,
-	route RouteInfo,
+	route any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementEventObserver)
-	_data.WriteInt32(1)
-	if _err := route.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param route (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkManagementEventObserver, MethodINetworkManagementEventObserverRouteUpdated)
 	if _err != nil {
@@ -289,15 +286,12 @@ func (p *NetworkManagementEventObserverProxy) RouteUpdated(
 
 func (p *NetworkManagementEventObserverProxy) RouteRemoved(
 	ctx context.Context,
-	route RouteInfo,
+	route any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementEventObserver)
-	_data.WriteInt32(1)
-	if _err := route.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param route (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorINetworkManagementEventObserver, MethodINetworkManagementEventObserverRouteRemoved)
 	if _err != nil {
@@ -466,33 +460,11 @@ func (s *NetworkManagementEventObserverStub) OnTransaction(
 		_err = s.Impl.InterfaceDnsServerInfo(ctx, _arg_iface, _arg_lifetime, _arg_servers)
 		return nil, _err
 	case TransactionINetworkManagementEventObserverRouteUpdated:
-		var _arg_route RouteInfo
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_route.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_route any
 		_err := s.Impl.RouteUpdated(ctx, _arg_route)
 		return nil, _err
 	case TransactionINetworkManagementEventObserverRouteRemoved:
-		var _arg_route RouteInfo
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_route.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_route any
 		_err := s.Impl.RouteRemoved(ctx, _arg_route)
 		return nil, _err
 	default:
@@ -513,8 +485,8 @@ type INetworkManagementEventObserverServer interface {
 	LimitReached(ctx context.Context, limitName string, iface string) error
 	InterfaceClassDataActivityChanged(ctx context.Context, label int32, active bool, tsNanos int64, uid int32) error
 	InterfaceDnsServerInfo(ctx context.Context, iface string, lifetime int64, servers []string) error
-	RouteUpdated(ctx context.Context, route RouteInfo) error
-	RouteRemoved(ctx context.Context, route RouteInfo) error
+	RouteUpdated(ctx context.Context, route any) error
+	RouteRemoved(ctx context.Context, route any) error
 }
 
 type networkManagementEventObserverStubWrapper struct {
@@ -601,14 +573,14 @@ func (w *networkManagementEventObserverStubWrapper) InterfaceDnsServerInfo(
 
 func (w *networkManagementEventObserverStubWrapper) RouteUpdated(
 	ctx context.Context,
-	route RouteInfo,
+	route any,
 ) error {
 	return w.impl.RouteUpdated(ctx, route)
 }
 
 func (w *networkManagementEventObserverStubWrapper) RouteRemoved(
 	ctx context.Context,
-	route RouteInfo,
+	route any,
 ) error {
 	return w.impl.RouteRemoved(ctx, route)
 }

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	types "github.com/xaionaro-go/binder/android/app/types"
 	content "github.com/xaionaro-go/binder/android/content"
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	mediaTypes "github.com/xaionaro-go/binder/android/media/types"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
@@ -74,7 +75,7 @@ type ISession interface {
 	SetQueueTitle(ctx context.Context, title string) error
 	SetExtras(ctx context.Context, extras os.Bundle) error
 	SetRatingType(ctx context.Context, type_ int32) error
-	SetPlaybackToLocal(ctx context.Context, attributes mediaTypes.AudioAttributes) error
+	SetPlaybackToLocal(ctx context.Context, attributes common.AudioAttributes) error
 	SetPlaybackToRemote(ctx context.Context, control int32, max_ int32, controlId string) error
 	SetCurrentVolume(ctx context.Context, currentVolume int32) error
 }
@@ -524,12 +525,15 @@ func (p *SessionProxy) SetRatingType(
 
 func (p *SessionProxy) SetPlaybackToLocal(
 	ctx context.Context,
-	attributes mediaTypes.AudioAttributes,
+	attributes common.AudioAttributes,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorISession)
-	// WARNING: param attributes (type mediaTypes.AudioAttributes) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := attributes.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession, MethodISessionSetPlaybackToLocal)
 	if _err != nil {
@@ -847,7 +851,18 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionSetPlaybackToLocal:
-		var _arg_attributes mediaTypes.AudioAttributes
+		var _arg_attributes common.AudioAttributes
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributes.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.SetPlaybackToLocal(ctx, _arg_attributes)
 		_reply := parcel.New()
 		if _err != nil {
@@ -914,7 +929,7 @@ type ISessionServer interface {
 	SetQueueTitle(ctx context.Context, title string) error
 	SetExtras(ctx context.Context, extras os.Bundle) error
 	SetRatingType(ctx context.Context, type_ int32) error
-	SetPlaybackToLocal(ctx context.Context, attributes mediaTypes.AudioAttributes) error
+	SetPlaybackToLocal(ctx context.Context, attributes common.AudioAttributes) error
 	SetPlaybackToRemote(ctx context.Context, control int32, max_ int32, controlId string) error
 	SetCurrentVolume(ctx context.Context, currentVolume int32) error
 }
@@ -1034,7 +1049,7 @@ func (w *sessionStubWrapper) SetRatingType(
 
 func (w *sessionStubWrapper) SetPlaybackToLocal(
 	ctx context.Context,
-	attributes mediaTypes.AudioAttributes,
+	attributes common.AudioAttributes,
 ) error {
 	return w.impl.SetPlaybackToLocal(ctx, attributes)
 }

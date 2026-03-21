@@ -142,6 +142,3 @@ interfaces:
             name: String
           annotations:
             - EnforcePermission
-
-parcelables:
-    - name: GsiProgress

@@ -133,6 +133,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IPowerHintSession
       descriptor: android.hardware.power.IPowerHintSession
       methods:
@@ -206,6 +208,8 @@ interfaces:
           transaction_code_offset: 8
           return_type:
             name: SessionConfig
+      annotations:
+        - VintfStability
 parcelables:
     - name: ChannelConfig
       fields:
@@ -418,7 +422,7 @@ unions:
             name: long
             is_array: true
             fixed_size: "16"
-          default_value: 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0 , 0
+          default_value: ((((((((((((((0 , 0) , 0) , 0) , 0) , 0) , 0) , 0) , 0) , 0) , 0) , 0) , 0) , 0) , 0) , 0
         - name: targetDuration
           type:
             name: long
@@ -431,6 +435,8 @@ unions:
         - name: workDuration
           type:
             name: WorkDurationFixedV1
+      nested_types:
+        - ChannelMessage.ChannelMessageContents.SessionModeSetter
       annotations:
         - FixedSize
         - VintfStability

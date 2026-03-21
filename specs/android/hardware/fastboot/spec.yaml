@@ -42,6 +42,8 @@ interfaces:
         - name: FAILURE_UNKNOWN
           type: int
           value: "1"
+      annotations:
+        - VintfStability
 enums:
     - name: FileSystemType
       backing_type: byte

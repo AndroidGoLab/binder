@@ -1,7 +1,7 @@
 package media
 
 import (
-	tuner "github.com/xaionaro-go/binder/android/hardware/tv/tuner"
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -9,7 +9,7 @@ import (
 
 type AudioAttributesEx struct {
 	Attributes AudioAttributes
-	StreamType tuner.AudioStreamType
+	StreamType common.AudioStreamType
 	GroupId    int32
 }
 
@@ -55,7 +55,7 @@ func (s *AudioAttributesEx) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	s.StreamType = tuner.AudioStreamType(_streamTypeRaw)
+	s.StreamType = common.AudioStreamType(_streamTypeRaw)
 
 	if p.Position() >= _endPos {
 		parcel.SkipToParcelableEnd(p, _endPos)

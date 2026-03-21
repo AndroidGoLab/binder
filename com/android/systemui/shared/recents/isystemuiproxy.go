@@ -3,8 +3,8 @@ package recents
 import (
 	"context"
 	"fmt"
-	common "github.com/xaionaro-go/binder/android/hardware/input/common"
 	os "github.com/xaionaro-go/binder/android/os"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	util "github.com/xaionaro-go/binder/com/android/internal_/util"
 	"github.com/xaionaro-go/binder/parcel"
@@ -66,7 +66,7 @@ type ISystemUiProxy interface {
 	AsBinder() binder.IBinder
 	StartScreenPinning(ctx context.Context, taskId int32) error
 	OnOverviewShown(ctx context.Context, fromHome bool) error
-	OnStatusBarTouchEvent(ctx context.Context, event common.MotionEvent) error
+	OnStatusBarTouchEvent(ctx context.Context, event view.MotionEvent) error
 	OnAssistantProgress(ctx context.Context, progress float32) error
 	OnAssistantGestureCompletion(ctx context.Context, velocity float32) error
 	StartAssistant(ctx context.Context, bundle os.Bundle) error
@@ -83,7 +83,7 @@ type ISystemUiProxy interface {
 	OnImeSwitcherPressed(ctx context.Context) error
 	ToggleNotificationPanel(ctx context.Context) error
 	TakeScreenshot(ctx context.Context, request util.ScreenshotRequest) error
-	OnStatusBarTrackpadEvent(ctx context.Context, event common.MotionEvent) error
+	OnStatusBarTrackpadEvent(ctx context.Context, event view.MotionEvent) error
 	AnimateNavBarLongPress(ctx context.Context, isTouchDown bool, shrink bool, durationMs int64) error
 }
 
@@ -141,7 +141,7 @@ func (p *SystemUiProxyProxy) OnOverviewShown(
 
 func (p *SystemUiProxyProxy) OnStatusBarTouchEvent(
 	ctx context.Context,
-	event common.MotionEvent,
+	event view.MotionEvent,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -453,7 +453,7 @@ func (p *SystemUiProxyProxy) TakeScreenshot(
 
 func (p *SystemUiProxyProxy) OnStatusBarTrackpadEvent(
 	ctx context.Context,
-	event common.MotionEvent,
+	event view.MotionEvent,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -532,7 +532,7 @@ func (s *SystemUiProxyStub) OnTransaction(
 		_err = s.Impl.OnOverviewShown(ctx, _arg_fromHome)
 		return nil, _err
 	case TransactionISystemUiProxyOnStatusBarTouchEvent:
-		var _arg_event common.MotionEvent
+		var _arg_event view.MotionEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -670,7 +670,7 @@ func (s *SystemUiProxyStub) OnTransaction(
 		_err := s.Impl.TakeScreenshot(ctx, _arg_request)
 		return nil, _err
 	case TransactionISystemUiProxyOnStatusBarTrackpadEvent:
-		var _arg_event common.MotionEvent
+		var _arg_event view.MotionEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -710,7 +710,7 @@ func (s *SystemUiProxyStub) OnTransaction(
 type ISystemUiProxyServer interface {
 	StartScreenPinning(ctx context.Context, taskId int32) error
 	OnOverviewShown(ctx context.Context, fromHome bool) error
-	OnStatusBarTouchEvent(ctx context.Context, event common.MotionEvent) error
+	OnStatusBarTouchEvent(ctx context.Context, event view.MotionEvent) error
 	OnAssistantProgress(ctx context.Context, progress float32) error
 	OnAssistantGestureCompletion(ctx context.Context, velocity float32) error
 	StartAssistant(ctx context.Context, bundle os.Bundle) error
@@ -727,7 +727,7 @@ type ISystemUiProxyServer interface {
 	OnImeSwitcherPressed(ctx context.Context) error
 	ToggleNotificationPanel(ctx context.Context) error
 	TakeScreenshot(ctx context.Context, request util.ScreenshotRequest) error
-	OnStatusBarTrackpadEvent(ctx context.Context, event common.MotionEvent) error
+	OnStatusBarTrackpadEvent(ctx context.Context, event view.MotionEvent) error
 	AnimateNavBarLongPress(ctx context.Context, isTouchDown bool, shrink bool, durationMs int64) error
 }
 
@@ -756,7 +756,7 @@ func (w *systemUiProxyStubWrapper) OnOverviewShown(
 
 func (w *systemUiProxyStubWrapper) OnStatusBarTouchEvent(
 	ctx context.Context,
-	event common.MotionEvent,
+	event view.MotionEvent,
 ) error {
 	return w.impl.OnStatusBarTouchEvent(ctx, event)
 }
@@ -870,7 +870,7 @@ func (w *systemUiProxyStubWrapper) TakeScreenshot(
 
 func (w *systemUiProxyStubWrapper) OnStatusBarTrackpadEvent(
 	ctx context.Context,
-	event common.MotionEvent,
+	event view.MotionEvent,
 ) error {
 	return w.impl.OnStatusBarTrackpadEvent(ctx, event)
 }

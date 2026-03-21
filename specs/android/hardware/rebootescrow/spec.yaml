@@ -19,3 +19,5 @@ interfaces:
           return_type:
             name: byte
             is_array: true
+      annotations:
+        - VintfStability

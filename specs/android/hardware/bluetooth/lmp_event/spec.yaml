@@ -43,6 +43,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IBluetoothLmpEventCallback
       descriptor: android.hardware.bluetooth.lmp_event.IBluetoothLmpEventCallback
       methods:
@@ -86,6 +88,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: Timestamp
       fields:

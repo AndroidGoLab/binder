@@ -179,4 +179,18 @@ interfaces:
             name: void
 parcelables:
     - name: Slice
+      java_wire_format:
+        - name: Hints
+          write_method: opaque
+        - name: Items.length
+          write_method: int32
+        - name: Dest
+          write_method: opaque
+        - name: Spec
+          write_method: opaque
     - name: SliceSpec
+      java_wire_format:
+        - name: Type
+          write_method: string16
+        - name: Revision
+          write_method: int32

@@ -125,6 +125,8 @@ interfaces:
                 name: long
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IUsbCallback
       descriptor: android.hardware.usb.IUsbCallback
       oneway: true
@@ -268,6 +270,8 @@ interfaces:
                 name: long
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IUsbManager
       descriptor: android.hardware.usb.IUsbManager
       methods:
@@ -883,7 +887,33 @@ parcelables:
       annotations:
         - VintfStability
     - name: DisplayPortAltModeInfo
+      java_wire_format:
+        - name: PartnerSinkStatus
+          write_method: int32
+        - name: CableStatus
+          write_method: int32
+        - name: NumLanes
+          write_method: int32
+        - name: HotPlugDetect
+          write_method: bool
+        - name: LinkTrainingStatus
+          write_method: int32
     - name: ParcelableUsbPort
+      java_wire_format:
+        - name: Id
+          write_method: string16
+        - name: SupportedModes
+          write_method: int32
+        - name: SupportedContaminantProtectionModes
+          write_method: int32
+        - name: SupportsEnableContaminantPresenceProtection
+          write_method: bool
+        - name: SupportsEnableContaminantPresenceDetection
+          write_method: bool
+        - name: SupportsComplianceWarnings
+          write_method: bool
+        - name: SupportedAltModesMask
+          write_method: int32
     - name: PortStatus
       fields:
         - name: portName
@@ -963,10 +993,106 @@ parcelables:
       annotations:
         - VintfStability
     - name: UsbAccessory
+      java_wire_format:
+        - name: Manufacturer
+          write_method: string16
+        - name: Model
+          write_method: string16
+        - name: Description
+          write_method: string16
+        - name: Version
+          write_method: string16
+        - name: Uri
+          write_method: string16
+        - name: SerialNumberReader.asBinder()
+          write_method: opaque
     - name: UsbDevice
+      java_wire_format:
+        - name: Name
+          write_method: string16
+        - name: VendorId
+          write_method: int32
+        - name: ProductId
+          write_method: int32
+        - name: Class
+          write_method: int32
+        - name: Subclass
+          write_method: int32
+        - name: Protocol
+          write_method: int32
+        - name: ManufacturerName
+          write_method: string16
+        - name: ProductName
+          write_method: string16
+        - name: Version
+          write_method: string16
+        - name: SerialNumberReader.asBinder()
+          write_method: opaque
+        - name: Configurations
+          write_method: opaque
+        - name: HasAudioPlayback?1:0
+          write_method: int32
+        - name: HasAudioCapture?1:0
+          write_method: int32
+        - name: HasMidi?1:0
+          write_method: int32
+        - name: HasVideoPlayback?1:0
+          write_method: int32
+        - name: HasVideoCapture?1:0
+          write_method: int32
     - name: UsbEndpoint
+      java_wire_format:
+        - name: Address
+          write_method: int32
+        - name: Attributes
+          write_method: int32
+        - name: MaxPacketSize
+          write_method: int32
+        - name: Interval
+          write_method: int32
     - name: UsbInterface
+      java_wire_format:
+        - name: Id
+          write_method: int32
+        - name: AlternateSetting
+          write_method: int32
+        - name: Name
+          write_method: string16
+        - name: Class
+          write_method: int32
+        - name: Subclass
+          write_method: int32
+        - name: Protocol
+          write_method: int32
+        - name: Endpoints
+          write_method: opaque
     - name: UsbPortStatus
+      java_wire_format:
+        - name: CurrentMode
+          write_method: int32
+        - name: CurrentPowerRole
+          write_method: int32
+        - name: CurrentDataRole
+          write_method: int32
+        - name: SupportedRoleCombinations
+          write_method: int32
+        - name: ContaminantProtectionStatus
+          write_method: int32
+        - name: ContaminantDetectionStatus
+          write_method: int32
+        - name: UsbDataStatus
+          write_method: int32
+        - name: PowerTransferLimited
+          write_method: bool
+        - name: PowerBrickConnectionStatus
+          write_method: int32
+        - name: ComplianceWarnings
+          write_method: opaque
+        - name: PlugState
+          write_method: int32
+        - name: "False"
+          write_method: bool
+          condition: mDisplayPortAltModeInfo==null
 enums:
     - name: ComplianceWarning
       backing_type: int
@@ -1190,6 +1316,8 @@ unions:
         - name: displayPortAltModeData
           type:
             name: DisplayPortAltModeData
+      nested_types:
+        - AltModeData.DisplayPortAltModeData
       annotations:
         - VintfStability
     - name: PortRole

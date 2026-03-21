@@ -337,9 +337,25 @@ interfaces:
             name: void
 parcelables:
     - name: Announcement
+      java_wire_format:
+        - name: Selector
+          write_method: opaque
+        - name: Type
+          write_method: int32
+        - name: Dest
+          write_method: opaque
     - name: ProgramList.Chunk
     - name: ProgramList.Filter
     - name: ProgramSelector
+      java_wire_format:
+        - name: ProgramType
+          write_method: int32
+        - name: PrimaryId
+          write_method: opaque
+        - name: SecondaryIds
+          write_method: opaque
+        - name: VendorIds
+          write_method: opaque
     - name: RadioConst
       constants:
         - name: MAX_RILDS
@@ -362,6 +378,9 @@ parcelables:
     - name: RadioManager.ModuleProperties
     - name: RadioManager.ProgramInfo
     - name: RadioMetadata
+      java_wire_format:
+        - name: Bundle
+          write_method: opaque
     - name: RadioResponseInfo
       fields:
         - name: type
@@ -394,6 +413,11 @@ parcelables:
         - VintfStability
         - JavaDerive
     - name: UniqueProgramIdentifier
+      java_wire_format:
+        - name: PrimaryId
+          write_method: opaque
+        - name: CriticalSecondaryIds
+          write_method: opaque
 enums:
     - name: AccessNetwork
       backing_type: int

@@ -38,6 +38,8 @@ interfaces:
                 name: int
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IImsMediaListener
       descriptor: android.hardware.radio.ims.media.IImsMediaListener
       oneway: true
@@ -72,6 +74,8 @@ interfaces:
                 name: int
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IImsMediaSession
       descriptor: android.hardware.radio.ims.media.IImsMediaSession
       oneway: true
@@ -155,6 +159,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IImsMediaSessionListener
       descriptor: android.hardware.radio.ims.media.IImsMediaSessionListener
       oneway: true
@@ -238,6 +244,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: AmrParams
       fields:

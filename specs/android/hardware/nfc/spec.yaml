@@ -65,6 +65,8 @@ interfaces:
           transaction_code_offset: 9
           return_type:
             name: boolean
+      annotations:
+        - VintfStability
     - name: INfcClientCallback
       descriptor: android.hardware.nfc.INfcClientCallback
       methods:
@@ -91,6 +93,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: NfcConfig
       fields:

@@ -61,6 +61,11 @@ interfaces:
           transaction_code_offset: 7
           return_type:
             name: OpenEffectReturn
+      nested_types:
+        - IEffect.Status
+        - IEffect.OpenEffectReturn
+      annotations:
+        - VintfStability
     - name: IFactory
       descriptor: android.hardware.audio.effect.IFactory
       methods:
@@ -114,6 +119,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: Capability
       fields:
@@ -770,32 +777,6 @@ parcelables:
       annotations:
         - VintfStability
 enums:
-    - name: AcousticEchoCanceler.Tag
-      backing_type: int
-      values:
-        - name: vendor
-          value: "0"
-        - name: echoDelayUs
-          value: "1"
-        - name: mobileMode
-          value: "2"
-      annotations:
-        - VintfStability
-        - Backing
-    - name: AutomaticGainControlV1.Tag
-      backing_type: int
-      values:
-        - name: vendor
-          value: "0"
-        - name: targetPeakLevelDbFs
-          value: "1"
-        - name: maxCompressionGainDb
-          value: "2"
-        - name: enableLimiter
-          value: "3"
-      annotations:
-        - VintfStability
-        - Backing
     - name: AutomaticGainControlV2.LevelEstimator
       backing_type: int
       values:
@@ -1002,254 +983,6 @@ enums:
           value: ""
       annotations:
         - VintfStability
-    - name: AutomaticGainControlV2.Tag
-      backing_type: int
-      values:
-        - name: vendor
-          value: "0"
-        - name: fixedDigitalGainMb
-          value: "1"
-        - name: levelEstimator
-          value: "2"
-        - name: saturationMarginMb
-          value: "3"
-      annotations:
-        - VintfStability
-        - Backing
-    - name: BassBoost.Tag
-      backing_type: int
-      values:
-        - name: vendor
-          value: "0"
-        - name: strengthPm
-          value: "1"
-      annotations:
-        - VintfStability
-        - Backing
-    - name: Downmix.Tag
-      backing_type: int
-      values:
-        - name: vendor
-          value: "0"
-        - name: type
-          value: "1"
-      annotations:
-        - VintfStability
-        - Backing
-    - name: DynamicsProcessing.Tag
-      backing_type: int
-      values:
-        - name: vendor
-          value: "0"
-        - name: engineArchitecture
-          value: "1"
-        - name: preEq
-          value: "2"
-        - name: postEq
-          value: "3"
-        - name: preEqBand
-          value: "4"
-        - name: postEqBand
-          value: "5"
-        - name: mbc
-          value: "6"
-        - name: mbcBand
-          value: "7"
-        - name: limiter
-          value: "8"
-        - name: inputGain
-          value: "9"
-      annotations:
-        - VintfStability
-        - Backing
-    - name: EnvironmentalReverb.Tag
-      backing_type: int
-      values:
-        - name: vendor
-          value: "0"
-        - name: roomLevelMb
-          value: "1"
-        - name: roomHfLevelMb
-          value: "2"
-        - name: decayTimeMs
-          value: "3"
-        - name: decayHfRatioPm
-          value: "4"
-        - name: reflectionsLevelMb
-          value: "5"
-        - name: reflectionsDelayMs
-          value: "6"
-        - name: levelMb
-          value: "7"
-        - name: delayMs
-          value: "8"
-        - name: diffusionPm
-          value: "9"
-        - name: densityPm
-          value: "10"
-        - name: bypass
-          value: "11"
-      annotations:
-        - VintfStability
-        - Backing
-    - name: Equalizer.Tag
-      backing_type: int
-      values:
-        - name: vendor
-          value: "0"
-        - name: bandLevels
-          value: "1"
-        - name: preset
-          value: "2"
-        - name: centerFreqMh
-          value: "3"
-        - name: bandFrequencies
-          value: "4"
-        - name: presets
-          value: "5"
-      annotations:
-        - VintfStability
-        - Backing
-    - name: HapticGenerator.Tag
-      backing_type: int
-      values:
-        - name: vendor
-          value: "0"
-        - name: hapticScales
-          value: "1"
-        - name: vibratorInfo
-          value: "2"
-      annotations:
-        - VintfStability
-        - Backing
-    - name: LoudnessEnhancer.Tag
-      backing_type: int
-      values:
-        - name: vendor
-          value: "0"
-        - name: gainMb
-          value: "1"
-      annotations:
-        - VintfStability
-        - Backing
-    - name: NoiseSuppression.Tag
-      backing_type: int
-      values:
-        - name: vendor
-          value: "0"
-        - name: level
-          value: "1"
-        - name: type
-          value: "2"
-      annotations:
-        - VintfStability
-        - Backing
-    - name: Parameter.Tag
-      backing_type: int
-      values:
-        - name: common
-          value: "0"
-        - name: deviceDescription
-          value: "1"
-        - name: mode
-          value: "2"
-        - name: source
-          value: "3"
-        - name: offload
-          value: "4"
-        - name: volumeStereo
-          value: "5"
-        - name: specific
-          value: "6"
-        - name: sinkMetadata
-          value: "7"
-        - name: sourceMetadata
-          value: "8"
-      annotations:
-        - VintfStability
-        - Backing
-    - name: PresetReverb.Tag
-      backing_type: int
-      values:
-        - name: vendor
-          value: "0"
-        - name: supportedPresets
-          value: "1"
-        - name: preset
-          value: "2"
-      annotations:
-        - VintfStability
-        - Backing
-    - name: Spatializer.Tag
-      backing_type: int
-      values:
-        - name: vendor
-          value: "0"
-        - name: supportedChannelLayout
-          value: "1"
-        - name: spatializationLevel
-          value: "2"
-        - name: spatializationMode
-          value: "3"
-        - name: headTrackingSensorId
-          value: "4"
-        - name: headTrackingMode
-          value: "5"
-        - name: headTrackingConnectionMode
-          value: "6"
-        - name: headTrackingSensorData
-          value: "7"
-      annotations:
-        - VintfStability
-        - Backing
-    - name: Virtualizer.Tag
-      backing_type: int
-      values:
-        - name: vendor
-          value: "0"
-        - name: strengthPm
-          value: "1"
-        - name: speakerAngles
-          value: "2"
-        - name: device
-          value: "3"
-      annotations:
-        - VintfStability
-        - Backing
-    - name: Visualizer.Tag
-      backing_type: int
-      values:
-        - name: id
-          value: "0"
-        - name: vendor
-          value: "1"
-        - name: measurement
-          value: "2"
-        - name: captureSampleBuffer
-          value: "3"
-        - name: latencyMs
-          value: "4"
-        - name: captureSamples
-          value: "5"
-        - name: scalingMode
-          value: "6"
-        - name: measurementMode
-          value: "7"
-      annotations:
-        - VintfStability
-        - Backing
-    - name: Volume.Tag
-      backing_type: int
-      values:
-        - name: vendor
-          value: "0"
-        - name: levelDb
-          value: "1"
-        - name: mute
-          value: "2"
-      annotations:
-        - VintfStability
-        - Backing
 unions:
     - name: AcousticEchoCanceler
       fields:
@@ -1262,6 +995,8 @@ unions:
         - name: mobileMode
           type:
             name: boolean
+      nested_types:
+        - AcousticEchoCanceler.Id
       annotations:
         - VintfStability
     - name: AcousticEchoCanceler.Id
@@ -1288,6 +1023,8 @@ unions:
         - name: enableLimiter
           type:
             name: boolean
+      nested_types:
+        - AutomaticGainControlV1.Id
       annotations:
         - VintfStability
     - name: AutomaticGainControlV1.Id
@@ -1314,6 +1051,9 @@ unions:
         - name: saturationMarginMb
           type:
             name: int
+      nested_types:
+        - AutomaticGainControlV2.Id
+        - AutomaticGainControlV2.LevelEstimator
       annotations:
         - VintfStability
     - name: AutomaticGainControlV2.Id
@@ -1334,6 +1074,8 @@ unions:
         - name: strengthPm
           type:
             name: int
+      nested_types:
+        - BassBoost.Id
       annotations:
         - VintfStability
     - name: BassBoost.Id
@@ -1354,6 +1096,9 @@ unions:
         - name: type
           type:
             name: Type
+      nested_types:
+        - Downmix.Id
+        - Downmix.Type
       annotations:
         - VintfStability
     - name: Downmix.Id
@@ -1406,6 +1151,16 @@ unions:
           type:
             name: InputGain
             is_array: true
+      nested_types:
+        - DynamicsProcessing.Id
+        - DynamicsProcessing.ResolutionPreference
+        - DynamicsProcessing.StageEnablement
+        - DynamicsProcessing.EngineArchitecture
+        - DynamicsProcessing.ChannelConfig
+        - DynamicsProcessing.EqBandConfig
+        - DynamicsProcessing.MbcBandConfig
+        - DynamicsProcessing.LimiterConfig
+        - DynamicsProcessing.InputGain
       annotations:
         - VintfStability
     - name: DynamicsProcessing.Id
@@ -1456,6 +1211,8 @@ unions:
         - name: bypass
           type:
             name: boolean
+      nested_types:
+        - EnvironmentalReverb.Id
       annotations:
         - VintfStability
     - name: EnvironmentalReverb.Id
@@ -1492,6 +1249,11 @@ unions:
           type:
             name: Preset
             is_array: true
+      nested_types:
+        - Equalizer.Id
+        - Equalizer.BandLevel
+        - Equalizer.BandFrequency
+        - Equalizer.Preset
       annotations:
         - VintfStability
     - name: Equalizer.Id
@@ -1516,6 +1278,11 @@ unions:
         - name: vibratorInfo
           type:
             name: VibratorInformation
+      nested_types:
+        - HapticGenerator.Id
+        - HapticGenerator.VibratorScale
+        - HapticGenerator.HapticScale
+        - HapticGenerator.VibratorInformation
       annotations:
         - VintfStability
     - name: HapticGenerator.Id
@@ -1536,6 +1303,8 @@ unions:
         - name: gainMb
           type:
             name: int
+      nested_types:
+        - LoudnessEnhancer.Id
       annotations:
         - VintfStability
     - name: LoudnessEnhancer.Id
@@ -1559,6 +1328,10 @@ unions:
         - name: type
           type:
             name: Type
+      nested_types:
+        - NoiseSuppression.Id
+        - NoiseSuppression.Level
+        - NoiseSuppression.Type
       annotations:
         - VintfStability
     - name: NoiseSuppression.Id
@@ -1601,6 +1374,11 @@ unions:
         - name: sourceMetadata
           type:
             name: SourceMetadata
+      nested_types:
+        - Parameter.Id
+        - Parameter.Common
+        - Parameter.VolumeStereo
+        - Parameter.Specific
       annotations:
         - VintfStability
     - name: Parameter.Id
@@ -1728,6 +1506,9 @@ unions:
         - name: preset
           type:
             name: Presets
+      nested_types:
+        - PresetReverb.Presets
+        - PresetReverb.Id
       annotations:
         - VintfStability
     - name: PresetReverb.Id
@@ -1822,6 +1603,24 @@ unions:
           type:
             name: SpatializerRange
             is_array: true
+      nested_types:
+        - Range.AcousticEchoCancelerRange
+        - Range.AutomaticGainControlV1Range
+        - Range.AutomaticGainControlV2Range
+        - Range.BassBoostRange
+        - Range.DownmixRange
+        - Range.DynamicsProcessingRange
+        - Range.EnvironmentalReverbRange
+        - Range.EqualizerRange
+        - Range.HapticGeneratorRange
+        - Range.LoudnessEnhancerRange
+        - Range.NoiseSuppressionRange
+        - Range.PresetReverbRange
+        - Range.SpatializerRange
+        - Range.VendorExtensionRange
+        - Range.VirtualizerRange
+        - Range.VisualizerRange
+        - Range.VolumeRange
       annotations:
         - VintfStability
     - name: Spatializer
@@ -1851,6 +1650,8 @@ unions:
         - name: headTrackingSensorData
           type:
             name: HeadTracking.SensorData
+      nested_types:
+        - Spatializer.Id
       annotations:
         - VintfStability
     - name: Spatializer.Id
@@ -1878,6 +1679,10 @@ unions:
         - name: device
           type:
             name: AudioDeviceDescription
+      nested_types:
+        - Virtualizer.Id
+        - Virtualizer.SpeakerAnglesPayload
+        - Virtualizer.ChannelAngle
       annotations:
         - VintfStability
     - name: Virtualizer.Id
@@ -1920,6 +1725,11 @@ unions:
         - name: measurementMode
           type:
             name: MeasurementMode
+      nested_types:
+        - Visualizer.Id
+        - Visualizer.ScalingMode
+        - Visualizer.MeasurementMode
+        - Visualizer.Measurement
       annotations:
         - VintfStability
     - name: Visualizer.Id
@@ -1943,6 +1753,8 @@ unions:
         - name: mute
           type:
             name: boolean
+      nested_types:
+        - Volume.Id
       annotations:
         - VintfStability
     - name: Volume.Id

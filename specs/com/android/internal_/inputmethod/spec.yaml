@@ -475,6 +475,9 @@ interfaces:
                 name: long
           return_type:
             name: void
+      nested_types:
+        - IInputMethod.InitParams
+        - IInputMethod.StartInputParams
     - name: IInputMethodClient
       descriptor: com.android.internal.inputmethod.IInputMethodClient
       oneway: true
@@ -1651,6 +1654,39 @@ parcelables:
           type:
             name: ImeOnBackInvokedDispatcher
     - name: InlineSuggestionsRequestInfo
+      java_wire_format:
+        - name: ComponentName
+          write_method: opaque
+        - name: AutofillId
+          write_method: opaque
+        - name: UiExtras
+          write_method: opaque
     - name: InputBindResult
+      java_wire_format:
+        - name: Result
+          write_method: int32
+        - name: Method
+          write_method: opaque
+        - name: "-1"
+          write_method: int32
+          condition: accessibilitySessions==null
+        - name: "1"
+          write_method: int32
+          condition: channel!=null
+        - name: Dest
+          write_method: opaque
+          condition: channel!=null
+        - name: Id
+          write_method: string16
+        - name: Sequence
+          write_method: int32
+        - name: IsInputMethodSuppressingSpellChecker
+          write_method: bool
     - name: InputConnectionCommandHeader
+      java_wire_format:
+        - name: SessionId
+          write_method: int32
     - name: InputMethodSubtypeHandle
+      java_wire_format:
+        - name: ToStringHandle()
+          write_method: string8

@@ -26,6 +26,8 @@ interfaces:
               direction: in
           return_type:
             name: ISession
+      annotations:
+        - VintfStability
     - name: ISession
       descriptor: android.hardware.biometrics.face.ISession
       methods:
@@ -210,6 +212,8 @@ interfaces:
               direction: in
           return_type:
             name: ICancellationSignal
+      annotations:
+        - VintfStability
     - name: ISessionCallback
       descriptor: android.hardware.biometrics.face.ISessionCallback
       methods:
@@ -372,6 +376,8 @@ interfaces:
           transaction_code_offset: 18
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: AuthenticationFrame
       fields:

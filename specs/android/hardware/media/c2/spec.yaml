@@ -86,6 +86,13 @@ interfaces:
           transaction_code_offset: 12
           return_type:
             name: IInputSink
+      nested_types:
+        - IComponent.BlockPool
+        - IComponent.GbAllocator
+        - IComponent.PooledGbAllocator
+        - IComponent.BlockPoolAllocator
+      annotations:
+        - VintfStability
     - name: IComponentInterface
       descriptor: android.hardware.media.c2.IComponentInterface
       methods:
@@ -93,6 +100,8 @@ interfaces:
           transaction_code_offset: 0
           return_type:
             name: IConfigurable
+      annotations:
+        - VintfStability
     - name: IComponentListener
       descriptor: android.hardware.media.c2.IComponentListener
       oneway: true
@@ -149,6 +158,11 @@ interfaces:
               direction: in
           return_type:
             name: void
+      nested_types:
+        - IComponentListener.InputBuffer
+        - IComponentListener.RenderedFrame
+      annotations:
+        - VintfStability
     - name: IComponentStore
       descriptor: android.hardware.media.c2.IComponentStore
       methods:
@@ -219,6 +233,10 @@ interfaces:
           transaction_code_offset: 7
           return_type:
             name: IInputSurface
+      nested_types:
+        - IComponentStore.ComponentTraits
+      annotations:
+        - VintfStability
     - name: IConfigurable
       descriptor: android.hardware.media.c2.IConfigurable
       methods:
@@ -285,6 +303,12 @@ interfaces:
               direction: in
           return_type:
             name: QuerySupportedValuesResult
+      nested_types:
+        - IConfigurable.ConfigResult
+        - IConfigurable.QueryResult
+        - IConfigurable.QuerySupportedValuesResult
+      annotations:
+        - VintfStability
     - name: IGraphicBufferAllocator
       descriptor: android.hardware.media.c2.IGraphicBufferAllocator
       methods:
@@ -310,6 +334,11 @@ interfaces:
           transaction_code_offset: 2
           return_type:
             name: ParcelFileDescriptor
+      nested_types:
+        - IGraphicBufferAllocator.Allocation
+        - IGraphicBufferAllocator.Description
+      annotations:
+        - VintfStability
     - name: IInputSink
       descriptor: android.hardware.media.c2.IInputSink
       methods:
@@ -322,6 +351,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IInputSurface
       descriptor: android.hardware.media.c2.IInputSurface
       methods:
@@ -342,6 +373,8 @@ interfaces:
               direction: in
           return_type:
             name: IInputSurfaceConnection
+      annotations:
+        - VintfStability
     - name: IInputSurfaceConnection
       descriptor: android.hardware.media.c2.IInputSurfaceConnection
       methods:
@@ -353,6 +386,8 @@ interfaces:
           transaction_code_offset: 1
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IPooledGraphicBufferAllocator
       descriptor: android.hardware.media.c2.IPooledGraphicBufferAllocator
       methods:
@@ -374,6 +409,11 @@ interfaces:
               direction: in
           return_type:
             name: boolean
+      nested_types:
+        - IPooledGraphicBufferAllocator.Allocation
+        - IPooledGraphicBufferAllocator.Description
+      annotations:
+        - VintfStability
 parcelables:
     - name: Block
       fields:

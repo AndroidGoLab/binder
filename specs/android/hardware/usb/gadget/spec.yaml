@@ -61,6 +61,8 @@ interfaces:
                 name: long
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IUsbGadgetCallback
       descriptor: android.hardware.usb.gadget.IUsbGadgetCallback
       oneway: true
@@ -121,6 +123,8 @@ interfaces:
                 name: long
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: GadgetFunction
       constants:

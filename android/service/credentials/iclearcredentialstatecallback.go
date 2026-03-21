@@ -3,7 +3,7 @@ package credentials
 import (
 	"context"
 	"fmt"
-	common "github.com/xaionaro-go/binder/android/hardware/biometrics/common"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -28,7 +28,7 @@ type IClearCredentialStateCallback interface {
 	AsBinder() binder.IBinder
 	OnSuccess(ctx context.Context) error
 	OnFailure(ctx context.Context, errorType string, message string) error
-	OnCancellable(ctx context.Context, cancellation common.ICancellationSignal) error
+	OnCancellable(ctx context.Context, cancellation os.ICancellationSignal) error
 }
 
 type ClearCredentialStateCallbackProxy struct {
@@ -85,7 +85,7 @@ func (p *ClearCredentialStateCallbackProxy) OnFailure(
 
 func (p *ClearCredentialStateCallbackProxy) OnCancellable(
 	ctx context.Context,
-	cancellation common.ICancellationSignal,
+	cancellation os.ICancellationSignal,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -139,13 +139,13 @@ func (s *ClearCredentialStateCallbackStub) OnTransaction(
 		_err = s.Impl.OnFailure(ctx, _arg_errorType, _arg_message)
 		return nil, _err
 	case TransactionIClearCredentialStateCallbackOnCancellable:
-		var _arg_cancellation common.ICancellationSignal
+		var _arg_cancellation os.ICancellationSignal
 		{
 			_cancellationHandle, _err := _data.ReadStrongBinder()
 			if _err != nil {
 				return nil, _err
 			}
-			_arg_cancellation = common.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationHandle))
+			_arg_cancellation = os.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationHandle))
 		}
 		_err := s.Impl.OnCancellable(ctx, _arg_cancellation)
 		return nil, _err
@@ -160,7 +160,7 @@ func (s *ClearCredentialStateCallbackStub) OnTransaction(
 type IClearCredentialStateCallbackServer interface {
 	OnSuccess(ctx context.Context) error
 	OnFailure(ctx context.Context, errorType string, message string) error
-	OnCancellable(ctx context.Context, cancellation common.ICancellationSignal) error
+	OnCancellable(ctx context.Context, cancellation os.ICancellationSignal) error
 }
 
 type clearCredentialStateCallbackStubWrapper struct {
@@ -188,7 +188,7 @@ func (w *clearCredentialStateCallbackStubWrapper) OnFailure(
 
 func (w *clearCredentialStateCallbackStubWrapper) OnCancellable(
 	ctx context.Context,
-	cancellation common.ICancellationSignal,
+	cancellation os.ICancellationSignal,
 ) error {
 	return w.impl.OnCancellable(ctx, cancellation)
 }

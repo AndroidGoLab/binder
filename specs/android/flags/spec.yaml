@@ -79,3 +79,14 @@ interfaces:
             name: void
 parcelables:
     - name: SyncableFlag
+      java_wire_format:
+        - name: Namespace
+          write_method: string16
+        - name: Name
+          write_method: string16
+        - name: Value
+          write_method: string16
+        - name: Dynamic
+          write_method: bool
+        - name: Overridden
+          write_method: bool

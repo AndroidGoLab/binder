@@ -3,7 +3,6 @@ package internal
 import (
 	"context"
 	"fmt"
-	media "github.com/xaionaro-go/binder/android/hardware/radio/ims/media"
 	os "github.com/xaionaro-go/binder/android/os"
 	ims "github.com/xaionaro-go/binder/android/telephony/ims"
 	"github.com/xaionaro-go/binder/binder"
@@ -128,7 +127,7 @@ type IImsCallSession interface {
 	SendRttModifyRequest(ctx context.Context, toProfile ims.ImsCallProfile) error
 	SendRttModifyResponse(ctx context.Context, status bool) error
 	SendRttMessage(ctx context.Context, rttMessage string) error
-	SendRtpHeaderExtensions(ctx context.Context, extensions []media.RtpHeaderExtension) error
+	SendRtpHeaderExtensions(ctx context.Context, extensions []ims.RtpHeaderExtension) error
 	CallSessionNotifyAnbr(ctx context.Context, mediaType int32, direction int32, bitsPerSecond int32) error
 }
 
@@ -1171,7 +1170,7 @@ func (p *ImsCallSessionProxy) SendRttMessage(
 
 func (p *ImsCallSessionProxy) SendRtpHeaderExtensions(
 	ctx context.Context,
-	extensions []media.RtpHeaderExtension,
+	extensions []ims.RtpHeaderExtension,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -1835,7 +1834,7 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionSendRtpHeaderExtensions:
-		var _arg_extensions []media.RtpHeaderExtension
+		var _arg_extensions []ims.RtpHeaderExtension
 		{
 			_count, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1845,7 +1844,7 @@ func (s *ImsCallSessionStub) OnTransaction(
 				return nil, fmt.Errorf("array count too large: %d", _count)
 			}
 			if _count >= 0 {
-				_arg_extensions = make([]media.RtpHeaderExtension, _count)
+				_arg_extensions = make([]ims.RtpHeaderExtension, _count)
 				for _i := int32(0); _i < _count; _i++ {
 					if _, _err = _data.ReadInt32(); _err != nil {
 						return nil, _err
@@ -1928,7 +1927,7 @@ type IImsCallSessionServer interface {
 	SendRttModifyRequest(ctx context.Context, toProfile ims.ImsCallProfile) error
 	SendRttModifyResponse(ctx context.Context, status bool) error
 	SendRttMessage(ctx context.Context, rttMessage string) error
-	SendRtpHeaderExtensions(ctx context.Context, extensions []media.RtpHeaderExtension) error
+	SendRtpHeaderExtensions(ctx context.Context, extensions []ims.RtpHeaderExtension) error
 	CallSessionNotifyAnbr(ctx context.Context, mediaType int32, direction int32, bitsPerSecond int32) error
 }
 
@@ -2176,7 +2175,7 @@ func (w *imsCallSessionStubWrapper) SendRttMessage(
 
 func (w *imsCallSessionStubWrapper) SendRtpHeaderExtensions(
 	ctx context.Context,
-	extensions []media.RtpHeaderExtension,
+	extensions []ims.RtpHeaderExtension,
 ) error {
 	return w.impl.SendRtpHeaderExtensions(ctx, extensions)
 }

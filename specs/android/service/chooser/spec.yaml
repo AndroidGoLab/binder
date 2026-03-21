@@ -38,3 +38,18 @@ interfaces:
             name: void
 parcelables:
     - name: ChooserTarget
+      java_wire_format:
+        - name: Title
+          write_method: opaque
+        - name: "1"
+          write_method: int32
+          condition: mIcon!=null
+        - name: Dest
+          write_method: opaque
+          condition: mIcon!=null
+        - name: Score
+          write_method: float32
+        - name: ComponentName
+          write_method: opaque
+        - name: IntentExtras
+          write_method: opaque

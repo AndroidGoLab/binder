@@ -21,7 +21,7 @@ const (
 
 type IPacProxyInstalledListener interface {
 	AsBinder() binder.IBinder
-	OnPacProxyInstalled(ctx context.Context, network Network, proxy ProxyInfo) error
+	OnPacProxyInstalled(ctx context.Context, network any, proxy any) error
 }
 
 type PacProxyInstalledListenerProxy struct {
@@ -42,20 +42,14 @@ var _ IPacProxyInstalledListener = (*PacProxyInstalledListenerProxy)(nil)
 
 func (p *PacProxyInstalledListenerProxy) OnPacProxyInstalled(
 	ctx context.Context,
-	network Network,
-	proxy ProxyInfo,
+	network any,
+	proxy any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPacProxyInstalledListener)
-	_data.WriteInt32(1)
-	if _err := network.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := proxy.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param network (type any) cannot be serialized — type not resolved
+	// WARNING: param proxy (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPacProxyInstalledListener, MethodIPacProxyInstalledListenerOnPacProxyInstalled)
 	if _err != nil {
@@ -90,30 +84,8 @@ func (s *PacProxyInstalledListenerStub) OnTransaction(
 
 	switch code {
 	case TransactionIPacProxyInstalledListenerOnPacProxyInstalled:
-		var _arg_network Network
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_network.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		var _arg_proxy ProxyInfo
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_proxy.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_network any
+		var _arg_proxy any
 		_err := s.Impl.OnPacProxyInstalled(ctx, _arg_network, _arg_proxy)
 		return nil, _err
 	default:
@@ -125,7 +97,7 @@ func (s *PacProxyInstalledListenerStub) OnTransaction(
 // provide to NewPacProxyInstalledListenerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IPacProxyInstalledListenerServer interface {
-	OnPacProxyInstalled(ctx context.Context, network Network, proxy ProxyInfo) error
+	OnPacProxyInstalled(ctx context.Context, network any, proxy any) error
 }
 
 type pacProxyInstalledListenerStubWrapper struct {
@@ -139,8 +111,8 @@ func (w *pacProxyInstalledListenerStubWrapper) AsBinder() binder.IBinder {
 
 func (w *pacProxyInstalledListenerStubWrapper) OnPacProxyInstalled(
 	ctx context.Context,
-	network Network,
-	proxy ProxyInfo,
+	network any,
+	proxy any,
 ) error {
 	return w.impl.OnPacProxyInstalled(ctx, network, proxy)
 }

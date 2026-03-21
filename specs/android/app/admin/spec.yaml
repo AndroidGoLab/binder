@@ -4812,22 +4812,194 @@ interfaces:
             name: void
 parcelables:
     - name: ConnectEvent
+      java_wire_format:
+        - name: PARCEL_TOKEN_CONNECT_EVENT
+          write_method: int32
+        - name: IpAddress
+          write_method: string16
+        - name: Port
+          write_method: int32
+        - name: PackageName
+          write_method: string16
+        - name: Timestamp
+          write_method: int64
+        - name: Id
+          write_method: int64
     - name: DevicePolicyDrawableResource
+      java_wire_format:
+        - name: DrawableId
+          write_method: string16
+        - name: DrawableStyle
+          write_method: string16
+        - name: DrawableSource
+          write_method: string16
+        - name: ResourceIdInCallingPackage
+          write_method: int32
+        - name: Resource
+          write_method: opaque
     - name: DevicePolicyState
+      java_wire_format:
+        - name: Policies.size()
+          write_method: int32
     - name: DevicePolicyStringResource
+      java_wire_format:
+        - name: StringId
+          write_method: string16
+        - name: ResourceIdInCallingPackage
+          write_method: int32
+        - name: Resource
+          write_method: opaque
     - name: DnsEvent
+      java_wire_format:
+        - name: PARCEL_TOKEN_DNS_EVENT
+          write_method: int32
+        - name: Hostname
+          write_method: string16
+        - name: IpAddresses
+          write_method: opaque
+        - name: IpAddressesCount
+          write_method: int32
+        - name: PackageName
+          write_method: string16
+        - name: Timestamp
+          write_method: int64
+        - name: Id
+          write_method: int64
     - name: EnforcingAdmin
+      java_wire_format:
+        - name: PackageName
+          write_method: string16
+        - name: UserHandle.getIdentifier()
+          write_method: int32
+        - name: Authority
+          write_method: opaque
+        - name: ComponentName
+          write_method: opaque
     - name: FactoryResetProtectionPolicy
+      java_wire_format:
+        - name: AccountsCount
+          write_method: int32
+        - name: FactoryResetProtectionEnabled
+          write_method: bool
     - name: FullyManagedDeviceProvisioningParams
+      java_wire_format:
+        - name: DeviceAdminComponentName
+          write_method: opaque
+        - name: OwnerName
+          write_method: string16
+        - name: LeaveAllSystemAppsEnabled
+          write_method: bool
+        - name: TimeZone
+          write_method: string16
+        - name: LocalTime
+          write_method: int64
+        - name: Locale==null?null:mLocale.toLanguageTag()
+          write_method: string16
+        - name: DeviceOwnerCanGrantSensorsPermissions
+          write_method: bool
+        - name: AdminExtras
+          write_method: opaque
+        - name: DemoDevice
+          write_method: bool
     - name: ManagedProfileProvisioningParams
+      java_wire_format:
+        - name: ProfileAdminComponentName
+          write_method: opaque
+        - name: OwnerName
+          write_method: string16
+        - name: ProfileName
+          write_method: string16
+        - name: AccountToMigrate
+          write_method: opaque
+        - name: LeaveAllSystemAppsEnabled
+          write_method: bool
+        - name: OrganizationOwnedProvisioning
+          write_method: bool
+        - name: KeepAccountOnMigration
+          write_method: bool
+        - name: AdminExtras
+          write_method: opaque
     - name: ManagedSubscriptionsPolicy
+      java_wire_format:
+        - name: PolicyType
+          write_method: int32
     - name: NetworkEvent
     - name: PackagePolicy
+      java_wire_format:
+        - name: PolicyType
+          write_method: int32
+        - name: PackageNames
+          write_method: opaque
     - name: ParcelableGranteeMap
+      java_wire_format:
+        - name: PackagesByUid.size()
+          write_method: int32
     - name: ParcelableResource
+      java_wire_format:
+        - name: ResourceId
+          write_method: int32
+        - name: PackageName
+          write_method: string16
+        - name: ResourceName
+          write_method: string16
+        - name: ResourceType
+          write_method: int32
     - name: PasswordMetrics
+      java_wire_format:
+        - name: CredType
+          write_method: int32
+        - name: Length
+          write_method: int32
+        - name: Letters
+          write_method: int32
+        - name: UpperCase
+          write_method: int32
+        - name: LowerCase
+          write_method: int32
+        - name: Numeric
+          write_method: int32
+        - name: Symbols
+          write_method: int32
+        - name: NonLetter
+          write_method: int32
+        - name: NonNumeric
+          write_method: int32
+        - name: SeqLength
+          write_method: int32
     - name: PreferentialNetworkServiceConfig
+      java_wire_format:
+        - name: IsEnabled
+          write_method: bool
+        - name: AllowFallbackToDefaultConnection
+          write_method: bool
+        - name: ShouldBlockNonMatchingNetworks
+          write_method: bool
+        - name: NetworkId
+          write_method: int32
+        - name: IncludedUids
+          write_method: opaque
+        - name: ExcludedUids
+          write_method: opaque
     - name: SecurityLog.SecurityEvent
     - name: SystemUpdateInfo
+      java_wire_format:
+        - name: GetReceivedTime()
+          write_method: int64
+        - name: GetSecurityPatchState()
+          write_method: int32
     - name: SystemUpdatePolicy
+      java_wire_format:
+        - name: PolicyType
+          write_method: int32
+        - name: MaintenanceWindowStart
+          write_method: int32
+        - name: MaintenanceWindowEnd
+          write_method: int32
+        - name: FreezeCount
+          write_method: int32
     - name: WifiSsidPolicy
+      java_wire_format:
+        - name: PolicyType
+          write_method: int32
+        - name: Ssids
+          write_method: opaque

@@ -51,6 +51,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IBluetoothAudioProvider
       descriptor: android.hardware.bluetooth.audio.IBluetoothAudioProvider
       methods:
@@ -286,6 +288,27 @@ interfaces:
         - name: CODEC_PRIORITY_NONE
           type: int
           value: "0"
+      nested_types:
+        - IBluetoothAudioProvider.LeAudioDeviceCapabilities
+        - IBluetoothAudioProvider.LeAudioDataPathConfiguration
+        - IBluetoothAudioProvider.LeAudioAseQosConfiguration
+        - IBluetoothAudioProvider.Packing
+        - IBluetoothAudioProvider.Framing
+        - IBluetoothAudioProvider.LeAudioAseConfigurationSetting
+        - IBluetoothAudioProvider.LeAudioConfigurationRequirement
+        - IBluetoothAudioProvider.LeAudioAseQosConfigurationRequirement
+        - IBluetoothAudioProvider.LeAudioAseQosConfigurationPair
+        - IBluetoothAudioProvider.LeAudioDataPathConfigurationPair
+        - IBluetoothAudioProvider.StreamConfig
+        - IBluetoothAudioProvider.AseState
+        - IBluetoothAudioProvider.BroadcastQuality
+        - IBluetoothAudioProvider.LeAudioBroadcastSubgroupConfigurationRequirement
+        - IBluetoothAudioProvider.LeAudioBroadcastConfigurationRequirement
+        - IBluetoothAudioProvider.LeAudioSubgroupBisConfiguration
+        - IBluetoothAudioProvider.LeAudioBroadcastSubgroupConfiguration
+        - IBluetoothAudioProvider.LeAudioBroadcastConfigurationSetting
+      annotations:
+        - VintfStability
     - name: IBluetoothAudioProviderFactory
       descriptor: android.hardware.bluetooth.audio.IBluetoothAudioProviderFactory
       methods:
@@ -319,6 +342,10 @@ interfaces:
             name: ProviderInfo
           annotations:
             - nullable
+      nested_types:
+        - IBluetoothAudioProviderFactory.ProviderInfo
+      annotations:
+        - VintfStability
 parcelables:
     - name: A2dpConfiguration
       fields:
@@ -2520,6 +2547,10 @@ unions:
         - name: vendor
           type:
             name: Vendor
+      nested_types:
+        - CodecId.A2dp
+        - CodecId.Core
+        - CodecId.Vendor
       annotations:
         - VintfStability
     - name: CodecInfo.Transport
@@ -2550,6 +2581,12 @@ unions:
         - name: supportedMaxCodecFramesPerSDU
           type:
             name: SupportedMaxCodecFramesPerSDU
+      nested_types:
+        - CodecSpecificCapabilitiesLtv.SupportedSamplingFrequencies
+        - CodecSpecificCapabilitiesLtv.SupportedFrameDurations
+        - CodecSpecificCapabilitiesLtv.SupportedAudioChannelCounts
+        - CodecSpecificCapabilitiesLtv.SupportedOctetsPerCodecFrame
+        - CodecSpecificCapabilitiesLtv.SupportedMaxCodecFramesPerSDU
       annotations:
         - VintfStability
     - name: CodecSpecificConfigurationLtv
@@ -2569,6 +2606,12 @@ unions:
         - name: octetsPerCodecFrame
           type:
             name: OctetsPerCodecFrame
+      nested_types:
+        - CodecSpecificConfigurationLtv.SamplingFrequency
+        - CodecSpecificConfigurationLtv.FrameDuration
+        - CodecSpecificConfigurationLtv.AudioChannelAllocation
+        - CodecSpecificConfigurationLtv.OctetsPerCodecFrame
+        - CodecSpecificConfigurationLtv.CodecFrameBlocksPerSDU
       annotations:
         - VintfStability
     - name: LeAudioCodecConfiguration
@@ -2582,6 +2625,8 @@ unions:
         - name: aptxAdaptiveLeConfig
           type:
             name: AptxAdaptiveLeConfiguration
+      nested_types:
+        - LeAudioCodecConfiguration.VendorConfiguration
       annotations:
         - VintfStability
     - name: MetadataLtv
@@ -2595,6 +2640,10 @@ unions:
         - name: vendorSpecific
           type:
             name: VendorSpecific
+      nested_types:
+        - MetadataLtv.PreferredAudioContexts
+        - MetadataLtv.StreamingAudioContexts
+        - MetadataLtv.VendorSpecific
       annotations:
         - VintfStability
     - name: UnicastCapability.LeAudioCodecCapabilities

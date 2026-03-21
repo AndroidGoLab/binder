@@ -101,10 +101,19 @@ func MarshalForType(ts *parser.TypeSpecifier) MarshalInfo {
 func MarshalForTypeWithRegistry(
 	ts *parser.TypeSpecifier,
 	registry *resolver.TypeRegistry,
-	currentPkg ...string,
+	pkgAndDef ...string,
 ) MarshalInfo {
 	if ts == nil {
 		return MarshalInfo{}
+	}
+
+	// Extract optional currentPkg (index 0) and currentDef (index 1).
+	var currentPkg, currentDef string
+	if len(pkgAndDef) > 0 {
+		currentPkg = pkgAndDef[0]
+	}
+	if len(pkgAndDef) > 1 {
+		currentDef = pkgAndDef[1]
 	}
 
 	// The @utf8InCpp annotation only affects the in-memory representation
@@ -129,16 +138,41 @@ func MarshalForTypeWithRegistry(
 		if def, ok := registry.Lookup(ts.Name); ok {
 			return marshalForDefinition(def)
 		}
+		// For nested types: try currentDef + "." + name and
+		// progressively shorter parent paths within the definition
+		// (not above the package boundary).
+		if currentDef != "" && currentPkg != "" &&
+			len(currentDef) > len(currentPkg)+1 {
+			defPath := currentDef
+			pkgPrefix := currentPkg + "."
+			for strings.HasPrefix(defPath, pkgPrefix) && len(defPath) > len(pkgPrefix) {
+				candidate := defPath + "." + ts.Name
+				if def, ok := registry.Lookup(candidate); ok {
+					return marshalForDefinition(def)
+				}
+				lastDot := strings.LastIndex(defPath, ".")
+				if lastDot < 0 {
+					break
+				}
+				defPath = defPath[:lastDot]
+			}
+		}
 		// Try current package + name for same-package references.
-		if len(currentPkg) > 0 && currentPkg[0] != "" {
-			candidate := currentPkg[0] + "." + ts.Name
+		if currentPkg != "" {
+			candidate := currentPkg + "." + ts.Name
 			if def, ok := registry.Lookup(candidate); ok {
 				return marshalForDefinition(def)
 			}
 		}
-		// Try short name lookup.
-		if def, ok := registry.LookupByShortName(ts.Name); ok {
-			return marshalForDefinition(def)
+		// Try short name lookup. When multiple types share the same
+		// short name, prefer the one closest to the current package.
+		candidates := registry.LookupAllByShortName(ts.Name)
+		if len(candidates) == 1 {
+			return marshalForDefinition(candidates[0].Def)
+		}
+		if len(candidates) > 1 {
+			best := pickBestDefCandidate(candidates, currentPkg)
+			return marshalForDefinition(best)
 		}
 	}
 
@@ -147,6 +181,47 @@ func MarshalForTypeWithRegistry(
 		WriteExpr: "%s.MarshalParcel(_data)",
 		ReadExpr:  "%s.UnmarshalParcel(_reply)",
 	}
+}
+
+// pickBestDefCandidate picks the best definition among multiple short-name
+// candidates using the same heuristic as pickBestCandidate:
+// proximity > non-stub > top-level > shorter package > alphabetical.
+func pickBestDefCandidate(
+	candidates []struct {
+		QualifiedName string
+		Def           parser.Definition
+	},
+	currentPkg string,
+) parser.Definition {
+	type item struct {
+		def  parser.Definition
+		s    scored
+	}
+
+	items := make([]item, len(candidates))
+	for i, c := range candidates {
+		pkg := packageFromQualified(c.QualifiedName)
+		fc := parcelFieldCount(c.Def)
+		items[i] = item{
+			def: c.Def,
+			s: scored{
+				qualifiedName: c.QualifiedName,
+				fieldCount:    fc,
+				prefixLen:     commonPrefixLen(currentPkg, pkg),
+				nested:        strings.Contains(c.Def.GetName(), "."),
+				isStub:        fc == -1,
+				pkgDepth:      strings.Count(pkg, ".") + 1,
+			},
+		}
+	}
+
+	best := items[0]
+	for _, it := range items[1:] {
+		if betterTypeCandidate(it.s, best.s) {
+			best = it
+		}
+	}
+	return best.def
 }
 
 // marshalForDefinition returns the MarshalInfo based on the definition kind.

@@ -11556,27 +11556,398 @@ parcelables:
     - name: AppOpsManager.PackageOps
     - name: ApplicationErrorReport.ParcelableCrashInfo
     - name: ApplicationExitInfo
+      java_wire_format:
+        - name: Pid
+          write_method: int32
+        - name: RealUid
+          write_method: int32
+        - name: PackageUid
+          write_method: int32
+        - name: DefiningUid
+          write_method: int32
+        - name: ProcessName
+          write_method: string16
+        - name: PackageName
+          write_method: string16
+        - name: ConnectionGroup
+          write_method: int32
+        - name: Reason
+          write_method: int32
+        - name: SubReason
+          write_method: int32
+        - name: Status
+          write_method: int32
+        - name: Importance
+          write_method: int32
+        - name: Pss
+          write_method: int64
+        - name: Rss
+          write_method: int64
+        - name: Timestamp
+          write_method: int64
+        - name: Description
+          write_method: string16
+        - name: State
+          write_method: opaque
+        - name: "1"
+          write_method: int32
+          condition: mAppTraceRetriever!=null
+        - name: AppTraceRetriever.asBinder()
+          write_method: opaque
+          condition: mAppTraceRetriever!=null
+        - name: "1"
+          write_method: int32
+          condition: mNativeTombstoneRetriever!=null
+        - name: NativeTombstoneRetriever.asBinder()
+          write_method: opaque
+          condition: mNativeTombstoneRetriever!=null
     - name: ApplicationStartInfo
+      java_wire_format:
+        - name: StartupState
+          write_method: int32
+        - name: Pid
+          write_method: int32
+        - name: RealUid
+          write_method: int32
+        - name: PackageUid
+          write_method: int32
+        - name: DefiningUid
+          write_method: int32
+        - name: PackageName
+          write_method: string16
+        - name: ProcessName
+          write_method: string16
+        - name: Reason
+          write_method: int32
+        - name: StartupTimestampsNs==null?0:mStartupTimestampsNs.size()
+          write_method: int32
+        - name: StartType
+          write_method: int32
+        - name: StartIntent
+          write_method: opaque
+        - name: LaunchMode
+          write_method: int32
+        - name: WasForceStopped
+          write_method: bool
     - name: AsyncNotedAppOp
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: OpCode
+          write_method: int32
+        - name: NotingUid
+          write_method: int32
+        - name: AttributionTag
+          write_method: string16
+          condition: mAttributionTag!=null
+        - name: Message
+          write_method: string16
+        - name: Time
+          write_method: int64
     - name: AutomaticZenRule
+      java_wire_format:
+        - name: Enabled?ENABLED:DISABLED
+          write_method: int32
+        - name: "1"
+          write_method: int32
+          condition: name!=null
+        - name: Name
+          write_method: string16
+          condition: name!=null
+        - name: InterruptionFilter
+          write_method: int32
+        - name: ConditionId
+          write_method: opaque
+        - name: Owner
+          write_method: opaque
+        - name: ConfigurationActivity
+          write_method: opaque
+        - name: CreationTime
+          write_method: int64
+        - name: ZenPolicy
+          write_method: opaque
+        - name: Modified?ENABLED:DISABLED
+          write_method: int32
+        - name: Pkg
+          write_method: string16
+        - name: DeviceEffects
+          write_method: opaque
+          condition: Flags.modesApi()
+        - name: AllowManualInvocation
+          write_method: bool
+          condition: Flags.modesApi()
+        - name: IconResId
+          write_method: int32
+          condition: Flags.modesApi()
+        - name: TriggerDescription
+          write_method: string16
+          condition: Flags.modesApi()
+        - name: Type
+          write_method: int32
+          condition: Flags.modesApi()
     - name: ContentProviderHolder
+      java_wire_format:
+        - name: Dest
+          write_method: opaque
+        - name: Provider.asBinder()
+          write_method: opaque
+          condition: provider!=null
+        - name: Connection
+          write_method: opaque
+        - name: NoReleaseNeeded?1:0
+          write_method: int32
+        - name: Local?1:0
+          write_method: int32
     - name: EphemeralResolveInfo
     - name: GameModeConfiguration
+      java_wire_format:
+        - name: ScalingFactor
+          write_method: float32
+        - name: FpsOverride
+          write_method: int32
     - name: GameModeInfo
+      java_wire_format:
+        - name: ActiveGameMode
+          write_method: int32
+        - name: AvailableGameModes
+          write_method: opaque
+        - name: OverriddenGameModes
+          write_method: opaque
+        - name: IsDownscalingAllowed
+          write_method: bool
+        - name: IsFpsOverrideAllowed
+          write_method: bool
+        - name: ConfigMap
+          write_method: opaque
     - name: GameState
+      java_wire_format:
+        - name: IsLoading
+          write_method: bool
+        - name: Mode
+          write_method: int32
+        - name: Label
+          write_method: int32
+        - name: Quality
+          write_method: int32
     - name: GrantedUriPermission
+      java_wire_format:
+        - name: Uri
+          write_method: opaque
+        - name: PackageName
+          write_method: string16
     - name: InstantAppResolveInfo
     - name: LocaleConfig
+      java_wire_format:
+        - name: Status
+          write_method: int32
+        - name: Locales
+          write_method: opaque
     - name: Notification
     - name: Notification.Action
     - name: NotificationChannel
+      java_wire_format:
+        - name: (byte)1
+          write_method: int32
+          condition: mId!=null
+        - name: Id
+          write_method: string16
+          condition: mId!=null
+        - name: (byte)1
+          write_method: int32
+          condition: mName!=null
+        - name: Name
+          write_method: string16
+          condition: mName!=null
+        - name: (byte)1
+          write_method: int32
+          condition: mDesc!=null
+        - name: Desc
+          write_method: string16
+          condition: mDesc!=null
+        - name: Importance
+          write_method: int32
+        - name: BypassDnd?(byte)1:(byte)0
+          write_method: int32
+        - name: LockscreenVisibility
+          write_method: int32
+        - name: (byte)1
+          write_method: int32
+          condition: mSound!=null
+        - name: Dest
+          write_method: opaque
+          condition: mSound!=null
+        - name: Lights?(byte)1:(byte)0
+          write_method: int32
+        - name: VibrationPattern
+          write_method: opaque
+        - name: "1"
+          write_method: int32
+          condition: Flags.notificationChannelVibrationEffectApi() && mVibrationEffect!=null
+        - name: Dest
+          write_method: opaque
+          condition: Flags.notificationChannelVibrationEffectApi() && mVibrationEffect!=null
+        - name: UserLockedFields
+          write_method: int32
+        - name: UserVisibleTaskShown?(byte)1:(byte)0
+          write_method: int32
+        - name: VibrationEnabled?(byte)1:(byte)0
+          write_method: int32
+        - name: ShowBadge?(byte)1:(byte)0
+          write_method: int32
+        - name: Deleted?(byte)1:(byte)0
+          write_method: int32
+        - name: (byte)1
+          write_method: int32
+          condition: mGroup!=null
+        - name: Group
+          write_method: string16
+          condition: mGroup!=null
+        - name: "1"
+          write_method: int32
+          condition: mAudioAttributes!=null
+        - name: Dest
+          write_method: opaque
+          condition: mAudioAttributes!=null
+        - name: LightColor
+          write_method: int32
+        - name: BlockableSystem
+          write_method: bool
+        - name: AllowBubbles
+          write_method: int32
+        - name: OriginalImportance
+          write_method: int32
+        - name: ParentId
+          write_method: string16
+        - name: ConversationId
+          write_method: string16
+        - name: Demoted
+          write_method: bool
+        - name: ImportantConvo
+          write_method: bool
+        - name: DeletedTime
+          write_method: int64
+        - name: ImportanceLockedDefaultApp
+          write_method: bool
     - name: NotificationChannelGroup
+      java_wire_format:
+        - name: (byte)1
+          write_method: int32
+          condition: mId!=null
+        - name: Id
+          write_method: string16
+          condition: mId!=null
+        - name: (byte)1
+          write_method: int32
+          condition: mName!=null
+        - name: Name.toString()
+          write_method: string16
+          condition: mName!=null
+        - name: (byte)1
+          write_method: int32
+          condition: mDescription!=null
+        - name: Description
+          write_method: string16
+          condition: mDescription!=null
+        - name: (byte)1
+          write_method: int32
+          condition: mChannels!=null
+        - name: NewParceledListSlice<>(mChannels)
+          write_method: opaque
+          condition: mChannels!=null
+        - name: Blocked
+          write_method: bool
+        - name: UserLockedFields
+          write_method: int32
     - name: NotificationHistory
+      java_wire_format:
+        - name: HistoryCount
+          write_method: int32
+        - name: Index
+          write_method: int32
+        - name: StringPool
+          write_method: opaque
+          condition: mHistoryCount>0
+        - name: Data.marshall()
+          write_method: opaque
     - name: NotificationManager.Policy
     - name: PendingIntent
+      java_wire_format:
+        - name: Target.asBinder()
+          write_method: opaque
     - name: PictureInPictureParams
+      java_wire_format:
+        - name: "1"
+          write_method: int32
+          condition: mUserActions!=null
+        - name: UserActions
+          write_method: opaque
+          condition: mUserActions!=null
+        - name: CloseAction
+          write_method: opaque
+        - name: "1"
+          write_method: int32
+          condition: mSourceRectHint!=null
+        - name: Out
+          write_method: opaque
+          condition: mSourceRectHint!=null
+        - name: "1"
+          write_method: int32
+          condition: mAutoEnterEnabled!=null
+        - name: AutoEnterEnabled
+          write_method: bool
+          condition: mAutoEnterEnabled!=null
+        - name: "1"
+          write_method: int32
+          condition: mSeamlessResizeEnabled!=null
+        - name: SeamlessResizeEnabled
+          write_method: bool
+          condition: mSeamlessResizeEnabled!=null
+        - name: "1"
+          write_method: int32
+          condition: mTitle!=null
+        - name: Title
+          write_method: opaque
+          condition: mTitle!=null
+        - name: "1"
+          write_method: int32
+          condition: mSubtitle!=null
+        - name: Subtitle
+          write_method: opaque
+          condition: mSubtitle!=null
+        - name: "1"
+          write_method: int32
+          condition: mIsLaunchIntoPip!=null
+        - name: IsLaunchIntoPip
+          write_method: bool
+          condition: mIsLaunchIntoPip!=null
     - name: PictureInPictureUiState
+      java_wire_format:
+        - name: IsStashed
+          write_method: bool
+        - name: IsTransitioningToPip
+          write_method: bool
     - name: ProfilerInfo
+      java_wire_format:
+        - name: ProfileFile
+          write_method: string16
+        - name: "1"
+          write_method: int32
+          condition: profileFd!=null
+        - name: Out
+          write_method: opaque
+          condition: profileFd!=null
+        - name: SamplingInterval
+          write_method: int32
+        - name: AutoStopProfiler?1:0
+          write_method: int32
+        - name: StreamingOutput?1:0
+          write_method: int32
+        - name: Agent
+          write_method: string16
+        - name: AttachAgentDuringBind
+          write_method: bool
+        - name: ClockType
+          write_method: int32
     - name: ReceiverInfo
       fields:
         - name: intent
@@ -11629,20 +12000,227 @@ parcelables:
           type:
             name: boolean
     - name: RemoteAction
+      java_wire_format:
+        - name: Out
+          write_method: opaque
+        - name: Title
+          write_method: opaque
+        - name: ContentDescription
+          write_method: opaque
+        - name: Out
+          write_method: opaque
+        - name: Enabled
+          write_method: bool
+        - name: ShouldShowIcon
+          write_method: bool
     - name: RemoteLockscreenValidationResult
+      java_wire_format:
+        - name: ResultCode
+          write_method: int32
+        - name: TimeoutMillis
+          write_method: int64
     - name: RemoteLockscreenValidationSession
+      java_wire_format:
+        - name: LockType
+          write_method: int32
+        - name: SourcePublicKey
+          write_method: opaque
+        - name: RemainingAttempts
+          write_method: int32
     - name: ResultInfo
+      java_wire_format:
+        - name: ResultWho
+          write_method: string16
+        - name: RequestCode
+          write_method: int32
+        - name: ResultCode
+          write_method: int32
+        - name: "1"
+          write_method: int32
+          condition: mData!=null
+        - name: Out
+          write_method: opaque
+          condition: mData!=null
+        - name: CallerToken
+          write_method: opaque
     - name: RuntimeAppOpAccessMessage
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: Uid
+          write_method: int32
+        - name: OpCode
+          write_method: int32
+        - name: PackageName
+          write_method: string16
+        - name: AttributionTag
+          write_method: string16
+          condition: mAttributionTag!=null
+        - name: Message
+          write_method: string16
+        - name: SamplingStrategy
+          write_method: int32
     - name: SearchableInfo
+      java_wire_format:
+        - name: LabelId
+          write_method: int32
+        - name: Dest
+          write_method: opaque
+        - name: HintId
+          write_method: int32
+        - name: SearchMode
+          write_method: int32
+        - name: IconId
+          write_method: int32
+        - name: SearchButtonText
+          write_method: int32
+        - name: SearchInputType
+          write_method: int32
+        - name: SearchImeOptions
+          write_method: int32
+        - name: IncludeInGlobalSearch?1:0
+          write_method: int32
+        - name: QueryAfterZeroResults?1:0
+          write_method: int32
+        - name: AutoUrlDetect?1:0
+          write_method: int32
+        - name: SettingsDescriptionId
+          write_method: int32
+        - name: SuggestAuthority
+          write_method: string16
+        - name: SuggestPath
+          write_method: string16
+        - name: SuggestSelection
+          write_method: string16
+        - name: SuggestIntentAction
+          write_method: string16
+        - name: SuggestIntentData
+          write_method: string16
+        - name: SuggestThreshold
+          write_method: int32
+        - name: "0"
+          write_method: int32
+          condition: mActionKeys==null
+        - name: SuggestProviderPackage
+          write_method: string16
+        - name: VoiceSearchMode
+          write_method: int32
+        - name: VoiceLanguageModeId
+          write_method: int32
+        - name: VoicePromptTextId
+          write_method: int32
+        - name: VoiceLanguageId
+          write_method: int32
+        - name: VoiceMaxResults
+          write_method: int32
     - name: ServiceStartArgs
+      java_wire_format:
+        - name: TaskRemoved?1:0
+          write_method: int32
+        - name: StartId
+          write_method: int32
+        - name: This.flags
+          write_method: int32
+        - name: "1"
+          write_method: int32
+          condition: args!=null
+        - name: Out
+          write_method: opaque
+          condition: args!=null
     - name: SyncNotedAppOp
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: OpMode
+          write_method: int32
+        - name: OpCode
+          write_method: int32
+        - name: AttributionTag
+          write_method: string16
+          condition: mAttributionTag!=null
+        - name: PackageName
+          write_method: string16
+          condition: mPackageName!=null
     - name: VoiceInteractor.PickOptionRequest.Option
     - name: VoiceInteractor.Prompt
     - name: Vr2dDisplayProperties
+      java_wire_format:
+        - name: Width
+          write_method: int32
+        - name: Height
+          write_method: int32
+        - name: Dpi
+          write_method: int32
+        - name: AddedFlags
+          write_method: int32
+        - name: RemovedFlags
+          write_method: int32
     - name: WaitResult
+      java_wire_format:
+        - name: Result
+          write_method: int32
+        - name: Timeout?1:0
+          write_method: int32
+        - name: Who
+          write_method: opaque
+        - name: TotalTime
+          write_method: int64
+        - name: LaunchState
+          write_method: int32
     - name: WallpaperColors
+      java_wire_format:
+        - name: Count
+          write_method: int32
+        - name: Count
+          write_method: int32
+        - name: ColorHints
+          write_method: int32
     - name: WallpaperInfo
+      java_wire_format:
+        - name: SettingsActivityName
+          write_method: string16
+        - name: ThumbnailResource
+          write_method: int32
+        - name: AuthorResource
+          write_method: int32
+        - name: DescriptionResource
+          write_method: int32
+        - name: ContextUriResource
+          write_method: int32
+        - name: ContextDescriptionResource
+          write_method: int32
+        - name: ShowMetadataInPreview?1:0
+          write_method: int32
+        - name: SupportsAmbientMode?1:0
+          write_method: int32
+        - name: SettingsSliceUri
+          write_method: string16
+        - name: SupportMultipleDisplays?1:0
+          write_method: int32
+        - name: ShouldUseDefaultUnfoldTransition?1:0
+          write_method: int32
+        - name: Dest
+          write_method: opaque
     - name: WindowConfiguration
+      java_wire_format:
+        - name: Dest
+          write_method: opaque
+        - name: AppBounds
+          write_method: opaque
+        - name: Dest
+          write_method: opaque
+        - name: WindowingMode
+          write_method: int32
+        - name: ActivityType
+          write_method: int32
+        - name: AlwaysOnTop
+          write_method: int32
+        - name: Rotation
+          write_method: int32
+        - name: DisplayWindowingMode
+          write_method: int32
+        - name: DisplayRotation
+          write_method: int32
 enums:
     - name: ProcessStateEnum
       backing_type: int

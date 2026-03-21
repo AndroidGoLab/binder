@@ -14,6 +14,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IStorage
       descriptor: android.hardware.health.storage.IStorage
       methods:
@@ -31,6 +33,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 enums:
     - name: Result
       backing_type: int

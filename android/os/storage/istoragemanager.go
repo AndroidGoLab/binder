@@ -6,7 +6,6 @@ import (
 	appTypes "github.com/xaionaro-go/binder/android/app/types"
 	types "github.com/xaionaro-go/binder/android/content/pm/types"
 	res "github.com/xaionaro-go/binder/android/content/res"
-	osTypes "github.com/xaionaro-go/binder/android/os/types"
 	"github.com/xaionaro-go/binder/binder"
 	os "github.com/xaionaro-go/binder/com/android/internal_/os"
 	"github.com/xaionaro-go/binder/parcel"
@@ -18,7 +17,7 @@ const DescriptorIStorageManager = "android.os.storage.IStorageManager"
 
 const (
 	TransactionIStorageManagerRegisterListener                    = binder.FirstCallTransaction + 0
-	TransactionIStorageManagerUnregisterListener                  = binder.FirstCallTransaction + 1
+	TransactionIStorageManagerUnregisterListener                  = binder.FirstCallTransaction + 0
 	TransactionIStorageManagerShutdown                            = binder.FirstCallTransaction + 18
 	TransactionIStorageManagerMountObb                            = binder.FirstCallTransaction + 20
 	TransactionIStorageManagerUnmountObb                          = binder.FirstCallTransaction + 21
@@ -172,7 +171,7 @@ type IStorageManager interface {
 	ForgetAllVolumes(ctx context.Context) error
 	GetPrimaryStorageUuid(ctx context.Context) (string, error)
 	SetPrimaryStorageUuid(ctx context.Context, volumeUuid string, callback types.IPackageMoveObserver) error
-	Benchmark(ctx context.Context, volId string, listener osTypes.IVoldTaskListener) error
+	Benchmark(ctx context.Context, volId string, listener any) error
 	SetDebugFlags(ctx context.Context, flags int32, mask int32) error
 	CreateUserStorageKeys(ctx context.Context, ephemeral bool) error
 	DestroyUserStorageKeys(ctx context.Context) error
@@ -182,7 +181,7 @@ type IStorageManager interface {
 	PrepareUserStorage(ctx context.Context, volumeUuid string, flags int32) error
 	DestroyUserStorage(ctx context.Context, volumeUuid string, flags int32) error
 	SetCeStorageProtection(ctx context.Context, secret []byte) error
-	Fstrim(ctx context.Context, flags int32, listener osTypes.IVoldTaskListener) error
+	Fstrim(ctx context.Context, flags int32, listener any) error
 	MountProxyFileDescriptorBridge(ctx context.Context) (os.AppFuseMount, error)
 	OpenProxyFileDescriptor(ctx context.Context, mountPointId int32, fileId int32, mode int32) (int32, error)
 	GetCacheQuotaBytes(ctx context.Context, volumeUuid string, uid int32) (int64, error)
@@ -1052,13 +1051,13 @@ func (p *StorageManagerProxy) SetPrimaryStorageUuid(
 func (p *StorageManagerProxy) Benchmark(
 	ctx context.Context,
 	volId string,
-	listener osTypes.IVoldTaskListener,
+	listener any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(volId)
-	// WARNING: param listener (type osTypes.IVoldTaskListener) cannot be serialized — type not resolved
+	// WARNING: param listener (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerBenchmark)
 	if _err != nil {
@@ -1345,13 +1344,13 @@ func (p *StorageManagerProxy) SetCeStorageProtection(
 func (p *StorageManagerProxy) Fstrim(
 	ctx context.Context,
 	flags int32,
-	listener osTypes.IVoldTaskListener,
+	listener any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteInt32(flags)
-	// WARNING: param listener (type osTypes.IVoldTaskListener) cannot be serialized — type not resolved
+	// WARNING: param listener (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIStorageManager, MethodIStorageManagerFstrim)
 	if _err != nil {
@@ -2164,23 +2163,6 @@ func (s *StorageManagerStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionIStorageManagerUnregisterListener:
-		var _arg_listener IStorageEventListener
-		{
-			_listenerHandle, _err := _data.ReadStrongBinder()
-			if _err != nil {
-				return nil, _err
-			}
-			_arg_listener = NewStorageEventListenerProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _listenerHandle))
-		}
-		_err := s.Impl.UnregisterListener(ctx, _arg_listener)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
 	case TransactionIStorageManagerShutdown:
 		var _arg_observer IStorageShutdownObserver
 		{
@@ -2601,7 +2583,7 @@ func (s *StorageManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_listener osTypes.IVoldTaskListener
+		var _arg_listener any
 		_err = s.Impl.Benchmark(ctx, _arg_volId, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2765,7 +2747,7 @@ func (s *StorageManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_listener osTypes.IVoldTaskListener
+		var _arg_listener any
 		_err = s.Impl.Fstrim(ctx, _arg_flags, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3190,7 +3172,7 @@ type IStorageManagerServer interface {
 	ForgetAllVolumes(ctx context.Context) error
 	GetPrimaryStorageUuid(ctx context.Context) (string, error)
 	SetPrimaryStorageUuid(ctx context.Context, volumeUuid string, callback types.IPackageMoveObserver) error
-	Benchmark(ctx context.Context, volId string, listener osTypes.IVoldTaskListener) error
+	Benchmark(ctx context.Context, volId string, listener any) error
 	SetDebugFlags(ctx context.Context, flags int32, mask int32) error
 	CreateUserStorageKeys(ctx context.Context, ephemeral bool) error
 	DestroyUserStorageKeys(ctx context.Context) error
@@ -3200,7 +3182,7 @@ type IStorageManagerServer interface {
 	PrepareUserStorage(ctx context.Context, volumeUuid string, flags int32) error
 	DestroyUserStorage(ctx context.Context, volumeUuid string, flags int32) error
 	SetCeStorageProtection(ctx context.Context, secret []byte) error
-	Fstrim(ctx context.Context, flags int32, listener osTypes.IVoldTaskListener) error
+	Fstrim(ctx context.Context, flags int32, listener any) error
 	MountProxyFileDescriptorBridge(ctx context.Context) (os.AppFuseMount, error)
 	OpenProxyFileDescriptor(ctx context.Context, mountPointId int32, fileId int32, mode int32) (int32, error)
 	GetCacheQuotaBytes(ctx context.Context, volumeUuid string, uid int32) (int64, error)
@@ -3429,7 +3411,7 @@ func (w *storageManagerStubWrapper) SetPrimaryStorageUuid(
 func (w *storageManagerStubWrapper) Benchmark(
 	ctx context.Context,
 	volId string,
-	listener osTypes.IVoldTaskListener,
+	listener any,
 ) error {
 	return w.impl.Benchmark(ctx, volId, listener)
 }
@@ -3500,7 +3482,7 @@ func (w *storageManagerStubWrapper) SetCeStorageProtection(
 func (w *storageManagerStubWrapper) Fstrim(
 	ctx context.Context,
 	flags int32,
-	listener osTypes.IVoldTaskListener,
+	listener any,
 ) error {
 	return w.impl.Fstrim(ctx, flags, listener)
 }

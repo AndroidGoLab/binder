@@ -41,5 +41,28 @@ interfaces:
             name: void
 parcelables:
     - name: TimeZoneProviderEvent
+      java_wire_format:
+        - name: Type
+          write_method: int32
+        - name: CreationElapsedMillis
+          write_method: int64
+        - name: Suggestion
+          write_method: opaque
+        - name: FailureCause
+          write_method: string8
+        - name: TimeZoneProviderStatus
+          write_method: opaque
     - name: TimeZoneProviderStatus
+      java_wire_format:
+        - name: LocationDetectionDependencyStatus
+          write_method: int32
+        - name: ConnectivityDependencyStatus
+          write_method: int32
+        - name: TimeZoneResolutionOperationStatus
+          write_method: int32
     - name: TimeZoneProviderSuggestion
+      java_wire_format:
+        - name: TimeZoneIds
+          write_method: opaque
+        - name: ElapsedRealtimeMillis
+          write_method: int64

@@ -40,6 +40,8 @@ interfaces:
           transaction_code_offset: 5
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IWifiApIface
       descriptor: android.hardware.wifi.IWifiApIface
       methods:
@@ -84,10 +86,8 @@ interfaces:
               direction: in
           return_type:
             name: void
-        - name: usesMlo
-          transaction_code_offset: 6
-          return_type:
-            name: boolean
+      annotations:
+        - VintfStability
     - name: IWifiChip
       descriptor: android.hardware.wifi.IWifiChip
       methods:
@@ -502,6 +502,25 @@ interfaces:
         - name: NO_POWER_CAP_CONSTANT
           type: int
           value: "0x7FFFFFFF"
+      nested_types:
+        - IWifiChip.FeatureSetMask
+        - IWifiChip.ChipConcurrencyCombinationLimit
+        - IWifiChip.ChipConcurrencyCombination
+        - IWifiChip.ChipDebugInfo
+        - IWifiChip.ChipIfaceCombinationLimit
+        - IWifiChip.ChipIfaceCombination
+        - IWifiChip.ChipMode
+        - IWifiChip.CoexRestriction
+        - IWifiChip.CoexUnsafeChannel
+        - IWifiChip.LatencyMode
+        - IWifiChip.MultiStaUseCase
+        - IWifiChip.TxPowerScenario
+        - IWifiChip.UsableChannelFilter
+        - IWifiChip.VoipMode
+        - IWifiChip.ChannelCategoryMask
+        - IWifiChip.ChipMloMode
+      annotations:
+        - VintfStability
     - name: IWifiChipEventCallback
       descriptor: android.hardware.wifi.IWifiChipEventCallback
       oneway: true
@@ -588,6 +607,11 @@ interfaces:
               direction: in
           return_type:
             name: void
+      nested_types:
+        - IWifiChipEventCallback.IfaceInfo
+        - IWifiChipEventCallback.RadioModeInfo
+      annotations:
+        - VintfStability
     - name: IWifiEventCallback
       descriptor: android.hardware.wifi.IWifiEventCallback
       oneway: true
@@ -618,6 +642,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IWifiNanIface
       descriptor: android.hardware.wifi.IWifiNanIface
       methods:
@@ -914,6 +940,8 @@ interfaces:
         - name: MAX_DATA_PATH_CONFIG_PASSPHRASE_LENGTH
           type: int
           value: "63"
+      annotations:
+        - VintfStability
     - name: IWifiNanIfaceEventCallback
       descriptor: android.hardware.wifi.IWifiNanIfaceEventCallback
       oneway: true
@@ -1384,6 +1412,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IWifiP2pIface
       descriptor: android.hardware.wifi.IWifiP2pIface
       methods:
@@ -1391,6 +1421,8 @@ interfaces:
           transaction_code_offset: 0
           return_type:
             name: String
+      annotations:
+        - VintfStability
     - name: IWifiRttController
       descriptor: android.hardware.wifi.IWifiRttController
       methods:
@@ -1499,6 +1531,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IWifiRttControllerEventCallback
       descriptor: android.hardware.wifi.IWifiRttControllerEventCallback
       oneway: true
@@ -1517,6 +1551,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IWifiStaIface
       descriptor: android.hardware.wifi.IWifiStaIface
       methods:
@@ -1838,6 +1874,10 @@ interfaces:
               direction: in
           return_type:
             name: void
+      nested_types:
+        - IWifiStaIface.FeatureSetMask
+      annotations:
+        - VintfStability
     - name: IWifiStaIfaceEventCallback
       descriptor: android.hardware.wifi.IWifiStaIfaceEventCallback
       oneway: true
@@ -2000,6 +2040,11 @@ interfaces:
               direction: in
           return_type:
             name: void
+      nested_types:
+        - IWifiStaIfaceEventCallback.TwtErrorCode
+        - IWifiStaIfaceEventCallback.TwtTeardownReasonCode
+      annotations:
+        - VintfStability
 parcelables:
     - name: AfcChannelAllowance
       fields:

@@ -52,6 +52,8 @@ interfaces:
           return_type:
             name: EnergyMeasurement
             is_array: true
+      annotations:
+        - VintfStability
 parcelables:
     - name: Channel
       fields:

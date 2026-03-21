@@ -22,6 +22,8 @@ interfaces:
           return_type:
             name: HwLight
             is_array: true
+      annotations:
+        - VintfStability
 parcelables:
     - name: HwLight
       fields:

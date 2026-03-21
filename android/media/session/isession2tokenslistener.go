@@ -21,7 +21,7 @@ const (
 
 type ISession2TokensListener interface {
 	AsBinder() binder.IBinder
-	OnSession2TokensChanged(ctx context.Context, tokens []Session2Token) error
+	OnSession2TokensChanged(ctx context.Context, tokens []any) error
 }
 
 type Session2TokensListenerProxy struct {
@@ -42,7 +42,7 @@ var _ ISession2TokensListener = (*Session2TokensListenerProxy)(nil)
 
 func (p *Session2TokensListenerProxy) OnSession2TokensChanged(
 	ctx context.Context,
-	tokens []Session2Token,
+	tokens []any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -51,12 +51,6 @@ func (p *Session2TokensListenerProxy) OnSession2TokensChanged(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(tokens)))
-		for _, _item := range tokens {
-			_data.WriteInt32(1)
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
-			}
-		}
 	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorISession2TokensListener, MethodISession2TokensListenerOnSession2TokensChanged)
@@ -92,7 +86,7 @@ func (s *Session2TokensListenerStub) OnTransaction(
 
 	switch code {
 	case TransactionISession2TokensListenerOnSession2TokensChanged:
-		var _arg_tokens []Session2Token
+		var _arg_tokens []any
 		{
 			_count, _err := _data.ReadInt32()
 			if _err != nil {
@@ -102,15 +96,7 @@ func (s *Session2TokensListenerStub) OnTransaction(
 				return nil, fmt.Errorf("array count too large: %d", _count)
 			}
 			if _count >= 0 {
-				_arg_tokens = make([]Session2Token, _count)
-				for _i := int32(0); _i < _count; _i++ {
-					if _, _err = _data.ReadInt32(); _err != nil {
-						return nil, _err
-					}
-					if _err = _arg_tokens[_i].UnmarshalParcel(_data); _err != nil {
-						return nil, _err
-					}
-				}
+				_arg_tokens = make([]any, _count)
 			}
 		}
 		_err := s.Impl.OnSession2TokensChanged(ctx, _arg_tokens)
@@ -124,7 +110,7 @@ func (s *Session2TokensListenerStub) OnTransaction(
 // provide to NewSession2TokensListenerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ISession2TokensListenerServer interface {
-	OnSession2TokensChanged(ctx context.Context, tokens []Session2Token) error
+	OnSession2TokensChanged(ctx context.Context, tokens []any) error
 }
 
 type session2TokensListenerStubWrapper struct {
@@ -138,7 +124,7 @@ func (w *session2TokensListenerStubWrapper) AsBinder() binder.IBinder {
 
 func (w *session2TokensListenerStubWrapper) OnSession2TokensChanged(
 	ctx context.Context,
-	tokens []Session2Token,
+	tokens []any,
 ) error {
 	return w.impl.OnSession2TokensChanged(ctx, tokens)
 }

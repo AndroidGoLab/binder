@@ -84,3 +84,68 @@ interfaces:
             name: long
 parcelables:
     - name: ProcessStats
+      java_wire_format:
+        - name: MAGIC
+          write_method: int32
+        - name: PARCEL_VERSION
+          write_method: int32
+        - name: STATE_COUNT
+          write_method: int32
+        - name: ADJ_COUNT
+          write_method: int32
+        - name: PSS_COUNT
+          write_method: int32
+        - name: SYS_MEM_USAGE_COUNT
+          write_method: int32
+        - name: SparseMappingTable.ARRAY_SIZE
+          write_method: int32
+        - name: NumAggregated
+          write_method: int32
+        - name: TimePeriodStartClock
+          write_method: int64
+        - name: TimePeriodStartRealtime
+          write_method: int64
+        - name: TimePeriodEndRealtime
+          write_method: int64
+        - name: TimePeriodStartUptime
+          write_method: int64
+        - name: TimePeriodEndUptime
+          write_method: int64
+        - name: InternalSinglePssCount
+          write_method: int64
+        - name: InternalSinglePssTime
+          write_method: int64
+        - name: InternalAllMemPssCount
+          write_method: int64
+        - name: InternalAllMemPssTime
+          write_method: int64
+        - name: InternalAllPollPssCount
+          write_method: int64
+        - name: InternalAllPollPssTime
+          write_method: int64
+        - name: ExternalPssCount
+          write_method: int64
+        - name: ExternalPssTime
+          write_method: int64
+        - name: ExternalSlowPssCount
+          write_method: int64
+        - name: ExternalSlowPssTime
+          write_method: int64
+        - name: Runtime
+          write_method: string16
+        - name: HasSwappedOutPss?1:0
+          write_method: int32
+        - name: Flags
+          write_method: int32
+        - name: Out
+          write_method: opaque
+        - name: Out
+          write_method: opaque
+        - name: NumOfUids
+          write_method: int32
+        - name: NPROC
+          write_method: int32
+        - name: NPKG
+          write_method: int32
+        - name: NPAGETYPES
+          write_method: int32

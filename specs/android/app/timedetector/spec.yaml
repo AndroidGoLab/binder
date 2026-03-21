@@ -89,3 +89,10 @@ interfaces:
 parcelables:
     - name: ManualTimeSuggestion
     - name: TelephonyTimeSuggestion
+      java_wire_format:
+        - name: SlotIndex
+          write_method: int32
+        - name: UnixEpochTime
+          write_method: opaque
+        - name: DebugInfo
+          write_method: opaque

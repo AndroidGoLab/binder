@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
-	common "github.com/xaionaro-go/binder/android/hardware/input/common"
 	os "github.com/xaionaro-go/binder/android/os"
 	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
@@ -63,7 +62,7 @@ type IWallpaperEngine interface {
 	OnScreenTurningOn(ctx context.Context) error
 	OnScreenTurnedOn(ctx context.Context) error
 	SetInAmbientMode(ctx context.Context, inAmbientDisplay bool, animationDuration int64) error
-	DispatchPointer(ctx context.Context, event common.MotionEvent) error
+	DispatchPointer(ctx context.Context, event view.MotionEvent) error
 	DispatchWallpaperCommand(ctx context.Context, action string, x int32, y int32, z int32, extras os.Bundle) error
 	RequestWallpaperColors(ctx context.Context) error
 	Destroy(ctx context.Context) error
@@ -205,7 +204,7 @@ func (p *WallpaperEngineProxy) SetInAmbientMode(
 
 func (p *WallpaperEngineProxy) DispatchPointer(
 	ctx context.Context,
-	event common.MotionEvent,
+	event view.MotionEvent,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -525,7 +524,7 @@ func (s *WallpaperEngineStub) OnTransaction(
 		_err = s.Impl.SetInAmbientMode(ctx, _arg_inAmbientDisplay, _arg_animationDuration)
 		return nil, _err
 	case TransactionIWallpaperEngineDispatchPointer:
-		var _arg_event common.MotionEvent
+		var _arg_event view.MotionEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -688,7 +687,7 @@ type IWallpaperEngineServer interface {
 	OnScreenTurningOn(ctx context.Context) error
 	OnScreenTurnedOn(ctx context.Context) error
 	SetInAmbientMode(ctx context.Context, inAmbientDisplay bool, animationDuration int64) error
-	DispatchPointer(ctx context.Context, event common.MotionEvent) error
+	DispatchPointer(ctx context.Context, event view.MotionEvent) error
 	DispatchWallpaperCommand(ctx context.Context, action string, x int32, y int32, z int32, extras os.Bundle) error
 	RequestWallpaperColors(ctx context.Context) error
 	Destroy(ctx context.Context) error
@@ -754,7 +753,7 @@ func (w *wallpaperEngineStubWrapper) SetInAmbientMode(
 
 func (w *wallpaperEngineStubWrapper) DispatchPointer(
 	ctx context.Context,
-	event common.MotionEvent,
+	event view.MotionEvent,
 ) error {
 	return w.impl.DispatchPointer(ctx, event)
 }

@@ -3,7 +3,6 @@ package media
 import (
 	"context"
 	"fmt"
-	tuner "github.com/xaionaro-go/binder/android/hardware/tv/tuner"
 	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -181,10 +180,10 @@ type IAudioFlingerService interface {
 	MasterMute(ctx context.Context) (bool, error)
 	SetMasterBalance(ctx context.Context, balance float32) error
 	GetMasterBalance(ctx context.Context) (float32, error)
-	SetStreamVolume(ctx context.Context, stream tuner.AudioStreamType, value float32, output int32) error
-	SetStreamMute(ctx context.Context, stream tuner.AudioStreamType, muted bool) error
-	StreamVolume(ctx context.Context, stream tuner.AudioStreamType, output int32) (float32, error)
-	StreamMute(ctx context.Context, stream tuner.AudioStreamType) (bool, error)
+	SetStreamVolume(ctx context.Context, stream common.AudioStreamType, value float32, output int32) error
+	SetStreamMute(ctx context.Context, stream common.AudioStreamType, muted bool) error
+	StreamVolume(ctx context.Context, stream common.AudioStreamType, output int32) (float32, error)
+	StreamMute(ctx context.Context, stream common.AudioStreamType) (bool, error)
 	SetMode(ctx context.Context, mode common.AudioMode) error
 	SetMicMute(ctx context.Context, state bool) error
 	GetMicMute(ctx context.Context) (bool, error)
@@ -647,7 +646,7 @@ func (p *AudioFlingerServiceProxy) GetMasterBalance(
 
 func (p *AudioFlingerServiceProxy) SetStreamVolume(
 	ctx context.Context,
-	stream tuner.AudioStreamType,
+	stream common.AudioStreamType,
 	value float32,
 	output int32,
 ) error {
@@ -678,7 +677,7 @@ func (p *AudioFlingerServiceProxy) SetStreamVolume(
 
 func (p *AudioFlingerServiceProxy) SetStreamMute(
 	ctx context.Context,
-	stream tuner.AudioStreamType,
+	stream common.AudioStreamType,
 	muted bool,
 ) error {
 	_data := parcel.New()
@@ -707,7 +706,7 @@ func (p *AudioFlingerServiceProxy) SetStreamMute(
 
 func (p *AudioFlingerServiceProxy) StreamVolume(
 	ctx context.Context,
-	stream tuner.AudioStreamType,
+	stream common.AudioStreamType,
 	output int32,
 ) (float32, error) {
 	var _result float32
@@ -741,7 +740,7 @@ func (p *AudioFlingerServiceProxy) StreamVolume(
 
 func (p *AudioFlingerServiceProxy) StreamMute(
 	ctx context.Context,
-	stream tuner.AudioStreamType,
+	stream common.AudioStreamType,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
@@ -2872,7 +2871,7 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_stream := tuner.AudioStreamType(_raw_stream)
+		_arg_stream := common.AudioStreamType(_raw_stream)
 		_arg_value, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
@@ -2894,7 +2893,7 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_stream := tuner.AudioStreamType(_raw_stream)
+		_arg_stream := common.AudioStreamType(_raw_stream)
 		_arg_muted, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2912,7 +2911,7 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_stream := tuner.AudioStreamType(_raw_stream)
+		_arg_stream := common.AudioStreamType(_raw_stream)
 		_arg_output, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2931,7 +2930,7 @@ func (s *AudioFlingerServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_stream := tuner.AudioStreamType(_raw_stream)
+		_arg_stream := common.AudioStreamType(_raw_stream)
 		_result, _err := s.Impl.StreamMute(ctx, _arg_stream)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4008,10 +4007,10 @@ type IAudioFlingerServiceServer interface {
 	MasterMute(ctx context.Context) (bool, error)
 	SetMasterBalance(ctx context.Context, balance float32) error
 	GetMasterBalance(ctx context.Context) (float32, error)
-	SetStreamVolume(ctx context.Context, stream tuner.AudioStreamType, value float32, output int32) error
-	SetStreamMute(ctx context.Context, stream tuner.AudioStreamType, muted bool) error
-	StreamVolume(ctx context.Context, stream tuner.AudioStreamType, output int32) (float32, error)
-	StreamMute(ctx context.Context, stream tuner.AudioStreamType) (bool, error)
+	SetStreamVolume(ctx context.Context, stream common.AudioStreamType, value float32, output int32) error
+	SetStreamMute(ctx context.Context, stream common.AudioStreamType, muted bool) error
+	StreamVolume(ctx context.Context, stream common.AudioStreamType, output int32) (float32, error)
+	StreamMute(ctx context.Context, stream common.AudioStreamType) (bool, error)
 	SetMode(ctx context.Context, mode common.AudioMode) error
 	SetMicMute(ctx context.Context, state bool) error
 	GetMicMute(ctx context.Context) (bool, error)
@@ -4164,7 +4163,7 @@ func (w *audioFlingerServiceStubWrapper) GetMasterBalance(
 
 func (w *audioFlingerServiceStubWrapper) SetStreamVolume(
 	ctx context.Context,
-	stream tuner.AudioStreamType,
+	stream common.AudioStreamType,
 	value float32,
 	output int32,
 ) error {
@@ -4173,7 +4172,7 @@ func (w *audioFlingerServiceStubWrapper) SetStreamVolume(
 
 func (w *audioFlingerServiceStubWrapper) SetStreamMute(
 	ctx context.Context,
-	stream tuner.AudioStreamType,
+	stream common.AudioStreamType,
 	muted bool,
 ) error {
 	return w.impl.SetStreamMute(ctx, stream, muted)
@@ -4181,7 +4180,7 @@ func (w *audioFlingerServiceStubWrapper) SetStreamMute(
 
 func (w *audioFlingerServiceStubWrapper) StreamVolume(
 	ctx context.Context,
-	stream tuner.AudioStreamType,
+	stream common.AudioStreamType,
 	output int32,
 ) (float32, error) {
 	return w.impl.StreamVolume(ctx, stream, output)
@@ -4189,7 +4188,7 @@ func (w *audioFlingerServiceStubWrapper) StreamVolume(
 
 func (w *audioFlingerServiceStubWrapper) StreamMute(
 	ctx context.Context,
-	stream tuner.AudioStreamType,
+	stream common.AudioStreamType,
 ) (bool, error) {
 	return w.impl.StreamMute(ctx, stream)
 }

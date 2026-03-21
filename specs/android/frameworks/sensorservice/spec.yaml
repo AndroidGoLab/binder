@@ -17,6 +17,8 @@ interfaces:
               direction: in
           return_type:
             name: int
+      annotations:
+        - VintfStability
     - name: IEventQueue
       descriptor: android.frameworks.sensorservice.IEventQueue
       methods:
@@ -46,6 +48,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IEventQueueCallback
       descriptor: android.frameworks.sensorservice.IEventQueueCallback
       oneway: true
@@ -59,6 +63,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: ISensorManager
       descriptor: android.frameworks.sensorservice.ISensorManager
       methods:
@@ -133,3 +139,5 @@ interfaces:
         - name: RESULT_UNKNOWN_ERROR
           type: int
           value: "7"
+      annotations:
+        - VintfStability

@@ -16,7 +16,7 @@ const (
 type LeAudioCodecConfiguration struct {
 	Tag                  int32
 	Lc3Config            Lc3Configuration
-	VendorConfig         CodecConfigurationVendorConfiguration
+	VendorConfig         LeAudioCodecConfigurationVendorConfiguration
 	AptxAdaptiveLeConfig AptxAdaptiveLeConfiguration
 }
 
@@ -36,16 +36,16 @@ func (u *LeAudioCodecConfiguration) SetLc3Config(
 	*u = LeAudioCodecConfiguration{Tag: LeAudioCodecConfigurationTagLc3Config, Lc3Config: v}
 }
 
-func (u *LeAudioCodecConfiguration) GetVendorConfig() (CodecConfigurationVendorConfiguration, bool) {
+func (u *LeAudioCodecConfiguration) GetVendorConfig() (LeAudioCodecConfigurationVendorConfiguration, bool) {
 	if u.Tag != LeAudioCodecConfigurationTagVendorConfig {
-		var _zero CodecConfigurationVendorConfiguration
+		var _zero LeAudioCodecConfigurationVendorConfiguration
 		return _zero, false
 	}
 	return u.VendorConfig, true
 }
 
 func (u *LeAudioCodecConfiguration) SetVendorConfig(
-	v CodecConfigurationVendorConfiguration,
+	v LeAudioCodecConfigurationVendorConfiguration,
 ) {
 	*u = LeAudioCodecConfiguration{Tag: LeAudioCodecConfigurationTagVendorConfig, VendorConfig: v}
 }

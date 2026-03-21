@@ -3,7 +3,6 @@ package aidl
 import (
 	"context"
 	"fmt"
-	media "github.com/xaionaro-go/binder/android/hardware/radio/ims/media"
 	os "github.com/xaionaro-go/binder/android/os"
 	ims "github.com/xaionaro-go/binder/android/telephony/ims"
 	feature "github.com/xaionaro-go/binder/android/telephony/ims/feature"
@@ -105,7 +104,7 @@ type IImsMmTelFeature interface {
 	NotifySrvccFailed(ctx context.Context) error
 	NotifySrvccCanceled(ctx context.Context) error
 	SetMediaQualityThreshold(ctx context.Context, mediaSessionType int32, threshold ims.MediaThreshold) error
-	QueryMediaQualityStatus(ctx context.Context, mediaSessionType int32) (media.MediaQualityStatus, error)
+	QueryMediaQualityStatus(ctx context.Context, mediaSessionType int32) (ims.MediaQualityStatus, error)
 	SetSmsListener(ctx context.Context, l IImsSmsListener) error
 	SendSms(ctx context.Context, token int32, messageRef int32, format string, smsc string, retry bool, pdu []byte) error
 	OnMemoryAvailable(ctx context.Context, token int32) error
@@ -695,8 +694,8 @@ func (p *ImsMmTelFeatureProxy) SetMediaQualityThreshold(
 func (p *ImsMmTelFeatureProxy) QueryMediaQualityStatus(
 	ctx context.Context,
 	mediaSessionType int32,
-) (media.MediaQualityStatus, error) {
-	var _result media.MediaQualityStatus
+) (ims.MediaQualityStatus, error) {
+	var _result ims.MediaQualityStatus
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIImsMmTelFeature)
@@ -1417,7 +1416,7 @@ type IImsMmTelFeatureServer interface {
 	NotifySrvccFailed(ctx context.Context) error
 	NotifySrvccCanceled(ctx context.Context) error
 	SetMediaQualityThreshold(ctx context.Context, mediaSessionType int32, threshold ims.MediaThreshold) error
-	QueryMediaQualityStatus(ctx context.Context, mediaSessionType int32) (media.MediaQualityStatus, error)
+	QueryMediaQualityStatus(ctx context.Context, mediaSessionType int32) (ims.MediaQualityStatus, error)
 	SetSmsListener(ctx context.Context, l IImsSmsListener) error
 	SendSms(ctx context.Context, token int32, messageRef int32, format string, smsc string, retry bool, pdu []byte) error
 	OnMemoryAvailable(ctx context.Context, token int32) error
@@ -1585,7 +1584,7 @@ func (w *imsMmTelFeatureStubWrapper) SetMediaQualityThreshold(
 func (w *imsMmTelFeatureStubWrapper) QueryMediaQualityStatus(
 	ctx context.Context,
 	mediaSessionType int32,
-) (media.MediaQualityStatus, error) {
+) (ims.MediaQualityStatus, error) {
 	return w.impl.QueryMediaQualityStatus(ctx, mediaSessionType)
 }
 

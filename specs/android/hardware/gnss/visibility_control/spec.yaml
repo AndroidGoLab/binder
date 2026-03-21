@@ -11,6 +11,8 @@ interfaces:
               type:
                 name: String
                 is_array: true
+                annotations:
+                    - utf8InCpp
               direction: in
           return_type:
             name: void
@@ -23,6 +25,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IGnssVisibilityControlCallback
       descriptor: android.hardware.gnss.visibility_control.IGnssVisibilityControlCallback
       methods:
@@ -39,6 +43,13 @@ interfaces:
           transaction_code_offset: 1
           return_type:
             name: boolean
+      nested_types:
+        - IGnssVisibilityControlCallback.NfwProtocolStack
+        - IGnssVisibilityControlCallback.NfwRequestor
+        - IGnssVisibilityControlCallback.NfwResponseType
+        - IGnssVisibilityControlCallback.NfwNotification
+      annotations:
+        - VintfStability
 parcelables:
     - name: IGnssVisibilityControlCallback.NfwNotification
       fields:

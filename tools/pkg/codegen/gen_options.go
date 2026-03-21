@@ -9,6 +9,7 @@ import (
 type GenOptions struct {
 	Registry    *resolver.TypeRegistry
 	CurrentPkg  string // AIDL package of the type being generated
+	CurrentDef  string // fully qualified name of the definition being generated (for nested type resolution)
 	ImportGraph *ImportGraph
 	// CycleTypeCallback is called when a type is redirected to a "types"
 	// sub-package to break an import cycle. The callback receives the
@@ -22,7 +23,7 @@ func marshalForType(
 	ts *parser.TypeSpecifier,
 	opts GenOptions,
 ) MarshalInfo {
-	return MarshalForTypeWithRegistry(ts, opts.Registry, opts.CurrentPkg)
+	return MarshalForTypeWithRegistry(ts, opts.Registry, opts.CurrentPkg, opts.CurrentDef)
 }
 
 // marshalForTypeWithCycleCheck returns the MarshalInfo for a type,
@@ -90,6 +91,7 @@ func (opts GenOptions) newTypeRefResolver(goFile *GoFile) *TypeRefResolver {
 		return nil
 	}
 	r := NewTypeRefResolver(opts.Registry, opts.CurrentPkg, goFile)
+	r.CurrentDef = opts.CurrentDef
 	r.ImportGraph = opts.ImportGraph
 	r.CycleTypeCallback = opts.CycleTypeCallback
 	return r

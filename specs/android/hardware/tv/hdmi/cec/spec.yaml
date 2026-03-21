@@ -97,6 +97,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IHdmiCecCallback
       descriptor: android.hardware.tv.hdmi.cec.IHdmiCecCallback
       oneway: true
@@ -110,6 +112,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: CecMessage
       fields:

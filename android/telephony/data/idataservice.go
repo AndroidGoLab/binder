@@ -3,7 +3,6 @@ package data
 import (
 	"context"
 	"fmt"
-	net "github.com/xaionaro-go/binder/android/net"
 	telephony "github.com/xaionaro-go/binder/android/telephony"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -51,7 +50,7 @@ type IDataService interface {
 	AsBinder() binder.IBinder
 	CreateDataServiceProvider(ctx context.Context, slotId int32) error
 	RemoveDataServiceProvider(ctx context.Context, slotId int32) error
-	SetupDataCall(ctx context.Context, slotId int32, accessNetwork int32, dataProfile DataProfile, isRoaming bool, allowRoaming bool, reason int32, linkProperties net.LinkProperties, pduSessionId int32, sliceInfo NetworkSliceInfo, trafficDescriptor TrafficDescriptor, matchAllRuleAllowed bool, callback IDataServiceCallback) error
+	SetupDataCall(ctx context.Context, slotId int32, accessNetwork int32, dataProfile DataProfile, isRoaming bool, allowRoaming bool, reason int32, linkProperties any, pduSessionId int32, sliceInfo NetworkSliceInfo, trafficDescriptor TrafficDescriptor, matchAllRuleAllowed bool, callback IDataServiceCallback) error
 	DeactivateDataCall(ctx context.Context, slotId int32, cid int32, reason int32, callback IDataServiceCallback) error
 	SetInitialAttachApn(ctx context.Context, slotId int32, dataProfile DataProfile, isRoaming bool, callback IDataServiceCallback) error
 	SetDataProfile(ctx context.Context, slotId int32, dps []DataProfile, isRoaming bool, callback IDataServiceCallback) error
@@ -125,7 +124,7 @@ func (p *DataServiceProxy) SetupDataCall(
 	isRoaming bool,
 	allowRoaming bool,
 	reason int32,
-	linkProperties net.LinkProperties,
+	linkProperties any,
 	pduSessionId int32,
 	sliceInfo NetworkSliceInfo,
 	trafficDescriptor TrafficDescriptor,
@@ -144,10 +143,7 @@ func (p *DataServiceProxy) SetupDataCall(
 	_data.WriteBool(isRoaming)
 	_data.WriteBool(allowRoaming)
 	_data.WriteInt32(reason)
-	_data.WriteInt32(1)
-	if _err := linkProperties.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param linkProperties (type any) cannot be serialized — type not resolved
 	_data.WriteInt32(pduSessionId)
 	_data.WriteInt32(1)
 	if _err := sliceInfo.MarshalParcel(_data); _err != nil {
@@ -490,18 +486,7 @@ func (s *DataServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_linkProperties net.LinkProperties
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_linkProperties.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_linkProperties any
 		_arg_pduSessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -781,7 +766,7 @@ func (s *DataServiceStub) OnTransaction(
 type IDataServiceServer interface {
 	CreateDataServiceProvider(ctx context.Context, slotId int32) error
 	RemoveDataServiceProvider(ctx context.Context, slotId int32) error
-	SetupDataCall(ctx context.Context, slotId int32, accessNetwork int32, dataProfile DataProfile, isRoaming bool, allowRoaming bool, reason int32, linkProperties net.LinkProperties, pduSessionId int32, sliceInfo NetworkSliceInfo, trafficDescriptor TrafficDescriptor, matchAllRuleAllowed bool, callback IDataServiceCallback) error
+	SetupDataCall(ctx context.Context, slotId int32, accessNetwork int32, dataProfile DataProfile, isRoaming bool, allowRoaming bool, reason int32, linkProperties any, pduSessionId int32, sliceInfo NetworkSliceInfo, trafficDescriptor TrafficDescriptor, matchAllRuleAllowed bool, callback IDataServiceCallback) error
 	DeactivateDataCall(ctx context.Context, slotId int32, cid int32, reason int32, callback IDataServiceCallback) error
 	SetInitialAttachApn(ctx context.Context, slotId int32, dataProfile DataProfile, isRoaming bool, callback IDataServiceCallback) error
 	SetDataProfile(ctx context.Context, slotId int32, dps []DataProfile, isRoaming bool, callback IDataServiceCallback) error
@@ -826,7 +811,7 @@ func (w *dataServiceStubWrapper) SetupDataCall(
 	isRoaming bool,
 	allowRoaming bool,
 	reason int32,
-	linkProperties net.LinkProperties,
+	linkProperties any,
 	pduSessionId int32,
 	sliceInfo NetworkSliceInfo,
 	trafficDescriptor TrafficDescriptor,

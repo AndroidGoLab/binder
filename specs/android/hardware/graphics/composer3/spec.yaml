@@ -17,6 +17,8 @@ interfaces:
         - name: EX_NO_RESOURCES
           type: int
           value: "6"
+      annotations:
+        - VintfStability
     - name: IComposerCallback
       descriptor: android.hardware.graphics.composer3.IComposerCallback
       methods:
@@ -107,6 +109,8 @@ interfaces:
                 name: DisplayHotplugEvent
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IComposerClient
       descriptor: android.hardware.graphics.composer3.IComposerClient
       methods:
@@ -625,6 +629,8 @@ interfaces:
         - name: INVALID_CONFIGURATION
           type: int
           value: "0x7fffffff"
+      annotations:
+        - VintfStability
 parcelables:
     - name: Buffer
       fields:

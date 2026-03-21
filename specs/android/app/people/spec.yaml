@@ -192,4 +192,36 @@ interfaces:
             name: void
 parcelables:
     - name: ConversationChannel
+      java_wire_format:
+        - name: ShortcutInfo
+          write_method: opaque
+        - name: Uid
+          write_method: int32
+        - name: NotificationChannel
+          write_method: opaque
+        - name: NotificationChannelGroup
+          write_method: opaque
+        - name: LastEventTimestamp
+          write_method: int64
+        - name: HasActiveNotifications
+          write_method: bool
+        - name: HasBirthdayToday
+          write_method: bool
+        - name: Statuses
+          write_method: opaque
     - name: ConversationStatus
+      java_wire_format:
+        - name: Id
+          write_method: string16
+        - name: Activity
+          write_method: int32
+        - name: Availability
+          write_method: int32
+        - name: Description
+          write_method: opaque
+        - name: Icon
+          write_method: opaque
+        - name: StartTimeMs
+          write_method: int64
+        - name: EndTimeMs
+          write_method: int64

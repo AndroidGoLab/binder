@@ -136,6 +136,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: ISoundTriggerHwCallback
       descriptor: android.hardware.soundtrigger3.ISoundTriggerHwCallback
       methods:
@@ -174,6 +176,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: ISoundTriggerHwGlobalCallback
       descriptor: android.hardware.soundtrigger3.ISoundTriggerHwGlobalCallback
       methods:
@@ -181,3 +185,5 @@ interfaces:
           transaction_code_offset: 0
           return_type:
             name: void
+      annotations:
+        - VintfStability

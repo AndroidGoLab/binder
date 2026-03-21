@@ -2440,19 +2440,261 @@ interfaces:
             name: void
 parcelables:
     - name: AdBuffer
+      java_wire_format:
+        - name: Id
+          write_method: int32
+        - name: MimeType
+          write_method: string16
+        - name: Buffer
+          write_method: opaque
+        - name: Offset
+          write_method: int32
+        - name: Length
+          write_method: int32
+        - name: PresentationTimeUs
+          write_method: int64
+        - name: Flags
+          write_method: int32
     - name: AdRequest
+      java_wire_format:
+        - name: Id
+          write_method: int32
+        - name: RequestType
+          write_method: int32
+        - name: "1"
+          write_method: int32
+          condition: mFileDescriptor!=null
+        - name: Dest
+          write_method: opaque
+          condition: mFileDescriptor!=null
+        - name: StartTime
+          write_method: int64
+        - name: StopTime
+          write_method: int64
+        - name: EchoInterval
+          write_method: int64
+        - name: MediaFileType
+          write_method: string16
+        - name: Metadata
+          write_method: opaque
     - name: AdResponse
+      java_wire_format:
+        - name: Id
+          write_method: int32
+        - name: ResponseType
+          write_method: int32
+        - name: ElapsedTime
+          write_method: int64
     - name: AitInfo
+      java_wire_format:
+        - name: Type
+          write_method: int32
+        - name: Version
+          write_method: int32
     - name: BroadcastInfoRequest
+      java_wire_format:
+        - name: Type
+          write_method: int32
+        - name: RequestId
+          write_method: int32
+        - name: Option
+          write_method: int32
     - name: BroadcastInfoResponse
+      java_wire_format:
+        - name: Type
+          write_method: int32
+        - name: RequestId
+          write_method: int32
+        - name: Sequence
+          write_method: int32
+        - name: ResponseResult
+          write_method: int32
     - name: DvbDeviceInfo
+      java_wire_format:
+        - name: AdapterId
+          write_method: int32
+        - name: DeviceId
+          write_method: int32
     - name: SignalingDataInfo
+      java_wire_format:
+        - name: Table
+          write_method: string16
+        - name: SignalingDataType
+          write_method: string16
+        - name: Version
+          write_method: int32
+        - name: Group
+          write_method: int32
+        - name: Encoding
+          write_method: string16
     - name: SignalingDataRequest
+      java_wire_format:
+        - name: Dest
+          write_method: opaque
+        - name: Group
+          write_method: int32
+        - name: SignalingDataTypes
+          write_method: opaque
     - name: SignalingDataResponse
+      java_wire_format:
+        - name: Dest
+          write_method: opaque
+        - name: SignalingDataTypes
+          write_method: opaque
+        - name: SignalingDataInfoList
+          write_method: opaque
     - name: TunedInfo
+      java_wire_format:
+        - name: InputId
+          write_method: string16
+        - name: UriString
+          write_method: string16
+        - name: IsRecordingSession?1:0
+          write_method: int32
+        - name: IsVisible?1:0
+          write_method: int32
+        - name: IsMainSession?1:0
+          write_method: int32
+        - name: AppType
+          write_method: int32
+        - name: AppTag
+          write_method: int32
     - name: TvContentRatingSystemInfo
+      java_wire_format:
+        - name: XmlUri
+          write_method: opaque
+        - name: ApplicationInfo
+          write_method: opaque
     - name: TvInputHardwareInfo
+      java_wire_format:
+        - name: DeviceId
+          write_method: int32
+        - name: Type
+          write_method: int32
+        - name: AudioType
+          write_method: int32
+        - name: AudioAddress
+          write_method: string16
+        - name: HdmiPortId
+          write_method: int32
+          condition: mType==TV_INPUT_TYPE_HDMI
+        - name: CableConnectionStatus
+          write_method: int32
     - name: TvInputInfo
+      java_wire_format:
+        - name: Dest
+          write_method: opaque
+        - name: Id
+          write_method: string16
+        - name: Type
+          write_method: int32
+        - name: IsHardwareInput?(byte)1:0
+          write_method: int32
+        - name: Label
+          write_method: opaque
+        - name: IconUri
+          write_method: opaque
+        - name: LabelResId
+          write_method: int32
+        - name: Icon
+          write_method: opaque
+        - name: IconStandby
+          write_method: opaque
+        - name: IconDisconnected
+          write_method: opaque
+        - name: SetupActivity
+          write_method: string16
+        - name: CanRecord?(byte)1:0
+          write_method: int32
+        - name: CanPauseRecording?(byte)1:0
+          write_method: int32
+        - name: TunerCount
+          write_method: int32
+        - name: HdmiDeviceInfo
+          write_method: opaque
+        - name: IsConnectedToHdmiSwitch?(byte)1:0
+          write_method: int32
+        - name: HdmiConnectionRelativePosition
+          write_method: int32
+        - name: ParentId
+          write_method: string16
+        - name: Extras
+          write_method: opaque
     - name: TvRecordingInfo
+      java_wire_format:
+        - name: RecordingId
+          write_method: string16
+        - name: StartPaddingMillis
+          write_method: int64
+        - name: EndPaddingMillis
+          write_method: int64
+        - name: RepeatDays
+          write_method: int32
+        - name: Name
+          write_method: string16
+        - name: Description
+          write_method: string16
+        - name: ScheduledStartTimeMillis
+          write_method: int64
+        - name: ScheduledDurationMillis
+          write_method: int64
+        - name: ChannelUri==null?null:mChannelUri.toString()
+          write_method: string16
+        - name: ProgramUri==null?null:mProgramUri.toString()
+          write_method: string16
+        - name: ContentRatings
+          write_method: opaque
+        - name: RecordingUri==null?null:mProgramUri.toString()
+          write_method: string16
+        - name: RecordingDurationMillis
+          write_method: int64
+        - name: RecordingStartTimeMillis
+          write_method: int64
     - name: TvStreamConfig
+      java_wire_format:
+        - name: StreamId
+          write_method: int32
+        - name: Type
+          write_method: int32
+        - name: MaxWidth
+          write_method: int32
+        - name: MaxHeight
+          write_method: int32
+        - name: Generation
+          write_method: int32
     - name: TvTrackInfo
+      java_wire_format:
+        - name: Type
+          write_method: int32
+        - name: Id
+          write_method: string16
+        - name: Language
+          write_method: string16
+        - name: Description!=null?mDescription.toString():null
+          write_method: string16
+        - name: Encoding
+          write_method: string16
+        - name: Encrypted?1:0
+          write_method: int32
+        - name: AudioChannelCount
+          write_method: int32
+        - name: AudioSampleRate
+          write_method: int32
+        - name: AudioDescription?1:0
+          write_method: int32
+        - name: HardOfHearing?1:0
+          write_method: int32
+        - name: SpokenSubtitle?1:0
+          write_method: int32
+        - name: VideoWidth
+          write_method: int32
+        - name: VideoHeight
+          write_method: int32
+        - name: VideoFrameRate
+          write_method: float32
+        - name: VideoPixelAspectRatio
+          write_method: float32
+        - name: VideoActiveFormatDescription
+          write_method: int32
+        - name: Extra
+          write_method: opaque

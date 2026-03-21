@@ -26,6 +26,8 @@ interfaces:
         - name: KEY_CHECK_LABEL
           type: String
           value: '"Keymaster HMAC Verification"'
+      annotations:
+        - VintfStability
 parcelables:
     - name: SharedSecretParameters
       fields:

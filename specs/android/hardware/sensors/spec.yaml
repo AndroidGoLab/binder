@@ -173,6 +173,12 @@ interfaces:
         - name: RUNTIME_SENSORS_HANDLE_END
           type: int
           value: "0x5FFFFFFF"
+      nested_types:
+        - ISensors.RateLevel
+        - ISensors.OperationMode
+        - ISensors.SharedMemInfo
+      annotations:
+        - VintfStability
     - name: ISensorsCallback
       descriptor: android.hardware.sensors.ISensorsCallback
       methods:
@@ -196,6 +202,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: AdditionalInfo
       fields:
@@ -809,6 +817,9 @@ unions:
         - name: dataFloat
           type:
             name: FloatValues
+      nested_types:
+        - AdditionalInfo.AdditionalInfoPayload.Int32Values
+        - AdditionalInfo.AdditionalInfoPayload.FloatValues
       annotations:
         - FixedSize
         - VintfStability
@@ -859,6 +870,18 @@ unions:
         - name: heading
           type:
             name: Heading
+      nested_types:
+        - Event.EventPayload.Vec4
+        - Event.EventPayload.Vec3
+        - Event.EventPayload.Uncal
+        - Event.EventPayload.HeadTracker
+        - Event.EventPayload.LimitedAxesImu
+        - Event.EventPayload.LimitedAxesImuUncal
+        - Event.EventPayload.HeartRate
+        - Event.EventPayload.Heading
+        - Event.EventPayload.MetaData
+        - Event.EventPayload.Pose6Dof
+        - Event.EventPayload.Data
       annotations:
         - VintfStability
         - FixedSize

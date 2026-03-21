@@ -3,8 +3,8 @@ package options
 import (
 	"context"
 	"fmt"
-	vehicle "github.com/xaionaro-go/binder/android/hardware/automotive/vehicle"
 	"github.com/xaionaro-go/binder/binder"
+	common "github.com/xaionaro-go/binder/com/android/ims/internal_/uce/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -33,8 +33,8 @@ const (
 type IOptionsListener interface {
 	AsBinder() binder.IBinder
 	GetVersionCb(ctx context.Context, version string) error
-	ServiceAvailable(ctx context.Context, statusCode vehicle.StatusCode) error
-	ServiceUnavailable(ctx context.Context, statusCode vehicle.StatusCode) error
+	ServiceAvailable(ctx context.Context, statusCode common.StatusCode) error
+	ServiceUnavailable(ctx context.Context, statusCode common.StatusCode) error
 	SipResponseReceived(ctx context.Context, uri string, sipResponse OptionsSipResponse, capInfo OptionsCapInfo) error
 	CmdStatus(ctx context.Context, cmdStatus OptionsCmdStatus) error
 	IncomingOptions(ctx context.Context, uri string, capInfo OptionsCapInfo, tID int32) error
@@ -85,12 +85,15 @@ func (p *OptionsListenerProxy) GetVersionCb(
 
 func (p *OptionsListenerProxy) ServiceAvailable(
 	ctx context.Context,
-	statusCode vehicle.StatusCode,
+	statusCode common.StatusCode,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOptionsListener)
-	_data.WriteInt32(int32(statusCode))
+	_data.WriteInt32(1)
+	if _err := statusCode.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOptionsListener, MethodIOptionsListenerServiceAvailable)
 	if _err != nil {
@@ -112,12 +115,15 @@ func (p *OptionsListenerProxy) ServiceAvailable(
 
 func (p *OptionsListenerProxy) ServiceUnavailable(
 	ctx context.Context,
-	statusCode vehicle.StatusCode,
+	statusCode common.StatusCode,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIOptionsListener)
-	_data.WriteInt32(int32(statusCode))
+	_data.WriteInt32(1)
+	if _err := statusCode.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIOptionsListener, MethodIOptionsListenerServiceUnavailable)
 	if _err != nil {
@@ -275,12 +281,19 @@ func (s *OptionsListenerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOptionsListenerServiceAvailable:
-		_raw_statusCode, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
+		var _arg_statusCode common.StatusCode
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statusCode.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		_arg_statusCode := vehicle.StatusCode(_raw_statusCode)
-		_err = s.Impl.ServiceAvailable(ctx, _arg_statusCode)
+		_err := s.Impl.ServiceAvailable(ctx, _arg_statusCode)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -289,12 +302,19 @@ func (s *OptionsListenerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOptionsListenerServiceUnavailable:
-		_raw_statusCode, _err := _data.ReadInt32()
-		if _err != nil {
-			return nil, _err
+		var _arg_statusCode common.StatusCode
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statusCode.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
 		}
-		_arg_statusCode := vehicle.StatusCode(_raw_statusCode)
-		_err = s.Impl.ServiceUnavailable(ctx, _arg_statusCode)
+		_err := s.Impl.ServiceUnavailable(ctx, _arg_statusCode)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -399,8 +419,8 @@ func (s *OptionsListenerStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IOptionsListenerServer interface {
 	GetVersionCb(ctx context.Context, version string) error
-	ServiceAvailable(ctx context.Context, statusCode vehicle.StatusCode) error
-	ServiceUnavailable(ctx context.Context, statusCode vehicle.StatusCode) error
+	ServiceAvailable(ctx context.Context, statusCode common.StatusCode) error
+	ServiceUnavailable(ctx context.Context, statusCode common.StatusCode) error
 	SipResponseReceived(ctx context.Context, uri string, sipResponse OptionsSipResponse, capInfo OptionsCapInfo) error
 	CmdStatus(ctx context.Context, cmdStatus OptionsCmdStatus) error
 	IncomingOptions(ctx context.Context, uri string, capInfo OptionsCapInfo, tID int32) error
@@ -424,14 +444,14 @@ func (w *optionsListenerStubWrapper) GetVersionCb(
 
 func (w *optionsListenerStubWrapper) ServiceAvailable(
 	ctx context.Context,
-	statusCode vehicle.StatusCode,
+	statusCode common.StatusCode,
 ) error {
 	return w.impl.ServiceAvailable(ctx, statusCode)
 }
 
 func (w *optionsListenerStubWrapper) ServiceUnavailable(
 	ctx context.Context,
-	statusCode vehicle.StatusCode,
+	statusCode common.StatusCode,
 ) error {
 	return w.impl.ServiceUnavailable(ctx, statusCode)
 }

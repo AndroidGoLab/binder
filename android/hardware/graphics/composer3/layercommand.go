@@ -1,9 +1,8 @@
 package composer3
 
 import (
-	graphics "github.com/xaionaro-go/binder/android/graphics"
-	common "github.com/xaionaro-go/binder/android/hardware/common"
-	graphicsCommon "github.com/xaionaro-go/binder/android/hardware/graphics/common"
+	hardwareCommon "github.com/xaionaro-go/binder/android/hardware/common"
+	common "github.com/xaionaro-go/binder/android/hardware/graphics/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -11,25 +10,25 @@ import (
 
 type LayerCommand struct {
 	Layer                          int64
-	CursorPosition                 *graphics.Point
+	CursorPosition                 *common.Point
 	Buffer                         *Buffer
-	Damage                         []graphics.Rect
+	Damage                         []common.Rect
 	BlendMode                      *ParcelableBlendMode
 	Color                          *Color
 	Composition                    *ParcelableComposition
 	Dataspace                      *ParcelableDataspace
-	DisplayFrame                   *graphics.Rect
+	DisplayFrame                   *common.Rect
 	PlaneAlpha                     *PlaneAlpha
-	SidebandStream                 *common.NativeHandle
-	SourceCrop                     *graphicsCommon.FRect
+	SidebandStream                 *hardwareCommon.NativeHandle
+	SourceCrop                     *common.FRect
 	Transform                      *ParcelableTransform
-	VisibleRegion                  []graphics.Rect
+	VisibleRegion                  []common.Rect
 	Z                              *ZOrder
 	ColorTransform                 []float32
 	Brightness                     *LayerBrightness
 	PerFrameMetadata               []PerFrameMetadata
 	PerFrameMetadataBlob           []PerFrameMetadataBlob
-	BlockingRegion                 []graphics.Rect
+	BlockingRegion                 []common.Rect
 	BufferSlotsToClear             []int32
 	LayerLifecycleBatchCommandType LayerLifecycleBatchCommandType
 	NewBufferSlotCount             int32
@@ -253,7 +252,7 @@ func (s *LayerCommand) UnmarshalParcel(
 			return _nullErr
 		}
 		if _nullInd != 0 {
-			var _val graphics.Point
+			var _val common.Point
 			if _err = _val.UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -291,7 +290,7 @@ func (s *LayerCommand) UnmarshalParcel(
 		return _err
 	}
 	if _count0 >= 0 {
-		s.Damage = make([]graphics.Rect, _count0)
+		s.Damage = make([]common.Rect, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
 			if _, _err = p.ReadInt32(); _err != nil {
 				return _err
@@ -389,7 +388,7 @@ func (s *LayerCommand) UnmarshalParcel(
 			return _nullErr
 		}
 		if _nullInd != 0 {
-			var _val graphics.Rect
+			var _val common.Rect
 			if _err = _val.UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -427,7 +426,7 @@ func (s *LayerCommand) UnmarshalParcel(
 			return _nullErr
 		}
 		if _nullInd != 0 {
-			var _val common.NativeHandle
+			var _val hardwareCommon.NativeHandle
 			if _err = _val.UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -446,7 +445,7 @@ func (s *LayerCommand) UnmarshalParcel(
 			return _nullErr
 		}
 		if _nullInd != 0 {
-			var _val graphicsCommon.FRect
+			var _val common.FRect
 			if _err = _val.UnmarshalParcel(p); _err != nil {
 				return _err
 			}
@@ -484,7 +483,7 @@ func (s *LayerCommand) UnmarshalParcel(
 		return _err
 	}
 	if _count1 >= 0 {
-		s.VisibleRegion = make([]graphics.Rect, _count1)
+		s.VisibleRegion = make([]common.Rect, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
 			if _, _err = p.ReadInt32(); _err != nil {
 				return _err
@@ -608,7 +607,7 @@ func (s *LayerCommand) UnmarshalParcel(
 		return _err
 	}
 	if _count5 >= 0 {
-		s.BlockingRegion = make([]graphics.Rect, _count5)
+		s.BlockingRegion = make([]common.Rect, _count5)
 		for _i := int32(0); _i < _count5; _i++ {
 			if _, _err = p.ReadInt32(); _err != nil {
 				return _err

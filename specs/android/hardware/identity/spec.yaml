@@ -73,10 +73,14 @@ interfaces:
             - name: nameSpace
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
             - name: name
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
             - name: entrySize
               type:
@@ -196,6 +200,8 @@ interfaces:
             name: void
           annotations:
             - SuppressWarnings
+      annotations:
+        - VintfStability
     - name: IIdentityCredentialStore
       descriptor: android.hardware.identity.IIdentityCredentialStore
       methods:
@@ -209,6 +215,8 @@ interfaces:
             - name: docType
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
             - name: testCredential
               type:
@@ -283,6 +291,8 @@ interfaces:
         - name: STATUS_SESSION_TRANSCRIPT_MISMATCH
           type: int
           value: "12"
+      annotations:
+        - VintfStability
     - name: IPresentationSession
       descriptor: android.hardware.identity.IPresentationSession
       methods:
@@ -325,6 +335,8 @@ interfaces:
               direction: in
           return_type:
             name: IIdentityCredential
+      annotations:
+        - VintfStability
     - name: IWritableIdentityCredential
       descriptor: android.hardware.identity.IWritableIdentityCredential
       methods:
@@ -394,10 +406,14 @@ interfaces:
             - name: nameSpace
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
             - name: name
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
             - name: entrySize
               type:
@@ -457,6 +473,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: Certificate
       fields:

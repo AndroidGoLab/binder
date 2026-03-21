@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
-	effect "github.com/xaionaro-go/binder/android/hardware/audio/effect"
 	soundtrigger "github.com/xaionaro-go/binder/android/hardware/soundtrigger"
 	media "github.com/xaionaro-go/binder/android/media"
+	permission "github.com/xaionaro-go/binder/android/media/permission"
 	os "github.com/xaionaro-go/binder/android/os"
 	types "github.com/xaionaro-go/binder/android/service/voice/types"
 	"github.com/xaionaro-go/binder/binder"
@@ -165,10 +165,10 @@ type IVoiceInteractionManagerService interface {
 	RequestDirectActions(ctx context.Context, token binder.IBinder, taskId int32, assistToken binder.IBinder, cancellationCallback os.RemoteCallback, callback os.RemoteCallback) error
 	PerformDirectAction(ctx context.Context, token binder.IBinder, actionId string, arguments os.Bundle, taskId int32, assistToken binder.IBinder, cancellationCallback os.RemoteCallback, resultCallback os.RemoteCallback) error
 	SetDisabled(ctx context.Context, disabled bool) error
-	CreateSoundTriggerSessionAsOriginator(ctx context.Context, originatorIdentity effect.DescriptorIdentity, client binder.IBinder, moduleProperties soundtrigger.SoundTriggerModuleProperties) (IVoiceInteractionSoundTriggerSession, error)
-	ListModuleProperties(ctx context.Context, originatorIdentity effect.DescriptorIdentity) ([]soundtrigger.SoundTriggerModuleProperties, error)
+	CreateSoundTriggerSessionAsOriginator(ctx context.Context, originatorIdentity permission.Identity, client binder.IBinder, moduleProperties soundtrigger.SoundTriggerModuleProperties) (IVoiceInteractionSoundTriggerSession, error)
+	ListModuleProperties(ctx context.Context, originatorIdentity permission.Identity) ([]soundtrigger.SoundTriggerModuleProperties, error)
 	UpdateState(ctx context.Context, options os.PersistableBundle, sharedMemory os.SharedMemory, token binder.IBinder) error
-	InitAndVerifyDetector(ctx context.Context, originatorIdentity effect.DescriptorIdentity, options os.PersistableBundle, sharedMemory os.SharedMemory, token binder.IBinder, callback IHotwordRecognitionStatusCallback, detectorType int32) error
+	InitAndVerifyDetector(ctx context.Context, originatorIdentity permission.Identity, options os.PersistableBundle, sharedMemory os.SharedMemory, token binder.IBinder, callback IHotwordRecognitionStatusCallback, detectorType int32) error
 	DestroyDetector(ctx context.Context, token binder.IBinder) error
 	ShutdownHotwordDetectionService(ctx context.Context) error
 	SubscribeVisualQueryRecognitionStatus(ctx context.Context, listener IVisualQueryRecognitionStatusListener) error
@@ -1269,7 +1269,7 @@ func (p *VoiceInteractionManagerServiceProxy) SetDisabled(
 
 func (p *VoiceInteractionManagerServiceProxy) CreateSoundTriggerSessionAsOriginator(
 	ctx context.Context,
-	originatorIdentity effect.DescriptorIdentity,
+	originatorIdentity permission.Identity,
 	client binder.IBinder,
 	moduleProperties soundtrigger.SoundTriggerModuleProperties,
 ) (IVoiceInteractionSoundTriggerSession, error) {
@@ -1312,7 +1312,7 @@ func (p *VoiceInteractionManagerServiceProxy) CreateSoundTriggerSessionAsOrigina
 
 func (p *VoiceInteractionManagerServiceProxy) ListModuleProperties(
 	ctx context.Context,
-	originatorIdentity effect.DescriptorIdentity,
+	originatorIdentity permission.Identity,
 ) ([]soundtrigger.SoundTriggerModuleProperties, error) {
 	var _result []soundtrigger.SoundTriggerModuleProperties
 	_data := parcel.New()
@@ -1399,7 +1399,7 @@ func (p *VoiceInteractionManagerServiceProxy) UpdateState(
 
 func (p *VoiceInteractionManagerServiceProxy) InitAndVerifyDetector(
 	ctx context.Context,
-	originatorIdentity effect.DescriptorIdentity,
+	originatorIdentity permission.Identity,
 	options os.PersistableBundle,
 	sharedMemory os.SharedMemory,
 	token binder.IBinder,
@@ -2678,7 +2678,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceCreateSoundTriggerSessionAsOriginator:
-		var _arg_originatorIdentity effect.DescriptorIdentity
+		var _arg_originatorIdentity permission.Identity
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -2720,7 +2720,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		binder.WriteBinderToParcel(ctx, _reply, _result.AsBinder(), s.Transport)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceListModuleProperties:
-		var _arg_originatorIdentity effect.DescriptorIdentity
+		var _arg_originatorIdentity permission.Identity
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -2793,7 +2793,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceInitAndVerifyDetector:
-		var _arg_originatorIdentity effect.DescriptorIdentity
+		var _arg_originatorIdentity permission.Identity
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -3194,10 +3194,10 @@ type IVoiceInteractionManagerServiceServer interface {
 	RequestDirectActions(ctx context.Context, token binder.IBinder, taskId int32, assistToken binder.IBinder, cancellationCallback os.RemoteCallback, callback os.RemoteCallback) error
 	PerformDirectAction(ctx context.Context, token binder.IBinder, actionId string, arguments os.Bundle, taskId int32, assistToken binder.IBinder, cancellationCallback os.RemoteCallback, resultCallback os.RemoteCallback) error
 	SetDisabled(ctx context.Context, disabled bool) error
-	CreateSoundTriggerSessionAsOriginator(ctx context.Context, originatorIdentity effect.DescriptorIdentity, client binder.IBinder, moduleProperties soundtrigger.SoundTriggerModuleProperties) (IVoiceInteractionSoundTriggerSession, error)
-	ListModuleProperties(ctx context.Context, originatorIdentity effect.DescriptorIdentity) ([]soundtrigger.SoundTriggerModuleProperties, error)
+	CreateSoundTriggerSessionAsOriginator(ctx context.Context, originatorIdentity permission.Identity, client binder.IBinder, moduleProperties soundtrigger.SoundTriggerModuleProperties) (IVoiceInteractionSoundTriggerSession, error)
+	ListModuleProperties(ctx context.Context, originatorIdentity permission.Identity) ([]soundtrigger.SoundTriggerModuleProperties, error)
 	UpdateState(ctx context.Context, options os.PersistableBundle, sharedMemory os.SharedMemory, token binder.IBinder) error
-	InitAndVerifyDetector(ctx context.Context, originatorIdentity effect.DescriptorIdentity, options os.PersistableBundle, sharedMemory os.SharedMemory, token binder.IBinder, callback IHotwordRecognitionStatusCallback, detectorType int32) error
+	InitAndVerifyDetector(ctx context.Context, originatorIdentity permission.Identity, options os.PersistableBundle, sharedMemory os.SharedMemory, token binder.IBinder, callback IHotwordRecognitionStatusCallback, detectorType int32) error
 	DestroyDetector(ctx context.Context, token binder.IBinder) error
 	ShutdownHotwordDetectionService(ctx context.Context) error
 	SubscribeVisualQueryRecognitionStatus(ctx context.Context, listener IVisualQueryRecognitionStatusListener) error
@@ -3474,7 +3474,7 @@ func (w *voiceInteractionManagerServiceStubWrapper) SetDisabled(
 
 func (w *voiceInteractionManagerServiceStubWrapper) CreateSoundTriggerSessionAsOriginator(
 	ctx context.Context,
-	originatorIdentity effect.DescriptorIdentity,
+	originatorIdentity permission.Identity,
 	client binder.IBinder,
 	moduleProperties soundtrigger.SoundTriggerModuleProperties,
 ) (IVoiceInteractionSoundTriggerSession, error) {
@@ -3483,7 +3483,7 @@ func (w *voiceInteractionManagerServiceStubWrapper) CreateSoundTriggerSessionAsO
 
 func (w *voiceInteractionManagerServiceStubWrapper) ListModuleProperties(
 	ctx context.Context,
-	originatorIdentity effect.DescriptorIdentity,
+	originatorIdentity permission.Identity,
 ) ([]soundtrigger.SoundTriggerModuleProperties, error) {
 	return w.impl.ListModuleProperties(ctx, originatorIdentity)
 }
@@ -3499,7 +3499,7 @@ func (w *voiceInteractionManagerServiceStubWrapper) UpdateState(
 
 func (w *voiceInteractionManagerServiceStubWrapper) InitAndVerifyDetector(
 	ctx context.Context,
-	originatorIdentity effect.DescriptorIdentity,
+	originatorIdentity permission.Identity,
 	options os.PersistableBundle,
 	sharedMemory os.SharedMemory,
 	token binder.IBinder,

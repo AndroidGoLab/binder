@@ -3,7 +3,7 @@ package soundtrigger_middleware
 import (
 	"context"
 	"fmt"
-	effect "github.com/xaionaro-go/binder/android/hardware/audio/effect"
+	permission "github.com/xaionaro-go/binder/android/media/permission"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -30,10 +30,10 @@ const (
 
 type ISoundTriggerMiddlewareService interface {
 	AsBinder() binder.IBinder
-	ListModulesAsOriginator(ctx context.Context, identity effect.DescriptorIdentity) ([]SoundTriggerModuleDescriptor, error)
-	ListModulesAsMiddleman(ctx context.Context, middlemanIdentity effect.DescriptorIdentity, originatorIdentity effect.DescriptorIdentity) ([]SoundTriggerModuleDescriptor, error)
-	AttachAsOriginator(ctx context.Context, handle int32, identity effect.DescriptorIdentity, callback ISoundTriggerCallback) (ISoundTriggerModule, error)
-	AttachAsMiddleman(ctx context.Context, handle int32, middlemanIdentity effect.DescriptorIdentity, originatorIdentity effect.DescriptorIdentity, callback ISoundTriggerCallback, isTrusted bool) (ISoundTriggerModule, error)
+	ListModulesAsOriginator(ctx context.Context, identity permission.Identity) ([]SoundTriggerModuleDescriptor, error)
+	ListModulesAsMiddleman(ctx context.Context, middlemanIdentity permission.Identity, originatorIdentity permission.Identity) ([]SoundTriggerModuleDescriptor, error)
+	AttachAsOriginator(ctx context.Context, handle int32, identity permission.Identity, callback ISoundTriggerCallback) (ISoundTriggerModule, error)
+	AttachAsMiddleman(ctx context.Context, handle int32, middlemanIdentity permission.Identity, originatorIdentity permission.Identity, callback ISoundTriggerCallback, isTrusted bool) (ISoundTriggerModule, error)
 	AttachFakeHalInjection(ctx context.Context, injection ISoundTriggerInjection) error
 }
 
@@ -55,7 +55,7 @@ var _ ISoundTriggerMiddlewareService = (*SoundTriggerMiddlewareServiceProxy)(nil
 
 func (p *SoundTriggerMiddlewareServiceProxy) ListModulesAsOriginator(
 	ctx context.Context,
-	identity effect.DescriptorIdentity,
+	identity permission.Identity,
 ) ([]SoundTriggerModuleDescriptor, error) {
 	var _result []SoundTriggerModuleDescriptor
 	_data := parcel.New()
@@ -105,8 +105,8 @@ func (p *SoundTriggerMiddlewareServiceProxy) ListModulesAsOriginator(
 
 func (p *SoundTriggerMiddlewareServiceProxy) ListModulesAsMiddleman(
 	ctx context.Context,
-	middlemanIdentity effect.DescriptorIdentity,
-	originatorIdentity effect.DescriptorIdentity,
+	middlemanIdentity permission.Identity,
+	originatorIdentity permission.Identity,
 ) ([]SoundTriggerModuleDescriptor, error) {
 	var _result []SoundTriggerModuleDescriptor
 	_data := parcel.New()
@@ -161,7 +161,7 @@ func (p *SoundTriggerMiddlewareServiceProxy) ListModulesAsMiddleman(
 func (p *SoundTriggerMiddlewareServiceProxy) AttachAsOriginator(
 	ctx context.Context,
 	handle int32,
-	identity effect.DescriptorIdentity,
+	identity permission.Identity,
 	callback ISoundTriggerCallback,
 ) (ISoundTriggerModule, error) {
 	var _result ISoundTriggerModule
@@ -201,8 +201,8 @@ func (p *SoundTriggerMiddlewareServiceProxy) AttachAsOriginator(
 func (p *SoundTriggerMiddlewareServiceProxy) AttachAsMiddleman(
 	ctx context.Context,
 	handle int32,
-	middlemanIdentity effect.DescriptorIdentity,
-	originatorIdentity effect.DescriptorIdentity,
+	middlemanIdentity permission.Identity,
+	originatorIdentity permission.Identity,
 	callback ISoundTriggerCallback,
 	isTrusted bool,
 ) (ISoundTriggerModule, error) {
@@ -296,7 +296,7 @@ func (s *SoundTriggerMiddlewareServiceStub) OnTransaction(
 
 	switch code {
 	case TransactionISoundTriggerMiddlewareServiceListModulesAsOriginator:
-		var _arg_identity effect.DescriptorIdentity
+		var _arg_identity permission.Identity
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -328,7 +328,7 @@ func (s *SoundTriggerMiddlewareServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISoundTriggerMiddlewareServiceListModulesAsMiddleman:
-		var _arg_middlemanIdentity effect.DescriptorIdentity
+		var _arg_middlemanIdentity permission.Identity
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -340,7 +340,7 @@ func (s *SoundTriggerMiddlewareServiceStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_originatorIdentity effect.DescriptorIdentity
+		var _arg_originatorIdentity permission.Identity
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -376,7 +376,7 @@ func (s *SoundTriggerMiddlewareServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_identity effect.DescriptorIdentity
+		var _arg_identity permission.Identity
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -410,7 +410,7 @@ func (s *SoundTriggerMiddlewareServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_middlemanIdentity effect.DescriptorIdentity
+		var _arg_middlemanIdentity permission.Identity
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -422,7 +422,7 @@ func (s *SoundTriggerMiddlewareServiceStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_originatorIdentity effect.DescriptorIdentity
+		var _arg_originatorIdentity permission.Identity
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -481,10 +481,10 @@ func (s *SoundTriggerMiddlewareServiceStub) OnTransaction(
 // provide to NewSoundTriggerMiddlewareServiceStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ISoundTriggerMiddlewareServiceServer interface {
-	ListModulesAsOriginator(ctx context.Context, identity effect.DescriptorIdentity) ([]SoundTriggerModuleDescriptor, error)
-	ListModulesAsMiddleman(ctx context.Context, middlemanIdentity effect.DescriptorIdentity, originatorIdentity effect.DescriptorIdentity) ([]SoundTriggerModuleDescriptor, error)
-	AttachAsOriginator(ctx context.Context, handle int32, identity effect.DescriptorIdentity, callback ISoundTriggerCallback) (ISoundTriggerModule, error)
-	AttachAsMiddleman(ctx context.Context, handle int32, middlemanIdentity effect.DescriptorIdentity, originatorIdentity effect.DescriptorIdentity, callback ISoundTriggerCallback, isTrusted bool) (ISoundTriggerModule, error)
+	ListModulesAsOriginator(ctx context.Context, identity permission.Identity) ([]SoundTriggerModuleDescriptor, error)
+	ListModulesAsMiddleman(ctx context.Context, middlemanIdentity permission.Identity, originatorIdentity permission.Identity) ([]SoundTriggerModuleDescriptor, error)
+	AttachAsOriginator(ctx context.Context, handle int32, identity permission.Identity, callback ISoundTriggerCallback) (ISoundTriggerModule, error)
+	AttachAsMiddleman(ctx context.Context, handle int32, middlemanIdentity permission.Identity, originatorIdentity permission.Identity, callback ISoundTriggerCallback, isTrusted bool) (ISoundTriggerModule, error)
 	AttachFakeHalInjection(ctx context.Context, injection ISoundTriggerInjection) error
 }
 
@@ -499,15 +499,15 @@ func (w *soundTriggerMiddlewareServiceStubWrapper) AsBinder() binder.IBinder {
 
 func (w *soundTriggerMiddlewareServiceStubWrapper) ListModulesAsOriginator(
 	ctx context.Context,
-	identity effect.DescriptorIdentity,
+	identity permission.Identity,
 ) ([]SoundTriggerModuleDescriptor, error) {
 	return w.impl.ListModulesAsOriginator(ctx, identity)
 }
 
 func (w *soundTriggerMiddlewareServiceStubWrapper) ListModulesAsMiddleman(
 	ctx context.Context,
-	middlemanIdentity effect.DescriptorIdentity,
-	originatorIdentity effect.DescriptorIdentity,
+	middlemanIdentity permission.Identity,
+	originatorIdentity permission.Identity,
 ) ([]SoundTriggerModuleDescriptor, error) {
 	return w.impl.ListModulesAsMiddleman(ctx, middlemanIdentity, originatorIdentity)
 }
@@ -515,7 +515,7 @@ func (w *soundTriggerMiddlewareServiceStubWrapper) ListModulesAsMiddleman(
 func (w *soundTriggerMiddlewareServiceStubWrapper) AttachAsOriginator(
 	ctx context.Context,
 	handle int32,
-	identity effect.DescriptorIdentity,
+	identity permission.Identity,
 	callback ISoundTriggerCallback,
 ) (ISoundTriggerModule, error) {
 	return w.impl.AttachAsOriginator(ctx, handle, identity, callback)
@@ -524,8 +524,8 @@ func (w *soundTriggerMiddlewareServiceStubWrapper) AttachAsOriginator(
 func (w *soundTriggerMiddlewareServiceStubWrapper) AttachAsMiddleman(
 	ctx context.Context,
 	handle int32,
-	middlemanIdentity effect.DescriptorIdentity,
-	originatorIdentity effect.DescriptorIdentity,
+	middlemanIdentity permission.Identity,
+	originatorIdentity permission.Identity,
 	callback ISoundTriggerCallback,
 	isTrusted bool,
 ) (ISoundTriggerModule, error) {

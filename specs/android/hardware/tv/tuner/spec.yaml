@@ -86,6 +86,8 @@ interfaces:
           transaction_code_offset: 8
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IDescrambler
       descriptor: android.hardware.tv.tuner.IDescrambler
       methods:
@@ -138,6 +140,8 @@ interfaces:
           transaction_code_offset: 4
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IDvr
       descriptor: android.hardware.tv.tuner.IDvr
       methods:
@@ -205,6 +209,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IDvrCallback
       descriptor: android.hardware.tv.tuner.IDvrCallback
       oneway: true
@@ -227,6 +233,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IFilter
       descriptor: android.hardware.tv.tuner.IFilter
       methods:
@@ -342,6 +350,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IFilterCallback
       descriptor: android.hardware.tv.tuner.IFilterCallback
       oneway: true
@@ -365,6 +375,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IFrontend
       descriptor: android.hardware.tv.tuner.IFrontend
       methods:
@@ -472,6 +484,8 @@ interfaces:
           return_type:
             name: FrontendStatusReadiness
             is_array: true
+      annotations:
+        - VintfStability
     - name: IFrontendCallback
       descriptor: android.hardware.tv.tuner.IFrontendCallback
       oneway: true
@@ -498,6 +512,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: ILnb
       descriptor: android.hardware.tv.tuner.ILnb
       methods:
@@ -551,6 +567,8 @@ interfaces:
           transaction_code_offset: 5
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: ILnbCallback
       descriptor: android.hardware.tv.tuner.ILnbCallback
       oneway: true
@@ -574,6 +592,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: ITimeFilter
       descriptor: android.hardware.tv.tuner.ITimeFilter
       methods:
@@ -602,6 +622,8 @@ interfaces:
           transaction_code_offset: 4
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: ITuner
       descriptor: android.hardware.tv.tuner.ITuner
       methods:
@@ -732,6 +754,9 @@ interfaces:
               direction: in
           return_type:
             name: DemuxInfo
+      annotations:
+        - VintfStability
+        - SuppressWarnings
 parcelables:
     - name: AudioExtraMetaData
       fields:

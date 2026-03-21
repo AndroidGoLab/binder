@@ -2,3 +2,55 @@ package: android.appwidget
 go_package: android/appwidget
 parcelables:
     - name: AppWidgetProviderInfo
+      java_wire_format:
+        - name: This.provider
+          write_method: opaque
+        - name: This.minWidth
+          write_method: int32
+        - name: This.minHeight
+          write_method: int32
+        - name: This.minResizeWidth
+          write_method: int32
+        - name: This.minResizeHeight
+          write_method: int32
+        - name: This.maxResizeWidth
+          write_method: int32
+        - name: This.maxResizeHeight
+          write_method: int32
+        - name: This.targetCellWidth
+          write_method: int32
+        - name: This.targetCellHeight
+          write_method: int32
+        - name: This.updatePeriodMillis
+          write_method: int32
+        - name: This.initialLayout
+          write_method: int32
+        - name: This.initialKeyguardLayout
+          write_method: int32
+        - name: This.configure
+          write_method: opaque
+        - name: This.label
+          write_method: string16
+        - name: This.icon
+          write_method: int32
+        - name: This.previewImage
+          write_method: int32
+        - name: This.previewLayout
+          write_method: int32
+        - name: This.autoAdvanceViewId
+          write_method: int32
+        - name: This.resizeMode
+          write_method: int32
+        - name: This.widgetCategory
+          write_method: int32
+        - name: This.providerInfo
+          write_method: opaque
+        - name: This.widgetFeatures
+          write_method: int32
+        - name: This.descriptionRes
+          write_method: int32
+        - name: This.isExtendedFromAppWidgetProvider
+          write_method: bool
+        - name: This.generatedPreviewCategories
+          write_method: int32
+          condition: generatedPreviews()

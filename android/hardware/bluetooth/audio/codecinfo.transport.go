@@ -16,7 +16,7 @@ const (
 type CodecInfoTransport struct {
 	Tag     int32
 	LeAudio CodecInfoLeAudio
-	A2dp    CodecIdA2dp
+	A2dp    CodecInfoA2dp
 	Hfp     CodecInfoHfp
 }
 
@@ -36,16 +36,16 @@ func (u *CodecInfoTransport) SetLeAudio(
 	*u = CodecInfoTransport{Tag: CodecInfoTransportTagLeAudio, LeAudio: v}
 }
 
-func (u *CodecInfoTransport) GetA2dp() (CodecIdA2dp, bool) {
+func (u *CodecInfoTransport) GetA2dp() (CodecInfoA2dp, bool) {
 	if u.Tag != CodecInfoTransportTagA2dp {
-		var _zero CodecIdA2dp
+		var _zero CodecInfoA2dp
 		return _zero, false
 	}
 	return u.A2dp, true
 }
 
 func (u *CodecInfoTransport) SetA2dp(
-	v CodecIdA2dp,
+	v CodecInfoA2dp,
 ) {
 	*u = CodecInfoTransport{Tag: CodecInfoTransportTagA2dp, A2dp: v}
 }
@@ -77,7 +77,10 @@ func (u *CodecInfoTransport) MarshalParcel(
 			return _err
 		}
 	case CodecInfoTransportTagA2dp:
-		p.WriteInt32(int32(u.A2dp))
+		p.WriteInt32(1)
+		if _err := u.A2dp.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case CodecInfoTransportTagHfp:
 		p.WriteInt32(1)
 		if _err := u.Hfp.MarshalParcel(p); _err != nil {
@@ -113,11 +116,12 @@ func (u *CodecInfoTransport) UnmarshalParcel(
 			return _err
 		}
 	case CodecInfoTransportTagA2dp:
-		_raw, _err := p.ReadInt32()
-		if _err != nil {
+		if _, _err = p.ReadInt32(); _err != nil {
 			return _err
 		}
-		u.A2dp = CodecIdA2dp(_raw)
+		if _err = u.A2dp.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case CodecInfoTransportTagHfp:
 		if _, _err = p.ReadInt32(); _err != nil {
 			return _err

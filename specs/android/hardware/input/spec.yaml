@@ -919,6 +919,11 @@ interfaces:
             name: void
 parcelables:
     - name: HostUsiVersion
+      java_wire_format:
+        - name: MajorVersion
+          write_method: int32
+        - name: MinorVersion
+          write_method: int32
     - name: IInputDeviceBatteryState
       fields:
         - name: deviceId
@@ -951,20 +956,193 @@ parcelables:
       annotations:
         - JavaDerive
     - name: InputDeviceIdentifier
+      java_wire_format:
+        - name: Descriptor
+          write_method: string16
+        - name: VendorId
+          write_method: int32
+        - name: ProductId
+          write_method: int32
     - name: InputSensorInfo
+      java_wire_format:
+        - name: Name
+          write_method: string16
+        - name: Vendor
+          write_method: string16
+        - name: Version
+          write_method: int32
+        - name: Handle
+          write_method: int32
+        - name: Type
+          write_method: int32
+        - name: MaxRange
+          write_method: float32
+        - name: Resolution
+          write_method: float32
+        - name: Power
+          write_method: float32
+        - name: MinDelay
+          write_method: int32
+        - name: FifoReservedEventCount
+          write_method: int32
+        - name: FifoMaxEventCount
+          write_method: int32
+        - name: StringType
+          write_method: string16
+        - name: RequiredPermission
+          write_method: string16
+        - name: MaxDelay
+          write_method: int32
+        - name: Flags
+          write_method: int32
+        - name: Id
+          write_method: int32
     - name: KeyboardLayout
+      java_wire_format:
+        - name: Descriptor
+          write_method: string16
+        - name: Label
+          write_method: string16
+        - name: Collection
+          write_method: string16
+        - name: Priority
+          write_method: int32
+        - name: Dest
+          write_method: opaque
+        - name: LayoutType.getValue()
+          write_method: int32
+        - name: VendorId
+          write_method: int32
+        - name: ProductId
+          write_method: int32
     - name: KeyboardLayoutSelectionResult
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: LayoutDescriptor
+          write_method: string16
+          condition: mLayoutDescriptor!=null
+        - name: SelectionCriteria
+          write_method: int32
     - name: TouchCalibration
+      java_wire_format:
+        - name: XScale
+          write_method: float32
+        - name: XYMix
+          write_method: float32
+        - name: XOffset
+          write_method: float32
+        - name: YXMix
+          write_method: float32
+        - name: YScale
+          write_method: float32
+        - name: YOffset
+          write_method: float32
     - name: VirtualDpadConfig
+      java_wire_format:
+        - name: Dest
+          write_method: opaque
     - name: VirtualKeyEvent
+      java_wire_format:
+        - name: Action
+          write_method: int32
+        - name: KeyCode
+          write_method: int32
+        - name: EventTimeNanos
+          write_method: int64
     - name: VirtualKeyboardConfig
+      java_wire_format:
+        - name: Dest
+          write_method: opaque
+        - name: LanguageTag
+          write_method: string8
+        - name: LayoutType
+          write_method: string8
     - name: VirtualMouseButtonEvent
+      java_wire_format:
+        - name: Action
+          write_method: int32
+        - name: ButtonCode
+          write_method: int32
+        - name: EventTimeNanos
+          write_method: int64
     - name: VirtualMouseConfig
+      java_wire_format:
+        - name: Dest
+          write_method: opaque
     - name: VirtualMouseRelativeEvent
+      java_wire_format:
+        - name: RelativeX
+          write_method: float32
+        - name: RelativeY
+          write_method: float32
+        - name: EventTimeNanos
+          write_method: int64
     - name: VirtualMouseScrollEvent
+      java_wire_format:
+        - name: XAxisMovement
+          write_method: float32
+        - name: YAxisMovement
+          write_method: float32
+        - name: EventTimeNanos
+          write_method: int64
     - name: VirtualNavigationTouchpadConfig
+      java_wire_format:
+        - name: Dest
+          write_method: opaque
+        - name: Height
+          write_method: int32
+        - name: Width
+          write_method: int32
     - name: VirtualStylusButtonEvent
+      java_wire_format:
+        - name: Action
+          write_method: int32
+        - name: ButtonCode
+          write_method: int32
+        - name: EventTimeNanos
+          write_method: int64
     - name: VirtualStylusConfig
+      java_wire_format:
+        - name: Dest
+          write_method: opaque
     - name: VirtualStylusMotionEvent
+      java_wire_format:
+        - name: ToolType
+          write_method: int32
+        - name: Action
+          write_method: int32
+        - name: X
+          write_method: int32
+        - name: "Y"
+          write_method: int32
+        - name: Pressure
+          write_method: int32
+        - name: TiltX
+          write_method: int32
+        - name: TiltY
+          write_method: int32
+        - name: EventTimeNanos
+          write_method: int64
     - name: VirtualTouchEvent
+      java_wire_format:
+        - name: PointerId
+          write_method: int32
+        - name: ToolType
+          write_method: int32
+        - name: Action
+          write_method: int32
+        - name: X
+          write_method: float32
+        - name: "Y"
+          write_method: float32
+        - name: Pressure
+          write_method: float32
+        - name: MajorAxisSize
+          write_method: float32
+        - name: EventTimeNanos
+          write_method: int64
     - name: VirtualTouchscreenConfig
+      java_wire_format:
+        - name: Dest
+          write_method: opaque

@@ -26,6 +26,7 @@ func resolveTypeRef(
 type TypeRefResolver struct {
 	Registry   *resolver.TypeRegistry
 	CurrentPkg string // current AIDL package (e.g., "android.hardware.audio.common")
+	CurrentDef string // fully qualified name of the definition being generated (e.g., "android.hardware.bluetooth.audio.CodecId")
 	GoFile     *GoFile
 	// AliasMap caches the Go import alias assigned per AIDL package to avoid
 	// collisions when two different packages share the same last segment.
@@ -160,9 +161,16 @@ func (r *TypeRefResolver) resolveUserTypeUncached(aidlName string) string {
 		return r.qualifiedGoRef(qualifiedName, aidlName)
 	}
 
-	// Try short name lookup (e.g., "AudioUsage" -> "android.media.audio.common.AudioUsage").
-	if qualifiedName, _, ok := r.Registry.LookupQualifiedByShortName(aidlName); ok {
-		return r.qualifiedGoRef(qualifiedName, aidlName)
+	// Try short name lookup. When multiple types share the same short name,
+	// prefer the one whose package shares the longest common prefix with the
+	// current package (closest sibling/cousin in the package hierarchy).
+	candidates := r.Registry.LookupAllByShortName(aidlName)
+	if len(candidates) == 1 {
+		return r.qualifiedGoRef(candidates[0].QualifiedName, aidlName)
+	}
+	if len(candidates) > 1 {
+		best := r.pickBestCandidate(candidates)
+		return r.qualifiedGoRef(best, aidlName)
 	}
 
 	// For dotted names like "ActivityManager.RunningTaskInfo", try resolving
@@ -175,6 +183,124 @@ func (r *TypeRefResolver) resolveUserTypeUncached(aidlName string) string {
 
 	// Unknown type: fall back to any to avoid compile errors.
 	return "any"
+}
+
+// pickBestCandidate selects the best match among multiple short-name
+// candidates by preferring:
+//  1. Types with actual content (fields) over empty stubs.
+//  2. Closer package proximity (longer common prefix with CurrentPkg).
+//  3. Alphabetically first for determinism.
+func (r *TypeRefResolver) pickBestCandidate(
+	candidates []struct {
+		QualifiedName string
+		Def           parser.Definition
+	},
+) string {
+	items := make([]scored, len(candidates))
+	for i, c := range candidates {
+		pkg := packageFromQualified(c.QualifiedName)
+		fc := parcelFieldCount(c.Def)
+		items[i] = scored{
+			qualifiedName: c.QualifiedName,
+			fieldCount:    fc,
+			prefixLen:     commonPrefixLen(r.CurrentPkg, pkg),
+			nested:        strings.Contains(c.Def.GetName(), "."),
+			isStub:        fc == -1,
+			pkgDepth:      strings.Count(pkg, ".") + 1,
+		}
+	}
+
+	best := items[0]
+	for _, s := range items[1:] {
+		if betterTypeCandidate(s, best) {
+			best = s
+		}
+	}
+
+	return best.qualifiedName
+}
+
+// parcelFieldCount returns the number of fields if the definition is a
+// ParcelableDecl, or -1 otherwise (non-parcelable types are never penalized).
+// Parcelables with zero fields AND *StableParcelable annotations are
+// considered stubs and return -1 to deprioritize them.
+func parcelFieldCount(def parser.Definition) int {
+	pd, ok := def.(*parser.ParcelableDecl)
+	if !ok {
+		return -1
+	}
+	if len(pd.Fields) == 0 && isStableParcelableStub(pd) {
+		return -1
+	}
+	return len(pd.Fields)
+}
+
+// isStableParcelableStub returns true if the parcelable has no fields and
+// has *StableParcelable annotations, indicating it's a stub with the real
+// implementation in another language.
+func isStableParcelableStub(pd *parser.ParcelableDecl) bool {
+	if len(pd.Fields) > 0 {
+		return false
+	}
+	for _, a := range pd.Annots {
+		switch a.Name {
+		case "JavaOnlyStableParcelable", "NdkOnlyStableParcelable", "RustOnlyStableParcelable":
+			return true
+		}
+	}
+	return pd.CppHeader != "" || pd.NdkHeader != "" || pd.RustType != ""
+}
+
+// scored holds scoring info for a type candidate during ambiguous short-name resolution.
+type scored struct {
+	qualifiedName string
+	fieldCount    int
+	prefixLen     int
+	nested        bool
+	isStub        bool
+	pkgDepth      int // number of dot-separated segments in the package
+}
+
+// betterTypeCandidate returns true if a should be preferred over b.
+// Resolution order:
+//  1. Longer common prefix with CurrentPkg (closer package).
+//  2. Non-stub over stub (stubs have *StableParcelable or forward-declared annotations).
+//  3. Top-level types over nested types.
+//  4. Shorter package path (simpler/more canonical).
+//  5. Alphabetically first for determinism.
+func betterTypeCandidate(a, b scored) bool {
+	if a.prefixLen != b.prefixLen {
+		return a.prefixLen > b.prefixLen
+	}
+	if a.isStub != b.isStub {
+		return !a.isStub
+	}
+	if a.nested != b.nested {
+		return !a.nested
+	}
+	if a.pkgDepth != b.pkgDepth {
+		return a.pkgDepth < b.pkgDepth
+	}
+	return a.qualifiedName < b.qualifiedName
+}
+
+// commonPrefixLen returns the length of the longest common dot-separated
+// prefix between two package names.
+func commonPrefixLen(a, b string) int {
+	aParts := strings.Split(a, ".")
+	bParts := strings.Split(b, ".")
+	n := len(aParts)
+	if len(bParts) < n {
+		n = len(bParts)
+	}
+	common := 0
+	for i := 0; i < n; i++ {
+		if aParts[i] != bParts[i] {
+			break
+		}
+		common += len(aParts[i]) + 1 // +1 for the dot
+	}
+	return common
 }
 
 // resolveNestedType attempts to resolve a dotted AIDL type name by looking up
@@ -215,11 +341,37 @@ func (r *TypeRefResolver) tryResolve(name string) (string, bool) {
 		return name, true
 	}
 
-	// For dotted names that might be nested types, try prepending the current package.
-	if r.CurrentPkg != "" && !strings.Contains(name, ".") {
-		candidate := r.CurrentPkg + "." + name
-		if _, ok := r.Registry.Lookup(candidate); ok {
-			return candidate, true
+	if !strings.Contains(name, ".") {
+		// For nested types: try CurrentDef + "." + name and
+		// progressively shorter parent paths, but only within the
+		// current definition (not above the package boundary).
+		// E.g., for CurrentDef = "pkg.CodecInfo.Transport":
+		//   try "pkg.CodecInfo.Transport.A2dp"
+		//   try "pkg.CodecInfo.A2dp"
+		// But NOT "pkg.A2dp" — that's the package level, handled below.
+		if r.CurrentDef != "" && r.CurrentPkg != "" &&
+			len(r.CurrentDef) > len(r.CurrentPkg)+1 {
+			// Only climb within nested type names, not into parent packages.
+			defPath := r.CurrentDef
+			pkgPrefix := r.CurrentPkg + "."
+			for strings.HasPrefix(defPath, pkgPrefix) && len(defPath) > len(pkgPrefix) {
+				candidate := defPath + "." + name
+				if _, ok := r.Registry.Lookup(candidate); ok {
+					return candidate, true
+				}
+				lastDot := strings.LastIndex(defPath, ".")
+				if lastDot < 0 {
+					break
+				}
+				defPath = defPath[:lastDot]
+			}
+		}
+		// Try current package + name for same-package references.
+		if r.CurrentPkg != "" {
+			candidate := r.CurrentPkg + "." + name
+			if _, ok := r.Registry.Lookup(candidate); ok {
+				return candidate, true
+			}
 		}
 	}
 

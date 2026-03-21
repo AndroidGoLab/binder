@@ -27,7 +27,7 @@ type IGnssMeasurementInterface interface {
 	AsBinder() binder.IBinder
 	SetCallback(ctx context.Context, callback IGnssMeasurementCallback, enableFullTracking bool, enableCorrVecOutputs bool) error
 	Close(ctx context.Context) error
-	SetCallbackWithOptions(ctx context.Context, callback IGnssMeasurementCallback, options IGnssBatchingOptions) error
+	SetCallbackWithOptions(ctx context.Context, callback IGnssMeasurementCallback, options IGnssMeasurementInterfaceOptions) error
 }
 
 type GnssMeasurementInterfaceProxy struct {
@@ -105,7 +105,7 @@ func (p *GnssMeasurementInterfaceProxy) Close(
 func (p *GnssMeasurementInterfaceProxy) SetCallbackWithOptions(
 	ctx context.Context,
 	callback IGnssMeasurementCallback,
-	options IGnssBatchingOptions,
+	options IGnssMeasurementInterfaceOptions,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -200,7 +200,7 @@ func (s *GnssMeasurementInterfaceStub) OnTransaction(
 			}
 			_arg_callback = NewGnssMeasurementCallbackProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _callbackHandle))
 		}
-		var _arg_options IGnssBatchingOptions
+		var _arg_options IGnssMeasurementInterfaceOptions
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -231,7 +231,7 @@ func (s *GnssMeasurementInterfaceStub) OnTransaction(
 type IGnssMeasurementInterfaceServer interface {
 	SetCallback(ctx context.Context, callback IGnssMeasurementCallback, enableFullTracking bool, enableCorrVecOutputs bool) error
 	Close(ctx context.Context) error
-	SetCallbackWithOptions(ctx context.Context, callback IGnssMeasurementCallback, options IGnssBatchingOptions) error
+	SetCallbackWithOptions(ctx context.Context, callback IGnssMeasurementCallback, options IGnssMeasurementInterfaceOptions) error
 }
 
 type gnssMeasurementInterfaceStubWrapper struct {
@@ -261,7 +261,7 @@ func (w *gnssMeasurementInterfaceStubWrapper) Close(
 func (w *gnssMeasurementInterfaceStubWrapper) SetCallbackWithOptions(
 	ctx context.Context,
 	callback IGnssMeasurementCallback,
-	options IGnssBatchingOptions,
+	options IGnssMeasurementInterfaceOptions,
 ) error {
 	return w.impl.SetCallbackWithOptions(ctx, callback, options)
 }

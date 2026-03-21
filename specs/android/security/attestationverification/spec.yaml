@@ -72,6 +72,17 @@ interfaces:
             name: void
 parcelables:
     - name: AttestationProfile
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: AttestationProfileId
+          write_method: int32
+        - name: PackageName
+          write_method: string16
+          condition: mPackageName!=null
+        - name: ProfileName
+          write_method: string16
+          condition: mProfileName!=null
     - name: IVerificationResult
       fields:
         - name: resultCode
@@ -81,3 +92,16 @@ parcelables:
           type:
             name: VerificationToken
     - name: VerificationToken
+      java_wire_format:
+        - name: AttestationProfile
+          write_method: opaque
+        - name: LocalBindingType
+          write_method: int32
+        - name: Requirements
+          write_method: opaque
+        - name: VerificationResult
+          write_method: int32
+        - name: Hmac
+          write_method: opaque
+        - name: Uid
+          write_method: int32

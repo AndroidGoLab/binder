@@ -27,6 +27,8 @@ interfaces:
           transaction_code_offset: 2
           return_type:
             name: boolean
+      annotations:
+        - VintfStability
 parcelables:
     - name: Eid
       fields:

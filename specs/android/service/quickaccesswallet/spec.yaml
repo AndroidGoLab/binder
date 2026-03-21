@@ -112,9 +112,55 @@ interfaces:
             name: void
 parcelables:
     - name: GetWalletCardsError
+      java_wire_format:
+        - name: (byte)0
+          write_method: int32
+          condition: mIcon==null
+        - name: Message
+          write_method: opaque
     - name: GetWalletCardsRequest
+      java_wire_format:
+        - name: CardWidthPx
+          write_method: int32
+        - name: CardHeightPx
+          write_method: int32
+        - name: IconSizePx
+          write_method: int32
+        - name: MaxCards
+          write_method: int32
     - name: GetWalletCardsResponse
+      java_wire_format:
+        - name: WalletCards.size()
+          write_method: int32
+        - name: WalletCards
+          write_method: opaque
+        - name: SelectedIndex
+          write_method: int32
     - name: SelectWalletCardRequest
+      java_wire_format:
+        - name: CardId
+          write_method: string16
     - name: WalletCard
+      java_wire_format:
+        - name: CardId
+          write_method: string16
+        - name: CardType
+          write_method: int32
+        - name: Dest
+          write_method: opaque
+        - name: ContentDescription
+          write_method: opaque
+        - name: PendingIntent
+          write_method: opaque
+        - name: CardLabel
+          write_method: opaque
+        - name: CardLocations
+          write_method: opaque
     - name: WalletServiceEvent
+      java_wire_format:
+        - name: EventType
+          write_method: int32
     - name: WalletServiceEventListenerRequest
+      java_wire_format:
+        - name: ListenerId
+          write_method: string16

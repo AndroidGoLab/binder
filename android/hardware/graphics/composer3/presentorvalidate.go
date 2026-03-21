@@ -1,7 +1,6 @@
 package composer3
 
 import (
-	can "github.com/xaionaro-go/binder/android/hardware/automotive/can"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -9,7 +8,7 @@ import (
 
 type PresentOrValidate struct {
 	Display int64
-	Result  can.Result
+	Result  PresentOrValidateResult
 }
 
 var _ parcel.Parcelable = (*PresentOrValidate)(nil)
@@ -52,7 +51,7 @@ func (s *PresentOrValidate) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	s.Result = can.Result(_resultRaw)
+	s.Result = PresentOrValidateResult(_resultRaw)
 
 	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil

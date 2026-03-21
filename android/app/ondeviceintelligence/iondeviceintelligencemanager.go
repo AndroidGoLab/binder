@@ -3,7 +3,6 @@ package ondeviceintelligence
 import (
 	"context"
 	"fmt"
-	common "github.com/xaionaro-go/binder/android/hardware/biometrics/common"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -41,10 +40,10 @@ type IOnDeviceIntelligenceManager interface {
 	GetFeature(ctx context.Context, featureId int32, remoteCallback IFeatureCallback) error
 	ListFeatures(ctx context.Context, listFeaturesCallback IListFeaturesCallback) error
 	GetFeatureDetails(ctx context.Context, feature Feature, featureDetailsCallback IFeatureDetailsCallback) error
-	RequestFeatureDownload(ctx context.Context, feature Feature, signal common.ICancellationSignal, callback IDownloadCallback) error
-	RequestTokenCount(ctx context.Context, feature Feature, request Content, signal common.ICancellationSignal, tokenCountcallback ITokenCountCallback) error
-	ProcessRequest(ctx context.Context, feature Feature, request Content, requestType int32, cancellationSignal common.ICancellationSignal, signal IProcessingSignal, responseCallback IResponseCallback) error
-	ProcessRequestStreaming(ctx context.Context, feature Feature, request Content, requestType int32, cancellationSignal common.ICancellationSignal, signal IProcessingSignal, streamingCallback IStreamingResponseCallback) error
+	RequestFeatureDownload(ctx context.Context, feature Feature, signal os.ICancellationSignal, callback IDownloadCallback) error
+	RequestTokenCount(ctx context.Context, feature Feature, request Content, signal os.ICancellationSignal, tokenCountcallback ITokenCountCallback) error
+	ProcessRequest(ctx context.Context, feature Feature, request Content, requestType int32, cancellationSignal os.ICancellationSignal, signal IProcessingSignal, responseCallback IResponseCallback) error
+	ProcessRequestStreaming(ctx context.Context, feature Feature, request Content, requestType int32, cancellationSignal os.ICancellationSignal, signal IProcessingSignal, streamingCallback IStreamingResponseCallback) error
 }
 
 type OnDeviceIntelligenceManagerProxy struct {
@@ -148,7 +147,7 @@ func (p *OnDeviceIntelligenceManagerProxy) GetFeatureDetails(
 func (p *OnDeviceIntelligenceManagerProxy) RequestFeatureDownload(
 	ctx context.Context,
 	feature Feature,
-	signal common.ICancellationSignal,
+	signal os.ICancellationSignal,
 	callback IDownloadCallback,
 ) error {
 	_data := parcel.New()
@@ -174,7 +173,7 @@ func (p *OnDeviceIntelligenceManagerProxy) RequestTokenCount(
 	ctx context.Context,
 	feature Feature,
 	request Content,
-	signal common.ICancellationSignal,
+	signal os.ICancellationSignal,
 	tokenCountcallback ITokenCountCallback,
 ) error {
 	_data := parcel.New()
@@ -205,7 +204,7 @@ func (p *OnDeviceIntelligenceManagerProxy) ProcessRequest(
 	feature Feature,
 	request Content,
 	requestType int32,
-	cancellationSignal common.ICancellationSignal,
+	cancellationSignal os.ICancellationSignal,
 	signal IProcessingSignal,
 	responseCallback IResponseCallback,
 ) error {
@@ -239,7 +238,7 @@ func (p *OnDeviceIntelligenceManagerProxy) ProcessRequestStreaming(
 	feature Feature,
 	request Content,
 	requestType int32,
-	cancellationSignal common.ICancellationSignal,
+	cancellationSignal os.ICancellationSignal,
 	signal IProcessingSignal,
 	streamingCallback IStreamingResponseCallback,
 ) error {
@@ -368,13 +367,13 @@ func (s *OnDeviceIntelligenceManagerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_signal common.ICancellationSignal
+		var _arg_signal os.ICancellationSignal
 		{
 			_signalHandle, _err := _data.ReadStrongBinder()
 			if _err != nil {
 				return nil, _err
 			}
-			_arg_signal = common.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _signalHandle))
+			_arg_signal = os.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _signalHandle))
 		}
 		var _arg_callback IDownloadCallback
 		{
@@ -411,13 +410,13 @@ func (s *OnDeviceIntelligenceManagerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_signal common.ICancellationSignal
+		var _arg_signal os.ICancellationSignal
 		{
 			_signalHandle, _err := _data.ReadStrongBinder()
 			if _err != nil {
 				return nil, _err
 			}
-			_arg_signal = common.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _signalHandle))
+			_arg_signal = os.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _signalHandle))
 		}
 		var _arg_tokenCountcallback ITokenCountCallback
 		{
@@ -458,13 +457,13 @@ func (s *OnDeviceIntelligenceManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_cancellationSignal common.ICancellationSignal
+		var _arg_cancellationSignal os.ICancellationSignal
 		{
 			_cancellationSignalHandle, _err := _data.ReadStrongBinder()
 			if _err != nil {
 				return nil, _err
 			}
-			_arg_cancellationSignal = common.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationSignalHandle))
+			_arg_cancellationSignal = os.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationSignalHandle))
 		}
 		var _arg_signal IProcessingSignal
 		{
@@ -513,13 +512,13 @@ func (s *OnDeviceIntelligenceManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_cancellationSignal common.ICancellationSignal
+		var _arg_cancellationSignal os.ICancellationSignal
 		{
 			_cancellationSignalHandle, _err := _data.ReadStrongBinder()
 			if _err != nil {
 				return nil, _err
 			}
-			_arg_cancellationSignal = common.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationSignalHandle))
+			_arg_cancellationSignal = os.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationSignalHandle))
 		}
 		var _arg_signal IProcessingSignal
 		{
@@ -552,10 +551,10 @@ type IOnDeviceIntelligenceManagerServer interface {
 	GetFeature(ctx context.Context, featureId int32, remoteCallback IFeatureCallback) error
 	ListFeatures(ctx context.Context, listFeaturesCallback IListFeaturesCallback) error
 	GetFeatureDetails(ctx context.Context, feature Feature, featureDetailsCallback IFeatureDetailsCallback) error
-	RequestFeatureDownload(ctx context.Context, feature Feature, signal common.ICancellationSignal, callback IDownloadCallback) error
-	RequestTokenCount(ctx context.Context, feature Feature, request Content, signal common.ICancellationSignal, tokenCountcallback ITokenCountCallback) error
-	ProcessRequest(ctx context.Context, feature Feature, request Content, requestType int32, cancellationSignal common.ICancellationSignal, signal IProcessingSignal, responseCallback IResponseCallback) error
-	ProcessRequestStreaming(ctx context.Context, feature Feature, request Content, requestType int32, cancellationSignal common.ICancellationSignal, signal IProcessingSignal, streamingCallback IStreamingResponseCallback) error
+	RequestFeatureDownload(ctx context.Context, feature Feature, signal os.ICancellationSignal, callback IDownloadCallback) error
+	RequestTokenCount(ctx context.Context, feature Feature, request Content, signal os.ICancellationSignal, tokenCountcallback ITokenCountCallback) error
+	ProcessRequest(ctx context.Context, feature Feature, request Content, requestType int32, cancellationSignal os.ICancellationSignal, signal IProcessingSignal, responseCallback IResponseCallback) error
+	ProcessRequestStreaming(ctx context.Context, feature Feature, request Content, requestType int32, cancellationSignal os.ICancellationSignal, signal IProcessingSignal, streamingCallback IStreamingResponseCallback) error
 }
 
 type onDeviceIntelligenceManagerStubWrapper struct {
@@ -600,7 +599,7 @@ func (w *onDeviceIntelligenceManagerStubWrapper) GetFeatureDetails(
 func (w *onDeviceIntelligenceManagerStubWrapper) RequestFeatureDownload(
 	ctx context.Context,
 	feature Feature,
-	signal common.ICancellationSignal,
+	signal os.ICancellationSignal,
 	callback IDownloadCallback,
 ) error {
 	return w.impl.RequestFeatureDownload(ctx, feature, signal, callback)
@@ -610,7 +609,7 @@ func (w *onDeviceIntelligenceManagerStubWrapper) RequestTokenCount(
 	ctx context.Context,
 	feature Feature,
 	request Content,
-	signal common.ICancellationSignal,
+	signal os.ICancellationSignal,
 	tokenCountcallback ITokenCountCallback,
 ) error {
 	return w.impl.RequestTokenCount(ctx, feature, request, signal, tokenCountcallback)
@@ -621,7 +620,7 @@ func (w *onDeviceIntelligenceManagerStubWrapper) ProcessRequest(
 	feature Feature,
 	request Content,
 	requestType int32,
-	cancellationSignal common.ICancellationSignal,
+	cancellationSignal os.ICancellationSignal,
 	signal IProcessingSignal,
 	responseCallback IResponseCallback,
 ) error {
@@ -633,7 +632,7 @@ func (w *onDeviceIntelligenceManagerStubWrapper) ProcessRequestStreaming(
 	feature Feature,
 	request Content,
 	requestType int32,
-	cancellationSignal common.ICancellationSignal,
+	cancellationSignal os.ICancellationSignal,
 	signal IProcessingSignal,
 	streamingCallback IStreamingResponseCallback,
 ) error {

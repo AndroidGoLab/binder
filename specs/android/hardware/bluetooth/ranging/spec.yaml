@@ -37,6 +37,8 @@ interfaces:
             name: IBluetoothChannelSoundingSession
           annotations:
             - nullable
+      annotations:
+        - VintfStability
     - name: IBluetoothChannelSoundingSession
       descriptor: android.hardware.bluetooth.ranging.IBluetoothChannelSoundingSession
       methods:
@@ -73,6 +75,8 @@ interfaces:
                 name: Reason
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IBluetoothChannelSoundingSessionCallback
       descriptor: android.hardware.bluetooth.ranging.IBluetoothChannelSoundingSessionCallback
       methods:
@@ -117,6 +121,8 @@ interfaces:
                 name: Reason
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: BluetoothChannelSoundingParameters
       fields:

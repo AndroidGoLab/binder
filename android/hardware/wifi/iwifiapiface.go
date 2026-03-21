@@ -18,7 +18,6 @@ const (
 	TransactionIWifiApIfaceSetCountryCode           = binder.FirstCallTransaction + 3
 	TransactionIWifiApIfaceResetToFactoryMacAddress = binder.FirstCallTransaction + 4
 	TransactionIWifiApIfaceSetMacAddress            = binder.FirstCallTransaction + 5
-	TransactionIWifiApIfaceUsesMlo                  = binder.FirstCallTransaction + 6
 )
 
 const (
@@ -28,7 +27,6 @@ const (
 	MethodIWifiApIfaceSetCountryCode           = "setCountryCode"
 	MethodIWifiApIfaceResetToFactoryMacAddress = "resetToFactoryMacAddress"
 	MethodIWifiApIfaceSetMacAddress            = "setMacAddress"
-	MethodIWifiApIfaceUsesMlo                  = "usesMlo"
 )
 
 type IWifiApIface interface {
@@ -39,7 +37,6 @@ type IWifiApIface interface {
 	SetCountryCode(ctx context.Context, code []byte) error
 	ResetToFactoryMacAddress(ctx context.Context) error
 	SetMacAddress(ctx context.Context, mac []byte) error
-	UsesMlo(ctx context.Context) (bool, error)
 }
 
 type WifiApIfaceProxy struct {
@@ -240,36 +237,6 @@ func (p *WifiApIfaceProxy) SetMacAddress(
 	return nil
 }
 
-func (p *WifiApIfaceProxy) UsesMlo(
-	ctx context.Context,
-) (bool, error) {
-	var _result bool
-	_data := parcel.New()
-	defer _data.Recycle()
-	_data.WriteInterfaceToken(DescriptorIWifiApIface)
-
-	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIWifiApIface, MethodIWifiApIfaceUsesMlo)
-	if _err != nil {
-		return _result, fmt.Errorf("resolving %s.%s: %w", DescriptorIWifiApIface, MethodIWifiApIfaceUsesMlo, _err)
-	}
-
-	_reply, _err := p.Remote.Transact(ctx, _code, 0, _data)
-	if _err != nil {
-		return _result, _err
-	}
-	defer _reply.Recycle()
-
-	if _err = binder.ReadStatus(_reply); _err != nil {
-		return _result, _err
-	}
-
-	_result, _err = _reply.ReadBool()
-	if _err != nil {
-		return _result, _err
-	}
-	return _result, nil
-}
-
 // WifiApIfaceStub dispatches incoming binder transactions
 // to a typed IWifiApIface implementation.
 type WifiApIfaceStub struct {
@@ -373,16 +340,6 @@ func (s *WifiApIfaceStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionIWifiApIfaceUsesMlo:
-		_result, _err := s.Impl.UsesMlo(ctx)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		_reply.WriteBool(_result)
-		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
 	}
@@ -398,7 +355,6 @@ type IWifiApIfaceServer interface {
 	SetCountryCode(ctx context.Context, code []byte) error
 	ResetToFactoryMacAddress(ctx context.Context) error
 	SetMacAddress(ctx context.Context, mac []byte) error
-	UsesMlo(ctx context.Context) (bool, error)
 }
 
 type wifiApIfaceStubWrapper struct {
@@ -446,12 +402,6 @@ func (w *wifiApIfaceStubWrapper) SetMacAddress(
 	mac []byte,
 ) error {
 	return w.impl.SetMacAddress(ctx, mac)
-}
-
-func (w *wifiApIfaceStubWrapper) UsesMlo(
-	ctx context.Context,
-) (bool, error) {
-	return w.impl.UsesMlo(ctx)
 }
 
 var _ IWifiApIface = (*wifiApIfaceStubWrapper)(nil)

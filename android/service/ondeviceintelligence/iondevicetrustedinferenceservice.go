@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	appOndeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
-	common "github.com/xaionaro-go/binder/android/hardware/biometrics/common"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -33,9 +32,9 @@ const (
 type IOnDeviceTrustedInferenceService interface {
 	AsBinder() binder.IBinder
 	RegisterRemoteStorageService(ctx context.Context, storageService IRemoteStorageService) error
-	RequestTokenCount(ctx context.Context, feature appOndeviceintelligence.Feature, request appOndeviceintelligence.Content, cancellationSignal common.ICancellationSignal, tokenCountCallback appOndeviceintelligence.ITokenCountCallback) error
-	ProcessRequest(ctx context.Context, feature appOndeviceintelligence.Feature, request appOndeviceintelligence.Content, requestType int32, cancellationSignal common.ICancellationSignal, processingSignal appOndeviceintelligence.IProcessingSignal, callback appOndeviceintelligence.IResponseCallback) error
-	ProcessRequestStreaming(ctx context.Context, feature appOndeviceintelligence.Feature, request appOndeviceintelligence.Content, requestType int32, cancellationSignal common.ICancellationSignal, processingSignal appOndeviceintelligence.IProcessingSignal, callback appOndeviceintelligence.IStreamingResponseCallback) error
+	RequestTokenCount(ctx context.Context, feature appOndeviceintelligence.Feature, request appOndeviceintelligence.Content, cancellationSignal os.ICancellationSignal, tokenCountCallback appOndeviceintelligence.ITokenCountCallback) error
+	ProcessRequest(ctx context.Context, feature appOndeviceintelligence.Feature, request appOndeviceintelligence.Content, requestType int32, cancellationSignal os.ICancellationSignal, processingSignal appOndeviceintelligence.IProcessingSignal, callback appOndeviceintelligence.IResponseCallback) error
+	ProcessRequestStreaming(ctx context.Context, feature appOndeviceintelligence.Feature, request appOndeviceintelligence.Content, requestType int32, cancellationSignal os.ICancellationSignal, processingSignal appOndeviceintelligence.IProcessingSignal, callback appOndeviceintelligence.IStreamingResponseCallback) error
 	UpdateProcessingState(ctx context.Context, processingState os.Bundle, callback IProcessingUpdateStatusCallback) error
 }
 
@@ -77,7 +76,7 @@ func (p *OnDeviceTrustedInferenceServiceProxy) RequestTokenCount(
 	ctx context.Context,
 	feature appOndeviceintelligence.Feature,
 	request appOndeviceintelligence.Content,
-	cancellationSignal common.ICancellationSignal,
+	cancellationSignal os.ICancellationSignal,
 	tokenCountCallback appOndeviceintelligence.ITokenCountCallback,
 ) error {
 	_data := parcel.New()
@@ -108,7 +107,7 @@ func (p *OnDeviceTrustedInferenceServiceProxy) ProcessRequest(
 	feature appOndeviceintelligence.Feature,
 	request appOndeviceintelligence.Content,
 	requestType int32,
-	cancellationSignal common.ICancellationSignal,
+	cancellationSignal os.ICancellationSignal,
 	processingSignal appOndeviceintelligence.IProcessingSignal,
 	callback appOndeviceintelligence.IResponseCallback,
 ) error {
@@ -142,7 +141,7 @@ func (p *OnDeviceTrustedInferenceServiceProxy) ProcessRequestStreaming(
 	feature appOndeviceintelligence.Feature,
 	request appOndeviceintelligence.Content,
 	requestType int32,
-	cancellationSignal common.ICancellationSignal,
+	cancellationSignal os.ICancellationSignal,
 	processingSignal appOndeviceintelligence.IProcessingSignal,
 	callback appOndeviceintelligence.IStreamingResponseCallback,
 ) error {
@@ -253,13 +252,13 @@ func (s *OnDeviceTrustedInferenceServiceStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_cancellationSignal common.ICancellationSignal
+		var _arg_cancellationSignal os.ICancellationSignal
 		{
 			_cancellationSignalHandle, _err := _data.ReadStrongBinder()
 			if _err != nil {
 				return nil, _err
 			}
-			_arg_cancellationSignal = common.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationSignalHandle))
+			_arg_cancellationSignal = os.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationSignalHandle))
 		}
 		var _arg_tokenCountCallback appOndeviceintelligence.ITokenCountCallback
 		{
@@ -300,13 +299,13 @@ func (s *OnDeviceTrustedInferenceServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_cancellationSignal common.ICancellationSignal
+		var _arg_cancellationSignal os.ICancellationSignal
 		{
 			_cancellationSignalHandle, _err := _data.ReadStrongBinder()
 			if _err != nil {
 				return nil, _err
 			}
-			_arg_cancellationSignal = common.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationSignalHandle))
+			_arg_cancellationSignal = os.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationSignalHandle))
 		}
 		var _arg_processingSignal appOndeviceintelligence.IProcessingSignal
 		{
@@ -355,13 +354,13 @@ func (s *OnDeviceTrustedInferenceServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_cancellationSignal common.ICancellationSignal
+		var _arg_cancellationSignal os.ICancellationSignal
 		{
 			_cancellationSignalHandle, _err := _data.ReadStrongBinder()
 			if _err != nil {
 				return nil, _err
 			}
-			_arg_cancellationSignal = common.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationSignalHandle))
+			_arg_cancellationSignal = os.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationSignalHandle))
 		}
 		var _arg_processingSignal appOndeviceintelligence.IProcessingSignal
 		{
@@ -414,9 +413,9 @@ func (s *OnDeviceTrustedInferenceServiceStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IOnDeviceTrustedInferenceServiceServer interface {
 	RegisterRemoteStorageService(ctx context.Context, storageService IRemoteStorageService) error
-	RequestTokenCount(ctx context.Context, feature appOndeviceintelligence.Feature, request appOndeviceintelligence.Content, cancellationSignal common.ICancellationSignal, tokenCountCallback appOndeviceintelligence.ITokenCountCallback) error
-	ProcessRequest(ctx context.Context, feature appOndeviceintelligence.Feature, request appOndeviceintelligence.Content, requestType int32, cancellationSignal common.ICancellationSignal, processingSignal appOndeviceintelligence.IProcessingSignal, callback appOndeviceintelligence.IResponseCallback) error
-	ProcessRequestStreaming(ctx context.Context, feature appOndeviceintelligence.Feature, request appOndeviceintelligence.Content, requestType int32, cancellationSignal common.ICancellationSignal, processingSignal appOndeviceintelligence.IProcessingSignal, callback appOndeviceintelligence.IStreamingResponseCallback) error
+	RequestTokenCount(ctx context.Context, feature appOndeviceintelligence.Feature, request appOndeviceintelligence.Content, cancellationSignal os.ICancellationSignal, tokenCountCallback appOndeviceintelligence.ITokenCountCallback) error
+	ProcessRequest(ctx context.Context, feature appOndeviceintelligence.Feature, request appOndeviceintelligence.Content, requestType int32, cancellationSignal os.ICancellationSignal, processingSignal appOndeviceintelligence.IProcessingSignal, callback appOndeviceintelligence.IResponseCallback) error
+	ProcessRequestStreaming(ctx context.Context, feature appOndeviceintelligence.Feature, request appOndeviceintelligence.Content, requestType int32, cancellationSignal os.ICancellationSignal, processingSignal appOndeviceintelligence.IProcessingSignal, callback appOndeviceintelligence.IStreamingResponseCallback) error
 	UpdateProcessingState(ctx context.Context, processingState os.Bundle, callback IProcessingUpdateStatusCallback) error
 }
 
@@ -440,7 +439,7 @@ func (w *onDeviceTrustedInferenceServiceStubWrapper) RequestTokenCount(
 	ctx context.Context,
 	feature appOndeviceintelligence.Feature,
 	request appOndeviceintelligence.Content,
-	cancellationSignal common.ICancellationSignal,
+	cancellationSignal os.ICancellationSignal,
 	tokenCountCallback appOndeviceintelligence.ITokenCountCallback,
 ) error {
 	return w.impl.RequestTokenCount(ctx, feature, request, cancellationSignal, tokenCountCallback)
@@ -451,7 +450,7 @@ func (w *onDeviceTrustedInferenceServiceStubWrapper) ProcessRequest(
 	feature appOndeviceintelligence.Feature,
 	request appOndeviceintelligence.Content,
 	requestType int32,
-	cancellationSignal common.ICancellationSignal,
+	cancellationSignal os.ICancellationSignal,
 	processingSignal appOndeviceintelligence.IProcessingSignal,
 	callback appOndeviceintelligence.IResponseCallback,
 ) error {
@@ -463,7 +462,7 @@ func (w *onDeviceTrustedInferenceServiceStubWrapper) ProcessRequestStreaming(
 	feature appOndeviceintelligence.Feature,
 	request appOndeviceintelligence.Content,
 	requestType int32,
-	cancellationSignal common.ICancellationSignal,
+	cancellationSignal os.ICancellationSignal,
 	processingSignal appOndeviceintelligence.IProcessingSignal,
 	callback appOndeviceintelligence.IStreamingResponseCallback,
 ) error {

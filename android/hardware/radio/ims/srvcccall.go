@@ -8,7 +8,7 @@ import (
 
 type SrvccCall struct {
 	Index            int32
-	CallType         ImsCallCallType
+	CallType         SrvccCallCallType
 	CallState        int32
 	CallSubstate     SrvccCallCallSubState
 	RingbackToneType SrvccCallToneType
@@ -69,7 +69,7 @@ func (s *SrvccCall) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	s.CallType = ImsCallCallType(_callTypeRaw)
+	s.CallType = SrvccCallCallType(_callTypeRaw)
 
 	if p.Position() >= _endPos {
 		parcel.SkipToParcelableEnd(p, _endPos)

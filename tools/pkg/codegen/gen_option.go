@@ -37,6 +37,17 @@ func WithImportGraph(
 	}
 }
 
+// WithCurrentDef sets the fully qualified name of the definition being
+// generated (e.g., "android.hardware.bluetooth.audio.CodecId"). This enables
+// nested type references like "A2dp" to resolve to "CodecId.A2dp" first.
+func WithCurrentDef(
+	def string,
+) GenOption {
+	return func(opts *GenOptions) {
+		opts.CurrentDef = def
+	}
+}
+
 // WithCycleTypeCallback sets a callback for types redirected to sub-packages.
 func WithCycleTypeCallback(
 	cb func(qualifiedName, typesPkg string),

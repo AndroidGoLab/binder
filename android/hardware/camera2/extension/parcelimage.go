@@ -1,8 +1,7 @@
 package extension
 
 import (
-	graphics "github.com/xaionaro-go/binder/android/graphics"
-	hardware "github.com/xaionaro-go/binder/android/hardware"
+	common "github.com/xaionaro-go/binder/android/hardware/graphics/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -16,8 +15,8 @@ type ParcelImage struct {
 	ScalingMode int32
 	Timestamp   int64
 	PlaneCount  int32
-	Crop        graphics.Rect
-	Buffer      hardware.HardwareBuffer
+	Crop        common.Rect
+	Buffer      common.HardwareBuffer
 	Fence       int32
 }
 

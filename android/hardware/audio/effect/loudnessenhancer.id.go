@@ -15,7 +15,7 @@ const (
 type LoudnessEnhancerId struct {
 	Tag                int32
 	VendorExtensionTag VendorExtension
-	CommonTag          LoudnessEnhancerTag
+	CommonTag          any
 }
 
 var _ parcel.Parcelable = (*LoudnessEnhancerId)(nil)
@@ -34,16 +34,16 @@ func (u *LoudnessEnhancerId) SetVendorExtensionTag(
 	*u = LoudnessEnhancerId{Tag: LoudnessEnhancerIdTagVendorExtensionTag, VendorExtensionTag: v}
 }
 
-func (u *LoudnessEnhancerId) GetCommonTag() (LoudnessEnhancerTag, bool) {
+func (u *LoudnessEnhancerId) GetCommonTag() (any, bool) {
 	if u.Tag != LoudnessEnhancerIdTagCommonTag {
-		var _zero LoudnessEnhancerTag
+		var _zero any
 		return _zero, false
 	}
 	return u.CommonTag, true
 }
 
 func (u *LoudnessEnhancerId) SetCommonTag(
-	v LoudnessEnhancerTag,
+	v any,
 ) {
 	*u = LoudnessEnhancerId{Tag: LoudnessEnhancerIdTagCommonTag, CommonTag: v}
 }
@@ -61,7 +61,6 @@ func (u *LoudnessEnhancerId) MarshalParcel(
 			return _err
 		}
 	case LoudnessEnhancerIdTagCommonTag:
-		p.WriteInt32(int32(u.CommonTag))
 	default:
 		return fmt.Errorf("unknown union tag %d for LoudnessEnhancerId", u.Tag)
 	}
@@ -92,11 +91,6 @@ func (u *LoudnessEnhancerId) UnmarshalParcel(
 			return _err
 		}
 	case LoudnessEnhancerIdTagCommonTag:
-		_raw, _err := p.ReadInt32()
-		if _err != nil {
-			return _err
-		}
-		u.CommonTag = LoudnessEnhancerTag(_raw)
 	default:
 		return fmt.Errorf("unknown union tag %d for LoudnessEnhancerId", u.Tag)
 	}

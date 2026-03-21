@@ -3,7 +3,7 @@ package print
 import (
 	"context"
 	"fmt"
-	common "github.com/xaionaro-go/binder/android/hardware/biometrics/common"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -28,7 +28,7 @@ const (
 
 type IWriteResultCallback interface {
 	AsBinder() binder.IBinder
-	OnWriteStarted(ctx context.Context, cancellation common.ICancellationSignal, sequence int32) error
+	OnWriteStarted(ctx context.Context, cancellation os.ICancellationSignal, sequence int32) error
 	OnWriteFinished(ctx context.Context, pages []PageRange, sequence int32) error
 	OnWriteFailed(ctx context.Context, error_ string, sequence int32) error
 	OnWriteCanceled(ctx context.Context, sequence int32) error
@@ -52,7 +52,7 @@ var _ IWriteResultCallback = (*WriteResultCallbackProxy)(nil)
 
 func (p *WriteResultCallbackProxy) OnWriteStarted(
 	ctx context.Context,
-	cancellation common.ICancellationSignal,
+	cancellation os.ICancellationSignal,
 	sequence int32,
 ) error {
 	_data := parcel.New()
@@ -162,13 +162,13 @@ func (s *WriteResultCallbackStub) OnTransaction(
 
 	switch code {
 	case TransactionIWriteResultCallbackOnWriteStarted:
-		var _arg_cancellation common.ICancellationSignal
+		var _arg_cancellation os.ICancellationSignal
 		{
 			_cancellationHandle, _err := _data.ReadStrongBinder()
 			if _err != nil {
 				return nil, _err
 			}
-			_arg_cancellation = common.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationHandle))
+			_arg_cancellation = os.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationHandle))
 		}
 		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
@@ -231,7 +231,7 @@ func (s *WriteResultCallbackStub) OnTransaction(
 // provide to NewWriteResultCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IWriteResultCallbackServer interface {
-	OnWriteStarted(ctx context.Context, cancellation common.ICancellationSignal, sequence int32) error
+	OnWriteStarted(ctx context.Context, cancellation os.ICancellationSignal, sequence int32) error
 	OnWriteFinished(ctx context.Context, pages []PageRange, sequence int32) error
 	OnWriteFailed(ctx context.Context, error_ string, sequence int32) error
 	OnWriteCanceled(ctx context.Context, sequence int32) error
@@ -248,7 +248,7 @@ func (w *writeResultCallbackStubWrapper) AsBinder() binder.IBinder {
 
 func (w *writeResultCallbackStubWrapper) OnWriteStarted(
 	ctx context.Context,
-	cancellation common.ICancellationSignal,
+	cancellation os.ICancellationSignal,
 	sequence int32,
 ) error {
 	return w.impl.OnWriteStarted(ctx, cancellation, sequence)

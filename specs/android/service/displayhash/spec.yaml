@@ -69,3 +69,9 @@ interfaces:
             name: void
 parcelables:
     - name: DisplayHashParams
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: BufferSize
+          write_method: opaque
+          condition: mBufferSize!=null

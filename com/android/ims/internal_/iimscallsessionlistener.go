@@ -3,7 +3,7 @@ package internal
 import (
 	"context"
 	"fmt"
-	media "github.com/xaionaro-go/binder/android/hardware/radio/ims/media"
+	telephony "github.com/xaionaro-go/binder/android/telephony"
 	ims "github.com/xaionaro-go/binder/android/telephony/ims"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -136,7 +136,7 @@ type IImsCallSessionListener interface {
 	CallSessionRttAudioIndicatorChanged(ctx context.Context, profile ims.ImsStreamMediaProfile) error
 	CallSessionTransferred(ctx context.Context) error
 	CallSessionTransferFailed(ctx context.Context, reasonInfo ims.ImsReasonInfo) error
-	CallQualityChanged(ctx context.Context, callQuality media.CallQuality) error
+	CallQualityChanged(ctx context.Context, callQuality telephony.CallQuality) error
 	CallSessionSendAnbrQuery(ctx context.Context, mediaType int32, direction int32, bitsPerSecond int32) error
 }
 
@@ -979,7 +979,7 @@ func (p *ImsCallSessionListenerProxy) CallSessionTransferFailed(
 
 func (p *ImsCallSessionListenerProxy) CallQualityChanged(
 	ctx context.Context,
-	callQuality media.CallQuality,
+	callQuality telephony.CallQuality,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -1807,7 +1807,7 @@ func (s *ImsCallSessionListenerStub) OnTransaction(
 		_err := s.Impl.CallSessionTransferFailed(ctx, _arg_reasonInfo)
 		return nil, _err
 	case TransactionIImsCallSessionListenerCallQualityChanged:
-		var _arg_callQuality media.CallQuality
+		var _arg_callQuality telephony.CallQuality
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1882,7 +1882,7 @@ type IImsCallSessionListenerServer interface {
 	CallSessionRttAudioIndicatorChanged(ctx context.Context, profile ims.ImsStreamMediaProfile) error
 	CallSessionTransferred(ctx context.Context) error
 	CallSessionTransferFailed(ctx context.Context, reasonInfo ims.ImsReasonInfo) error
-	CallQualityChanged(ctx context.Context, callQuality media.CallQuality) error
+	CallQualityChanged(ctx context.Context, callQuality telephony.CallQuality) error
 	CallSessionSendAnbrQuery(ctx context.Context, mediaType int32, direction int32, bitsPerSecond int32) error
 }
 
@@ -2193,7 +2193,7 @@ func (w *imsCallSessionListenerStubWrapper) CallSessionTransferFailed(
 
 func (w *imsCallSessionListenerStubWrapper) CallQualityChanged(
 	ctx context.Context,
-	callQuality media.CallQuality,
+	callQuality telephony.CallQuality,
 ) error {
 	return w.impl.CallQualityChanged(ctx, callQuality)
 }

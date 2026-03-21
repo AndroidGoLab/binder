@@ -66,6 +66,8 @@ interfaces:
         - name: DEVICE_STATE_FOLDED
           type: long
           value: 1 << 2
+      annotations:
+        - VintfStability
     - name: ICameraProviderCallback
       descriptor: android.hardware.camera.provider.ICameraProviderCallback
       methods:
@@ -105,6 +107,8 @@ interfaces:
                 name: CameraDeviceStatus
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: CameraIdAndStreamCombination
       fields:

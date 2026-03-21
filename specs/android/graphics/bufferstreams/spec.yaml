@@ -125,3 +125,6 @@ unions:
         - name: forgetBuffers
           type:
             name: ForgetBuffers
+      nested_types:
+        - BufferCacheUpdate.CacheBuffers
+        - BufferCacheUpdate.ForgetBuffers

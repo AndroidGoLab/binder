@@ -113,6 +113,8 @@ interfaces:
         - name: ERROR_CODE_UNUSED
           type: int
           value: "0"
+      annotations:
+        - VintfStability
     - name: ITetheringOffloadCallback
       descriptor: android.hardware.tetheroffload.ITetheringOffloadCallback
       oneway: true
@@ -135,6 +137,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: ForwardedStats
       fields:

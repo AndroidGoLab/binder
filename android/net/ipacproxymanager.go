@@ -27,7 +27,7 @@ type IPacProxyManager interface {
 	AsBinder() binder.IBinder
 	AddListener(ctx context.Context, listener IPacProxyInstalledListener) error
 	RemoveListener(ctx context.Context, listener IPacProxyInstalledListener) error
-	SetCurrentProxyScriptUrl(ctx context.Context, proxyInfo ProxyInfo) error
+	SetCurrentProxyScriptUrl(ctx context.Context, proxyInfo any) error
 }
 
 type PacProxyManagerProxy struct {
@@ -102,15 +102,12 @@ func (p *PacProxyManagerProxy) RemoveListener(
 
 func (p *PacProxyManagerProxy) SetCurrentProxyScriptUrl(
 	ctx context.Context,
-	proxyInfo ProxyInfo,
+	proxyInfo any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIPacProxyManager)
-	_data.WriteInt32(1)
-	if _err := proxyInfo.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param proxyInfo (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIPacProxyManager, MethodIPacProxyManagerSetCurrentProxyScriptUrl)
 	if _err != nil {
@@ -188,18 +185,7 @@ func (s *PacProxyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPacProxyManagerSetCurrentProxyScriptUrl:
-		var _arg_proxyInfo ProxyInfo
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_proxyInfo.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_proxyInfo any
 		_err := s.Impl.SetCurrentProxyScriptUrl(ctx, _arg_proxyInfo)
 		_reply := parcel.New()
 		if _err != nil {
@@ -219,7 +205,7 @@ func (s *PacProxyManagerStub) OnTransaction(
 type IPacProxyManagerServer interface {
 	AddListener(ctx context.Context, listener IPacProxyInstalledListener) error
 	RemoveListener(ctx context.Context, listener IPacProxyInstalledListener) error
-	SetCurrentProxyScriptUrl(ctx context.Context, proxyInfo ProxyInfo) error
+	SetCurrentProxyScriptUrl(ctx context.Context, proxyInfo any) error
 }
 
 type pacProxyManagerStubWrapper struct {
@@ -247,7 +233,7 @@ func (w *pacProxyManagerStubWrapper) RemoveListener(
 
 func (w *pacProxyManagerStubWrapper) SetCurrentProxyScriptUrl(
 	ctx context.Context,
-	proxyInfo ProxyInfo,
+	proxyInfo any,
 ) error {
 	return w.impl.SetCurrentProxyScriptUrl(ctx, proxyInfo)
 }

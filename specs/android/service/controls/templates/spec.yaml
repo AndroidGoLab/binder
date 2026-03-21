@@ -2,4 +2,12 @@ package: android.service.controls.templates
 go_package: android/service/controls/templates
 parcelables:
     - name: ControlButton
+      java_wire_format:
+        - name: Checked?(byte)1:(byte)0
+          write_method: int32
+        - name: ActionDescription
+          write_method: opaque
     - name: ControlTemplateWrapper
+      java_wire_format:
+        - name: ControlTemplate.getDataBundle()
+          write_method: opaque

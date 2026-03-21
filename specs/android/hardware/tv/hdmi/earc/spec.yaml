@@ -45,6 +45,8 @@ interfaces:
           return_type:
             name: byte
             is_array: true
+      annotations:
+        - VintfStability
     - name: IEArcCallback
       descriptor: android.hardware.tv.hdmi.earc.IEArcCallback
       oneway: true
@@ -76,6 +78,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 enums:
     - name: IEArcStatus
       backing_type: byte

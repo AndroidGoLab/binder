@@ -15,7 +15,7 @@ const (
 type HapticGeneratorId struct {
 	Tag                int32
 	VendorExtensionTag VendorExtension
-	CommonTag          HapticGeneratorTag
+	CommonTag          any
 }
 
 var _ parcel.Parcelable = (*HapticGeneratorId)(nil)
@@ -34,16 +34,16 @@ func (u *HapticGeneratorId) SetVendorExtensionTag(
 	*u = HapticGeneratorId{Tag: HapticGeneratorIdTagVendorExtensionTag, VendorExtensionTag: v}
 }
 
-func (u *HapticGeneratorId) GetCommonTag() (HapticGeneratorTag, bool) {
+func (u *HapticGeneratorId) GetCommonTag() (any, bool) {
 	if u.Tag != HapticGeneratorIdTagCommonTag {
-		var _zero HapticGeneratorTag
+		var _zero any
 		return _zero, false
 	}
 	return u.CommonTag, true
 }
 
 func (u *HapticGeneratorId) SetCommonTag(
-	v HapticGeneratorTag,
+	v any,
 ) {
 	*u = HapticGeneratorId{Tag: HapticGeneratorIdTagCommonTag, CommonTag: v}
 }
@@ -61,7 +61,6 @@ func (u *HapticGeneratorId) MarshalParcel(
 			return _err
 		}
 	case HapticGeneratorIdTagCommonTag:
-		p.WriteInt32(int32(u.CommonTag))
 	default:
 		return fmt.Errorf("unknown union tag %d for HapticGeneratorId", u.Tag)
 	}
@@ -92,11 +91,6 @@ func (u *HapticGeneratorId) UnmarshalParcel(
 			return _err
 		}
 	case HapticGeneratorIdTagCommonTag:
-		_raw, _err := p.ReadInt32()
-		if _err != nil {
-			return _err
-		}
-		u.CommonTag = HapticGeneratorTag(_raw)
 	default:
 		return fmt.Errorf("unknown union tag %d for HapticGeneratorId", u.Tag)
 	}

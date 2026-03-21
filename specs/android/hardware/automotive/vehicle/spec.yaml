@@ -92,6 +92,8 @@ interfaces:
         - name: MAX_SHARED_MEMORY_FILES_PER_CLIENT
           type: int
           value: "3"
+      annotations:
+        - VintfStability
     - name: IVehicleCallback
       descriptor: android.hardware.automotive.vehicle.IVehicleCallback
       methods:
@@ -138,6 +140,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: CreateUserRequest
       fields:
@@ -1872,37 +1876,37 @@ enums:
       backing_type: int
       values:
         - name: VENDOR_CLUSTER_SWITCH_UI
-          value: 0x0F34 + 0x20000000 + 0x01000000 + 0x00400000
+          value: ((0x0F34 + 0x20000000) + 0x01000000) + 0x00400000
         - name: VENDOR_CLUSTER_DISPLAY_STATE
-          value: 0x0F35 + 0x20000000 + 0x01000000 + 0x00410000
+          value: ((0x0F35 + 0x20000000) + 0x01000000) + 0x00410000
         - name: VENDOR_CLUSTER_REPORT_STATE
-          value: 0x0F36 + 0x20000000 + 0x01000000 + 0x00E00000
+          value: ((0x0F36 + 0x20000000) + 0x01000000) + 0x00E00000
         - name: VENDOR_CLUSTER_REQUEST_DISPLAY
-          value: 0x0F37 + 0x20000000 + 0x01000000 + 0x00400000
+          value: ((0x0F37 + 0x20000000) + 0x01000000) + 0x00400000
         - name: VENDOR_CLUSTER_NAVIGATION_STATE
-          value: 0x0F38 + 0x20000000 + 0x01000000 + 0x00700000
+          value: ((0x0F38 + 0x20000000) + 0x01000000) + 0x00700000
         - name: PLACEHOLDER_PROPERTY_INT
-          value: 0x2A11 + 0x20000000 + 0x01000000 + 0x00400000
+          value: ((0x2A11 + 0x20000000) + 0x01000000) + 0x00400000
         - name: PLACEHOLDER_PROPERTY_FLOAT
-          value: 0x2A11 + 0x20000000 + 0x01000000 + 0x00600000
+          value: ((0x2A11 + 0x20000000) + 0x01000000) + 0x00600000
         - name: PLACEHOLDER_PROPERTY_BOOLEAN
-          value: 0x2A11 + 0x20000000 + 0x01000000 + 0x00200000
+          value: ((0x2A11 + 0x20000000) + 0x01000000) + 0x00200000
         - name: PLACEHOLDER_PROPERTY_STRING
-          value: 0x2A11 + 0x20000000 + 0x01000000 + 0x00100000
+          value: ((0x2A11 + 0x20000000) + 0x01000000) + 0x00100000
         - name: ECHO_REVERSE_BYTES
-          value: 0x2A12 + 0x20000000 + 0x01000000 + 0x00700000
+          value: ((0x2A12 + 0x20000000) + 0x01000000) + 0x00700000
         - name: VENDOR_PROPERTY_FOR_ERROR_CODE_TESTING
-          value: 0x2A13 + 0x20000000 + 0x01000000 + 0x00400000
+          value: ((0x2A13 + 0x20000000) + 0x01000000) + 0x00400000
         - name: MIXED_TYPE_PROPERTY_FOR_TEST
-          value: 0x1111 + 0x20000000 + 0x01000000 + 0x00E00000
+          value: ((0x1111 + 0x20000000) + 0x01000000) + 0x00E00000
         - name: VENDOR_EXTENSION_BOOLEAN_PROPERTY
-          value: 0x0101 + 0x20000000 + 0x06000000 + 0x00200000
+          value: ((0x0101 + 0x20000000) + 0x06000000) + 0x00200000
         - name: VENDOR_EXTENSION_FLOAT_PROPERTY
-          value: 0x102 + 0x20000000 + 0x05000000 + 0x00600000
+          value: ((0x102 + 0x20000000) + 0x05000000) + 0x00600000
         - name: VENDOR_EXTENSION_INT_PROPERTY
-          value: 0x103 + 0x20000000 + 0x03000000 + 0x00400000
+          value: ((0x103 + 0x20000000) + 0x03000000) + 0x00400000
         - name: VENDOR_EXTENSION_STRING_PROPERTY
-          value: 0x103 + 0x20000000 + 0x01000000 + 0x00100000
+          value: ((0x103 + 0x20000000) + 0x01000000) + 0x00100000
       annotations:
         - Backing
     - name: TrailerState
@@ -2471,537 +2475,537 @@ enums:
         - name: INVALID
           value: "0x00000000"
         - name: INFO_VIN
-          value: 0x0100 + 0x10000000 + 0x01000000 + 0x00100000
+          value: ((0x0100 + 0x10000000) + 0x01000000) + 0x00100000
         - name: INFO_MAKE
-          value: 0x0101 + 0x10000000 + 0x01000000 + 0x00100000
+          value: ((0x0101 + 0x10000000) + 0x01000000) + 0x00100000
         - name: INFO_MODEL
-          value: 0x0102 + 0x10000000 + 0x01000000 + 0x00100000
+          value: ((0x0102 + 0x10000000) + 0x01000000) + 0x00100000
         - name: INFO_MODEL_YEAR
-          value: 0x0103 + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0103 + 0x10000000) + 0x01000000) + 0x00400000
         - name: INFO_FUEL_CAPACITY
-          value: 0x0104 + 0x10000000 + 0x01000000 + 0x00600000
+          value: ((0x0104 + 0x10000000) + 0x01000000) + 0x00600000
         - name: INFO_FUEL_TYPE
-          value: 0x0105 + 0x10000000 + 0x01000000 + 0x00410000
+          value: ((0x0105 + 0x10000000) + 0x01000000) + 0x00410000
         - name: INFO_EV_BATTERY_CAPACITY
-          value: 0x0106 + 0x10000000 + 0x01000000 + 0x00600000
+          value: ((0x0106 + 0x10000000) + 0x01000000) + 0x00600000
         - name: INFO_EV_CONNECTOR_TYPE
-          value: 0x0107 + 0x10000000 + 0x01000000 + 0x00410000
+          value: ((0x0107 + 0x10000000) + 0x01000000) + 0x00410000
         - name: INFO_FUEL_DOOR_LOCATION
-          value: 0x0108 + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0108 + 0x10000000) + 0x01000000) + 0x00400000
         - name: INFO_EV_PORT_LOCATION
-          value: 0x0109 + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0109 + 0x10000000) + 0x01000000) + 0x00400000
         - name: INFO_DRIVER_SEAT
-          value: 0x010A + 0x10000000 + 0x05000000 + 0x00400000
+          value: ((0x010A + 0x10000000) + 0x05000000) + 0x00400000
         - name: INFO_EXTERIOR_DIMENSIONS
-          value: 0x010B + 0x10000000 + 0x01000000 + 0x00410000
+          value: ((0x010B + 0x10000000) + 0x01000000) + 0x00410000
         - name: INFO_MULTI_EV_PORT_LOCATIONS
-          value: 0x010C + 0x10000000 + 0x01000000 + 0x00410000
+          value: ((0x010C + 0x10000000) + 0x01000000) + 0x00410000
         - name: PERF_ODOMETER
-          value: 0x0204 + 0x10000000 + 0x01000000 + 0x00600000
+          value: ((0x0204 + 0x10000000) + 0x01000000) + 0x00600000
         - name: PERF_VEHICLE_SPEED
-          value: 0x0207 + 0x10000000 + 0x01000000 + 0x00600000
+          value: ((0x0207 + 0x10000000) + 0x01000000) + 0x00600000
         - name: PERF_VEHICLE_SPEED_DISPLAY
-          value: 0x0208 + 0x10000000 + 0x01000000 + 0x00600000
+          value: ((0x0208 + 0x10000000) + 0x01000000) + 0x00600000
         - name: PERF_STEERING_ANGLE
-          value: 0x0209 + 0x10000000 + 0x01000000 + 0x00600000
+          value: ((0x0209 + 0x10000000) + 0x01000000) + 0x00600000
         - name: PERF_REAR_STEERING_ANGLE
-          value: 0x0210 + 0x10000000 + 0x01000000 + 0x00600000
+          value: ((0x0210 + 0x10000000) + 0x01000000) + 0x00600000
         - name: ENGINE_COOLANT_TEMP
-          value: 0x0301 + 0x10000000 + 0x01000000 + 0x00600000
+          value: ((0x0301 + 0x10000000) + 0x01000000) + 0x00600000
         - name: ENGINE_OIL_LEVEL
-          value: 0x0303 + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0303 + 0x10000000) + 0x01000000) + 0x00400000
         - name: ENGINE_OIL_TEMP
-          value: 0x0304 + 0x10000000 + 0x01000000 + 0x00600000
+          value: ((0x0304 + 0x10000000) + 0x01000000) + 0x00600000
         - name: ENGINE_RPM
-          value: 0x0305 + 0x10000000 + 0x01000000 + 0x00600000
+          value: ((0x0305 + 0x10000000) + 0x01000000) + 0x00600000
         - name: WHEEL_TICK
-          value: 0x0306 + 0x10000000 + 0x01000000 + 0x00510000
+          value: ((0x0306 + 0x10000000) + 0x01000000) + 0x00510000
         - name: FUEL_LEVEL
-          value: 0x0307 + 0x10000000 + 0x01000000 + 0x00600000
+          value: ((0x0307 + 0x10000000) + 0x01000000) + 0x00600000
         - name: FUEL_DOOR_OPEN
-          value: 0x0308 + 0x10000000 + 0x01000000 + 0x00200000
+          value: ((0x0308 + 0x10000000) + 0x01000000) + 0x00200000
         - name: EV_BATTERY_LEVEL
-          value: 0x0309 + 0x10000000 + 0x01000000 + 0x00600000
+          value: ((0x0309 + 0x10000000) + 0x01000000) + 0x00600000
         - name: EV_CURRENT_BATTERY_CAPACITY
-          value: 0x030D + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.FLOAT
+          value: ((0x030D + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.FLOAT
         - name: EV_CHARGE_PORT_OPEN
-          value: 0x030A + 0x10000000 + 0x01000000 + 0x00200000
+          value: ((0x030A + 0x10000000) + 0x01000000) + 0x00200000
         - name: EV_CHARGE_PORT_CONNECTED
-          value: 0x030B + 0x10000000 + 0x01000000 + 0x00200000
+          value: ((0x030B + 0x10000000) + 0x01000000) + 0x00200000
         - name: EV_BATTERY_INSTANTANEOUS_CHARGE_RATE
-          value: 0x030C + 0x10000000 + 0x01000000 + 0x00600000
+          value: ((0x030C + 0x10000000) + 0x01000000) + 0x00600000
         - name: RANGE_REMAINING
-          value: 0x0308 + 0x10000000 + 0x01000000 + 0x00600000
+          value: ((0x0308 + 0x10000000) + 0x01000000) + 0x00600000
         - name: EV_BATTERY_AVERAGE_TEMPERATURE
-          value: 0x030E + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.FLOAT
+          value: ((0x030E + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.FLOAT
         - name: TIRE_PRESSURE
-          value: 0x0309 + 0x10000000 + 0x07000000 + 0x00600000
+          value: ((0x0309 + 0x10000000) + 0x07000000) + 0x00600000
         - name: CRITICALLY_LOW_TIRE_PRESSURE
-          value: 0x030A + 0x10000000 + 0x07000000 + 0x00600000
+          value: ((0x030A + 0x10000000) + 0x07000000) + 0x00600000
         - name: ENGINE_IDLE_AUTO_STOP_ENABLED
-          value: 0x0320 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+          value: ((0x0320 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.BOOLEAN
         - name: IMPACT_DETECTED
-          value: 0x0330 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+          value: ((0x0330 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.INT32
         - name: GEAR_SELECTION
-          value: 0x0400 + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0400 + 0x10000000) + 0x01000000) + 0x00400000
         - name: CURRENT_GEAR
-          value: 0x0401 + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0401 + 0x10000000) + 0x01000000) + 0x00400000
         - name: PARKING_BRAKE_ON
-          value: 0x0402 + 0x10000000 + 0x01000000 + 0x00200000
+          value: ((0x0402 + 0x10000000) + 0x01000000) + 0x00200000
         - name: PARKING_BRAKE_AUTO_APPLY
-          value: 0x0403 + 0x10000000 + 0x01000000 + 0x00200000
+          value: ((0x0403 + 0x10000000) + 0x01000000) + 0x00200000
         - name: EV_BRAKE_REGENERATION_LEVEL
-          value: 0x040C + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+          value: ((0x040C + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.INT32
         - name: FUEL_LEVEL_LOW
-          value: 0x0405 + 0x10000000 + 0x01000000 + 0x00200000
+          value: ((0x0405 + 0x10000000) + 0x01000000) + 0x00200000
         - name: NIGHT_MODE
-          value: 0x0407 + 0x10000000 + 0x01000000 + 0x00200000
+          value: ((0x0407 + 0x10000000) + 0x01000000) + 0x00200000
         - name: TURN_SIGNAL_STATE
-          value: 0x0408 + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0408 + 0x10000000) + 0x01000000) + 0x00400000
         - name: IGNITION_STATE
-          value: 0x0409 + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0409 + 0x10000000) + 0x01000000) + 0x00400000
         - name: ABS_ACTIVE
-          value: 0x040A + 0x10000000 + 0x01000000 + 0x00200000
+          value: ((0x040A + 0x10000000) + 0x01000000) + 0x00200000
         - name: TRACTION_CONTROL_ACTIVE
-          value: 0x040B + 0x10000000 + 0x01000000 + 0x00200000
+          value: ((0x040B + 0x10000000) + 0x01000000) + 0x00200000
         - name: EV_STOPPING_MODE
-          value: 0x040D + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+          value: ((0x040D + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.INT32
         - name: ELECTRONIC_STABILITY_CONTROL_ENABLED
-          value: 0x040E + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+          value: ((0x040E + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.BOOLEAN
         - name: ELECTRONIC_STABILITY_CONTROL_STATE
-          value: 0x040F + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+          value: ((0x040F + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.INT32
         - name: HVAC_FAN_SPEED
-          value: 0x0500 + 0x10000000 + 0x05000000 + 0x00400000
+          value: ((0x0500 + 0x10000000) + 0x05000000) + 0x00400000
         - name: HVAC_FAN_DIRECTION
-          value: 0x0501 + 0x10000000 + 0x05000000 + 0x00400000
+          value: ((0x0501 + 0x10000000) + 0x05000000) + 0x00400000
         - name: HVAC_TEMPERATURE_CURRENT
-          value: 0x0502 + 0x10000000 + 0x05000000 + 0x00600000
+          value: ((0x0502 + 0x10000000) + 0x05000000) + 0x00600000
         - name: HVAC_TEMPERATURE_SET
-          value: 0x0503 + 0x10000000 + 0x05000000 + 0x00600000
+          value: ((0x0503 + 0x10000000) + 0x05000000) + 0x00600000
         - name: HVAC_DEFROSTER
-          value: 0x0504 + 0x10000000 + 0x03000000 + 0x00200000
+          value: ((0x0504 + 0x10000000) + 0x03000000) + 0x00200000
         - name: HVAC_AC_ON
-          value: 0x0505 + 0x10000000 + 0x05000000 + 0x00200000
+          value: ((0x0505 + 0x10000000) + 0x05000000) + 0x00200000
         - name: HVAC_MAX_AC_ON
-          value: 0x0506 + 0x10000000 + 0x05000000 + 0x00200000
+          value: ((0x0506 + 0x10000000) + 0x05000000) + 0x00200000
         - name: HVAC_MAX_DEFROST_ON
-          value: 0x0507 + 0x10000000 + 0x05000000 + 0x00200000
+          value: ((0x0507 + 0x10000000) + 0x05000000) + 0x00200000
         - name: HVAC_RECIRC_ON
-          value: 0x0508 + 0x10000000 + 0x05000000 + 0x00200000
+          value: ((0x0508 + 0x10000000) + 0x05000000) + 0x00200000
         - name: HVAC_DUAL_ON
-          value: 0x0509 + 0x10000000 + 0x05000000 + 0x00200000
+          value: ((0x0509 + 0x10000000) + 0x05000000) + 0x00200000
         - name: HVAC_AUTO_ON
-          value: 0x050A + 0x10000000 + 0x05000000 + 0x00200000
+          value: ((0x050A + 0x10000000) + 0x05000000) + 0x00200000
         - name: HVAC_SEAT_TEMPERATURE
-          value: 0x050B + 0x10000000 + 0x05000000 + 0x00400000
+          value: ((0x050B + 0x10000000) + 0x05000000) + 0x00400000
         - name: HVAC_SIDE_MIRROR_HEAT
-          value: 0x050C + 0x10000000 + 0x04000000 + 0x00400000
+          value: ((0x050C + 0x10000000) + 0x04000000) + 0x00400000
         - name: HVAC_STEERING_WHEEL_HEAT
-          value: 0x050D + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x050D + 0x10000000) + 0x01000000) + 0x00400000
         - name: HVAC_TEMPERATURE_DISPLAY_UNITS
-          value: 0x050E + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x050E + 0x10000000) + 0x01000000) + 0x00400000
         - name: HVAC_ACTUAL_FAN_SPEED_RPM
-          value: 0x050F + 0x10000000 + 0x05000000 + 0x00400000
+          value: ((0x050F + 0x10000000) + 0x05000000) + 0x00400000
         - name: HVAC_POWER_ON
-          value: 0x0510 + 0x10000000 + 0x05000000 + 0x00200000
+          value: ((0x0510 + 0x10000000) + 0x05000000) + 0x00200000
         - name: HVAC_FAN_DIRECTION_AVAILABLE
-          value: 0x0511 + 0x10000000 + 0x05000000 + 0x00410000
+          value: ((0x0511 + 0x10000000) + 0x05000000) + 0x00410000
         - name: HVAC_AUTO_RECIRC_ON
-          value: 0x0512 + 0x10000000 + 0x05000000 + 0x00200000
+          value: ((0x0512 + 0x10000000) + 0x05000000) + 0x00200000
         - name: HVAC_SEAT_VENTILATION
-          value: 0x0513 + 0x10000000 + 0x05000000 + 0x00400000
+          value: ((0x0513 + 0x10000000) + 0x05000000) + 0x00400000
         - name: HVAC_ELECTRIC_DEFROSTER_ON
-          value: 0x0514 + 0x10000000 + 0x03000000 + 0x00200000
+          value: ((0x0514 + 0x10000000) + 0x03000000) + 0x00200000
         - name: HVAC_TEMPERATURE_VALUE_SUGGESTION
-          value: 0x0515 + 0x10000000 + 0x01000000 + 0x00610000
+          value: ((0x0515 + 0x10000000) + 0x01000000) + 0x00610000
         - name: DISTANCE_DISPLAY_UNITS
-          value: 0x0600 + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0600 + 0x10000000) + 0x01000000) + 0x00400000
         - name: FUEL_VOLUME_DISPLAY_UNITS
-          value: 0x0601 + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0601 + 0x10000000) + 0x01000000) + 0x00400000
         - name: TIRE_PRESSURE_DISPLAY_UNITS
-          value: 0x0602 + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0602 + 0x10000000) + 0x01000000) + 0x00400000
         - name: EV_BATTERY_DISPLAY_UNITS
-          value: 0x0603 + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0603 + 0x10000000) + 0x01000000) + 0x00400000
         - name: FUEL_CONSUMPTION_UNITS_DISTANCE_OVER_VOLUME
-          value: 0x0604 + 0x10000000 + 0x01000000 + 0x00200000
+          value: ((0x0604 + 0x10000000) + 0x01000000) + 0x00200000
         - name: VEHICLE_SPEED_DISPLAY_UNITS
-          value: 0x0605 + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0605 + 0x10000000) + 0x01000000) + 0x00400000
         - name: EXTERNAL_CAR_TIME
-          value: 0x0608 + 0x10000000 + 0x01000000 + 0x00500000
+          value: ((0x0608 + 0x10000000) + 0x01000000) + 0x00500000
         - name: ANDROID_EPOCH_TIME
-          value: 0x0606 + 0x10000000 + 0x01000000 + 0x00500000
+          value: ((0x0606 + 0x10000000) + 0x01000000) + 0x00500000
         - name: STORAGE_ENCRYPTION_BINDING_SEED
-          value: 0x0607 + 0x10000000 + 0x01000000 + 0x00700000
+          value: ((0x0607 + 0x10000000) + 0x01000000) + 0x00700000
         - name: ENV_OUTSIDE_TEMPERATURE
-          value: 0x0703 + 0x10000000 + 0x01000000 + 0x00600000
+          value: ((0x0703 + 0x10000000) + 0x01000000) + 0x00600000
         - name: AP_POWER_STATE_REQ
-          value: 0x0A00 + 0x10000000 + 0x01000000 + 0x00410000
+          value: ((0x0A00 + 0x10000000) + 0x01000000) + 0x00410000
         - name: AP_POWER_STATE_REPORT
-          value: 0x0A01 + 0x10000000 + 0x01000000 + 0x00410000
+          value: ((0x0A01 + 0x10000000) + 0x01000000) + 0x00410000
         - name: AP_POWER_BOOTUP_REASON
-          value: 0x0A02 + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0A02 + 0x10000000) + 0x01000000) + 0x00400000
         - name: DISPLAY_BRIGHTNESS
-          value: 0x0A03 + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0A03 + 0x10000000) + 0x01000000) + 0x00400000
         - name: PER_DISPLAY_BRIGHTNESS
-          value: 0x0A04 + 0x10000000 + 0x01000000 + 0x00410000
+          value: ((0x0A04 + 0x10000000) + 0x01000000) + 0x00410000
         - name: VALET_MODE_ENABLED
-          value: 0x0A05 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+          value: ((0x0A05 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.BOOLEAN
         - name: HEAD_UP_DISPLAY_ENABLED
-          value: 0x0A06 + VehiclePropertyGroup.SYSTEM + VehicleArea.SEAT + VehiclePropertyType.BOOLEAN
+          value: ((0x0A06 + VehiclePropertyGroup.SYSTEM) + VehicleArea.SEAT) + VehiclePropertyType.BOOLEAN
         - name: HW_KEY_INPUT
-          value: 0x0A10 + 0x10000000 + 0x01000000 + 0x00410000
+          value: ((0x0A10 + 0x10000000) + 0x01000000) + 0x00410000
         - name: HW_KEY_INPUT_V2
-          value: 0x0A11 + VehiclePropertyGroup.SYSTEM + VehicleArea.SEAT + VehiclePropertyType.MIXED
+          value: ((0x0A11 + VehiclePropertyGroup.SYSTEM) + VehicleArea.SEAT) + VehiclePropertyType.MIXED
         - name: HW_MOTION_INPUT
-          value: 0x0A12 + VehiclePropertyGroup.SYSTEM + VehicleArea.SEAT + VehiclePropertyType.MIXED
+          value: ((0x0A12 + VehiclePropertyGroup.SYSTEM) + VehicleArea.SEAT) + VehiclePropertyType.MIXED
         - name: HW_ROTARY_INPUT
-          value: 0x0A20 + 0x10000000 + 0x01000000 + 0x00410000
+          value: ((0x0A20 + 0x10000000) + 0x01000000) + 0x00410000
         - name: HW_CUSTOM_INPUT
-          value: 0X0A30 + 0x10000000 + 0x01000000 + 0x00410000
+          value: ((0X0A30 + 0x10000000) + 0x01000000) + 0x00410000
         - name: DOOR_POS
-          value: 0x0B00 + 0x10000000 + 0x06000000 + 0x00400000
+          value: ((0x0B00 + 0x10000000) + 0x06000000) + 0x00400000
         - name: DOOR_MOVE
-          value: 0x0B01 + 0x10000000 + 0x06000000 + 0x00400000
+          value: ((0x0B01 + 0x10000000) + 0x06000000) + 0x00400000
         - name: DOOR_LOCK
-          value: 0x0B02 + 0x10000000 + 0x06000000 + 0x00200000
+          value: ((0x0B02 + 0x10000000) + 0x06000000) + 0x00200000
         - name: DOOR_CHILD_LOCK_ENABLED
-          value: 0x0B03 + VehiclePropertyGroup.SYSTEM + VehicleArea.DOOR + VehiclePropertyType.BOOLEAN
+          value: ((0x0B03 + VehiclePropertyGroup.SYSTEM) + VehicleArea.DOOR) + VehiclePropertyType.BOOLEAN
         - name: MIRROR_Z_POS
-          value: 0x0B40 + 0x10000000 + 0x04000000 + 0x00400000
+          value: ((0x0B40 + 0x10000000) + 0x04000000) + 0x00400000
         - name: MIRROR_Z_MOVE
-          value: 0x0B41 + 0x10000000 + 0x04000000 + 0x00400000
+          value: ((0x0B41 + 0x10000000) + 0x04000000) + 0x00400000
         - name: MIRROR_Y_POS
-          value: 0x0B42 + 0x10000000 + 0x04000000 + 0x00400000
+          value: ((0x0B42 + 0x10000000) + 0x04000000) + 0x00400000
         - name: MIRROR_Y_MOVE
-          value: 0x0B43 + 0x10000000 + 0x04000000 + 0x00400000
+          value: ((0x0B43 + 0x10000000) + 0x04000000) + 0x00400000
         - name: MIRROR_LOCK
-          value: 0x0B44 + 0x10000000 + 0x01000000 + 0x00200000
+          value: ((0x0B44 + 0x10000000) + 0x01000000) + 0x00200000
         - name: MIRROR_FOLD
-          value: 0x0B45 + 0x10000000 + 0x01000000 + 0x00200000
+          value: ((0x0B45 + 0x10000000) + 0x01000000) + 0x00200000
         - name: MIRROR_AUTO_FOLD_ENABLED
-          value: 0x0B46 + VehiclePropertyGroup.SYSTEM + VehicleArea.MIRROR + VehiclePropertyType.BOOLEAN
+          value: ((0x0B46 + VehiclePropertyGroup.SYSTEM) + VehicleArea.MIRROR) + VehiclePropertyType.BOOLEAN
         - name: MIRROR_AUTO_TILT_ENABLED
-          value: 0x0B47 + VehiclePropertyGroup.SYSTEM + VehicleArea.MIRROR + VehiclePropertyType.BOOLEAN
+          value: ((0x0B47 + VehiclePropertyGroup.SYSTEM) + VehicleArea.MIRROR) + VehiclePropertyType.BOOLEAN
         - name: SEAT_MEMORY_SELECT
-          value: 0x0B80 + 0x10000000 + 0x05000000 + 0x00400000
+          value: ((0x0B80 + 0x10000000) + 0x05000000) + 0x00400000
         - name: SEAT_MEMORY_SET
-          value: 0x0B81 + 0x10000000 + 0x05000000 + 0x00400000
+          value: ((0x0B81 + 0x10000000) + 0x05000000) + 0x00400000
         - name: SEAT_BELT_BUCKLED
-          value: 0x0B82 + 0x10000000 + 0x05000000 + 0x00200000
+          value: ((0x0B82 + 0x10000000) + 0x05000000) + 0x00200000
         - name: SEAT_BELT_HEIGHT_POS
-          value: 0x0B83 + 0x10000000 + 0x05000000 + 0x00400000
+          value: ((0x0B83 + 0x10000000) + 0x05000000) + 0x00400000
         - name: SEAT_BELT_HEIGHT_MOVE
-          value: 0x0B84 + 0x10000000 + 0x05000000 + 0x00400000
+          value: ((0x0B84 + 0x10000000) + 0x05000000) + 0x00400000
         - name: SEAT_FORE_AFT_POS
-          value: 0x0B85 + 0x10000000 + 0x05000000 + 0x00400000
+          value: ((0x0B85 + 0x10000000) + 0x05000000) + 0x00400000
         - name: SEAT_FORE_AFT_MOVE
-          value: 0x0B86 + 0x10000000 + 0x05000000 + 0x00400000
+          value: ((0x0B86 + 0x10000000) + 0x05000000) + 0x00400000
         - name: SEAT_BACKREST_ANGLE_1_POS
-          value: 0x0B87 + 0x10000000 + 0x05000000 + 0x00400000
+          value: ((0x0B87 + 0x10000000) + 0x05000000) + 0x00400000
         - name: SEAT_BACKREST_ANGLE_1_MOVE
-          value: 0x0B88 + 0x10000000 + 0x05000000 + 0x00400000
+          value: ((0x0B88 + 0x10000000) + 0x05000000) + 0x00400000
         - name: SEAT_BACKREST_ANGLE_2_POS
-          value: 0x0B89 + 0x10000000 + 0x05000000 + 0x00400000
+          value: ((0x0B89 + 0x10000000) + 0x05000000) + 0x00400000
         - name: SEAT_BACKREST_ANGLE_2_MOVE
-          value: 0x0B8A + 0x10000000 + 0x05000000 + 0x00400000
+          value: ((0x0B8A + 0x10000000) + 0x05000000) + 0x00400000
         - name: SEAT_HEIGHT_POS
-          value: 0x0B8B + 0x10000000 + 0x05000000 + 0x00400000
+          value: ((0x0B8B + 0x10000000) + 0x05000000) + 0x00400000
         - name: SEAT_HEIGHT_MOVE
-          value: 0x0B8C + 0x10000000 + 0x05000000 + 0x00400000
+          value: ((0x0B8C + 0x10000000) + 0x05000000) + 0x00400000
         - name: SEAT_DEPTH_POS
-          value: 0x0B8D + 0x10000000 + 0x05000000 + 0x00400000
+          value: ((0x0B8D + 0x10000000) + 0x05000000) + 0x00400000
         - name: SEAT_DEPTH_MOVE
-          value: 0x0B8E + 0x10000000 + 0x05000000 + 0x00400000
+          value: ((0x0B8E + 0x10000000) + 0x05000000) + 0x00400000
         - name: SEAT_TILT_POS
-          value: 0x0B8F + 0x10000000 + 0x05000000 + 0x00400000
+          value: ((0x0B8F + 0x10000000) + 0x05000000) + 0x00400000
         - name: SEAT_TILT_MOVE
-          value: 0x0B90 + 0x10000000 + 0x05000000 + 0x00400000
+          value: ((0x0B90 + 0x10000000) + 0x05000000) + 0x00400000
         - name: SEAT_LUMBAR_FORE_AFT_POS
-          value: 0x0B91 + 0x10000000 + 0x05000000 + 0x00400000
+          value: ((0x0B91 + 0x10000000) + 0x05000000) + 0x00400000
         - name: SEAT_LUMBAR_FORE_AFT_MOVE
-          value: 0x0B92 + 0x10000000 + 0x05000000 + 0x00400000
+          value: ((0x0B92 + 0x10000000) + 0x05000000) + 0x00400000
         - name: SEAT_LUMBAR_SIDE_SUPPORT_POS
-          value: 0x0B93 + 0x10000000 + 0x05000000 + 0x00400000
+          value: ((0x0B93 + 0x10000000) + 0x05000000) + 0x00400000
         - name: SEAT_LUMBAR_SIDE_SUPPORT_MOVE
-          value: 0x0B94 + 0x10000000 + 0x05000000 + 0x00400000
+          value: ((0x0B94 + 0x10000000) + 0x05000000) + 0x00400000
         - name: SEAT_HEADREST_HEIGHT_POS
-          value: 0x0B95 + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0B95 + 0x10000000) + 0x01000000) + 0x00400000
         - name: SEAT_HEADREST_HEIGHT_POS_V2
-          value: 0x0BA4 + VehiclePropertyGroup.SYSTEM + VehicleArea.SEAT + VehiclePropertyType.INT32
+          value: ((0x0BA4 + VehiclePropertyGroup.SYSTEM) + VehicleArea.SEAT) + VehiclePropertyType.INT32
         - name: SEAT_HEADREST_HEIGHT_MOVE
-          value: 0x0B96 + 0x10000000 + 0x05000000 + 0x00400000
+          value: ((0x0B96 + 0x10000000) + 0x05000000) + 0x00400000
         - name: SEAT_HEADREST_ANGLE_POS
-          value: 0x0B97 + 0x10000000 + 0x05000000 + 0x00400000
+          value: ((0x0B97 + 0x10000000) + 0x05000000) + 0x00400000
         - name: SEAT_HEADREST_ANGLE_MOVE
-          value: 0x0B98 + 0x10000000 + 0x05000000 + 0x00400000
+          value: ((0x0B98 + 0x10000000) + 0x05000000) + 0x00400000
         - name: SEAT_HEADREST_FORE_AFT_POS
-          value: 0x0B99 + 0x10000000 + 0x05000000 + 0x00400000
+          value: ((0x0B99 + 0x10000000) + 0x05000000) + 0x00400000
         - name: SEAT_HEADREST_FORE_AFT_MOVE
-          value: 0x0B9A + 0x10000000 + 0x05000000 + 0x00400000
+          value: ((0x0B9A + 0x10000000) + 0x05000000) + 0x00400000
         - name: SEAT_FOOTWELL_LIGHTS_STATE
-          value: 0x0B9B + VehiclePropertyGroup.SYSTEM + VehicleArea.SEAT + VehiclePropertyType.INT32
+          value: ((0x0B9B + VehiclePropertyGroup.SYSTEM) + VehicleArea.SEAT) + VehiclePropertyType.INT32
         - name: SEAT_FOOTWELL_LIGHTS_SWITCH
-          value: 0x0B9C + VehiclePropertyGroup.SYSTEM + VehicleArea.SEAT + VehiclePropertyType.INT32
+          value: ((0x0B9C + VehiclePropertyGroup.SYSTEM) + VehicleArea.SEAT) + VehiclePropertyType.INT32
         - name: SEAT_EASY_ACCESS_ENABLED
-          value: 0x0B9D + VehiclePropertyGroup.SYSTEM + VehicleArea.SEAT + VehiclePropertyType.BOOLEAN
+          value: ((0x0B9D + VehiclePropertyGroup.SYSTEM) + VehicleArea.SEAT) + VehiclePropertyType.BOOLEAN
         - name: SEAT_AIRBAG_ENABLED
-          value: 0x0B9E + VehiclePropertyGroup.SYSTEM + VehicleArea.SEAT + VehiclePropertyType.BOOLEAN
+          value: ((0x0B9E + VehiclePropertyGroup.SYSTEM) + VehicleArea.SEAT) + VehiclePropertyType.BOOLEAN
         - name: SEAT_AIRBAGS_DEPLOYED
-          value: 0x0BA5 + VehiclePropertyGroup.SYSTEM + VehicleArea.SEAT + VehiclePropertyType.INT32
+          value: ((0x0BA5 + VehiclePropertyGroup.SYSTEM) + VehicleArea.SEAT) + VehiclePropertyType.INT32
         - name: SEAT_CUSHION_SIDE_SUPPORT_POS
-          value: 0x0B9F + VehiclePropertyGroup.SYSTEM + VehicleArea.SEAT + VehiclePropertyType.INT32
+          value: ((0x0B9F + VehiclePropertyGroup.SYSTEM) + VehicleArea.SEAT) + VehiclePropertyType.INT32
         - name: SEAT_CUSHION_SIDE_SUPPORT_MOVE
-          value: 0x0BA0 + VehiclePropertyGroup.SYSTEM + VehicleArea.SEAT + VehiclePropertyType.INT32
+          value: ((0x0BA0 + VehiclePropertyGroup.SYSTEM) + VehicleArea.SEAT) + VehiclePropertyType.INT32
         - name: SEAT_LUMBAR_VERTICAL_POS
-          value: 0x0BA1 + VehiclePropertyGroup.SYSTEM + VehicleArea.SEAT + VehiclePropertyType.INT32
+          value: ((0x0BA1 + VehiclePropertyGroup.SYSTEM) + VehicleArea.SEAT) + VehiclePropertyType.INT32
         - name: SEAT_LUMBAR_VERTICAL_MOVE
-          value: 0x0BA2 + VehiclePropertyGroup.SYSTEM + VehicleArea.SEAT + VehiclePropertyType.INT32
+          value: ((0x0BA2 + VehiclePropertyGroup.SYSTEM) + VehicleArea.SEAT) + VehiclePropertyType.INT32
         - name: SEAT_WALK_IN_POS
-          value: 0x0BA3 + VehiclePropertyGroup.SYSTEM + VehicleArea.SEAT + VehiclePropertyType.INT32
+          value: ((0x0BA3 + VehiclePropertyGroup.SYSTEM) + VehicleArea.SEAT) + VehiclePropertyType.INT32
         - name: SEAT_BELT_PRETENSIONER_DEPLOYED
-          value: 0x0BA6 + VehiclePropertyGroup.SYSTEM + VehicleArea.SEAT + VehiclePropertyType.BOOLEAN
+          value: ((0x0BA6 + VehiclePropertyGroup.SYSTEM) + VehicleArea.SEAT) + VehiclePropertyType.BOOLEAN
         - name: SEAT_OCCUPANCY
-          value: 0x0BB0 + 0x10000000 + 0x05000000 + 0x00400000
+          value: ((0x0BB0 + 0x10000000) + 0x05000000) + 0x00400000
         - name: WINDOW_POS
-          value: 0x0BC0 + 0x10000000 + 0x03000000 + 0x00400000
+          value: ((0x0BC0 + 0x10000000) + 0x03000000) + 0x00400000
         - name: WINDOW_MOVE
-          value: 0x0BC1 + 0x10000000 + 0x03000000 + 0x00400000
+          value: ((0x0BC1 + 0x10000000) + 0x03000000) + 0x00400000
         - name: WINDOW_LOCK
-          value: 0x0BC4 + 0x10000000 + 0x03000000 + 0x00200000
+          value: ((0x0BC4 + 0x10000000) + 0x03000000) + 0x00200000
         - name: WINDSHIELD_WIPERS_PERIOD
-          value: 0x0BC5 + VehiclePropertyGroup.SYSTEM + VehicleArea.WINDOW + VehiclePropertyType.INT32
+          value: ((0x0BC5 + VehiclePropertyGroup.SYSTEM) + VehicleArea.WINDOW) + VehiclePropertyType.INT32
         - name: WINDSHIELD_WIPERS_STATE
-          value: 0x0BC6 + VehiclePropertyGroup.SYSTEM + VehicleArea.WINDOW + VehiclePropertyType.INT32
+          value: ((0x0BC6 + VehiclePropertyGroup.SYSTEM) + VehicleArea.WINDOW) + VehiclePropertyType.INT32
         - name: WINDSHIELD_WIPERS_SWITCH
-          value: 0x0BC7 + VehiclePropertyGroup.SYSTEM + VehicleArea.WINDOW + VehiclePropertyType.INT32
+          value: ((0x0BC7 + VehiclePropertyGroup.SYSTEM) + VehicleArea.WINDOW) + VehiclePropertyType.INT32
         - name: STEERING_WHEEL_DEPTH_POS
-          value: 0x0BE0 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+          value: ((0x0BE0 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.INT32
         - name: STEERING_WHEEL_DEPTH_MOVE
-          value: 0x0BE1 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+          value: ((0x0BE1 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.INT32
         - name: STEERING_WHEEL_HEIGHT_POS
-          value: 0x0BE2 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+          value: ((0x0BE2 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.INT32
         - name: STEERING_WHEEL_HEIGHT_MOVE
-          value: 0x0BE3 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+          value: ((0x0BE3 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.INT32
         - name: STEERING_WHEEL_THEFT_LOCK_ENABLED
-          value: 0x0BE4 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+          value: ((0x0BE4 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.BOOLEAN
         - name: STEERING_WHEEL_LOCKED
-          value: 0x0BE5 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+          value: ((0x0BE5 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.BOOLEAN
         - name: STEERING_WHEEL_EASY_ACCESS_ENABLED
-          value: 0x0BE6 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+          value: ((0x0BE6 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.BOOLEAN
         - name: GLOVE_BOX_DOOR_POS
-          value: 0x0BF0 + VehiclePropertyGroup.SYSTEM + VehicleArea.SEAT + VehiclePropertyType.INT32
+          value: ((0x0BF0 + VehiclePropertyGroup.SYSTEM) + VehicleArea.SEAT) + VehiclePropertyType.INT32
         - name: GLOVE_BOX_LOCKED
-          value: 0x0BF1 + VehiclePropertyGroup.SYSTEM + VehicleArea.SEAT + VehiclePropertyType.BOOLEAN
+          value: ((0x0BF1 + VehiclePropertyGroup.SYSTEM) + VehicleArea.SEAT) + VehiclePropertyType.BOOLEAN
         - name: VEHICLE_MAP_SERVICE
-          value: 0x0C00 + 0x10000000 + 0x01000000 + 0x00e00000
+          value: ((0x0C00 + 0x10000000) + 0x01000000) + 0x00e00000
         - name: LOCATION_CHARACTERIZATION
-          value: 0x0C10 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+          value: ((0x0C10 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.INT32
         - name: ULTRASONICS_SENSOR_POSITION
-          value: 0x0C20 + VehiclePropertyGroup.SYSTEM + VehicleArea.VENDOR + VehiclePropertyType.INT32_VEC
+          value: ((0x0C20 + VehiclePropertyGroup.SYSTEM) + VehicleArea.VENDOR) + VehiclePropertyType.INT32_VEC
         - name: ULTRASONICS_SENSOR_ORIENTATION
-          value: 0x0C21 + VehiclePropertyGroup.SYSTEM + VehicleArea.VENDOR + VehiclePropertyType.FLOAT_VEC
+          value: ((0x0C21 + VehiclePropertyGroup.SYSTEM) + VehicleArea.VENDOR) + VehiclePropertyType.FLOAT_VEC
         - name: ULTRASONICS_SENSOR_FIELD_OF_VIEW
-          value: 0x0C22 + VehiclePropertyGroup.SYSTEM + VehicleArea.VENDOR + VehiclePropertyType.INT32_VEC
+          value: ((0x0C22 + VehiclePropertyGroup.SYSTEM) + VehicleArea.VENDOR) + VehiclePropertyType.INT32_VEC
         - name: ULTRASONICS_SENSOR_DETECTION_RANGE
-          value: 0x0C23 + VehiclePropertyGroup.SYSTEM + VehicleArea.VENDOR + VehiclePropertyType.INT32_VEC
+          value: ((0x0C23 + VehiclePropertyGroup.SYSTEM) + VehicleArea.VENDOR) + VehiclePropertyType.INT32_VEC
         - name: ULTRASONICS_SENSOR_SUPPORTED_RANGES
-          value: 0x0C24 + VehiclePropertyGroup.SYSTEM + VehicleArea.VENDOR + VehiclePropertyType.INT32_VEC
+          value: ((0x0C24 + VehiclePropertyGroup.SYSTEM) + VehicleArea.VENDOR) + VehiclePropertyType.INT32_VEC
         - name: ULTRASONICS_SENSOR_MEASURED_DISTANCE
-          value: 0x0C25 + VehiclePropertyGroup.SYSTEM + VehicleArea.VENDOR + VehiclePropertyType.INT32_VEC
+          value: ((0x0C25 + VehiclePropertyGroup.SYSTEM) + VehicleArea.VENDOR) + VehiclePropertyType.INT32_VEC
         - name: OBD2_LIVE_FRAME
-          value: 0x0D00 + 0x10000000 + 0x01000000 + 0x00e00000
+          value: ((0x0D00 + 0x10000000) + 0x01000000) + 0x00e00000
         - name: OBD2_FREEZE_FRAME
-          value: 0x0D01 + 0x10000000 + 0x01000000 + 0x00e00000
+          value: ((0x0D01 + 0x10000000) + 0x01000000) + 0x00e00000
         - name: OBD2_FREEZE_FRAME_INFO
-          value: 0x0D02 + 0x10000000 + 0x01000000 + 0x00e00000
+          value: ((0x0D02 + 0x10000000) + 0x01000000) + 0x00e00000
         - name: OBD2_FREEZE_FRAME_CLEAR
-          value: 0x0D03 + 0x10000000 + 0x01000000 + 0x00e00000
+          value: ((0x0D03 + 0x10000000) + 0x01000000) + 0x00e00000
         - name: HEADLIGHTS_STATE
-          value: 0x0E00 + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0E00 + 0x10000000) + 0x01000000) + 0x00400000
         - name: HIGH_BEAM_LIGHTS_STATE
-          value: 0x0E01 + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0E01 + 0x10000000) + 0x01000000) + 0x00400000
         - name: FOG_LIGHTS_STATE
-          value: 0x0E02 + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0E02 + 0x10000000) + 0x01000000) + 0x00400000
         - name: HAZARD_LIGHTS_STATE
-          value: 0x0E03 + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0E03 + 0x10000000) + 0x01000000) + 0x00400000
         - name: HEADLIGHTS_SWITCH
-          value: 0x0E10 + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0E10 + 0x10000000) + 0x01000000) + 0x00400000
         - name: HIGH_BEAM_LIGHTS_SWITCH
-          value: 0x0E11 + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0E11 + 0x10000000) + 0x01000000) + 0x00400000
         - name: FOG_LIGHTS_SWITCH
-          value: 0x0E12 + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0E12 + 0x10000000) + 0x01000000) + 0x00400000
         - name: HAZARD_LIGHTS_SWITCH
-          value: 0x0E13 + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0E13 + 0x10000000) + 0x01000000) + 0x00400000
         - name: CABIN_LIGHTS_STATE
-          value: 0x0F01 + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0F01 + 0x10000000) + 0x01000000) + 0x00400000
         - name: CABIN_LIGHTS_SWITCH
-          value: 0x0F02 + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0F02 + 0x10000000) + 0x01000000) + 0x00400000
         - name: READING_LIGHTS_STATE
-          value: 0x0F03 + 0x10000000 + 0x05000000 + 0x00400000
+          value: ((0x0F03 + 0x10000000) + 0x05000000) + 0x00400000
         - name: READING_LIGHTS_SWITCH
-          value: 0x0F04 + 0x10000000 + 0x05000000 + 0x00400000
+          value: ((0x0F04 + 0x10000000) + 0x05000000) + 0x00400000
         - name: STEERING_WHEEL_LIGHTS_STATE
-          value: 0x0F0C + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+          value: ((0x0F0C + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.INT32
         - name: STEERING_WHEEL_LIGHTS_SWITCH
-          value: 0x0F0D + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+          value: ((0x0F0D + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.INT32
         - name: SUPPORT_CUSTOMIZE_VENDOR_PERMISSION
-          value: 0x0F05 + 0x10000000 + 0x01000000 + 0x00200000
+          value: ((0x0F05 + 0x10000000) + 0x01000000) + 0x00200000
         - name: DISABLED_OPTIONAL_FEATURES
-          value: 0x0F06 + 0x10000000 + 0x01000000 + 0x00100000
+          value: ((0x0F06 + 0x10000000) + 0x01000000) + 0x00100000
         - name: INITIAL_USER_INFO
-          value: 0x0F07 + 0x10000000 + 0x01000000 + 0x00e00000
+          value: ((0x0F07 + 0x10000000) + 0x01000000) + 0x00e00000
         - name: SWITCH_USER
-          value: 0x0F08 + 0x10000000 + 0x01000000 + 0x00e00000
+          value: ((0x0F08 + 0x10000000) + 0x01000000) + 0x00e00000
         - name: CREATE_USER
-          value: 0x0F09 + 0x10000000 + 0x01000000 + 0x00e00000
+          value: ((0x0F09 + 0x10000000) + 0x01000000) + 0x00e00000
         - name: REMOVE_USER
-          value: 0x0F0A + 0x10000000 + 0x01000000 + 0x00e00000
+          value: ((0x0F0A + 0x10000000) + 0x01000000) + 0x00e00000
         - name: USER_IDENTIFICATION_ASSOCIATION
-          value: 0x0F0B + 0x10000000 + 0x01000000 + 0x00e00000
+          value: ((0x0F0B + 0x10000000) + 0x01000000) + 0x00e00000
         - name: EVS_SERVICE_REQUEST
-          value: 0x0F10 + 0x10000000 + 0x01000000 + 0x00410000
+          value: ((0x0F10 + 0x10000000) + 0x01000000) + 0x00410000
         - name: POWER_POLICY_REQ
-          value: 0x0F21 + 0x10000000 + 0x01000000 + 0x00100000
+          value: ((0x0F21 + 0x10000000) + 0x01000000) + 0x00100000
         - name: POWER_POLICY_GROUP_REQ
-          value: 0x0F22 + 0x10000000 + 0x01000000 + 0x00100000
+          value: ((0x0F22 + 0x10000000) + 0x01000000) + 0x00100000
         - name: CURRENT_POWER_POLICY
-          value: 0x0F23 + 0x10000000 + 0x01000000 + 0x00100000
+          value: ((0x0F23 + 0x10000000) + 0x01000000) + 0x00100000
         - name: WATCHDOG_ALIVE
-          value: 0xF31 + 0x10000000 + 0x01000000 + 0x00500000
+          value: ((0xF31 + 0x10000000) + 0x01000000) + 0x00500000
         - name: WATCHDOG_TERMINATED_PROCESS
-          value: 0x0F32 + 0x10000000 + 0x01000000 + 0x00e00000
+          value: ((0x0F32 + 0x10000000) + 0x01000000) + 0x00e00000
         - name: VHAL_HEARTBEAT
-          value: 0x0F33 + 0x10000000 + 0x01000000 + 0x00500000
+          value: ((0x0F33 + 0x10000000) + 0x01000000) + 0x00500000
         - name: CLUSTER_SWITCH_UI
-          value: 0x0F34 + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0F34 + 0x10000000) + 0x01000000) + 0x00400000
         - name: CLUSTER_DISPLAY_STATE
-          value: 0x0F35 + 0x10000000 + 0x01000000 + 0x00410000
+          value: ((0x0F35 + 0x10000000) + 0x01000000) + 0x00410000
         - name: CLUSTER_REPORT_STATE
-          value: 0x0F36 + 0x10000000 + 0x01000000 + 0x00e00000
+          value: ((0x0F36 + 0x10000000) + 0x01000000) + 0x00e00000
         - name: CLUSTER_REQUEST_DISPLAY
-          value: 0x0F37 + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0F37 + 0x10000000) + 0x01000000) + 0x00400000
         - name: CLUSTER_NAVIGATION_STATE
-          value: 0x0F38 + 0x10000000 + 0x01000000 + 0x00700000
+          value: ((0x0F38 + 0x10000000) + 0x01000000) + 0x00700000
         - name: ELECTRONIC_TOLL_COLLECTION_CARD_TYPE
-          value: 0x0F39 + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0F39 + 0x10000000) + 0x01000000) + 0x00400000
         - name: ELECTRONIC_TOLL_COLLECTION_CARD_STATUS
-          value: 0x0F3A + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0F3A + 0x10000000) + 0x01000000) + 0x00400000
         - name: FRONT_FOG_LIGHTS_STATE
-          value: 0x0F3B + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0F3B + 0x10000000) + 0x01000000) + 0x00400000
         - name: FRONT_FOG_LIGHTS_SWITCH
-          value: 0x0F3C + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0F3C + 0x10000000) + 0x01000000) + 0x00400000
         - name: REAR_FOG_LIGHTS_STATE
-          value: 0x0F3D + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0F3D + 0x10000000) + 0x01000000) + 0x00400000
         - name: REAR_FOG_LIGHTS_SWITCH
-          value: 0x0F3E + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0F3E + 0x10000000) + 0x01000000) + 0x00400000
         - name: EV_CHARGE_CURRENT_DRAW_LIMIT
-          value: 0x0F3F + 0x10000000 + 0x01000000 + 0x00600000
+          value: ((0x0F3F + 0x10000000) + 0x01000000) + 0x00600000
         - name: EV_CHARGE_PERCENT_LIMIT
-          value: 0x0F40 + 0x10000000 + 0x01000000 + 0x00600000
+          value: ((0x0F40 + 0x10000000) + 0x01000000) + 0x00600000
         - name: EV_CHARGE_STATE
-          value: 0x0F41 + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0F41 + 0x10000000) + 0x01000000) + 0x00400000
         - name: EV_CHARGE_SWITCH
-          value: 0x0F42 + 0x10000000 + 0x01000000 + 0x00200000
+          value: ((0x0F42 + 0x10000000) + 0x01000000) + 0x00200000
         - name: EV_CHARGE_TIME_REMAINING
-          value: 0x0F43 + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0F43 + 0x10000000) + 0x01000000) + 0x00400000
         - name: EV_REGENERATIVE_BRAKING_STATE
-          value: 0x0F44 + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0F44 + 0x10000000) + 0x01000000) + 0x00400000
         - name: TRAILER_PRESENT
-          value: 0x0F45 + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0F45 + 0x10000000) + 0x01000000) + 0x00400000
         - name: VEHICLE_CURB_WEIGHT
-          value: 0x0F46 + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0F46 + 0x10000000) + 0x01000000) + 0x00400000
         - name: GENERAL_SAFETY_REGULATION_COMPLIANCE_REQUIREMENT
-          value: 0x0F47 + 0x10000000 + 0x01000000 + 0x00400000
+          value: ((0x0F47 + 0x10000000) + 0x01000000) + 0x00400000
         - name: SUPPORTED_PROPERTY_IDS
-          value: 0x0F48 + 0x10000000 + 0x01000000 + 0x00410000
+          value: ((0x0F48 + 0x10000000) + 0x01000000) + 0x00410000
         - name: SHUTDOWN_REQUEST
-          value: 0x0F49 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+          value: ((0x0F49 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.INT32
         - name: VEHICLE_IN_USE
-          value: 0x0F4A + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+          value: ((0x0F4A + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.BOOLEAN
         - name: CLUSTER_HEARTBEAT
-          value: 0x0F4B + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.MIXED
+          value: ((0x0F4B + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.MIXED
         - name: VEHICLE_DRIVING_AUTOMATION_CURRENT_LEVEL
-          value: 0x0F4C + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+          value: ((0x0F4C + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.INT32
         - name: CAMERA_SERVICE_CURRENT_STATE
-          value: 0x0F4D + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32_VEC
+          value: ((0x0F4D + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.INT32_VEC
         - name: AUTOMATIC_EMERGENCY_BRAKING_ENABLED
-          value: 0x1000 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+          value: ((0x1000 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.BOOLEAN
         - name: AUTOMATIC_EMERGENCY_BRAKING_STATE
-          value: 0x1001 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+          value: ((0x1001 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.INT32
         - name: FORWARD_COLLISION_WARNING_ENABLED
-          value: 0x1002 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+          value: ((0x1002 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.BOOLEAN
         - name: FORWARD_COLLISION_WARNING_STATE
-          value: 0x1003 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+          value: ((0x1003 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.INT32
         - name: BLIND_SPOT_WARNING_ENABLED
-          value: 0x1004 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+          value: ((0x1004 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.BOOLEAN
         - name: BLIND_SPOT_WARNING_STATE
-          value: 0x1005 + VehiclePropertyGroup.SYSTEM + VehicleArea.MIRROR + VehiclePropertyType.INT32
+          value: ((0x1005 + VehiclePropertyGroup.SYSTEM) + VehicleArea.MIRROR) + VehiclePropertyType.INT32
         - name: LANE_DEPARTURE_WARNING_ENABLED
-          value: 0x1006 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+          value: ((0x1006 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.BOOLEAN
         - name: LANE_DEPARTURE_WARNING_STATE
-          value: 0x1007 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+          value: ((0x1007 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.INT32
         - name: LANE_KEEP_ASSIST_ENABLED
-          value: 0x1008 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+          value: ((0x1008 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.BOOLEAN
         - name: LANE_KEEP_ASSIST_STATE
-          value: 0x1009 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+          value: ((0x1009 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.INT32
         - name: LANE_CENTERING_ASSIST_ENABLED
-          value: 0x100A + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+          value: ((0x100A + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.BOOLEAN
         - name: LANE_CENTERING_ASSIST_COMMAND
-          value: 0x100B + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+          value: ((0x100B + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.INT32
         - name: LANE_CENTERING_ASSIST_STATE
-          value: 0x100C + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+          value: ((0x100C + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.INT32
         - name: EMERGENCY_LANE_KEEP_ASSIST_ENABLED
-          value: 0x100D + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+          value: ((0x100D + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.BOOLEAN
         - name: EMERGENCY_LANE_KEEP_ASSIST_STATE
-          value: 0x100E + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+          value: ((0x100E + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.INT32
         - name: CRUISE_CONTROL_ENABLED
-          value: 0x100F + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+          value: ((0x100F + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.BOOLEAN
         - name: CRUISE_CONTROL_TYPE
-          value: 0x1010 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+          value: ((0x1010 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.INT32
         - name: CRUISE_CONTROL_STATE
-          value: 0x1011 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+          value: ((0x1011 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.INT32
         - name: CRUISE_CONTROL_COMMAND
-          value: 0x1012 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+          value: ((0x1012 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.INT32
         - name: CRUISE_CONTROL_TARGET_SPEED
-          value: 0x1013 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.FLOAT
+          value: ((0x1013 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.FLOAT
         - name: ADAPTIVE_CRUISE_CONTROL_TARGET_TIME_GAP
-          value: 0x1014 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+          value: ((0x1014 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.INT32
         - name: ADAPTIVE_CRUISE_CONTROL_LEAD_VEHICLE_MEASURED_DISTANCE
-          value: 0x1015 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+          value: ((0x1015 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.INT32
         - name: HANDS_ON_DETECTION_ENABLED
-          value: 0x1016 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+          value: ((0x1016 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.BOOLEAN
         - name: HANDS_ON_DETECTION_DRIVER_STATE
-          value: 0x1017 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+          value: ((0x1017 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.INT32
         - name: HANDS_ON_DETECTION_WARNING
-          value: 0x1018 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+          value: ((0x1018 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.INT32
         - name: DRIVER_DROWSINESS_ATTENTION_SYSTEM_ENABLED
-          value: 0x1019 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+          value: ((0x1019 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.BOOLEAN
         - name: DRIVER_DROWSINESS_ATTENTION_STATE
-          value: 0x101A + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+          value: ((0x101A + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.INT32
         - name: DRIVER_DROWSINESS_ATTENTION_WARNING_ENABLED
-          value: 0x101B + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+          value: ((0x101B + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.BOOLEAN
         - name: DRIVER_DROWSINESS_ATTENTION_WARNING
-          value: 0x101C + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+          value: ((0x101C + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.INT32
         - name: DRIVER_DISTRACTION_SYSTEM_ENABLED
-          value: 0x101D + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+          value: ((0x101D + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.BOOLEAN
         - name: DRIVER_DISTRACTION_STATE
-          value: 0x101E + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+          value: ((0x101E + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.INT32
         - name: DRIVER_DISTRACTION_WARNING_ENABLED
-          value: 0x101F + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+          value: ((0x101F + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.BOOLEAN
         - name: DRIVER_DISTRACTION_WARNING
-          value: 0x1020 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+          value: ((0x1020 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.INT32
         - name: LOW_SPEED_COLLISION_WARNING_ENABLED
-          value: 0x1021 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+          value: ((0x1021 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.BOOLEAN
         - name: LOW_SPEED_COLLISION_WARNING_STATE
-          value: 0x1022 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+          value: ((0x1022 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.INT32
         - name: CROSS_TRAFFIC_MONITORING_ENABLED
-          value: 0x1023 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+          value: ((0x1023 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.BOOLEAN
         - name: CROSS_TRAFFIC_MONITORING_WARNING_STATE
-          value: 0x1024 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+          value: ((0x1024 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.INT32
         - name: LOW_SPEED_AUTOMATIC_EMERGENCY_BRAKING_ENABLED
-          value: 0x1025 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.BOOLEAN
+          value: ((0x1025 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.BOOLEAN
         - name: LOW_SPEED_AUTOMATIC_EMERGENCY_BRAKING_STATE
-          value: 0x1026 + VehiclePropertyGroup.SYSTEM + VehicleArea.GLOBAL + VehiclePropertyType.INT32
+          value: ((0x1026 + VehiclePropertyGroup.SYSTEM) + VehicleArea.GLOBAL) + VehiclePropertyType.INT32
       annotations:
         - VintfStability
         - Backing

@@ -46,7 +46,7 @@ type ParameterId struct {
 	VirtualizerTag            VirtualizerId
 	VisualizerTag             VisualizerId
 	VolumeTag                 VolumeId
-	CommonTag                 ParameterTag
+	CommonTag                 any
 	SpatializerTag            SpatializerId
 }
 
@@ -276,16 +276,16 @@ func (u *ParameterId) SetVolumeTag(
 	*u = ParameterId{Tag: ParameterIdTagVolumeTag, VolumeTag: v}
 }
 
-func (u *ParameterId) GetCommonTag() (ParameterTag, bool) {
+func (u *ParameterId) GetCommonTag() (any, bool) {
 	if u.Tag != ParameterIdTagCommonTag {
-		var _zero ParameterTag
+		var _zero any
 		return _zero, false
 	}
 	return u.CommonTag, true
 }
 
 func (u *ParameterId) SetCommonTag(
-	v ParameterTag,
+	v any,
 ) {
 	*u = ParameterId{Tag: ParameterIdTagCommonTag, CommonTag: v}
 }
@@ -392,7 +392,6 @@ func (u *ParameterId) MarshalParcel(
 			return _err
 		}
 	case ParameterIdTagCommonTag:
-		p.WriteInt32(int32(u.CommonTag))
 	case ParameterIdTagSpatializerTag:
 		p.WriteInt32(1)
 		if _err := u.SpatializerTag.MarshalParcel(p); _err != nil {
@@ -533,11 +532,6 @@ func (u *ParameterId) UnmarshalParcel(
 			return _err
 		}
 	case ParameterIdTagCommonTag:
-		_raw, _err := p.ReadInt32()
-		if _err != nil {
-			return _err
-		}
-		u.CommonTag = ParameterTag(_raw)
 	case ParameterIdTagSpatializerTag:
 		if _, _err = p.ReadInt32(); _err != nil {
 			return _err

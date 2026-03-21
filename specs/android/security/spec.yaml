@@ -337,3 +337,6 @@ interfaces:
             name: String
 parcelables:
     - name: AppUriAuthenticationPolicy
+      java_wire_format:
+        - name: AppToUris
+          write_method: opaque

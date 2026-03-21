@@ -1,7 +1,7 @@
 package keymint
 
 import (
-	lmp_event "github.com/xaionaro-go/binder/android/hardware/bluetooth/lmp_event"
+	secureclock "github.com/xaionaro-go/binder/android/hardware/security/secureclock"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -12,7 +12,7 @@ type HardwareAuthToken struct {
 	UserId            int64
 	AuthenticatorId   int64
 	AuthenticatorType HardwareAuthenticatorType
-	Timestamp         lmp_event.Timestamp
+	Timestamp         secureclock.Timestamp
 	Mac               []byte
 }
 

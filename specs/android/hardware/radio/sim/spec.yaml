@@ -533,6 +533,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IRadioSimIndication
       descriptor: android.hardware.radio.sim.IRadioSimIndication
       oneway: true
@@ -669,6 +671,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IRadioSimResponse
       descriptor: android.hardware.radio.sim.IRadioSimResponse
       oneway: true
@@ -1122,6 +1126,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: AppStatus
       fields:

@@ -3,7 +3,7 @@ package extension
 import (
 	"context"
 	"fmt"
-	device "github.com/xaionaro-go/binder/android/frameworks/cameraservice/device"
+	camera2 "github.com/xaionaro-go/binder/android/hardware/camera2"
 	impl "github.com/xaionaro-go/binder/android/hardware/camera2/impl"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -48,8 +48,8 @@ type ISessionProcessorImpl interface {
 	StartRepeating(ctx context.Context, callback ICaptureCallback) (int32, error)
 	StopRepeating(ctx context.Context) error
 	StartCapture(ctx context.Context, callback ICaptureCallback, isPostviewRequested bool) (int32, error)
-	SetParameters(ctx context.Context, captureRequest device.CaptureRequest) error
-	StartTrigger(ctx context.Context, captureRequest device.CaptureRequest, callback ICaptureCallback) (int32, error)
+	SetParameters(ctx context.Context, captureRequest camera2.CaptureRequest) error
+	StartTrigger(ctx context.Context, captureRequest camera2.CaptureRequest, callback ICaptureCallback) (int32, error)
 	GetRealtimeCaptureLatency(ctx context.Context) (LatencyPair, error)
 }
 
@@ -310,7 +310,7 @@ func (p *SessionProcessorImplProxy) StartCapture(
 
 func (p *SessionProcessorImplProxy) SetParameters(
 	ctx context.Context,
-	captureRequest device.CaptureRequest,
+	captureRequest camera2.CaptureRequest,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -340,7 +340,7 @@ func (p *SessionProcessorImplProxy) SetParameters(
 
 func (p *SessionProcessorImplProxy) StartTrigger(
 	ctx context.Context,
-	captureRequest device.CaptureRequest,
+	captureRequest camera2.CaptureRequest,
 	callback ICaptureCallback,
 ) (int32, error) {
 	var _result int32
@@ -615,7 +615,7 @@ func (s *SessionProcessorImplStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISessionProcessorImplSetParameters:
-		var _arg_captureRequest device.CaptureRequest
+		var _arg_captureRequest camera2.CaptureRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -636,7 +636,7 @@ func (s *SessionProcessorImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionProcessorImplStartTrigger:
-		var _arg_captureRequest device.CaptureRequest
+		var _arg_captureRequest camera2.CaptureRequest
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -694,8 +694,8 @@ type ISessionProcessorImplServer interface {
 	StartRepeating(ctx context.Context, callback ICaptureCallback) (int32, error)
 	StopRepeating(ctx context.Context) error
 	StartCapture(ctx context.Context, callback ICaptureCallback, isPostviewRequested bool) (int32, error)
-	SetParameters(ctx context.Context, captureRequest device.CaptureRequest) error
-	StartTrigger(ctx context.Context, captureRequest device.CaptureRequest, callback ICaptureCallback) (int32, error)
+	SetParameters(ctx context.Context, captureRequest camera2.CaptureRequest) error
+	StartTrigger(ctx context.Context, captureRequest camera2.CaptureRequest, callback ICaptureCallback) (int32, error)
 	GetRealtimeCaptureLatency(ctx context.Context) (LatencyPair, error)
 }
 
@@ -764,14 +764,14 @@ func (w *sessionProcessorImplStubWrapper) StartCapture(
 
 func (w *sessionProcessorImplStubWrapper) SetParameters(
 	ctx context.Context,
-	captureRequest device.CaptureRequest,
+	captureRequest camera2.CaptureRequest,
 ) error {
 	return w.impl.SetParameters(ctx, captureRequest)
 }
 
 func (w *sessionProcessorImplStubWrapper) StartTrigger(
 	ctx context.Context,
-	captureRequest device.CaptureRequest,
+	captureRequest camera2.CaptureRequest,
 	callback ICaptureCallback,
 ) (int32, error) {
 	return w.impl.StartTrigger(ctx, captureRequest, callback)

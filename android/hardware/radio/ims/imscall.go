@@ -1,7 +1,6 @@
 package ims
 
 import (
-	lmp_event "github.com/xaionaro-go/binder/android/hardware/bluetooth/lmp_event"
 	radio "github.com/xaionaro-go/binder/android/hardware/radio"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -13,7 +12,7 @@ type ImsCall struct {
 	CallType       ImsCallCallType
 	AccessNetwork  radio.AccessNetwork
 	CallState      ImsCallCallState
-	Direction      lmp_event.Direction
+	Direction      ImsCallDirection
 	IsHeldByRemote bool
 }
 
@@ -27,7 +26,7 @@ func (s *ImsCall) MarshalParcel(
 	p.WriteInt32(int32(s.CallType))
 	p.WriteInt32(int32(s.AccessNetwork))
 	p.WriteInt32(int32(s.CallState))
-	p.WritePaddedByte(byte(s.Direction))
+	p.WriteInt32(int32(s.Direction))
 	p.WriteBool(s.IsHeldByRemote)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -90,11 +89,11 @@ func (s *ImsCall) UnmarshalParcel(
 		return nil
 	}
 
-	_directionRaw, _err := p.ReadPaddedByte()
+	_directionRaw, _err := p.ReadInt32()
 	if _err != nil {
 		return _err
 	}
-	s.Direction = lmp_event.Direction(_directionRaw)
+	s.Direction = ImsCallDirection(_directionRaw)
 
 	if p.Position() >= _endPos {
 		parcel.SkipToParcelableEnd(p, _endPos)

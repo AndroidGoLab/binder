@@ -3,7 +3,6 @@ package wifi
 import (
 	"context"
 	"fmt"
-	audio "github.com/xaionaro-go/binder/android/hardware/bluetooth/audio"
 	common "github.com/xaionaro-go/binder/android/hardware/wifi/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -164,7 +163,7 @@ type IWifiChip interface {
 	SelectTxPowerScenario(ctx context.Context, scenario IWifiChipTxPowerScenario) error
 	SetCoexUnsafeChannels(ctx context.Context, unsafeChannels []IWifiChipCoexUnsafeChannel, restrictions int32) error
 	SetCountryCode(ctx context.Context, code []byte) error
-	SetLatencyMode(ctx context.Context, mode audio.LatencyMode) error
+	SetLatencyMode(ctx context.Context, mode IWifiChipLatencyMode) error
 	SetMultiStaPrimaryConnection(ctx context.Context, ifName string) error
 	SetMultiStaUseCase(ctx context.Context, useCase IWifiChipMultiStaUseCase) error
 	StartLoggingToDebugRingBuffer(ctx context.Context, ringName string, verboseLevel WifiDebugRingBufferVerboseLevel, maxIntervalInSec int32, minDataSizeInBytes int32) error
@@ -1549,7 +1548,7 @@ func (p *WifiChipProxy) SetCountryCode(
 
 func (p *WifiChipProxy) SetLatencyMode(
 	ctx context.Context,
-	mode audio.LatencyMode,
+	mode IWifiChipLatencyMode,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -2468,7 +2467,7 @@ func (s *WifiChipStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mode := audio.LatencyMode(_raw_mode)
+		_arg_mode := IWifiChipLatencyMode(_raw_mode)
 		_err = s.Impl.SetLatencyMode(ctx, _arg_mode)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2675,7 +2674,7 @@ type IWifiChipServer interface {
 	SelectTxPowerScenario(ctx context.Context, scenario IWifiChipTxPowerScenario) error
 	SetCoexUnsafeChannels(ctx context.Context, unsafeChannels []IWifiChipCoexUnsafeChannel, restrictions int32) error
 	SetCountryCode(ctx context.Context, code []byte) error
-	SetLatencyMode(ctx context.Context, mode audio.LatencyMode) error
+	SetLatencyMode(ctx context.Context, mode IWifiChipLatencyMode) error
 	SetMultiStaPrimaryConnection(ctx context.Context, ifName string) error
 	SetMultiStaUseCase(ctx context.Context, useCase IWifiChipMultiStaUseCase) error
 	StartLoggingToDebugRingBuffer(ctx context.Context, ringName string, verboseLevel WifiDebugRingBufferVerboseLevel, maxIntervalInSec int32, minDataSizeInBytes int32) error
@@ -2967,7 +2966,7 @@ func (w *wifiChipStubWrapper) SetCountryCode(
 
 func (w *wifiChipStubWrapper) SetLatencyMode(
 	ctx context.Context,
-	mode audio.LatencyMode,
+	mode IWifiChipLatencyMode,
 ) error {
 	return w.impl.SetLatencyMode(ctx, mode)
 }

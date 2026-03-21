@@ -1092,6 +1092,9 @@ parcelables:
     - name: AttributionSource
       annotations:
         - JavaOnlyStableParcelable
+      java_wire_format:
+        - name: Dest
+          write_method: opaque
     - name: AttributionSourceState
       fields:
         - name: pid
@@ -1135,24 +1138,387 @@ parcelables:
             name: AttributionSourceState
             is_array: true
     - name: AutofillOptions
+      java_wire_format:
+        - name: LoggingLevel
+          write_method: int32
+        - name: CompatModeEnabled
+          write_method: bool
+        - name: AugmentedAutofillEnabled
+          write_method: bool
+        - name: WhitelistedActivitiesForAugmentedAutofill
+          write_method: opaque
+        - name: AppDisabledExpiration
+          write_method: int64
+        - name: Size
+          write_method: int32
     - name: ClipData
+      java_wire_format:
+        - name: Dest
+          write_method: opaque
+        - name: "1"
+          write_method: int32
+          condition: mIcon!=null
+        - name: Dest
+          write_method: opaque
+          condition: mIcon!=null
+        - name: "N"
+          write_method: int32
     - name: ClipDescription
+      java_wire_format:
+        - name: Label
+          write_method: opaque
+        - name: MimeTypes
+          write_method: opaque
+        - name: Extras
+          write_method: opaque
+        - name: TimeStamp
+          write_method: int64
+        - name: IsStyledText
+          write_method: bool
+        - name: ClassificationStatus
+          write_method: int32
+        - name: ConfidencesToBundle()
+          write_method: opaque
     - name: ComponentName
+      java_wire_format:
+        - name: Out
+          write_method: opaque
+          condition: c!=null
     - name: ContentCaptureOptions
+      java_wire_format:
+        - name: Lite
+          write_method: bool
+        - name: LoggingLevel
+          write_method: int32
+        - name: MaxBufferSize
+          write_method: int32
+        - name: IdleFlushingFrequencyMs
+          write_method: int32
+        - name: TextChangeFlushingFrequencyMs
+          write_method: int32
+        - name: LogHistorySize
+          write_method: int32
+        - name: DisableFlushForViewTreeAppearing
+          write_method: bool
+        - name: EnableReceiver
+          write_method: bool
+        - name: Parcel
+          write_method: opaque
+        - name: WhitelistedComponents
+          write_method: opaque
     - name: ContentValues
+      java_wire_format:
+        - name: Map.size()
+          write_method: int32
+        - name: Map
+          write_method: opaque
     - name: Intent
+      java_wire_format:
+        - name: Action
+          write_method: string8
+        - name: Out
+          write_method: opaque
+        - name: Type
+          write_method: string8
+        - name: Identifier
+          write_method: string8
+        - name: Flags
+          write_method: int32
+        - name: ExtendedFlags
+          write_method: int32
+        - name: Package
+          write_method: string8
+        - name: Component
+          write_method: opaque
+        - name: "1"
+          write_method: int32
+          condition: mSourceBounds!=null
+        - name: Out
+          write_method: opaque
+          condition: mSourceBounds!=null
+        - name: "N"
+          write_method: int32
+          condition: mCategories!=null
+        - name: "1"
+          write_method: int32
+          condition: mSelector!=null
+        - name: Out
+          write_method: opaque
+          condition: mSelector!=null
+        - name: "1"
+          write_method: int32
+          condition: mClipData!=null
+        - name: Out
+          write_method: opaque
+          condition: mClipData!=null
+        - name: ContentUserHint
+          write_method: int32
+        - name: Extras
+          write_method: opaque
+        - name: "1"
+          write_method: int32
+          condition: mOriginalIntent!=null
+        - name: Out
+          write_method: opaque
+          condition: mOriginalIntent!=null
     - name: IntentFilter
+      java_wire_format:
+        - name: Actions.toArray(newString[mActions.size()])
+          write_method: opaque
+        - name: "1"
+          write_method: int32
+          condition: mCategories!=null
+        - name: Categories
+          write_method: opaque
+          condition: mCategories!=null
+        - name: "1"
+          write_method: int32
+          condition: mDataSchemes!=null
+        - name: DataSchemes
+          write_method: opaque
+          condition: mDataSchemes!=null
+        - name: "1"
+          write_method: int32
+          condition: mStaticDataTypes!=null
+        - name: StaticDataTypes
+          write_method: opaque
+          condition: mStaticDataTypes!=null
+        - name: "1"
+          write_method: int32
+          condition: mDataTypes!=null
+        - name: DataTypes
+          write_method: opaque
+          condition: mDataTypes!=null
+        - name: "1"
+          write_method: int32
+          condition: mMimeGroups!=null
+        - name: MimeGroups
+          write_method: opaque
+          condition: mMimeGroups!=null
+        - name: "N"
+          write_method: int32
+          condition: mDataSchemeSpecificParts!=null
+        - name: "N"
+          write_method: int32
+          condition: mDataAuthorities!=null
+        - name: "N"
+          write_method: int32
+          condition: mDataPaths!=null
+        - name: Priority
+          write_method: int32
+        - name: HasStaticPartialTypes?1:0
+          write_method: int32
+        - name: HasDynamicPartialTypes?1:0
+          write_method: int32
+        - name: GetAutoVerify()?1:0
+          write_method: int32
+        - name: InstantAppVisibility
+          write_method: int32
+        - name: Order
+          write_method: int32
+        - name: "1"
+          write_method: int32
+          condition: mExtras!=null
+        - name: Dest
+          write_method: opaque
+          condition: mExtras!=null
+        - name: "N"
+          write_method: int32
+          condition: Flags.relativeReferenceIntentFilters()&&mUriRelativeFilterGroups!=null
     - name: IntentSender
+      java_wire_format:
+        - name: Target.asBinder()
+          write_method: opaque
     - name: LocusId
+      java_wire_format:
+        - name: Id
+          write_method: string16
     - name: PeriodicSync
+      java_wire_format:
+        - name: Account
+          write_method: opaque
+        - name: Authority
+          write_method: string16
+        - name: Extras
+          write_method: opaque
+        - name: Period
+          write_method: int64
+        - name: FlexTime
+          write_method: int64
     - name: RestrictionEntry
+      java_wire_format:
+        - name: Type
+          write_method: int32
+        - name: Key
+          write_method: string16
+        - name: Title
+          write_method: string16
+        - name: Description
+          write_method: string16
+        - name: ChoiceEntries
+          write_method: opaque
+        - name: ChoiceValues
+          write_method: opaque
+        - name: CurrentValue
+          write_method: string16
+        - name: CurrentValues
+          write_method: opaque
+        - name: Restrictions
+          write_method: opaque
     - name: SyncAdapterType
+      java_wire_format:
+        - name: Authority
+          write_method: string16
+        - name: AccountType
+          write_method: string16
+        - name: UserVisible?1:0
+          write_method: int32
+        - name: SupportsUploading?1:0
+          write_method: int32
+        - name: IsAlwaysSyncable?1:0
+          write_method: int32
+        - name: AllowParallelSyncs?1:0
+          write_method: int32
+        - name: SettingsActivity
+          write_method: string16
+        - name: PackageName
+          write_method: string16
     - name: SyncInfo
+      java_wire_format:
+        - name: AuthorityId
+          write_method: int32
+        - name: Account
+          write_method: opaque
+        - name: Authority
+          write_method: string16
+        - name: StartTime
+          write_method: int64
     - name: SyncRequest
+      java_wire_format:
+        - name: Extras
+          write_method: opaque
+        - name: SyncFlexTimeSecs
+          write_method: int64
+        - name: SyncRunTimeSecs
+          write_method: int64
+        - name: (mIsPeriodic?1:0)
+          write_method: int32
+        - name: (mDisallowMetered?1:0)
+          write_method: int32
+        - name: (mIsAuthority?1:0)
+          write_method: int32
+        - name: (mIsExpedited?1:0)
+          write_method: int32
+        - name: IsScheduledAsExpeditedJob?1:0
+          write_method: int32
+        - name: AccountToSync
+          write_method: opaque
+        - name: Authority
+          write_method: string16
     - name: SyncResult
+      java_wire_format:
+        - name: SyncAlreadyInProgress?1:0
+          write_method: int32
+        - name: TooManyDeletions?1:0
+          write_method: int32
+        - name: TooManyRetries?1:0
+          write_method: int32
+        - name: DatabaseError?1:0
+          write_method: int32
+        - name: FullSyncRequested?1:0
+          write_method: int32
+        - name: PartialSyncUnavailable?1:0
+          write_method: int32
+        - name: MoreRecordsToGet?1:0
+          write_method: int32
+        - name: DelayUntil
+          write_method: int64
+        - name: Parcel
+          write_method: opaque
     - name: SyncStats
+      java_wire_format:
+        - name: NumAuthExceptions
+          write_method: int64
+        - name: NumIoExceptions
+          write_method: int64
+        - name: NumParseExceptions
+          write_method: int64
+        - name: NumConflictDetectedExceptions
+          write_method: int64
+        - name: NumInserts
+          write_method: int64
+        - name: NumUpdates
+          write_method: int64
+        - name: NumDeletes
+          write_method: int64
+        - name: NumEntries
+          write_method: int64
+        - name: NumSkippedEntries
+          write_method: int64
     - name: SyncStatusInfo
+      java_wire_format:
+        - name: VERSION
+          write_method: int32
+        - name: AuthorityId
+          write_method: int32
+        - name: TotalStats.totalElapsedTime
+          write_method: int64
+        - name: TotalStats.numSyncs
+          write_method: int32
+        - name: TotalStats.numSourcePoll
+          write_method: int32
+        - name: TotalStats.numSourceOther
+          write_method: int32
+        - name: TotalStats.numSourceLocal
+          write_method: int32
+        - name: TotalStats.numSourceUser
+          write_method: int32
+        - name: LastSuccessTime
+          write_method: int64
+        - name: LastSuccessSource
+          write_method: int32
+        - name: LastFailureTime
+          write_method: int64
+        - name: LastFailureSource
+          write_method: int32
+        - name: LastFailureMesg
+          write_method: string16
+        - name: InitialFailureTime
+          write_method: int64
+        - name: Pending?1:0
+          write_method: int32
+        - name: Initialize?1:0
+          write_method: int32
+        - name: PeriodicSyncTimes.size()
+          write_method: int32
+          condition: periodicSyncTimes!=null
+        - name: LastEventTimes.size()
+          write_method: int32
+        - name: TotalStats.numSourcePeriodic
+          write_method: int32
+        - name: TotalStats.numSourceFeed
+          write_method: int32
+        - name: TotalStats.numFailures
+          write_method: int32
+        - name: TotalStats.numCancels
+          write_method: int32
+        - name: LastTodayResetTime
+          write_method: int64
+        - name: Parcel
+          write_method: opaque
+        - name: Parcel
+          write_method: opaque
+        - name: PerSourceLastSuccessTimes
+          write_method: opaque
+        - name: PerSourceLastFailureTimes
+          write_method: opaque
     - name: UriRelativeFilterGroup
+      java_wire_format:
+        - name: Action
+          write_method: int32
+        - name: "n"
+          write_method: int32
+          condition: n>0
     - name: UriRelativeFilterGroupParcel
       fields:
         - name: action

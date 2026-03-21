@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
-	common "github.com/xaionaro-go/binder/android/hardware/biometrics/common"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -45,11 +45,11 @@ const (
 
 type ICredentialManager interface {
 	AsBinder() binder.IBinder
-	ExecuteGetCredential(ctx context.Context, request GetCredentialRequest, callback IGetCredentialCallback) (common.ICancellationSignal, error)
-	ExecutePrepareGetCredential(ctx context.Context, request GetCredentialRequest, prepareGetCredentialCallback IPrepareGetCredentialCallback, getCredentialCallback IGetCredentialCallback) (common.ICancellationSignal, error)
-	ExecuteCreateCredential(ctx context.Context, request CreateCredentialRequest, callback ICreateCredentialCallback) (common.ICancellationSignal, error)
-	GetCandidateCredentials(ctx context.Context, request GetCredentialRequest, callback IGetCandidateCredentialsCallback, clientCallback binder.IBinder) (common.ICancellationSignal, error)
-	ClearCredentialState(ctx context.Context, request ClearCredentialStateRequest, callback IClearCredentialStateCallback) (common.ICancellationSignal, error)
+	ExecuteGetCredential(ctx context.Context, request GetCredentialRequest, callback IGetCredentialCallback) (os.ICancellationSignal, error)
+	ExecutePrepareGetCredential(ctx context.Context, request GetCredentialRequest, prepareGetCredentialCallback IPrepareGetCredentialCallback, getCredentialCallback IGetCredentialCallback) (os.ICancellationSignal, error)
+	ExecuteCreateCredential(ctx context.Context, request CreateCredentialRequest, callback ICreateCredentialCallback) (os.ICancellationSignal, error)
+	GetCandidateCredentials(ctx context.Context, request GetCredentialRequest, callback IGetCandidateCredentialsCallback, clientCallback binder.IBinder) (os.ICancellationSignal, error)
+	ClearCredentialState(ctx context.Context, request ClearCredentialStateRequest, callback IClearCredentialStateCallback) (os.ICancellationSignal, error)
 	SetEnabledProviders(ctx context.Context, primaryProviders []string, providers []string, callback ISetEnabledProvidersCallback) error
 	RegisterCredentialDescription(ctx context.Context, request RegisterCredentialDescriptionRequest) error
 	UnregisterCredentialDescription(ctx context.Context, request UnregisterCredentialDescriptionRequest) error
@@ -79,8 +79,8 @@ func (p *CredentialManagerProxy) ExecuteGetCredential(
 	ctx context.Context,
 	request GetCredentialRequest,
 	callback IGetCredentialCallback,
-) (common.ICancellationSignal, error) {
-	var _result common.ICancellationSignal
+) (os.ICancellationSignal, error) {
+	var _result os.ICancellationSignal
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -111,7 +111,7 @@ func (p *CredentialManagerProxy) ExecuteGetCredential(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = common.NewCancellationSignalProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
+	_result = os.NewCancellationSignalProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -120,8 +120,8 @@ func (p *CredentialManagerProxy) ExecutePrepareGetCredential(
 	request GetCredentialRequest,
 	prepareGetCredentialCallback IPrepareGetCredentialCallback,
 	getCredentialCallback IGetCredentialCallback,
-) (common.ICancellationSignal, error) {
-	var _result common.ICancellationSignal
+) (os.ICancellationSignal, error) {
+	var _result os.ICancellationSignal
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -153,7 +153,7 @@ func (p *CredentialManagerProxy) ExecutePrepareGetCredential(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = common.NewCancellationSignalProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
+	_result = os.NewCancellationSignalProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -161,8 +161,8 @@ func (p *CredentialManagerProxy) ExecuteCreateCredential(
 	ctx context.Context,
 	request CreateCredentialRequest,
 	callback ICreateCredentialCallback,
-) (common.ICancellationSignal, error) {
-	var _result common.ICancellationSignal
+) (os.ICancellationSignal, error) {
+	var _result os.ICancellationSignal
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -193,7 +193,7 @@ func (p *CredentialManagerProxy) ExecuteCreateCredential(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = common.NewCancellationSignalProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
+	_result = os.NewCancellationSignalProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -202,8 +202,8 @@ func (p *CredentialManagerProxy) GetCandidateCredentials(
 	request GetCredentialRequest,
 	callback IGetCandidateCredentialsCallback,
 	clientCallback binder.IBinder,
-) (common.ICancellationSignal, error) {
-	var _result common.ICancellationSignal
+) (os.ICancellationSignal, error) {
+	var _result os.ICancellationSignal
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -235,7 +235,7 @@ func (p *CredentialManagerProxy) GetCandidateCredentials(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = common.NewCancellationSignalProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
+	_result = os.NewCancellationSignalProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -243,8 +243,8 @@ func (p *CredentialManagerProxy) ClearCredentialState(
 	ctx context.Context,
 	request ClearCredentialStateRequest,
 	callback IClearCredentialStateCallback,
-) (common.ICancellationSignal, error) {
-	var _result common.ICancellationSignal
+) (os.ICancellationSignal, error) {
+	var _result os.ICancellationSignal
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -275,7 +275,7 @@ func (p *CredentialManagerProxy) ClearCredentialState(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = common.NewCancellationSignalProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
+	_result = os.NewCancellationSignalProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -958,11 +958,11 @@ func (s *CredentialManagerStub) OnTransaction(
 // provide to NewCredentialManagerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type ICredentialManagerServer interface {
-	ExecuteGetCredential(ctx context.Context, request GetCredentialRequest, callback IGetCredentialCallback) (common.ICancellationSignal, error)
-	ExecutePrepareGetCredential(ctx context.Context, request GetCredentialRequest, prepareGetCredentialCallback IPrepareGetCredentialCallback, getCredentialCallback IGetCredentialCallback) (common.ICancellationSignal, error)
-	ExecuteCreateCredential(ctx context.Context, request CreateCredentialRequest, callback ICreateCredentialCallback) (common.ICancellationSignal, error)
-	GetCandidateCredentials(ctx context.Context, request GetCredentialRequest, callback IGetCandidateCredentialsCallback, clientCallback binder.IBinder) (common.ICancellationSignal, error)
-	ClearCredentialState(ctx context.Context, request ClearCredentialStateRequest, callback IClearCredentialStateCallback) (common.ICancellationSignal, error)
+	ExecuteGetCredential(ctx context.Context, request GetCredentialRequest, callback IGetCredentialCallback) (os.ICancellationSignal, error)
+	ExecutePrepareGetCredential(ctx context.Context, request GetCredentialRequest, prepareGetCredentialCallback IPrepareGetCredentialCallback, getCredentialCallback IGetCredentialCallback) (os.ICancellationSignal, error)
+	ExecuteCreateCredential(ctx context.Context, request CreateCredentialRequest, callback ICreateCredentialCallback) (os.ICancellationSignal, error)
+	GetCandidateCredentials(ctx context.Context, request GetCredentialRequest, callback IGetCandidateCredentialsCallback, clientCallback binder.IBinder) (os.ICancellationSignal, error)
+	ClearCredentialState(ctx context.Context, request ClearCredentialStateRequest, callback IClearCredentialStateCallback) (os.ICancellationSignal, error)
 	SetEnabledProviders(ctx context.Context, primaryProviders []string, providers []string, callback ISetEnabledProvidersCallback) error
 	RegisterCredentialDescription(ctx context.Context, request RegisterCredentialDescriptionRequest) error
 	UnregisterCredentialDescription(ctx context.Context, request UnregisterCredentialDescriptionRequest) error
@@ -985,7 +985,7 @@ func (w *credentialManagerStubWrapper) ExecuteGetCredential(
 	ctx context.Context,
 	request GetCredentialRequest,
 	callback IGetCredentialCallback,
-) (common.ICancellationSignal, error) {
+) (os.ICancellationSignal, error) {
 	return w.impl.ExecuteGetCredential(ctx, request, callback)
 }
 
@@ -994,7 +994,7 @@ func (w *credentialManagerStubWrapper) ExecutePrepareGetCredential(
 	request GetCredentialRequest,
 	prepareGetCredentialCallback IPrepareGetCredentialCallback,
 	getCredentialCallback IGetCredentialCallback,
-) (common.ICancellationSignal, error) {
+) (os.ICancellationSignal, error) {
 	return w.impl.ExecutePrepareGetCredential(ctx, request, prepareGetCredentialCallback, getCredentialCallback)
 }
 
@@ -1002,7 +1002,7 @@ func (w *credentialManagerStubWrapper) ExecuteCreateCredential(
 	ctx context.Context,
 	request CreateCredentialRequest,
 	callback ICreateCredentialCallback,
-) (common.ICancellationSignal, error) {
+) (os.ICancellationSignal, error) {
 	return w.impl.ExecuteCreateCredential(ctx, request, callback)
 }
 
@@ -1011,7 +1011,7 @@ func (w *credentialManagerStubWrapper) GetCandidateCredentials(
 	request GetCredentialRequest,
 	callback IGetCandidateCredentialsCallback,
 	clientCallback binder.IBinder,
-) (common.ICancellationSignal, error) {
+) (os.ICancellationSignal, error) {
 	return w.impl.GetCandidateCredentials(ctx, request, callback, clientCallback)
 }
 
@@ -1019,7 +1019,7 @@ func (w *credentialManagerStubWrapper) ClearCredentialState(
 	ctx context.Context,
 	request ClearCredentialStateRequest,
 	callback IClearCredentialStateCallback,
-) (common.ICancellationSignal, error) {
+) (os.ICancellationSignal, error) {
 	return w.impl.ClearCredentialState(ctx, request, callback)
 }
 

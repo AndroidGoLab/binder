@@ -39,6 +39,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 enums:
     - name: OemLockSecureStatus
       backing_type: int

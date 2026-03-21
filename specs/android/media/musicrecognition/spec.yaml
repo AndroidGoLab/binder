@@ -116,3 +116,14 @@ interfaces:
             name: void
 parcelables:
     - name: RecognitionRequest
+      java_wire_format:
+        - name: AudioFormat
+          write_method: opaque
+        - name: AudioAttributes
+          write_method: opaque
+        - name: CaptureSession
+          write_method: int32
+        - name: MaxAudioLengthSeconds
+          write_method: int32
+        - name: IgnoreBeginningFrames
+          write_method: int32

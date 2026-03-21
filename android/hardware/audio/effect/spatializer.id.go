@@ -15,7 +15,7 @@ const (
 type SpatializerId struct {
 	Tag                int32
 	VendorExtensionTag VendorExtension
-	CommonTag          SpatializerTag
+	CommonTag          any
 }
 
 var _ parcel.Parcelable = (*SpatializerId)(nil)
@@ -34,16 +34,16 @@ func (u *SpatializerId) SetVendorExtensionTag(
 	*u = SpatializerId{Tag: SpatializerIdTagVendorExtensionTag, VendorExtensionTag: v}
 }
 
-func (u *SpatializerId) GetCommonTag() (SpatializerTag, bool) {
+func (u *SpatializerId) GetCommonTag() (any, bool) {
 	if u.Tag != SpatializerIdTagCommonTag {
-		var _zero SpatializerTag
+		var _zero any
 		return _zero, false
 	}
 	return u.CommonTag, true
 }
 
 func (u *SpatializerId) SetCommonTag(
-	v SpatializerTag,
+	v any,
 ) {
 	*u = SpatializerId{Tag: SpatializerIdTagCommonTag, CommonTag: v}
 }
@@ -61,7 +61,6 @@ func (u *SpatializerId) MarshalParcel(
 			return _err
 		}
 	case SpatializerIdTagCommonTag:
-		p.WriteInt32(int32(u.CommonTag))
 	default:
 		return fmt.Errorf("unknown union tag %d for SpatializerId", u.Tag)
 	}
@@ -92,11 +91,6 @@ func (u *SpatializerId) UnmarshalParcel(
 			return _err
 		}
 	case SpatializerIdTagCommonTag:
-		_raw, _err := p.ReadInt32()
-		if _err != nil {
-			return _err
-		}
-		u.CommonTag = SpatializerTag(_raw)
 	default:
 		return fmt.Errorf("unknown union tag %d for SpatializerId", u.Tag)
 	}

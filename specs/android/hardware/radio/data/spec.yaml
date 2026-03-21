@@ -237,6 +237,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IRadioDataIndication
       descriptor: android.hardware.radio.data.IRadioDataIndication
       oneway: true
@@ -307,6 +309,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IRadioDataResponse
       descriptor: android.hardware.radio.data.IRadioDataResponse
       oneway: true
@@ -467,6 +471,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: DataProfileInfo
       fields:

@@ -62,3 +62,16 @@ interfaces:
             name: void
 parcelables:
     - name: ImsFeatureContainer
+      java_wire_format:
+        - name: ImsFeature
+          write_method: opaque
+        - name: ImsConfig
+          write_method: opaque
+        - name: ImsRegistration
+          write_method: opaque
+        - name: SipTransport
+          write_method: opaque
+        - name: State
+          write_method: int32
+        - name: Capabilities
+          write_method: int64

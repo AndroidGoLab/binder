@@ -36,6 +36,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: ICarTelemetryCallback
       descriptor: android.frameworks.automotive.telemetry.ICarTelemetryCallback
       methods:
@@ -49,6 +51,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: CallbackConfig
       fields:

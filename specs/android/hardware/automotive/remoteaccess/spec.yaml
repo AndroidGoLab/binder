@@ -95,6 +95,8 @@ interfaces:
             name: List
             type_args:
                 - name: ScheduleInfo
+      annotations:
+        - VintfStability
     - name: IRemoteTaskCallback
       descriptor: android.hardware.automotive.remoteaccess.IRemoteTaskCallback
       methods:
@@ -112,6 +114,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: ApState
       fields:

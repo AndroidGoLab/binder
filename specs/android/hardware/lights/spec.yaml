@@ -71,4 +71,22 @@ interfaces:
             - EnforcePermission
 parcelables:
     - name: Light
+      java_wire_format:
+        - name: Id
+          write_method: int32
+        - name: Name
+          write_method: string16
+        - name: Ordinal
+          write_method: int32
+        - name: Type
+          write_method: int32
+        - name: Capabilities
+          write_method: int32
+        - name: PreferredBrightnessLevels
+          write_method: opaque
     - name: LightState
+      java_wire_format:
+        - name: Color
+          write_method: int32
+        - name: PlayerId
+          write_method: int32

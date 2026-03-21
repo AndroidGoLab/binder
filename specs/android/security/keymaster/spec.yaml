@@ -2,3 +2,7 @@ package: android.security.keymaster
 go_package: android/security/keymaster
 parcelables:
     - name: KeymasterCertificateChain
+      java_wire_format:
+        - name: "0"
+          write_method: int32
+          condition: mCertificates==null

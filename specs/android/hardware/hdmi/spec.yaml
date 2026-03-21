@@ -743,5 +743,32 @@ interfaces:
             name: void
 parcelables:
     - name: HdmiDeviceInfo
+      java_wire_format:
+        - name: HdmiDeviceType
+          write_method: int32
+        - name: PhysicalAddress
+          write_method: int32
+        - name: PortId
+          write_method: int32
     - name: HdmiHotplugEvent
+      java_wire_format:
+        - name: Port
+          write_method: int32
+        - name: (byte)(mConnected?1:0)
+          write_method: int32
     - name: HdmiPortInfo
+      java_wire_format:
+        - name: Id
+          write_method: int32
+        - name: Type
+          write_method: int32
+        - name: Address
+          write_method: int32
+        - name: CecSupported?1:0
+          write_method: int32
+        - name: ArcSupported?1:0
+          write_method: int32
+        - name: MhlSupported?1:0
+          write_method: int32
+        - name: EarcSupported?1:0
+          write_method: int32

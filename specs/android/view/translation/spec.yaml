@@ -202,12 +202,85 @@ interfaces:
             name: void
 parcelables:
     - name: TranslationCapability
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: State
+          write_method: int32
+        - name: SourceSpec
+          write_method: opaque
+        - name: TargetSpec
+          write_method: opaque
+        - name: SupportedTranslationFlags
+          write_method: int32
     - name: TranslationContext
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: SourceSpec
+          write_method: opaque
+        - name: TargetSpec
+          write_method: opaque
+        - name: TranslationFlags
+          write_method: int32
     - name: TranslationRequest
+      java_wire_format:
+        - name: Flags
+          write_method: int32
+        - name: TranslationRequestValues
+          write_method: opaque
+        - name: ViewTranslationRequests
+          write_method: opaque
     - name: TranslationRequestValue
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: Text
+          write_method: opaque
+          condition: mText!=null
     - name: TranslationResponse
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: TranslationStatus
+          write_method: int32
+        - name: TranslationResponseValues
+          write_method: opaque
+        - name: ViewTranslationResponses
+          write_method: opaque
     - name: TranslationResponseValue
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: StatusCode
+          write_method: int32
+        - name: Text
+          write_method: opaque
+          condition: mText!=null
+        - name: Extras
+          write_method: opaque
+        - name: Transliteration
+          write_method: opaque
+          condition: mTransliteration!=null
     - name: TranslationSpec
+      java_wire_format:
+        - name: Language
+          write_method: string16
+        - name: DataFormat
+          write_method: int32
     - name: UiTranslationSpec
+      java_wire_format:
+        - name: Flg
+          write_method: int32
     - name: ViewTranslationRequest
+      java_wire_format:
+        - name: AutofillId
+          write_method: opaque
+        - name: TranslationRequestValues
+          write_method: opaque
     - name: ViewTranslationResponse
+      java_wire_format:
+        - name: AutofillId
+          write_method: opaque
+        - name: TranslationResponseValues
+          write_method: opaque

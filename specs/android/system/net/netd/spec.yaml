@@ -127,6 +127,10 @@ interfaces:
         - name: STATUS_UNKNOWN_ERROR
           type: int
           value: "5"
+      nested_types:
+        - INetd.OemNetwork
+      annotations:
+        - VintfStability
 parcelables:
     - name: INetd.OemNetwork
       fields:

@@ -67,6 +67,8 @@ interfaces:
           oneway: true
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IHostapdCallback
       descriptor: android.hardware.wifi.hostapd.IHostapdCallback
       methods:
@@ -104,6 +106,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: ApInfo
       fields:

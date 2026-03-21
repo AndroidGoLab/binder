@@ -27,6 +27,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IBurst
       descriptor: android.hardware.neuralnetworks.IBurst
       methods:
@@ -87,6 +89,8 @@ interfaces:
               direction: in
           return_type:
             name: ExecutionResult
+      annotations:
+        - VintfStability
     - name: IDevice
       descriptor: android.hardware.neuralnetworks.IDevice
       methods:
@@ -249,6 +253,8 @@ interfaces:
         - name: OPERATION_TYPE_BASE_MAX
           type: int
           value: "0xFFFF"
+      annotations:
+        - VintfStability
     - name: IExecution
       descriptor: android.hardware.neuralnetworks.IExecution
       methods:
@@ -279,6 +285,8 @@ interfaces:
               direction: in
           return_type:
             name: FencedExecutionResult
+      annotations:
+        - VintfStability
     - name: IFencedExecutionCallback
       descriptor: android.hardware.neuralnetworks.IFencedExecutionCallback
       methods:
@@ -295,6 +303,8 @@ interfaces:
               direction: out
           return_type:
             name: ErrorStatus
+      annotations:
+        - VintfStability
     - name: IPreparedModel
       descriptor: android.hardware.neuralnetworks.IPreparedModel
       methods:
@@ -416,6 +426,8 @@ interfaces:
         - name: MAXIMUM_LOOP_TIMEOUT_DURATION_NS
           type: long
           value: "15000000000"
+      annotations:
+        - VintfStability
     - name: IPreparedModelCallback
       descriptor: android.hardware.neuralnetworks.IPreparedModelCallback
       methods:
@@ -432,6 +444,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: BufferDesc
       fields:

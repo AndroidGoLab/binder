@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	types "github.com/xaionaro-go/binder/android/app/types"
-	common "github.com/xaionaro-go/binder/android/hardware/biometrics/common"
 	locationProvider "github.com/xaionaro-go/binder/android/location/provider"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
@@ -148,7 +147,7 @@ const (
 type ILocationManager interface {
 	AsBinder() binder.IBinder
 	GetLastLocation(ctx context.Context, provider string, request LastLocationRequest, packageName string) (Location, error)
-	GetCurrentLocation(ctx context.Context, provider string, request LocationRequest, callback ILocationCallback, packageName string, listenerId string) (common.ICancellationSignal, error)
+	GetCurrentLocation(ctx context.Context, provider string, request LocationRequest, callback ILocationCallback, packageName string, listenerId string) (os.ICancellationSignal, error)
 	RegisterLocationListener(ctx context.Context, provider string, request LocationRequest, listener ILocationListener, packageName string, listenerId string) error
 	UnregisterLocationListener(ctx context.Context, listener ILocationListener) error
 	RegisterLocationPendingIntent(ctx context.Context, provider string, request LocationRequest, pendingIntent types.PendingIntent, packageName string) error
@@ -280,8 +279,8 @@ func (p *LocationManagerProxy) GetCurrentLocation(
 	callback ILocationCallback,
 	packageName string,
 	listenerId string,
-) (common.ICancellationSignal, error) {
-	var _result common.ICancellationSignal
+) (os.ICancellationSignal, error) {
+	var _result os.ICancellationSignal
 	_identity := p.Remote.Identity()
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -315,7 +314,7 @@ func (p *LocationManagerProxy) GetCurrentLocation(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = common.NewCancellationSignalProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
+	_result = os.NewCancellationSignalProxy(binder.NewProxyBinder(p.Remote.Transport(), p.Remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -3592,7 +3591,7 @@ func (s *LocationManagerStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type ILocationManagerServer interface {
 	GetLastLocation(ctx context.Context, provider string, request LastLocationRequest, packageName string) (Location, error)
-	GetCurrentLocation(ctx context.Context, provider string, request LocationRequest, callback ILocationCallback, packageName string, listenerId string) (common.ICancellationSignal, error)
+	GetCurrentLocation(ctx context.Context, provider string, request LocationRequest, callback ILocationCallback, packageName string, listenerId string) (os.ICancellationSignal, error)
 	RegisterLocationListener(ctx context.Context, provider string, request LocationRequest, listener ILocationListener, packageName string, listenerId string) error
 	UnregisterLocationListener(ctx context.Context, listener ILocationListener) error
 	RegisterLocationPendingIntent(ctx context.Context, provider string, request LocationRequest, pendingIntent types.PendingIntent, packageName string) error
@@ -3680,7 +3679,7 @@ func (w *locationManagerStubWrapper) GetCurrentLocation(
 	callback ILocationCallback,
 	packageName string,
 	listenerId string,
-) (common.ICancellationSignal, error) {
+) (os.ICancellationSignal, error) {
 	return w.impl.GetCurrentLocation(ctx, provider, request, callback, packageName, listenerId)
 }
 

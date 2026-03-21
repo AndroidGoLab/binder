@@ -1,7 +1,7 @@
 package media
 
 import (
-	tuner "github.com/xaionaro-go/binder/android/hardware/tv/tuner"
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -11,7 +11,7 @@ type AudioVolumeGroup struct {
 	GroupId         int32
 	Name            string
 	AudioAttributes []AudioAttributes
-	Streams         []tuner.AudioStreamType
+	Streams         []common.AudioStreamType
 }
 
 var _ parcel.Parcelable = (*AudioVolumeGroup)(nil)
@@ -107,13 +107,13 @@ func (s *AudioVolumeGroup) UnmarshalParcel(
 		return _err
 	}
 	if _count1 >= 0 {
-		s.Streams = make([]tuner.AudioStreamType, _count1)
+		s.Streams = make([]common.AudioStreamType, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
 			_raw, _err := p.ReadInt32()
 			if _err != nil {
 				return _err
 			}
-			s.Streams[_i] = tuner.AudioStreamType(_raw)
+			s.Streams[_i] = common.AudioStreamType(_raw)
 		}
 	}
 

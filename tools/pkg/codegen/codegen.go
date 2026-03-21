@@ -566,7 +566,7 @@ func (g *Generator) generateDefinition(
 ) ([]byte, error) {
 	registry := g.Resolver.Registry
 	aidlPkg := packageFromDef(qualifiedName, def.GetName())
-	baseOpts := []GenOption{WithRegistry(registry), WithCurrentPkg(aidlPkg)}
+	baseOpts := []GenOption{WithRegistry(registry), WithCurrentPkg(aidlPkg), WithCurrentDef(qualifiedName)}
 	baseOpts = append(baseOpts, extraOptions...)
 	switch d := def.(type) {
 	case *parser.InterfaceDecl:

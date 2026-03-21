@@ -3,7 +3,6 @@ package aidl
 import (
 	"context"
 	"fmt"
-	media "github.com/xaionaro-go/binder/android/hardware/radio/ims/media"
 	os "github.com/xaionaro-go/binder/android/os"
 	ims "github.com/xaionaro-go/binder/android/telephony/ims"
 	"github.com/xaionaro-go/binder/binder"
@@ -49,7 +48,7 @@ type IImsMmTelListener interface {
 	OnStartImsTrafficSession(ctx context.Context, token int32, trafficType int32, accessNetworkType int32, trafficDirection int32, callback IImsTrafficSessionCallback) error
 	OnModifyImsTrafficSession(ctx context.Context, token int32, accessNetworkType int32) error
 	OnStopImsTrafficSession(ctx context.Context, token int32) error
-	OnMediaQualityStatusChanged(ctx context.Context, status media.MediaQualityStatus) error
+	OnMediaQualityStatusChanged(ctx context.Context, status ims.MediaQualityStatus) error
 }
 
 type ImsMmTelListenerProxy struct {
@@ -263,7 +262,7 @@ func (p *ImsMmTelListenerProxy) OnStopImsTrafficSession(
 
 func (p *ImsMmTelListenerProxy) OnMediaQualityStatusChanged(
 	ctx context.Context,
-	status media.MediaQualityStatus,
+	status ims.MediaQualityStatus,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -439,7 +438,7 @@ func (s *ImsMmTelListenerStub) OnTransaction(
 		_err = s.Impl.OnStopImsTrafficSession(ctx, _arg_token)
 		return nil, _err
 	case TransactionIImsMmTelListenerOnMediaQualityStatusChanged:
-		var _arg_status media.MediaQualityStatus
+		var _arg_status ims.MediaQualityStatus
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -470,7 +469,7 @@ type IImsMmTelListenerServer interface {
 	OnStartImsTrafficSession(ctx context.Context, token int32, trafficType int32, accessNetworkType int32, trafficDirection int32, callback IImsTrafficSessionCallback) error
 	OnModifyImsTrafficSession(ctx context.Context, token int32, accessNetworkType int32) error
 	OnStopImsTrafficSession(ctx context.Context, token int32) error
-	OnMediaQualityStatusChanged(ctx context.Context, status media.MediaQualityStatus) error
+	OnMediaQualityStatusChanged(ctx context.Context, status ims.MediaQualityStatus) error
 }
 
 type imsMmTelListenerStubWrapper struct {
@@ -548,7 +547,7 @@ func (w *imsMmTelListenerStubWrapper) OnStopImsTrafficSession(
 
 func (w *imsMmTelListenerStubWrapper) OnMediaQualityStatusChanged(
 	ctx context.Context,
-	status media.MediaQualityStatus,
+	status ims.MediaQualityStatus,
 ) error {
 	return w.impl.OnMediaQualityStatusChanged(ctx, status)
 }

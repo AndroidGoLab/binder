@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	bluetooth "github.com/xaionaro-go/binder/android/bluetooth"
-	network "github.com/xaionaro-go/binder/android/hardware/radio/network"
 	os "github.com/xaionaro-go/binder/android/os"
 	connectivity "github.com/xaionaro-go/binder/android/os/connectivity"
 	osHealth "github.com/xaionaro-go/binder/android/os/health"
@@ -269,7 +268,7 @@ type IBatteryStats interface {
 	NoteMobileRadioPowerState(ctx context.Context, powerState int32, timestampNs int64, uid int32) error
 	NotePhoneOn(ctx context.Context) error
 	NotePhoneOff(ctx context.Context) error
-	NotePhoneSignalStrength(ctx context.Context, signalStrength network.SignalStrength) error
+	NotePhoneSignalStrength(ctx context.Context, signalStrength telephony.SignalStrength) error
 	NotePhoneDataConnectionState(ctx context.Context, dataType int32, hasData bool, serviceType int32, nrState int32, nrFrequency int32) error
 	NotePhoneState(ctx context.Context, phoneState int32) error
 	NoteWifiOn(ctx context.Context) error
@@ -1773,7 +1772,7 @@ func (p *BatteryStatsProxy) NotePhoneOff(
 
 func (p *BatteryStatsProxy) NotePhoneSignalStrength(
 	ctx context.Context,
-	signalStrength network.SignalStrength,
+	signalStrength telephony.SignalStrength,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -4181,7 +4180,7 @@ func (s *BatteryStatsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBatteryStatsNotePhoneSignalStrength:
-		var _arg_signalStrength network.SignalStrength
+		var _arg_signalStrength telephony.SignalStrength
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -5129,7 +5128,7 @@ type IBatteryStatsServer interface {
 	NoteMobileRadioPowerState(ctx context.Context, powerState int32, timestampNs int64, uid int32) error
 	NotePhoneOn(ctx context.Context) error
 	NotePhoneOff(ctx context.Context) error
-	NotePhoneSignalStrength(ctx context.Context, signalStrength network.SignalStrength) error
+	NotePhoneSignalStrength(ctx context.Context, signalStrength telephony.SignalStrength) error
 	NotePhoneDataConnectionState(ctx context.Context, dataType int32, hasData bool, serviceType int32, nrState int32, nrFrequency int32) error
 	NotePhoneState(ctx context.Context, phoneState int32) error
 	NoteWifiOn(ctx context.Context) error
@@ -5571,7 +5570,7 @@ func (w *batteryStatsStubWrapper) NotePhoneOff(
 
 func (w *batteryStatsStubWrapper) NotePhoneSignalStrength(
 	ctx context.Context,
-	signalStrength network.SignalStrength,
+	signalStrength telephony.SignalStrength,
 ) error {
 	return w.impl.NotePhoneSignalStrength(ctx, signalStrength)
 }

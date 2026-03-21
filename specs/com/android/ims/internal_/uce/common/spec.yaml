@@ -2,5 +2,78 @@ package: com.android.ims.internal.uce.common
 go_package: com/android/ims/internal_/uce/common
 parcelables:
     - name: CapInfo
+      java_wire_format:
+        - name: ImSupported?1:0
+          write_method: int32
+        - name: FtSupported?1:0
+          write_method: int32
+        - name: FtThumbSupported?1:0
+          write_method: int32
+        - name: FtSnFSupported?1:0
+          write_method: int32
+        - name: FtHttpSupported?1:0
+          write_method: int32
+        - name: IsSupported?1:0
+          write_method: int32
+        - name: VsDuringCSSupported?1:0
+          write_method: int32
+        - name: VsSupported?1:0
+          write_method: int32
+        - name: SpSupported?1:0
+          write_method: int32
+        - name: CdViaPresenceSupported?1:0
+          write_method: int32
+        - name: IpVoiceSupported?1:0
+          write_method: int32
+        - name: IpVideoSupported?1:0
+          write_method: int32
+        - name: GeoPullFtSupported?1:0
+          write_method: int32
+        - name: GeoPullSupported?1:0
+          write_method: int32
+        - name: GeoPushSupported?1:0
+          write_method: int32
+        - name: SmSupported?1:0
+          write_method: int32
+        - name: FullSnFGroupChatSupported?1:0
+          write_method: int32
+        - name: GeoSmsSupported?1:0
+          write_method: int32
+        - name: CallComposerSupported?1:0
+          write_method: int32
+        - name: PostCallSupported?1:0
+          write_method: int32
+        - name: SharedMapSupported?1:0
+          write_method: int32
+        - name: SharedSketchSupported?1:0
+          write_method: int32
+        - name: ChatbotSupported?1:0
+          write_method: int32
+        - name: ChatbotRoleSupported?1:0
+          write_method: int32
+        - name: SmChatbotSupported?1:0
+          write_method: int32
+        - name: MmtelCallComposerSupported?1:0
+          write_method: int32
+        - name: RcsIpVoiceCallSupported?1:0
+          write_method: int32
+        - name: RcsIpVideoCallSupported?1:0
+          write_method: int32
+        - name: RcsIpVideoOnlyCallSupported?1:0
+          write_method: int32
+        - name: Exts
+          write_method: opaque
+        - name: CapTimestamp
+          write_method: int64
+        - name: CapInfoBundle
+          write_method: opaque
     - name: StatusCode
+      java_wire_format:
+        - name: StatusCode
+          write_method: int32
     - name: UceLong
+      java_wire_format:
+        - name: UceLong
+          write_method: int64
+        - name: ClientId
+          write_method: int32

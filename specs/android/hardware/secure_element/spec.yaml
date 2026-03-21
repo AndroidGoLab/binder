@@ -91,6 +91,8 @@ interfaces:
         - name: IOERROR
           type: int
           value: "5"
+      annotations:
+        - VintfStability
     - name: ISecureElementCallback
       descriptor: android.hardware.secure_element.ISecureElementCallback
       methods:
@@ -107,6 +109,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: LogicalChannelResponse
       fields:

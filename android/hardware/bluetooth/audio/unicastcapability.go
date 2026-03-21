@@ -11,7 +11,7 @@ type UnicastCapability struct {
 	SupportedChannel         AudioLocation
 	DeviceCount              int32
 	ChannelCountPerDevice    int32
-	LeAudioCodecCapabilities BroadcastCapabilityLeAudioCodecCapabilities
+	LeAudioCodecCapabilities UnicastCapabilityLeAudioCodecCapabilities
 }
 
 var _ parcel.Parcelable = (*UnicastCapability)(nil)

@@ -3454,46 +3454,544 @@ interfaces:
 parcelables:
     - name: AnimationRenderStats
     - name: AppTransitionAnimationSpec
+      java_wire_format:
+        - name: TaskId
+          write_method: int32
+        - name: Rect
+          write_method: opaque
+        - name: Buffer
+          write_method: opaque
     - name: ContentRecordingSession
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: VirtualDisplayId
+          write_method: int32
+        - name: ContentToRecord
+          write_method: int32
+        - name: DisplayToRecord
+          write_method: int32
+        - name: TokenToRecord
+          write_method: opaque
+          condition: mTokenToRecord!=null
+        - name: TargetUid
+          write_method: int32
     - name: Display.Mode
     - name: DisplayCutout.ParcelableWrapper
     - name: DisplayInfo
+      java_wire_format:
+        - name: LayerStack
+          write_method: int32
+        - name: This.flags
+          write_method: int32
+        - name: Type
+          write_method: int32
+        - name: DisplayId
+          write_method: int32
+        - name: DisplayGroupId
+          write_method: int32
+        - name: Address
+          write_method: opaque
+        - name: DeviceProductInfo
+          write_method: opaque
+        - name: Name
+          write_method: string8
+        - name: AppWidth
+          write_method: int32
+        - name: AppHeight
+          write_method: int32
+        - name: SmallestNominalAppWidth
+          write_method: int32
+        - name: SmallestNominalAppHeight
+          write_method: int32
+        - name: LargestNominalAppWidth
+          write_method: int32
+        - name: LargestNominalAppHeight
+          write_method: int32
+        - name: LogicalWidth
+          write_method: int32
+        - name: LogicalHeight
+          write_method: int32
+        - name: DisplayCutout
+          write_method: opaque
+        - name: Rotation
+          write_method: int32
+        - name: ModeId
+          write_method: int32
+        - name: RenderFrameRate
+          write_method: float32
+        - name: DefaultModeId
+          write_method: int32
+        - name: UserPreferredModeId
+          write_method: int32
+        - name: SupportedModes.length
+          write_method: int32
+        - name: ColorMode
+          write_method: int32
+        - name: SupportedColorModes.length
+          write_method: int32
+        - name: HdrCapabilities
+          write_method: opaque
+        - name: MinimalPostProcessingSupported
+          write_method: bool
+        - name: LogicalDensityDpi
+          write_method: int32
+        - name: PhysicalXDpi
+          write_method: float32
+        - name: PhysicalYDpi
+          write_method: float32
+        - name: AppVsyncOffsetNanos
+          write_method: int64
+        - name: PresentationDeadlineNanos
+          write_method: int64
+        - name: State
+          write_method: int32
+        - name: CommittedState
+          write_method: int32
+        - name: OwnerUid
+          write_method: int32
+        - name: OwnerPackageName
+          write_method: string8
+        - name: UniqueId
+          write_method: string8
+        - name: RemoveMode
+          write_method: int32
+        - name: RefreshRateOverride
+          write_method: float32
+        - name: BrightnessMinimum
+          write_method: float32
+        - name: BrightnessMaximum
+          write_method: float32
+        - name: BrightnessDefault
+          write_method: float32
+        - name: RoundedCorners
+          write_method: opaque
+        - name: UserDisabledHdrTypes.length
+          write_method: int32
+        - name: InstallOrientation
+          write_method: int32
+        - name: DisplayShape
+          write_method: opaque
+        - name: LayoutLimitedRefreshRate
+          write_method: opaque
+        - name: HdrSdrRatio
+          write_method: float32
+        - name: ThermalRefreshRateThrottling
+          write_method: opaque
+        - name: ThermalBrightnessThrottlingDataId
+          write_method: string8
     - name: DisplayShape
+      java_wire_format:
+        - name: DisplayShapeSpec
+          write_method: string8
+        - name: DisplayWidth
+          write_method: int32
+        - name: DisplayHeight
+          write_method: int32
+        - name: PhysicalPixelDisplaySizeRatio
+          write_method: float32
+        - name: Rotation
+          write_method: int32
+        - name: OffsetX
+          write_method: int32
+        - name: OffsetY
+          write_method: int32
+        - name: Scale
+          write_method: float32
     - name: DragEvent
+      java_wire_format:
+        - name: Action
+          write_method: int32
+        - name: X
+          write_method: float32
+        - name: "Y"
+          write_method: float32
+        - name: OffsetX
+          write_method: float32
+        - name: OffsetY
+          write_method: float32
+        - name: DragResult?1:0
+          write_method: int32
+        - name: "0"
+          write_method: int32
+          condition: mClipData==null
+        - name: "0"
+          write_method: int32
+          condition: mClipDescription==null
+        - name: "0"
+          write_method: int32
+          condition: mDragSurface==null
+        - name: "0"
+          write_method: int32
+          condition: mDragAndDropPermissions==null
     - name: InputChannel
     - name: InputDevice
+      java_wire_format:
+        - name: Out
+          write_method: opaque
+        - name: Id
+          write_method: int32
+        - name: Generation
+          write_method: int32
+        - name: ControllerNumber
+          write_method: int32
+        - name: Name
+          write_method: string16
+        - name: VendorId
+          write_method: int32
+        - name: ProductId
+          write_method: int32
+        - name: DeviceBus
+          write_method: int32
+        - name: Descriptor
+          write_method: string16
+        - name: IsExternal?1:0
+          write_method: int32
+        - name: Sources
+          write_method: int32
+        - name: KeyboardType
+          write_method: int32
+        - name: KeyboardLanguageTag
+          write_method: string8
+        - name: KeyboardLayoutType
+          write_method: string8
+        - name: HasVibrator?1:0
+          write_method: int32
+        - name: HasMicrophone?1:0
+          write_method: int32
+        - name: HasButtonUnderPad?1:0
+          write_method: int32
+        - name: HasSensor?1:0
+          write_method: int32
+        - name: HasBattery?1:0
+          write_method: int32
+        - name: Out
+          write_method: opaque
+        - name: AssociatedDisplayId
+          write_method: int32
+        - name: NumRanges
+          write_method: int32
+        - name: ViewBehavior.mShouldSmoothScroll
+          write_method: bool
     - name: InputEvent
     - name: InputMonitor
+      java_wire_format:
+        - name: InputChannel
+          write_method: opaque
+        - name: Host
+          write_method: opaque
+        - name: Surface
+          write_method: opaque
     - name: InsetsSourceControl
+      java_wire_format:
+        - name: Id
+          write_method: int32
+        - name: Type
+          write_method: int32
+        - name: Leash
+          write_method: opaque
+        - name: InitiallyVisible
+          write_method: bool
+        - name: SurfacePosition
+          write_method: opaque
+        - name: InsetsHint
+          write_method: opaque
+        - name: SkipAnimationOnce
+          write_method: bool
     - name: InsetsSourceControl.Array
     - name: InsetsState
+      java_wire_format:
+        - name: Dest
+          write_method: opaque
+        - name: Dest
+          write_method: opaque
+        - name: RoundedCorners
+          write_method: opaque
+        - name: Dest
+          write_method: opaque
+        - name: PrivacyIndicatorBounds
+          write_method: opaque
+        - name: DisplayShape
+          write_method: opaque
+        - name: Size
+          write_method: int32
     - name: KeyCharacterMap
     - name: KeyEvent
       annotations:
         - JavaOnlyStableParcelable
+      java_wire_format:
+        - name: PARCEL_TOKEN_KEY_EVENT
+          write_method: int32
+        - name: Id
+          write_method: int32
+        - name: DeviceId
+          write_method: int32
+        - name: Source
+          write_method: int32
+        - name: DisplayId
+          write_method: int32
+        - name: Hmac
+          write_method: opaque
+        - name: Action
+          write_method: int32
+        - name: KeyCode
+          write_method: int32
+        - name: RepeatCount
+          write_method: int32
+        - name: MetaState
+          write_method: int32
+        - name: ScanCode
+          write_method: int32
+        - name: Flags
+          write_method: int32
+        - name: DownTime
+          write_method: int64
+        - name: EventTime
+          write_method: int64
+        - name: Characters
+          write_method: string16
     - name: MagnificationSpec
+      java_wire_format:
+        - name: Scale
+          write_method: float32
+        - name: OffsetX
+          write_method: float32
+        - name: OffsetY
+          write_method: float32
     - name: MotionEvent
+      java_wire_format:
+        - name: PARCEL_TOKEN_MOTION_EVENT
+          write_method: int32
     - name: PointerIcon
+      java_wire_format:
+        - name: Type
+          write_method: int32
+        - name: Out
+          write_method: opaque
+        - name: HotSpotX
+          write_method: float32
+        - name: HotSpotY
+          write_method: float32
+        - name: DrawNativeDropShadow
+          write_method: bool
     - name: RemoteAnimationAdapter
+      java_wire_format:
+        - name: Runner
+          write_method: opaque
+        - name: Duration
+          write_method: int64
+        - name: StatusBarTransitionDelay
+          write_method: int64
+        - name: ChangeNeedsSnapshot
+          write_method: bool
+        - name: CallingApplication
+          write_method: opaque
     - name: RemoteAnimationDefinition
+      java_wire_format:
+        - name: Size
+          write_method: int32
     - name: RemoteAnimationTarget
+      java_wire_format:
+        - name: TaskId
+          write_method: int32
+        - name: Mode
+          write_method: int32
+        - name: Leash
+          write_method: opaque
+        - name: IsTranslucent
+          write_method: bool
+        - name: ClipRect
+          write_method: opaque
+        - name: ContentInsets
+          write_method: opaque
+        - name: PrefixOrderIndex
+          write_method: int32
+        - name: Position
+          write_method: opaque
+        - name: LocalBounds
+          write_method: opaque
+        - name: SourceContainerBounds
+          write_method: opaque
+        - name: ScreenSpaceBounds
+          write_method: opaque
+        - name: WindowConfiguration
+          write_method: opaque
+        - name: IsNotInRecents
+          write_method: bool
+        - name: StartLeash
+          write_method: opaque
+        - name: StartBounds
+          write_method: opaque
+        - name: TaskInfo
+          write_method: opaque
+        - name: AllowEnterPip
+          write_method: bool
+        - name: WindowType
+          write_method: int32
+        - name: HasAnimatingParent
+          write_method: bool
+        - name: BackgroundColor
+          write_method: int32
+        - name: ShowBackdrop
+          write_method: bool
+        - name: WillShowImeOnTarget
+          write_method: bool
+        - name: RotationChange
+          write_method: int32
     - name: RoundedCorners
+      java_wire_format:
+        - name: "0"
+          write_method: int32
+          condition: equals(NO_ROUNDED_CORNERS)
     - name: ScrollCaptureResponse
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: Description
+          write_method: string16
+        - name: Connection
+          write_method: opaque
+          condition: mConnection!=null
+        - name: WindowBounds
+          write_method: opaque
+          condition: mWindowBounds!=null
+        - name: BoundsInWindow
+          write_method: opaque
+          condition: mBoundsInWindow!=null
+        - name: WindowTitle
+          write_method: string16
+          condition: mWindowTitle!=null
+        - name: PackageName
+          write_method: string16
+          condition: mPackageName!=null
+        - name: Messages
+          write_method: opaque
     - name: Surface
       annotations:
         - JavaOnlyStableParcelable
         - NdkOnlyStableParcelable
         - RustOnlyStableParcelable
     - name: SurfaceControl
+      java_wire_format:
+        - name: Name
+          write_method: string8
+        - name: Width
+          write_method: int32
+        - name: Height
+          write_method: int32
+        - name: "0"
+          write_method: int32
+          condition: mNativeObject==0
     - name: SurfaceControl.Transaction
     - name: SurfaceControlViewHost.SurfacePackage
     - name: TaskTransitionSpec
+      java_wire_format:
+        - name: BackgroundColor
+          write_method: int32
     - name: VerifiedInputEvent
+      java_wire_format:
+        - name: Type
+          write_method: int32
+        - name: DeviceId
+          write_method: int32
+        - name: EventTimeNanos
+          write_method: int64
+        - name: Source
+          write_method: int32
+        - name: DisplayId
+          write_method: int32
     - name: VerifiedKeyEvent
+      java_wire_format:
+        - name: Dest
+          write_method: opaque
+        - name: Action
+          write_method: int32
+        - name: DownTimeNanos
+          write_method: int64
+        - name: Flags
+          write_method: int32
+        - name: KeyCode
+          write_method: int32
+        - name: ScanCode
+          write_method: int32
+        - name: MetaState
+          write_method: int32
+        - name: RepeatCount
+          write_method: int32
     - name: VerifiedMotionEvent
+      java_wire_format:
+        - name: Dest
+          write_method: opaque
+        - name: RawX
+          write_method: float32
+        - name: RawY
+          write_method: float32
+        - name: ActionMasked
+          write_method: int32
+        - name: DownTimeNanos
+          write_method: int64
+        - name: Flags
+          write_method: int32
+        - name: MetaState
+          write_method: int32
+        - name: ButtonState
+          write_method: int32
     - name: WindowAnimationFrameStats
+      java_wire_format:
+        - name: RefreshPeriodNano
+          write_method: int64
+        - name: FramesPresentedTimeNano
+          write_method: opaque
     - name: WindowContentFrameStats
+      java_wire_format:
+        - name: RefreshPeriodNano
+          write_method: int64
+        - name: FramesPostedTimeNano
+          write_method: opaque
+        - name: FramesPresentedTimeNano
+          write_method: opaque
+        - name: FramesReadyTimeNano
+          write_method: opaque
     - name: WindowInfo
+      java_wire_format:
+        - name: DisplayId
+          write_method: int32
+        - name: TaskId
+          write_method: int32
+        - name: Type
+          write_method: int32
+        - name: Layer
+          write_method: int32
+        - name: Token
+          write_method: opaque
+        - name: ParentToken
+          write_method: opaque
+        - name: ActivityToken
+          write_method: opaque
+        - name: Focused?1:0
+          write_method: int32
+        - name: Parcel
+          write_method: opaque
+        - name: Title
+          write_method: opaque
+        - name: AccessibilityIdOfAnchor
+          write_method: int64
+        - name: InPictureInPicture?1:0
+          write_method: int32
+        - name: HasFlagWatchOutsideTouch?1:0
+          write_method: int32
+        - name: TransformMatrix
+          write_method: opaque
+        - name: "1"
+          write_method: int32
+          condition: childTokens!=null&&!childTokens.isEmpty()
+        - name: ChildTokens
+          write_method: opaque
+          condition: childTokens!=null&&!childTokens.isEmpty()
+        - name: Parcel
+          write_method: opaque
+        - name: Locales
+          write_method: opaque
     - name: WindowManager.LayoutParams
     - name: WindowManager.TaskSnapshot
 enums:

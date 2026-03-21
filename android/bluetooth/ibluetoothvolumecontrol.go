@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
-	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -63,27 +62,27 @@ const (
 
 type IBluetoothVolumeControl interface {
 	AsBinder() binder.IBinder
-	Connect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	Disconnect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	IsVolumeOffsetAvailable(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetNumberOfVolumeOffsetInstances(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	SetVolumeOffset(ctx context.Context, device BluetoothDevice, instanceId int32, volumeOffset int32, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	SetGroupVolume(ctx context.Context, group_id int32, volume int32, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetGroupVolume(ctx context.Context, group_id int32, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	SetGroupActive(ctx context.Context, group_id int32, active bool, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	SetDeviceVolume(ctx context.Context, device BluetoothDevice, volume int32, isGroupOp bool, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	Mute(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	MuteGroup(ctx context.Context, group_id int32, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	Unmute(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	UnmuteGroup(ctx context.Context, group_id int32, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	RegisterCallback(ctx context.Context, callback IBluetoothVolumeControlCallback, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	UnregisterCallback(ctx context.Context, callback IBluetoothVolumeControlCallback, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	NotifyNewRegisteredCallback(ctx context.Context, callback IBluetoothVolumeControlCallback, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
+	Connect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	Disconnect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
+	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource, receiver any) error
+	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource, receiver any) error
+	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	IsVolumeOffsetAvailable(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	GetNumberOfVolumeOffsetInstances(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	SetVolumeOffset(ctx context.Context, device BluetoothDevice, instanceId int32, volumeOffset int32, attributionSource content.AttributionSource, receiver any) error
+	SetGroupVolume(ctx context.Context, group_id int32, volume int32, attributionSource content.AttributionSource, receiver any) error
+	GetGroupVolume(ctx context.Context, group_id int32, attributionSource content.AttributionSource, receiver any) error
+	SetGroupActive(ctx context.Context, group_id int32, active bool, attributionSource content.AttributionSource, receiver any) error
+	SetDeviceVolume(ctx context.Context, device BluetoothDevice, volume int32, isGroupOp bool, attributionSource content.AttributionSource, receiver any) error
+	Mute(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	MuteGroup(ctx context.Context, group_id int32, attributionSource content.AttributionSource, receiver any) error
+	Unmute(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	UnmuteGroup(ctx context.Context, group_id int32, attributionSource content.AttributionSource, receiver any) error
+	RegisterCallback(ctx context.Context, callback IBluetoothVolumeControlCallback, attributionSource content.AttributionSource, receiver any) error
+	UnregisterCallback(ctx context.Context, callback IBluetoothVolumeControlCallback, attributionSource content.AttributionSource, receiver any) error
+	NotifyNewRegisteredCallback(ctx context.Context, callback IBluetoothVolumeControlCallback, attributionSource content.AttributionSource, receiver any) error
 }
 
 const (
@@ -110,7 +109,7 @@ func (p *BluetoothVolumeControlProxy) Connect(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -123,10 +122,7 @@ func (p *BluetoothVolumeControlProxy) Connect(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothVolumeControl, MethodIBluetoothVolumeControlConnect)
 	if _err != nil {
@@ -141,7 +137,7 @@ func (p *BluetoothVolumeControlProxy) Disconnect(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -154,10 +150,7 @@ func (p *BluetoothVolumeControlProxy) Disconnect(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothVolumeControl, MethodIBluetoothVolumeControlDisconnect)
 	if _err != nil {
@@ -171,7 +164,7 @@ func (p *BluetoothVolumeControlProxy) Disconnect(
 func (p *BluetoothVolumeControlProxy) GetConnectedDevices(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -180,10 +173,7 @@ func (p *BluetoothVolumeControlProxy) GetConnectedDevices(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothVolumeControl, MethodIBluetoothVolumeControlGetConnectedDevices)
 	if _err != nil {
@@ -198,7 +188,7 @@ func (p *BluetoothVolumeControlProxy) GetDevicesMatchingConnectionStates(
 	ctx context.Context,
 	states []int32,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -215,10 +205,7 @@ func (p *BluetoothVolumeControlProxy) GetDevicesMatchingConnectionStates(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothVolumeControl, MethodIBluetoothVolumeControlGetDevicesMatchingConnectionStates)
 	if _err != nil {
@@ -233,7 +220,7 @@ func (p *BluetoothVolumeControlProxy) GetConnectionState(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -246,10 +233,7 @@ func (p *BluetoothVolumeControlProxy) GetConnectionState(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothVolumeControl, MethodIBluetoothVolumeControlGetConnectionState)
 	if _err != nil {
@@ -265,7 +249,7 @@ func (p *BluetoothVolumeControlProxy) SetConnectionPolicy(
 	device BluetoothDevice,
 	connectionPolicy int32,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -279,10 +263,7 @@ func (p *BluetoothVolumeControlProxy) SetConnectionPolicy(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothVolumeControl, MethodIBluetoothVolumeControlSetConnectionPolicy)
 	if _err != nil {
@@ -297,7 +278,7 @@ func (p *BluetoothVolumeControlProxy) GetConnectionPolicy(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -310,10 +291,7 @@ func (p *BluetoothVolumeControlProxy) GetConnectionPolicy(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothVolumeControl, MethodIBluetoothVolumeControlGetConnectionPolicy)
 	if _err != nil {
@@ -328,7 +306,7 @@ func (p *BluetoothVolumeControlProxy) IsVolumeOffsetAvailable(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -341,10 +319,7 @@ func (p *BluetoothVolumeControlProxy) IsVolumeOffsetAvailable(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothVolumeControl, MethodIBluetoothVolumeControlIsVolumeOffsetAvailable)
 	if _err != nil {
@@ -359,7 +334,7 @@ func (p *BluetoothVolumeControlProxy) GetNumberOfVolumeOffsetInstances(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -372,10 +347,7 @@ func (p *BluetoothVolumeControlProxy) GetNumberOfVolumeOffsetInstances(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothVolumeControl, MethodIBluetoothVolumeControlGetNumberOfVolumeOffsetInstances)
 	if _err != nil {
@@ -392,7 +364,7 @@ func (p *BluetoothVolumeControlProxy) SetVolumeOffset(
 	instanceId int32,
 	volumeOffset int32,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -407,10 +379,7 @@ func (p *BluetoothVolumeControlProxy) SetVolumeOffset(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothVolumeControl, MethodIBluetoothVolumeControlSetVolumeOffset)
 	if _err != nil {
@@ -426,7 +395,7 @@ func (p *BluetoothVolumeControlProxy) SetGroupVolume(
 	group_id int32,
 	volume int32,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -437,10 +406,7 @@ func (p *BluetoothVolumeControlProxy) SetGroupVolume(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothVolumeControl, MethodIBluetoothVolumeControlSetGroupVolume)
 	if _err != nil {
@@ -455,7 +421,7 @@ func (p *BluetoothVolumeControlProxy) GetGroupVolume(
 	ctx context.Context,
 	group_id int32,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -465,10 +431,7 @@ func (p *BluetoothVolumeControlProxy) GetGroupVolume(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothVolumeControl, MethodIBluetoothVolumeControlGetGroupVolume)
 	if _err != nil {
@@ -484,7 +447,7 @@ func (p *BluetoothVolumeControlProxy) SetGroupActive(
 	group_id int32,
 	active bool,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -495,10 +458,7 @@ func (p *BluetoothVolumeControlProxy) SetGroupActive(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothVolumeControl, MethodIBluetoothVolumeControlSetGroupActive)
 	if _err != nil {
@@ -515,7 +475,7 @@ func (p *BluetoothVolumeControlProxy) SetDeviceVolume(
 	volume int32,
 	isGroupOp bool,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -530,10 +490,7 @@ func (p *BluetoothVolumeControlProxy) SetDeviceVolume(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothVolumeControl, MethodIBluetoothVolumeControlSetDeviceVolume)
 	if _err != nil {
@@ -548,7 +505,7 @@ func (p *BluetoothVolumeControlProxy) Mute(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -561,10 +518,7 @@ func (p *BluetoothVolumeControlProxy) Mute(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothVolumeControl, MethodIBluetoothVolumeControlMute)
 	if _err != nil {
@@ -579,7 +533,7 @@ func (p *BluetoothVolumeControlProxy) MuteGroup(
 	ctx context.Context,
 	group_id int32,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -589,10 +543,7 @@ func (p *BluetoothVolumeControlProxy) MuteGroup(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothVolumeControl, MethodIBluetoothVolumeControlMuteGroup)
 	if _err != nil {
@@ -607,7 +558,7 @@ func (p *BluetoothVolumeControlProxy) Unmute(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -620,10 +571,7 @@ func (p *BluetoothVolumeControlProxy) Unmute(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothVolumeControl, MethodIBluetoothVolumeControlUnmute)
 	if _err != nil {
@@ -638,7 +586,7 @@ func (p *BluetoothVolumeControlProxy) UnmuteGroup(
 	ctx context.Context,
 	group_id int32,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -648,10 +596,7 @@ func (p *BluetoothVolumeControlProxy) UnmuteGroup(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothVolumeControl, MethodIBluetoothVolumeControlUnmuteGroup)
 	if _err != nil {
@@ -666,7 +611,7 @@ func (p *BluetoothVolumeControlProxy) RegisterCallback(
 	ctx context.Context,
 	callback IBluetoothVolumeControlCallback,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -676,10 +621,7 @@ func (p *BluetoothVolumeControlProxy) RegisterCallback(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothVolumeControl, MethodIBluetoothVolumeControlRegisterCallback)
 	if _err != nil {
@@ -694,7 +636,7 @@ func (p *BluetoothVolumeControlProxy) UnregisterCallback(
 	ctx context.Context,
 	callback IBluetoothVolumeControlCallback,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -704,10 +646,7 @@ func (p *BluetoothVolumeControlProxy) UnregisterCallback(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothVolumeControl, MethodIBluetoothVolumeControlUnregisterCallback)
 	if _err != nil {
@@ -722,7 +661,7 @@ func (p *BluetoothVolumeControlProxy) NotifyNewRegisteredCallback(
 	ctx context.Context,
 	callback IBluetoothVolumeControlCallback,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -732,10 +671,7 @@ func (p *BluetoothVolumeControlProxy) NotifyNewRegisteredCallback(
 	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
+	// WARNING: param receiver (type any) cannot be serialized — type not resolved
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIBluetoothVolumeControl, MethodIBluetoothVolumeControlNotifyNewRegisteredCallback)
 	if _err != nil {
@@ -794,18 +730,7 @@ func (s *BluetoothVolumeControlStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.Connect(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothVolumeControlDisconnect:
@@ -833,18 +758,7 @@ func (s *BluetoothVolumeControlStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.Disconnect(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothVolumeControlGetConnectedDevices:
@@ -860,18 +774,7 @@ func (s *BluetoothVolumeControlStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.GetConnectedDevices(ctx, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothVolumeControlGetDevicesMatchingConnectionStates:
@@ -906,18 +809,7 @@ func (s *BluetoothVolumeControlStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.GetDevicesMatchingConnectionStates(ctx, _arg_states, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothVolumeControlGetConnectionState:
@@ -945,18 +837,7 @@ func (s *BluetoothVolumeControlStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.GetConnectionState(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothVolumeControlSetConnectionPolicy:
@@ -988,18 +869,7 @@ func (s *BluetoothVolumeControlStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err = s.Impl.SetConnectionPolicy(ctx, _arg_device, _arg_connectionPolicy, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothVolumeControlGetConnectionPolicy:
@@ -1027,18 +897,7 @@ func (s *BluetoothVolumeControlStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.GetConnectionPolicy(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothVolumeControlIsVolumeOffsetAvailable:
@@ -1066,18 +925,7 @@ func (s *BluetoothVolumeControlStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.IsVolumeOffsetAvailable(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothVolumeControlGetNumberOfVolumeOffsetInstances:
@@ -1105,18 +953,7 @@ func (s *BluetoothVolumeControlStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.GetNumberOfVolumeOffsetInstances(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothVolumeControlSetVolumeOffset:
@@ -1152,18 +989,7 @@ func (s *BluetoothVolumeControlStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err = s.Impl.SetVolumeOffset(ctx, _arg_device, _arg_instanceId, _arg_volumeOffset, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothVolumeControlSetGroupVolume:
@@ -1187,18 +1013,7 @@ func (s *BluetoothVolumeControlStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err = s.Impl.SetGroupVolume(ctx, _arg_group_id, _arg_volume, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothVolumeControlGetGroupVolume:
@@ -1218,18 +1033,7 @@ func (s *BluetoothVolumeControlStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err = s.Impl.GetGroupVolume(ctx, _arg_group_id, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothVolumeControlSetGroupActive:
@@ -1253,18 +1057,7 @@ func (s *BluetoothVolumeControlStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err = s.Impl.SetGroupActive(ctx, _arg_group_id, _arg_active, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothVolumeControlSetDeviceVolume:
@@ -1300,18 +1093,7 @@ func (s *BluetoothVolumeControlStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err = s.Impl.SetDeviceVolume(ctx, _arg_device, _arg_volume, _arg_isGroupOp, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothVolumeControlMute:
@@ -1339,18 +1121,7 @@ func (s *BluetoothVolumeControlStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.Mute(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothVolumeControlMuteGroup:
@@ -1370,18 +1141,7 @@ func (s *BluetoothVolumeControlStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err = s.Impl.MuteGroup(ctx, _arg_group_id, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothVolumeControlUnmute:
@@ -1409,18 +1169,7 @@ func (s *BluetoothVolumeControlStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.Unmute(ctx, _arg_device, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothVolumeControlUnmuteGroup:
@@ -1440,18 +1189,7 @@ func (s *BluetoothVolumeControlStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err = s.Impl.UnmuteGroup(ctx, _arg_group_id, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothVolumeControlRegisterCallback:
@@ -1475,18 +1213,7 @@ func (s *BluetoothVolumeControlStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.RegisterCallback(ctx, _arg_callback, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothVolumeControlUnregisterCallback:
@@ -1510,18 +1237,7 @@ func (s *BluetoothVolumeControlStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.UnregisterCallback(ctx, _arg_callback, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	case TransactionIBluetoothVolumeControlNotifyNewRegisteredCallback:
@@ -1545,18 +1261,7 @@ func (s *BluetoothVolumeControlStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_receiver os.SynchronousResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver any
 		_err := s.Impl.NotifyNewRegisteredCallback(ctx, _arg_callback, _arg_attributionSource, _arg_receiver)
 		return nil, _err
 	default:
@@ -1568,27 +1273,27 @@ func (s *BluetoothVolumeControlStub) OnTransaction(
 // provide to NewBluetoothVolumeControlStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IBluetoothVolumeControlServer interface {
-	Connect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	Disconnect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	IsVolumeOffsetAvailable(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetNumberOfVolumeOffsetInstances(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	SetVolumeOffset(ctx context.Context, device BluetoothDevice, instanceId int32, volumeOffset int32, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	SetGroupVolume(ctx context.Context, group_id int32, volume int32, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	GetGroupVolume(ctx context.Context, group_id int32, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	SetGroupActive(ctx context.Context, group_id int32, active bool, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	SetDeviceVolume(ctx context.Context, device BluetoothDevice, volume int32, isGroupOp bool, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	Mute(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	MuteGroup(ctx context.Context, group_id int32, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	Unmute(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	UnmuteGroup(ctx context.Context, group_id int32, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	RegisterCallback(ctx context.Context, callback IBluetoothVolumeControlCallback, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	UnregisterCallback(ctx context.Context, callback IBluetoothVolumeControlCallback, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
-	NotifyNewRegisteredCallback(ctx context.Context, callback IBluetoothVolumeControlCallback, attributionSource content.AttributionSource, receiver os.SynchronousResultReceiver) error
+	Connect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	Disconnect(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource, receiver any) error
+	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource, receiver any) error
+	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource, receiver any) error
+	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	IsVolumeOffsetAvailable(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	GetNumberOfVolumeOffsetInstances(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	SetVolumeOffset(ctx context.Context, device BluetoothDevice, instanceId int32, volumeOffset int32, attributionSource content.AttributionSource, receiver any) error
+	SetGroupVolume(ctx context.Context, group_id int32, volume int32, attributionSource content.AttributionSource, receiver any) error
+	GetGroupVolume(ctx context.Context, group_id int32, attributionSource content.AttributionSource, receiver any) error
+	SetGroupActive(ctx context.Context, group_id int32, active bool, attributionSource content.AttributionSource, receiver any) error
+	SetDeviceVolume(ctx context.Context, device BluetoothDevice, volume int32, isGroupOp bool, attributionSource content.AttributionSource, receiver any) error
+	Mute(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	MuteGroup(ctx context.Context, group_id int32, attributionSource content.AttributionSource, receiver any) error
+	Unmute(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource, receiver any) error
+	UnmuteGroup(ctx context.Context, group_id int32, attributionSource content.AttributionSource, receiver any) error
+	RegisterCallback(ctx context.Context, callback IBluetoothVolumeControlCallback, attributionSource content.AttributionSource, receiver any) error
+	UnregisterCallback(ctx context.Context, callback IBluetoothVolumeControlCallback, attributionSource content.AttributionSource, receiver any) error
+	NotifyNewRegisteredCallback(ctx context.Context, callback IBluetoothVolumeControlCallback, attributionSource content.AttributionSource, receiver any) error
 }
 
 type bluetoothVolumeControlStubWrapper struct {
@@ -1604,7 +1309,7 @@ func (w *bluetoothVolumeControlStubWrapper) Connect(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.Connect(ctx, device, attributionSource, receiver)
 }
@@ -1613,7 +1318,7 @@ func (w *bluetoothVolumeControlStubWrapper) Disconnect(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.Disconnect(ctx, device, attributionSource, receiver)
 }
@@ -1621,7 +1326,7 @@ func (w *bluetoothVolumeControlStubWrapper) Disconnect(
 func (w *bluetoothVolumeControlStubWrapper) GetConnectedDevices(
 	ctx context.Context,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.GetConnectedDevices(ctx, attributionSource, receiver)
 }
@@ -1630,7 +1335,7 @@ func (w *bluetoothVolumeControlStubWrapper) GetDevicesMatchingConnectionStates(
 	ctx context.Context,
 	states []int32,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.GetDevicesMatchingConnectionStates(ctx, states, attributionSource, receiver)
 }
@@ -1639,7 +1344,7 @@ func (w *bluetoothVolumeControlStubWrapper) GetConnectionState(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.GetConnectionState(ctx, device, attributionSource, receiver)
 }
@@ -1649,7 +1354,7 @@ func (w *bluetoothVolumeControlStubWrapper) SetConnectionPolicy(
 	device BluetoothDevice,
 	connectionPolicy int32,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.SetConnectionPolicy(ctx, device, connectionPolicy, attributionSource, receiver)
 }
@@ -1658,7 +1363,7 @@ func (w *bluetoothVolumeControlStubWrapper) GetConnectionPolicy(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.GetConnectionPolicy(ctx, device, attributionSource, receiver)
 }
@@ -1667,7 +1372,7 @@ func (w *bluetoothVolumeControlStubWrapper) IsVolumeOffsetAvailable(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.IsVolumeOffsetAvailable(ctx, device, attributionSource, receiver)
 }
@@ -1676,7 +1381,7 @@ func (w *bluetoothVolumeControlStubWrapper) GetNumberOfVolumeOffsetInstances(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.GetNumberOfVolumeOffsetInstances(ctx, device, attributionSource, receiver)
 }
@@ -1687,7 +1392,7 @@ func (w *bluetoothVolumeControlStubWrapper) SetVolumeOffset(
 	instanceId int32,
 	volumeOffset int32,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.SetVolumeOffset(ctx, device, instanceId, volumeOffset, attributionSource, receiver)
 }
@@ -1697,7 +1402,7 @@ func (w *bluetoothVolumeControlStubWrapper) SetGroupVolume(
 	group_id int32,
 	volume int32,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.SetGroupVolume(ctx, group_id, volume, attributionSource, receiver)
 }
@@ -1706,7 +1411,7 @@ func (w *bluetoothVolumeControlStubWrapper) GetGroupVolume(
 	ctx context.Context,
 	group_id int32,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.GetGroupVolume(ctx, group_id, attributionSource, receiver)
 }
@@ -1716,7 +1421,7 @@ func (w *bluetoothVolumeControlStubWrapper) SetGroupActive(
 	group_id int32,
 	active bool,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.SetGroupActive(ctx, group_id, active, attributionSource, receiver)
 }
@@ -1727,7 +1432,7 @@ func (w *bluetoothVolumeControlStubWrapper) SetDeviceVolume(
 	volume int32,
 	isGroupOp bool,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.SetDeviceVolume(ctx, device, volume, isGroupOp, attributionSource, receiver)
 }
@@ -1736,7 +1441,7 @@ func (w *bluetoothVolumeControlStubWrapper) Mute(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.Mute(ctx, device, attributionSource, receiver)
 }
@@ -1745,7 +1450,7 @@ func (w *bluetoothVolumeControlStubWrapper) MuteGroup(
 	ctx context.Context,
 	group_id int32,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.MuteGroup(ctx, group_id, attributionSource, receiver)
 }
@@ -1754,7 +1459,7 @@ func (w *bluetoothVolumeControlStubWrapper) Unmute(
 	ctx context.Context,
 	device BluetoothDevice,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.Unmute(ctx, device, attributionSource, receiver)
 }
@@ -1763,7 +1468,7 @@ func (w *bluetoothVolumeControlStubWrapper) UnmuteGroup(
 	ctx context.Context,
 	group_id int32,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.UnmuteGroup(ctx, group_id, attributionSource, receiver)
 }
@@ -1772,7 +1477,7 @@ func (w *bluetoothVolumeControlStubWrapper) RegisterCallback(
 	ctx context.Context,
 	callback IBluetoothVolumeControlCallback,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.RegisterCallback(ctx, callback, attributionSource, receiver)
 }
@@ -1781,7 +1486,7 @@ func (w *bluetoothVolumeControlStubWrapper) UnregisterCallback(
 	ctx context.Context,
 	callback IBluetoothVolumeControlCallback,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.UnregisterCallback(ctx, callback, attributionSource, receiver)
 }
@@ -1790,7 +1495,7 @@ func (w *bluetoothVolumeControlStubWrapper) NotifyNewRegisteredCallback(
 	ctx context.Context,
 	callback IBluetoothVolumeControlCallback,
 	attributionSource content.AttributionSource,
-	receiver os.SynchronousResultReceiver,
+	receiver any,
 ) error {
 	return w.impl.NotifyNewRegisteredCallback(ctx, callback, attributionSource, receiver)
 }

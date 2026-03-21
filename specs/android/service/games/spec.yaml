@@ -135,6 +135,28 @@ interfaces:
             - RequiresNoPermission
 parcelables:
     - name: CreateGameSessionRequest
+      java_wire_format:
+        - name: TaskId
+          write_method: int32
+        - name: GamePackageName
+          write_method: string8
     - name: CreateGameSessionResult
+      java_wire_format:
+        - name: GameSession.asBinder()
+          write_method: opaque
+        - name: SurfacePackage
+          write_method: opaque
     - name: GameSessionViewHostConfiguration
+      java_wire_format:
+        - name: DisplayId
+          write_method: int32
+        - name: WidthPx
+          write_method: int32
+        - name: HeightPx
+          write_method: int32
     - name: GameStartedEvent
+      java_wire_format:
+        - name: TaskId
+          write_method: int32
+        - name: PackageName
+          write_method: string16

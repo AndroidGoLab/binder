@@ -31,6 +31,8 @@ interfaces:
             - name: hostname
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
             - name: port
               type:
@@ -48,6 +50,8 @@ interfaces:
             - name: apn
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
             - name: apnIpType
               type:
@@ -55,6 +59,10 @@ interfaces:
               direction: in
           return_type:
             name: void
+      nested_types:
+        - IAGnss.ApnIpType
+      annotations:
+        - VintfStability
     - name: IAGnssCallback
       descriptor: android.hardware.gnss.IAGnssCallback
       methods:
@@ -71,6 +79,11 @@ interfaces:
               direction: in
           return_type:
             name: void
+      nested_types:
+        - IAGnssCallback.AGnssType
+        - IAGnssCallback.AGnssStatusValue
+      annotations:
+        - VintfStability
     - name: IAGnssRil
       descriptor: android.hardware.gnss.IAGnssRil
       methods:
@@ -102,6 +115,8 @@ interfaces:
             - name: setid
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
           return_type:
             name: void
@@ -135,6 +150,14 @@ interfaces:
         - name: NETWORK_CAPABILITY_NOT_ROAMING
           type: int
           value: "0x02"
+      nested_types:
+        - IAGnssRil.AGnssRefLocationType
+        - IAGnssRil.SetIdType
+        - IAGnssRil.AGnssRefLocationCellID
+        - IAGnssRil.AGnssRefLocation
+        - IAGnssRil.NetworkAttributes
+      annotations:
+        - VintfStability
     - name: IAGnssRilCallback
       descriptor: android.hardware.gnss.IAGnssRilCallback
       methods:
@@ -151,6 +174,8 @@ interfaces:
           transaction_code_offset: 1
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IGnss
       descriptor: android.hardware.gnss.IGnss
       methods:
@@ -316,6 +341,13 @@ interfaces:
         - name: ERROR_GENERIC
           type: int
           value: "3"
+      nested_types:
+        - IGnss.GnssPositionMode
+        - IGnss.GnssPositionRecurrence
+        - IGnss.GnssAidingData
+        - IGnss.PositionModeOptions
+      annotations:
+        - VintfStability
     - name: IGnssAntennaInfo
       descriptor: android.hardware.gnss.IGnssAntennaInfo
       methods:
@@ -332,6 +364,8 @@ interfaces:
           transaction_code_offset: 1
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IGnssAntennaInfoCallback
       descriptor: android.hardware.gnss.IGnssAntennaInfoCallback
       methods:
@@ -345,6 +379,12 @@ interfaces:
               direction: in
           return_type:
             name: void
+      nested_types:
+        - IGnssAntennaInfoCallback.Row
+        - IGnssAntennaInfoCallback.Coord
+        - IGnssAntennaInfoCallback.GnssAntennaInfo
+      annotations:
+        - VintfStability
     - name: IGnssBatching
       descriptor: android.hardware.gnss.IGnssBatching
       methods:
@@ -386,6 +426,10 @@ interfaces:
         - name: WAKEUP_ON_FIFO_FULL
           type: int
           value: "0x01"
+      nested_types:
+        - IGnssBatching.Options
+      annotations:
+        - VintfStability
     - name: IGnssBatchingCallback
       descriptor: android.hardware.gnss.IGnssBatchingCallback
       methods:
@@ -399,6 +443,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IGnssCallback
       descriptor: android.hardware.gnss.IGnssCallback
       methods:
@@ -449,6 +495,8 @@ interfaces:
             - name: nmea
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
           return_type:
             name: void
@@ -545,6 +593,13 @@ interfaces:
         - name: CAPABILITY_ACCUMULATED_DELTA_RANGE
           type: int
           value: 1 << 15
+      nested_types:
+        - IGnssCallback.GnssStatusValue
+        - IGnssCallback.GnssSvFlags
+        - IGnssCallback.GnssSvInfo
+        - IGnssCallback.GnssSystemInfo
+      annotations:
+        - VintfStability
     - name: IGnssConfiguration
       descriptor: android.hardware.gnss.IGnssConfiguration
       methods:
@@ -634,6 +689,8 @@ interfaces:
         - name: GLONASS_POS_PROTOCOL_LPP_UPLANE
           type: int
           value: "0x04"
+      annotations:
+        - VintfStability
     - name: IGnssDebug
       descriptor: android.hardware.gnss.IGnssDebug
       methods:
@@ -641,6 +698,15 @@ interfaces:
           transaction_code_offset: 0
           return_type:
             name: DebugData
+      nested_types:
+        - IGnssDebug.SatelliteEphemerisType
+        - IGnssDebug.SatelliteEphemerisHealth
+        - IGnssDebug.TimeDebug
+        - IGnssDebug.PositionDebug
+        - IGnssDebug.SatelliteData
+        - IGnssDebug.DebugData
+      annotations:
+        - VintfStability
     - name: IGnssGeofence
       descriptor: android.hardware.gnss.IGnssGeofence
       methods:
@@ -721,6 +787,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IGnssGeofenceCallback
       descriptor: android.hardware.gnss.IGnssGeofenceCallback
       methods:
@@ -844,6 +912,8 @@ interfaces:
         - name: ERROR_GENERIC
           type: int
           value: "-149"
+      annotations:
+        - VintfStability
     - name: IGnssMeasurementCallback
       descriptor: android.hardware.gnss.IGnssMeasurementCallback
       methods:
@@ -856,6 +926,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IGnssMeasurementInterface
       descriptor: android.hardware.gnss.IGnssMeasurementInterface
       methods:
@@ -893,6 +965,10 @@ interfaces:
               direction: in
           return_type:
             name: void
+      nested_types:
+        - IGnssMeasurementInterface.Options
+      annotations:
+        - VintfStability
     - name: IGnssNavigationMessageCallback
       descriptor: android.hardware.gnss.IGnssNavigationMessageCallback
       methods:
@@ -905,6 +981,10 @@ interfaces:
               direction: in
           return_type:
             name: void
+      nested_types:
+        - IGnssNavigationMessageCallback.GnssNavigationMessage
+      annotations:
+        - VintfStability
     - name: IGnssNavigationMessageInterface
       descriptor: android.hardware.gnss.IGnssNavigationMessageInterface
       methods:
@@ -921,6 +1001,8 @@ interfaces:
           transaction_code_offset: 1
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IGnssPowerIndication
       descriptor: android.hardware.gnss.IGnssPowerIndication
       methods:
@@ -938,6 +1020,8 @@ interfaces:
           oneway: true
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IGnssPowerIndicationCallback
       descriptor: android.hardware.gnss.IGnssPowerIndicationCallback
       methods:
@@ -979,6 +1063,8 @@ interfaces:
         - name: CAPABILITY_OTHER_MODES
           type: int
           value: 1 << 5
+      annotations:
+        - VintfStability
     - name: IGnssPsds
       descriptor: android.hardware.gnss.IGnssPsds
       methods:
@@ -1005,6 +1091,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: IGnssPsdsCallback
       descriptor: android.hardware.gnss.IGnssPsdsCallback
       methods:
@@ -1017,6 +1105,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: BlocklistedSource
       fields:

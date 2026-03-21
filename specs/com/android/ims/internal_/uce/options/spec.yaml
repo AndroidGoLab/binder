@@ -221,6 +221,36 @@ interfaces:
             - UnsupportedAppUsage
 parcelables:
     - name: OptionsCapInfo
+      java_wire_format:
+        - name: Sdp
+          write_method: string16
+        - name: CapInfo
+          write_method: opaque
     - name: OptionsCmdId
+      java_wire_format:
+        - name: CmdId
+          write_method: int32
     - name: OptionsCmdStatus
+      java_wire_format:
+        - name: UserData
+          write_method: int32
+        - name: CmdId
+          write_method: opaque
+        - name: Status
+          write_method: opaque
+        - name: CapInfo
+          write_method: opaque
     - name: OptionsSipResponse
+      java_wire_format:
+        - name: RequestId
+          write_method: int32
+        - name: SipResponseCode
+          write_method: int32
+        - name: ReasonPhrase
+          write_method: string16
+        - name: CmdId
+          write_method: opaque
+        - name: RetryAfter
+          write_method: int32
+        - name: ReasonHeader
+          write_method: string16

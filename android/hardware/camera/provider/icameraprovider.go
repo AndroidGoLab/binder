@@ -3,7 +3,7 @@ package provider
 import (
 	"context"
 	"fmt"
-	common "github.com/xaionaro-go/binder/android/frameworks/cameraservice/common"
+	common "github.com/xaionaro-go/binder/android/hardware/camera/common"
 	device "github.com/xaionaro-go/binder/android/hardware/camera/device"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"

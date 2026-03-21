@@ -1,7 +1,6 @@
 package media
 
 import (
-	tuner "github.com/xaionaro-go/binder/android/hardware/tv/tuner"
 	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -16,7 +15,7 @@ type CreateTrackResponse struct {
 	SelectedDeviceId       int32
 	SessionId              int32
 	SampleRate             int32
-	StreamType             tuner.AudioStreamType
+	StreamType             common.AudioStreamType
 	AfFrameCount           int64
 	AfSampleRate           int32
 	AfChannelMask          common.AudioChannelLayout
@@ -140,7 +139,7 @@ func (s *CreateTrackResponse) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	s.StreamType = tuner.AudioStreamType(_streamTypeRaw)
+	s.StreamType = common.AudioStreamType(_streamTypeRaw)
 
 	if p.Position() >= _endPos {
 		parcel.SkipToParcelableEnd(p, _endPos)

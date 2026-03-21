@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
-	common "github.com/xaionaro-go/binder/android/hardware/input/common"
 	view "github.com/xaionaro-go/binder/android/view"
 	accessibility "github.com/xaionaro-go/binder/android/view/accessibility"
 	viewInputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
@@ -74,7 +73,7 @@ type IAccessibilityServiceClient interface {
 	ClearAccessibilityCache(ctx context.Context) error
 	OnKeyEvent(ctx context.Context, event view.KeyEvent, sequence int32) error
 	OnMagnificationChanged(ctx context.Context, displayId int32, region graphics.Region, config MagnificationConfig) error
-	OnMotionEvent(ctx context.Context, event common.MotionEvent) error
+	OnMotionEvent(ctx context.Context, event view.MotionEvent) error
 	OnTouchStateChanged(ctx context.Context, displayId int32, state int32) error
 	OnSoftKeyboardShowModeChanged(ctx context.Context, showMode int32) error
 	OnPerformGestureResult(ctx context.Context, sequence int32, completedSuccessfully bool) error
@@ -257,7 +256,7 @@ func (p *AccessibilityServiceClientProxy) OnMagnificationChanged(
 
 func (p *AccessibilityServiceClientProxy) OnMotionEvent(
 	ctx context.Context,
-	event common.MotionEvent,
+	event view.MotionEvent,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -654,7 +653,7 @@ func (s *AccessibilityServiceClientStub) OnTransaction(
 		_err = s.Impl.OnMagnificationChanged(ctx, _arg_displayId, _arg_region, _arg_config)
 		return nil, _err
 	case TransactionIAccessibilityServiceClientOnMotionEvent:
-		var _arg_event common.MotionEvent
+		var _arg_event view.MotionEvent
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -803,7 +802,7 @@ type IAccessibilityServiceClientServer interface {
 	ClearAccessibilityCache(ctx context.Context) error
 	OnKeyEvent(ctx context.Context, event view.KeyEvent, sequence int32) error
 	OnMagnificationChanged(ctx context.Context, displayId int32, region graphics.Region, config MagnificationConfig) error
-	OnMotionEvent(ctx context.Context, event common.MotionEvent) error
+	OnMotionEvent(ctx context.Context, event view.MotionEvent) error
 	OnTouchStateChanged(ctx context.Context, displayId int32, state int32) error
 	OnSoftKeyboardShowModeChanged(ctx context.Context, showMode int32) error
 	OnPerformGestureResult(ctx context.Context, sequence int32, completedSuccessfully bool) error
@@ -883,7 +882,7 @@ func (w *accessibilityServiceClientStubWrapper) OnMagnificationChanged(
 
 func (w *accessibilityServiceClientStubWrapper) OnMotionEvent(
 	ctx context.Context,
-	event common.MotionEvent,
+	event view.MotionEvent,
 ) error {
 	return w.impl.OnMotionEvent(ctx, event)
 }

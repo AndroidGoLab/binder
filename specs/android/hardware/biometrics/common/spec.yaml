@@ -9,6 +9,8 @@ interfaces:
           transaction_code_offset: 0
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: AuthenticateReason.Vendor
       fields:
@@ -243,6 +245,10 @@ unions:
         - name: fingerprintAuthenticateReason
           type:
             name: AuthenticateReason.Fingerprint
+      nested_types:
+        - AuthenticateReason.Vendor
+        - AuthenticateReason.Fingerprint
+        - AuthenticateReason.Face
       annotations:
         - VintfStability
     - name: OperationState
@@ -253,5 +259,8 @@ unions:
         - name: faceOperationState
           type:
             name: OperationState.FaceOperationState
+      nested_types:
+        - OperationState.FingerprintOperationState
+        - OperationState.FaceOperationState
       annotations:
         - VintfStability

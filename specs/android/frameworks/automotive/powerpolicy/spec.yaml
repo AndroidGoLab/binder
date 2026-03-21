@@ -14,6 +14,8 @@ interfaces:
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
     - name: ICarPowerPolicyServer
       descriptor: android.frameworks.automotive.powerpolicy.ICarPowerPolicyServer
       methods:
@@ -58,6 +60,8 @@ interfaces:
             - name: policyId
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
           return_type:
             name: void
@@ -67,9 +71,13 @@ interfaces:
             - name: policyGroupId
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
           return_type:
             name: void
+      annotations:
+        - VintfStability
 parcelables:
     - name: CarPowerPolicy
       fields:

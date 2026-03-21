@@ -3,7 +3,7 @@ package rotationresolver
 import (
 	"context"
 	"fmt"
-	common "github.com/xaionaro-go/binder/android/hardware/biometrics/common"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -26,7 +26,7 @@ const (
 
 type IRotationResolverCallback interface {
 	AsBinder() binder.IBinder
-	OnCancellable(ctx context.Context, cancellation common.ICancellationSignal) error
+	OnCancellable(ctx context.Context, cancellation os.ICancellationSignal) error
 	OnSuccess(ctx context.Context, recommendedRotation int32) error
 	OnFailure(ctx context.Context, error_ int32) error
 }
@@ -49,7 +49,7 @@ var _ IRotationResolverCallback = (*RotationResolverCallbackProxy)(nil)
 
 func (p *RotationResolverCallbackProxy) OnCancellable(
 	ctx context.Context,
-	cancellation common.ICancellationSignal,
+	cancellation os.ICancellationSignal,
 ) error {
 	_data := parcel.New()
 	defer _data.Recycle()
@@ -125,13 +125,13 @@ func (s *RotationResolverCallbackStub) OnTransaction(
 
 	switch code {
 	case TransactionIRotationResolverCallbackOnCancellable:
-		var _arg_cancellation common.ICancellationSignal
+		var _arg_cancellation os.ICancellationSignal
 		{
 			_cancellationHandle, _err := _data.ReadStrongBinder()
 			if _err != nil {
 				return nil, _err
 			}
-			_arg_cancellation = common.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationHandle))
+			_arg_cancellation = os.NewCancellationSignalProxy(binder.NewProxyBinder(s.Transport, binder.CallerIdentity{}, _cancellationHandle))
 		}
 		_err := s.Impl.OnCancellable(ctx, _arg_cancellation)
 		return nil, _err
@@ -158,7 +158,7 @@ func (s *RotationResolverCallbackStub) OnTransaction(
 // provide to NewRotationResolverCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IRotationResolverCallbackServer interface {
-	OnCancellable(ctx context.Context, cancellation common.ICancellationSignal) error
+	OnCancellable(ctx context.Context, cancellation os.ICancellationSignal) error
 	OnSuccess(ctx context.Context, recommendedRotation int32) error
 	OnFailure(ctx context.Context, error_ int32) error
 }
@@ -174,7 +174,7 @@ func (w *rotationResolverCallbackStubWrapper) AsBinder() binder.IBinder {
 
 func (w *rotationResolverCallbackStubWrapper) OnCancellable(
 	ctx context.Context,
-	cancellation common.ICancellationSignal,
+	cancellation os.ICancellationSignal,
 ) error {
 	return w.impl.OnCancellable(ctx, cancellation)
 }

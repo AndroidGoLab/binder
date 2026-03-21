@@ -750,6 +750,9 @@ interfaces:
           transaction_code_offset: 69
           return_type:
             name: SchedulingPolicy
+      nested_types:
+        - ISurfaceComposer.VsyncSource
+        - ISurfaceComposer.EventRegistration
     - name: ISurfaceComposerClient
       descriptor: android.gui.ISurfaceComposerClient
       methods:

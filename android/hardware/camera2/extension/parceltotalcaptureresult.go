@@ -1,7 +1,7 @@
 package extension
 
 import (
-	device "github.com/xaionaro-go/binder/android/frameworks/cameraservice/device"
+	camera2 "github.com/xaionaro-go/binder/android/hardware/camera2"
 	impl "github.com/xaionaro-go/binder/android/hardware/camera2/impl"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -11,12 +11,12 @@ import (
 type ParcelTotalCaptureResult struct {
 	LogicalCameraId string
 	Results         impl.CameraMetadataNative
-	Parent          device.CaptureRequest
+	Parent          camera2.CaptureRequest
 	SequenceId      int32
 	FrameNumber     int64
 	Partials        []ParcelCaptureResult
 	SessionId       int32
-	PhysicalResult  []device.PhysicalCaptureResultInfo
+	PhysicalResult  []impl.PhysicalCaptureResultInfo
 }
 
 var _ parcel.Parcelable = (*ParcelTotalCaptureResult)(nil)
@@ -161,7 +161,7 @@ func (s *ParcelTotalCaptureResult) UnmarshalParcel(
 		return _err
 	}
 	if _count1 >= 0 {
-		s.PhysicalResult = make([]device.PhysicalCaptureResultInfo, _count1)
+		s.PhysicalResult = make([]impl.PhysicalCaptureResultInfo, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
 			if _, _err = p.ReadInt32(); _err != nil {
 				return _err

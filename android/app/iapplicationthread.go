@@ -1347,7 +1347,10 @@ func (p *ApplicationThreadProxy) ScheduleInstallProvider(
 	_data := parcel.New()
 	defer _data.Recycle()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
-	// WARNING: param provider (type types.ProviderInfo) cannot be serialized — type not resolved
+	_data.WriteInt32(1)
+	if _err := provider.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.Remote.ResolveCode(ctx, DescriptorIApplicationThread, MethodIApplicationThreadScheduleInstallProvider)
 	if _err != nil {
@@ -2980,6 +2983,17 @@ func (s *ApplicationThreadStub) OnTransaction(
 		return nil, _err
 	case TransactionIApplicationThreadScheduleInstallProvider:
 		var _arg_provider types.ProviderInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_provider.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.ScheduleInstallProvider(ctx, _arg_provider)
 		return nil, _err
 	case TransactionIApplicationThreadUpdateTimePrefs:

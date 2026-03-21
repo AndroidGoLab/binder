@@ -31,6 +31,8 @@ interfaces:
         - name: CAP_VENDOR_DIRECTIONALITY
           type: int
           value: 1 << 0
+      annotations:
+        - VintfStability
 enums:
     - name: Directionality
       backing_type: int

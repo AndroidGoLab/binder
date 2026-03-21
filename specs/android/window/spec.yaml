@@ -899,6 +899,13 @@ interfaces:
             name: void
 parcelables:
     - name: ActivityWindowInfo
+      java_wire_format:
+        - name: IsEmbedded
+          write_method: bool
+        - name: Dest
+          write_method: opaque
+        - name: Dest
+          write_method: opaque
     - name: AddToSurfaceSyncGroupResult
       fields:
         - name: mParentSyncGroup
@@ -908,38 +915,387 @@ parcelables:
           type:
             name: ITransactionReadyCallback
     - name: BackAnimationAdapter
+      java_wire_format:
+        - name: Runner
+          write_method: opaque
     - name: BackMotionEvent
+      java_wire_format:
+        - name: TouchX
+          write_method: float32
+        - name: TouchY
+          write_method: float32
+        - name: Progress
+          write_method: float32
+        - name: VelocityX
+          write_method: float32
+        - name: VelocityY
+          write_method: float32
+        - name: TriggerBack
+          write_method: bool
+        - name: SwipeEdge
+          write_method: int32
+        - name: DepartingAnimationTarget
+          write_method: opaque
     - name: BackNavigationInfo
+      java_wire_format:
+        - name: Type
+          write_method: int32
+        - name: OnBackNavigationDone
+          write_method: opaque
+        - name: OnBackInvokedCallback
+          write_method: opaque
+        - name: PrepareRemoteAnimation
+          write_method: bool
+        - name: AnimationCallback
+          write_method: bool
+        - name: CustomAnimationInfo
+          write_method: opaque
     - name: ClientWindowFrames
+      java_wire_format:
+        - name: Dest
+          write_method: opaque
+        - name: Dest
+          write_method: opaque
+        - name: Dest
+          write_method: opaque
+        - name: AttachedFrame
+          write_method: opaque
+        - name: IsParentFrameClippedByDisplayCutout
+          write_method: bool
+        - name: CompatScale
+          write_method: float32
     - name: DisplayAreaAppearedInfo
+      java_wire_format:
+        - name: DisplayAreaInfo
+          write_method: opaque
+        - name: Leash
+          write_method: opaque
     - name: DisplayAreaInfo
+      java_wire_format:
+        - name: Dest
+          write_method: opaque
+        - name: Dest
+          write_method: opaque
+        - name: DisplayId
+          write_method: int32
+        - name: FeatureId
+          write_method: int32
+        - name: RootDisplayAreaId
+          write_method: int32
     - name: ImeOnBackInvokedDispatcher
+      java_wire_format:
+        - name: ResultReceiver
+          write_method: opaque
     - name: InputTransferToken
+      java_wire_format:
+        - name: Token
+          write_method: opaque
     - name: OnBackInvokedCallbackInfo
+      java_wire_format:
+        - name: Callback
+          write_method: opaque
+        - name: Priority
+          write_method: int32
+        - name: IsAnimationCallback
+          write_method: bool
     - name: PictureInPictureSurfaceTransaction
+      java_wire_format:
+        - name: Alpha
+          write_method: float32
+        - name: Position
+          write_method: opaque
+        - name: Float9
+          write_method: opaque
+        - name: Rotation
+          write_method: float32
+        - name: CornerRadius
+          write_method: float32
+        - name: ShadowRadius
+          write_method: float32
+        - name: WindowCrop
+          write_method: opaque
+        - name: ShouldDisableCanAffectSystemUiFlags
+          write_method: bool
     - name: RemoteTransition
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: RemoteTransition
+          write_method: opaque
+        - name: AppThread
+          write_method: opaque
+          condition: mAppThread!=null
+        - name: DebugName
+          write_method: string16
+          condition: mDebugName!=null
     - name: ScreenCapture.CaptureArgs
     - name: ScreenCapture.ScreenCaptureListener
     - name: ScreenCapture.ScreenshotHardwareBuffer
     - name: SizeConfigurationBuckets
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: Horizontal
+          write_method: opaque
+          condition: mHorizontal!=null
+        - name: Vertical
+          write_method: opaque
+          condition: mVertical!=null
+        - name: Smallest
+          write_method: opaque
+          condition: mSmallest!=null
+        - name: ScreenLayoutSize
+          write_method: opaque
+          condition: mScreenLayoutSize!=null
     - name: SplashScreenView.SplashScreenViewParcelable
     - name: StartingWindowInfo
+      java_wire_format:
+        - name: TaskInfo
+          write_method: opaque
+        - name: TargetActivityInfo
+          write_method: opaque
+        - name: StartingWindowTypeParameter
+          write_method: int32
+        - name: TopOpaqueWindowInsetsState
+          write_method: opaque
+        - name: TopOpaqueWindowLayoutParams
+          write_method: opaque
+        - name: MainWindowLayoutParams
+          write_method: opaque
+        - name: SplashScreenThemeResId
+          write_method: int32
+        - name: IsKeyguardOccluded
+          write_method: bool
+        - name: TaskSnapshot
+          write_method: opaque
+        - name: RequestedVisibleTypes
+          write_method: int32
+        - name: AppToken
+          write_method: opaque
+        - name: WindowlessStartingSurfaceCallback
+          write_method: opaque
+        - name: RootSurface
+          write_method: opaque
     - name: StartingWindowRemovalInfo
+      java_wire_format:
+        - name: TaskId
+          write_method: int32
+        - name: WindowAnimationLeash
+          write_method: opaque
+        - name: MainFrame
+          write_method: opaque
+        - name: PlayRevealAnimation
+          write_method: bool
+        - name: DeferRemoveForImeMode
+          write_method: int32
+        - name: RoundedCornerRadius
+          write_method: float32
+        - name: WindowlessSurface
+          write_method: bool
+        - name: RemoveImmediately
+          write_method: bool
     - name: TaskAppearedInfo
+      java_wire_format:
+        - name: TaskInfo
+          write_method: opaque
+        - name: Leash
+          write_method: opaque
     - name: TaskFragmentAnimationParams
+      java_wire_format:
+        - name: AnimationBackgroundColor
+          write_method: int32
     - name: TaskFragmentCreationParams
+      java_wire_format:
+        - name: Dest
+          write_method: opaque
+        - name: FragmentToken
+          write_method: opaque
+        - name: OwnerToken
+          write_method: opaque
+        - name: Dest
+          write_method: opaque
+        - name: WindowingMode
+          write_method: int32
+        - name: PairedPrimaryFragmentToken
+          write_method: opaque
+        - name: PairedActivityToken
+          write_method: opaque
+        - name: AllowTransitionWhenEmpty
+          write_method: bool
     - name: TaskFragmentInfo
+      java_wire_format:
+        - name: FragmentToken
+          write_method: opaque
+        - name: Token
+          write_method: opaque
+        - name: Dest
+          write_method: opaque
+        - name: RunningActivityCount
+          write_method: int32
+        - name: IsVisible
+          write_method: bool
+        - name: Activities
+          write_method: opaque
+        - name: InRequestedTaskFragmentActivities
+          write_method: opaque
+        - name: Dest
+          write_method: opaque
+        - name: IsTaskClearedForReuse
+          write_method: bool
+        - name: IsTaskFragmentClearedForPip
+          write_method: bool
+        - name: IsClearedForReorderActivityToFront
+          write_method: bool
+        - name: Dest
+          write_method: opaque
     - name: TaskFragmentOperation
+      java_wire_format:
+        - name: OpType
+          write_method: int32
+        - name: TaskFragmentCreationParams
+          write_method: opaque
+        - name: ActivityToken
+          write_method: opaque
+        - name: ActivityIntent
+          write_method: opaque
+        - name: Bundle
+          write_method: opaque
+        - name: SecondaryFragmentToken
+          write_method: opaque
+        - name: AnimationParams
+          write_method: opaque
+        - name: IsolatedNav
+          write_method: bool
+        - name: DimOnTask
+          write_method: bool
+        - name: MoveToBottomIfClearWhenLaunch
+          write_method: bool
     - name: TaskFragmentParentInfo
+      java_wire_format:
+        - name: Dest
+          write_method: opaque
+        - name: DisplayId
+          write_method: int32
+        - name: Visible
+          write_method: bool
+        - name: HasDirectActivity
+          write_method: bool
+        - name: DecorSurface
+          write_method: opaque
     - name: TaskFragmentTransaction
+      java_wire_format:
+        - name: TransactionToken
+          write_method: opaque
+        - name: Changes
+          write_method: opaque
     - name: TaskFragmentTransaction.Change
     - name: TaskSnapshot
+      java_wire_format:
+        - name: Id
+          write_method: int64
+        - name: TopActivityComponent
+          write_method: opaque
+        - name: Snapshot!=null&&!mSnapshot.isClosed()?mSnapshot:null
+          write_method: opaque
+        - name: ColorSpace.getId()
+          write_method: int32
+        - name: Orientation
+          write_method: int32
+        - name: Rotation
+          write_method: int32
+        - name: TaskSize
+          write_method: opaque
+        - name: ContentInsets
+          write_method: opaque
+        - name: LetterboxInsets
+          write_method: opaque
+        - name: IsLowResolution
+          write_method: bool
+        - name: IsRealSnapshot
+          write_method: bool
+        - name: WindowingMode
+          write_method: int32
+        - name: Appearance
+          write_method: int32
+        - name: IsTranslucent
+          write_method: bool
+        - name: HasImeSurface
+          write_method: bool
     - name: TransitionFilter
+      java_wire_format:
+        - name: TypeSet
+          write_method: opaque
+        - name: Flags
+          write_method: int32
+        - name: NotFlags
+          write_method: int32
+        - name: Requirements
+          write_method: opaque
     - name: TransitionInfo
+      java_wire_format:
+        - name: Type
+          write_method: int32
+        - name: Flags
+          write_method: int32
+        - name: Changes
+          write_method: opaque
+        - name: Roots
+          write_method: opaque
+        - name: Options
+          write_method: opaque
+        - name: DebugId
+          write_method: int32
+        - name: Track
+          write_method: int32
     - name: TransitionInfo.Change
     - name: TransitionRequestInfo
+      java_wire_format:
+        - name: Flg
+          write_method: int32
+        - name: Type
+          write_method: int32
+        - name: TriggerTask
+          write_method: opaque
+          condition: mTriggerTask!=null
+        - name: PipTask
+          write_method: opaque
+          condition: mPipTask!=null
+        - name: RemoteTransition
+          write_method: opaque
+          condition: mRemoteTransition!=null
+        - name: DisplayChange
+          write_method: opaque
+          condition: mDisplayChange!=null
+        - name: Flags
+          write_method: int32
+        - name: DebugId
+          write_method: int32
     - name: TransitionRequestInfo.DisplayChange
     - name: TrustedPresentationThresholds
+      java_wire_format:
+        - name: MinAlpha
+          write_method: float32
+        - name: MinFractionRendered
+          write_method: float32
+        - name: StabilityRequirementMs
+          write_method: int32
     - name: WindowContainerToken
+      java_wire_format:
+        - name: RealToken.asBinder()
+          write_method: opaque
     - name: WindowContainerTransaction
+      java_wire_format:
+        - name: Changes
+          write_method: opaque
+        - name: HierarchyOps
+          write_method: opaque
+        - name: ErrorCallbackToken
+          write_method: opaque
+        - name: TaskFragmentOrganizer
+          write_method: opaque
     - name: WindowContextInfo
+      java_wire_format:
+        - name: Configuration
+          write_method: opaque
+        - name: DisplayId
+          write_method: int32

@@ -10,8 +10,12 @@ interfaces:
             - name: module
               type:
                 name: String
+                annotations:
+                    - utf8InCpp
               direction: in
           return_type:
             name: ISoundDose
           annotations:
             - nullable
+      annotations:
+        - VintfStability
