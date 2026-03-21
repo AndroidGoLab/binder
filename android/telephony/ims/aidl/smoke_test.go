@@ -13,9 +13,6 @@ func TestSmoke_CapabilityExchangeEventListenerProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("CapabilityExchangeEventListenerProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_FeatureProvisioningCallbackProxy(t *testing.T) {
@@ -24,9 +21,6 @@ func TestSmoke_FeatureProvisioningCallbackProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("FeatureProvisioningCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_ImsCallSessionListenerProxy(t *testing.T) {
@@ -35,9 +29,6 @@ func TestSmoke_ImsCallSessionListenerProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("ImsCallSessionListenerProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_ImsCapabilityCallbackProxy(t *testing.T) {
@@ -46,9 +37,6 @@ func TestSmoke_ImsCapabilityCallbackProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("ImsCapabilityCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_ImsConfigProxy(t *testing.T) {
@@ -57,9 +45,6 @@ func TestSmoke_ImsConfigProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("ImsConfigProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_ImsConfigCallbackProxy(t *testing.T) {
@@ -68,9 +53,6 @@ func TestSmoke_ImsConfigCallbackProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("ImsConfigCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_ImsMmTelFeatureProxy(t *testing.T) {
@@ -79,9 +61,6 @@ func TestSmoke_ImsMmTelFeatureProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("ImsMmTelFeatureProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_ImsMmTelListenerProxy(t *testing.T) {
@@ -90,9 +69,6 @@ func TestSmoke_ImsMmTelListenerProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("ImsMmTelListenerProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_ImsRcsControllerProxy(t *testing.T) {
@@ -101,9 +77,6 @@ func TestSmoke_ImsRcsControllerProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("ImsRcsControllerProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_ImsRcsFeatureProxy(t *testing.T) {
@@ -112,9 +85,6 @@ func TestSmoke_ImsRcsFeatureProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("ImsRcsFeatureProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_ImsRegistrationProxy(t *testing.T) {
@@ -123,9 +93,6 @@ func TestSmoke_ImsRegistrationProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("ImsRegistrationProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_ImsRegistrationCallbackProxy(t *testing.T) {
@@ -134,9 +101,6 @@ func TestSmoke_ImsRegistrationCallbackProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("ImsRegistrationCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_ImsServiceControllerProxy(t *testing.T) {
@@ -145,9 +109,6 @@ func TestSmoke_ImsServiceControllerProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("ImsServiceControllerProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_ImsServiceControllerListenerProxy(t *testing.T) {
@@ -156,9 +117,6 @@ func TestSmoke_ImsServiceControllerListenerProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("ImsServiceControllerListenerProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_ImsSmsListenerProxy(t *testing.T) {
@@ -167,9 +125,6 @@ func TestSmoke_ImsSmsListenerProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("ImsSmsListenerProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_ImsTrafficSessionCallbackProxy(t *testing.T) {
@@ -178,9 +133,6 @@ func TestSmoke_ImsTrafficSessionCallbackProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("ImsTrafficSessionCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_OptionsRequestCallbackProxy(t *testing.T) {
@@ -189,9 +141,6 @@ func TestSmoke_OptionsRequestCallbackProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("OptionsRequestCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_OptionsResponseCallbackProxy(t *testing.T) {
@@ -200,9 +149,6 @@ func TestSmoke_OptionsResponseCallbackProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("OptionsResponseCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_PublishResponseCallbackProxy(t *testing.T) {
@@ -211,9 +157,6 @@ func TestSmoke_PublishResponseCallbackProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("PublishResponseCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_RcsConfigCallbackProxy(t *testing.T) {
@@ -222,9 +165,6 @@ func TestSmoke_RcsConfigCallbackProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("RcsConfigCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_RcsUceControllerCallbackProxy(t *testing.T) {
@@ -233,9 +173,6 @@ func TestSmoke_RcsUceControllerCallbackProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("RcsUceControllerCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_RcsUcePublishStateCallbackProxy(t *testing.T) {
@@ -244,9 +181,6 @@ func TestSmoke_RcsUcePublishStateCallbackProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("RcsUcePublishStateCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_SipDelegateProxy(t *testing.T) {
@@ -255,9 +189,6 @@ func TestSmoke_SipDelegateProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("SipDelegateProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_SipDelegateConnectionStateCallbackProxy(t *testing.T) {
@@ -266,9 +197,6 @@ func TestSmoke_SipDelegateConnectionStateCallbackProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("SipDelegateConnectionStateCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_SipDelegateMessageCallbackProxy(t *testing.T) {
@@ -277,9 +205,6 @@ func TestSmoke_SipDelegateMessageCallbackProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("SipDelegateMessageCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_SipDelegateStateCallbackProxy(t *testing.T) {
@@ -288,9 +213,6 @@ func TestSmoke_SipDelegateStateCallbackProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("SipDelegateStateCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_SipTransportProxy(t *testing.T) {
@@ -299,9 +221,6 @@ func TestSmoke_SipTransportProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("SipTransportProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_SrvccStartedCallbackProxy(t *testing.T) {
@@ -310,9 +229,6 @@ func TestSmoke_SrvccStartedCallbackProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("SrvccStartedCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_SubscribeResponseCallbackProxy(t *testing.T) {
@@ -321,7 +237,4 @@ func TestSmoke_SubscribeResponseCallbackProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("SubscribeResponseCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }

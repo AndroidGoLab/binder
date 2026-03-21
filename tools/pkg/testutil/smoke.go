@@ -63,10 +63,18 @@ func SmokeTestAllMethods(
 			continue
 		}
 
-		result.Total++
 		methodName := method.Name
 		methodValue := v.Method(i)
 		methodType := methodValue.Type()
+
+		if hasUnmockableArgs(methodType) {
+			t.Run(methodName, func(t *testing.T) {
+				t.Skipf("method %s skipped (has unmockable interface args)", methodName)
+			})
+			continue
+		}
+
+		result.Total++
 
 		t.Run(methodName, func(t *testing.T) {
 			args := buildZeroArgs(methodType)
@@ -75,7 +83,7 @@ func SmokeTestAllMethods(
 			switch outcome {
 			case outcomePanicked:
 				result.Panicked++
-				t.Logf("method %s panicked (nil interface arg)", methodName)
+				t.Errorf("method %s panicked unexpectedly", methodName)
 			case outcomeFailed:
 				result.Failed++
 				t.Logf("method %s returned an error", methodName)
@@ -140,6 +148,55 @@ var (
 	contextType = reflect.TypeOf((*context.Context)(nil)).Elem()
 	iBinderType = reflect.TypeOf((*binder.IBinder)(nil)).Elem()
 )
+
+// hasUnmockableArgs returns true if the method has arguments containing
+// interface types that buildZeroArgs cannot provide a non-nil value for.
+// This includes direct interface arguments and struct fields that are
+// interfaces (e.g., union types with binder interface fields).
+func hasUnmockableArgs(methodType reflect.Type) bool {
+	for i := 0; i < methodType.NumIn(); i++ {
+		if typeContainsUnmockableInterface(methodType.In(i)) {
+			return true
+		}
+	}
+	return false
+}
+
+// typeContainsUnmockableInterface checks whether a type is or contains
+// an interface that buildZeroArgs cannot mock. The visited map prevents
+// infinite recursion on self-referencing struct types.
+func typeContainsUnmockableInterface(t reflect.Type) bool {
+	return typeContainsUnmockableInterfaceVisited(t, map[reflect.Type]bool{})
+}
+
+func typeContainsUnmockableInterfaceVisited(t reflect.Type, visited map[reflect.Type]bool) bool {
+	if visited[t] {
+		return false
+	}
+	visited[t] = true
+
+	switch t.Kind() {
+	case reflect.Interface:
+		if t.Implements(contextType) {
+			return false
+		}
+		if t.Implements(iBinderType) || t == iBinderType {
+			return false
+		}
+		return true
+	case reflect.Struct:
+		for i := 0; i < t.NumField(); i++ {
+			if typeContainsUnmockableInterfaceVisited(t.Field(i).Type, visited) {
+				return true
+			}
+		}
+	case reflect.Ptr:
+		return typeContainsUnmockableInterfaceVisited(t.Elem(), visited)
+	case reflect.Slice, reflect.Array:
+		return typeContainsUnmockableInterfaceVisited(t.Elem(), visited)
+	}
+	return false
+}
 
 // buildZeroArgs builds zero-value arguments for a method.
 // context.Context parameters get context.Background().

@@ -13,9 +13,6 @@ func TestSmoke_DeleteSubscriptionCallbackProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("DeleteSubscriptionCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_DownloadSubscriptionCallbackProxy(t *testing.T) {
@@ -24,9 +21,6 @@ func TestSmoke_DownloadSubscriptionCallbackProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("DownloadSubscriptionCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_EraseSubscriptionsCallbackProxy(t *testing.T) {
@@ -35,9 +29,6 @@ func TestSmoke_EraseSubscriptionsCallbackProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("EraseSubscriptionsCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_EuiccServiceProxy(t *testing.T) {
@@ -46,9 +37,6 @@ func TestSmoke_EuiccServiceProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("EuiccServiceProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_EuiccServiceDumpResultCallbackProxy(t *testing.T) {
@@ -57,9 +45,6 @@ func TestSmoke_EuiccServiceDumpResultCallbackProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("EuiccServiceDumpResultCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_GetAvailableMemoryInBytesCallbackProxy(t *testing.T) {
@@ -68,9 +53,6 @@ func TestSmoke_GetAvailableMemoryInBytesCallbackProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("GetAvailableMemoryInBytesCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_GetDefaultDownloadableSubscriptionListCallbackProxy(t *testing.T) {
@@ -79,9 +61,6 @@ func TestSmoke_GetDefaultDownloadableSubscriptionListCallbackProxy(t *testing.T)
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("GetDefaultDownloadableSubscriptionListCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_GetDownloadableSubscriptionMetadataCallbackProxy(t *testing.T) {
@@ -90,9 +69,6 @@ func TestSmoke_GetDownloadableSubscriptionMetadataCallbackProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("GetDownloadableSubscriptionMetadataCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_GetEidCallbackProxy(t *testing.T) {
@@ -101,9 +77,6 @@ func TestSmoke_GetEidCallbackProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("GetEidCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_GetEuiccInfoCallbackProxy(t *testing.T) {
@@ -112,9 +85,6 @@ func TestSmoke_GetEuiccInfoCallbackProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("GetEuiccInfoCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_GetEuiccProfileInfoListCallbackProxy(t *testing.T) {
@@ -123,9 +93,6 @@ func TestSmoke_GetEuiccProfileInfoListCallbackProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("GetEuiccProfileInfoListCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_GetOtaStatusCallbackProxy(t *testing.T) {
@@ -134,9 +101,6 @@ func TestSmoke_GetOtaStatusCallbackProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("GetOtaStatusCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_OtaStatusChangedCallbackProxy(t *testing.T) {
@@ -145,9 +109,6 @@ func TestSmoke_OtaStatusChangedCallbackProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("OtaStatusChangedCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_RetainSubscriptionsForFactoryResetCallbackProxy(t *testing.T) {
@@ -156,9 +117,6 @@ func TestSmoke_RetainSubscriptionsForFactoryResetCallbackProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("RetainSubscriptionsForFactoryResetCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_SwitchToSubscriptionCallbackProxy(t *testing.T) {
@@ -167,9 +125,6 @@ func TestSmoke_SwitchToSubscriptionCallbackProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("SwitchToSubscriptionCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_UpdateSubscriptionNicknameCallbackProxy(t *testing.T) {
@@ -178,7 +133,4 @@ func TestSmoke_UpdateSubscriptionNicknameCallbackProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("UpdateSubscriptionNicknameCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }

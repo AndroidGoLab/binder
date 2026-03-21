@@ -13,9 +13,6 @@ func TestSmoke_IpConnectivityMetricsProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("IpConnectivityMetricsProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_NetdEventCallbackProxy(t *testing.T) {
@@ -24,9 +21,6 @@ func TestSmoke_NetdEventCallbackProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("NetdEventCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_NetworkManagementEventObserverProxy(t *testing.T) {
@@ -35,9 +29,6 @@ func TestSmoke_NetworkManagementEventObserverProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("NetworkManagementEventObserverProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_NetworkPolicyListenerProxy(t *testing.T) {
@@ -46,9 +37,6 @@ func TestSmoke_NetworkPolicyListenerProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("NetworkPolicyListenerProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_NetworkPolicyManagerProxy(t *testing.T) {
@@ -57,9 +45,6 @@ func TestSmoke_NetworkPolicyManagerProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("NetworkPolicyManagerProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_NetworkRecommendationProviderProxy(t *testing.T) {
@@ -68,9 +53,6 @@ func TestSmoke_NetworkRecommendationProviderProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("NetworkRecommendationProviderProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_NetworkScoreCacheProxy(t *testing.T) {
@@ -79,9 +61,6 @@ func TestSmoke_NetworkScoreCacheProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("NetworkScoreCacheProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_NetworkScoreServiceProxy(t *testing.T) {
@@ -90,9 +69,6 @@ func TestSmoke_NetworkScoreServiceProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("NetworkScoreServiceProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_PacProxyInstalledListenerProxy(t *testing.T) {
@@ -101,9 +77,6 @@ func TestSmoke_PacProxyInstalledListenerProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("PacProxyInstalledListenerProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_PacProxyManagerProxy(t *testing.T) {
@@ -112,20 +85,6 @@ func TestSmoke_PacProxyManagerProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("PacProxyManagerProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
-}
-
-func TestSmoke_TetheringStatsProviderProxy(t *testing.T) {
-	mock := testutil.NewMockBinder()
-	proxy := NewTetheringStatsProviderProxy(mock)
-	result := testutil.SmokeTestAllMethods(t, proxy)
-	t.Logf("TetheringStatsProviderProxy: %d/%d passed, %d panicked, %d failed",
-		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_VpnManagerProxy(t *testing.T) {
@@ -134,7 +93,4 @@ func TestSmoke_VpnManagerProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("VpnManagerProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }

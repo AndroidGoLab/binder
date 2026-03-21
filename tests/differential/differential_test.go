@@ -112,6 +112,10 @@ func runLeanOracle(t *testing.T) map[string]string {
 		t.Skip("proofs/DiffTest.lean not found — skipping differential tests")
 	}
 
+	if _, err := exec.LookPath("lake"); err != nil {
+		t.Skip("lake not found in PATH — skipping differential tests (install Lean 4 to enable)")
+	}
+
 	// Build the difftest executable.
 	buildCmd := exec.Command("lake", "build", "difftest")
 	buildCmd.Dir = proofsDir

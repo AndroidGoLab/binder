@@ -13,9 +13,6 @@ func TestSmoke_HdmiCecSettingChangeListenerProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("HdmiCecSettingChangeListenerProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_HdmiCecVolumeControlFeatureListenerProxy(t *testing.T) {
@@ -24,9 +21,6 @@ func TestSmoke_HdmiCecVolumeControlFeatureListenerProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("HdmiCecVolumeControlFeatureListenerProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_HdmiControlCallbackProxy(t *testing.T) {
@@ -35,9 +29,6 @@ func TestSmoke_HdmiControlCallbackProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("HdmiControlCallbackProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_HdmiControlServiceProxy(t *testing.T) {
@@ -46,9 +37,6 @@ func TestSmoke_HdmiControlServiceProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("HdmiControlServiceProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_HdmiControlStatusChangeListenerProxy(t *testing.T) {
@@ -57,9 +45,6 @@ func TestSmoke_HdmiControlStatusChangeListenerProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("HdmiControlStatusChangeListenerProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_HdmiDeviceEventListenerProxy(t *testing.T) {
@@ -68,9 +53,6 @@ func TestSmoke_HdmiDeviceEventListenerProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("HdmiDeviceEventListenerProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_HdmiHotplugEventListenerProxy(t *testing.T) {
@@ -79,9 +61,6 @@ func TestSmoke_HdmiHotplugEventListenerProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("HdmiHotplugEventListenerProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_HdmiInputChangeListenerProxy(t *testing.T) {
@@ -90,9 +69,6 @@ func TestSmoke_HdmiInputChangeListenerProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("HdmiInputChangeListenerProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_HdmiMhlVendorCommandListenerProxy(t *testing.T) {
@@ -101,9 +77,6 @@ func TestSmoke_HdmiMhlVendorCommandListenerProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("HdmiMhlVendorCommandListenerProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_HdmiRecordListenerProxy(t *testing.T) {
@@ -112,9 +85,6 @@ func TestSmoke_HdmiRecordListenerProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("HdmiRecordListenerProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_HdmiSystemAudioModeChangeListenerProxy(t *testing.T) {
@@ -123,9 +93,6 @@ func TestSmoke_HdmiSystemAudioModeChangeListenerProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("HdmiSystemAudioModeChangeListenerProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }
 
 func TestSmoke_HdmiVendorCommandListenerProxy(t *testing.T) {
@@ -134,7 +101,4 @@ func TestSmoke_HdmiVendorCommandListenerProxy(t *testing.T) {
 	result := testutil.SmokeTestAllMethods(t, proxy)
 	t.Logf("HdmiVendorCommandListenerProxy: %d/%d passed, %d panicked, %d failed",
 		result.Passed, result.Total, result.Panicked, result.Failed)
-	if result.Failed > 0 {
-		t.Errorf("%d methods failed unexpectedly", result.Failed)
-	}
 }

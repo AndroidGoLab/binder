@@ -1,5 +1,7 @@
 package javaparser
 
+//go:generate ./generate.sh
+
 import "github.com/antlr4-go/antlr/v4"
 
 // JavaParserBase is the base struct for the generated JavaParser.

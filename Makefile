@@ -1,5 +1,5 @@
 .PHONY: specs generate cli readme test e2e e2e-bindercli vet build lint clean \
-       bindercli list-commands check-generated release proofs difftest
+       bindercli list-commands check-generated release proofs difftest javaparser
 
 # Generated top-level directories.
 GENERATED_DIRS := android com fuzztest libgui_test_server parcelables src
@@ -30,6 +30,12 @@ cli: specs
 # Generate README from specs.
 readme: specs
 	go run ./tools/cmd/spec2readme -specs specs/ -output README.md
+
+# --- Parser ---
+
+# Regenerate ANTLR Java parser (requires Java 11+).
+javaparser:
+	cd tools/pkg/javaparser && ./generate.sh
 
 # --- Proofs ---
 
