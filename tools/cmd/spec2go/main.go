@@ -95,6 +95,15 @@ func run(
 		}
 	}
 
+	// Generate service name constants and accessor files from the
+	// servicemanager spec, if present.
+	if err := generateServiceNamesFile(specs, outputDir); err != nil {
+		return fmt.Errorf("generating service names: %w", err)
+	}
+	if err := generateAccessorFiles(specs, outputDir); err != nil {
+		return fmt.Errorf("generating accessor files: %w", err)
+	}
+
 	genCount, err := countGoFiles(outputDir)
 	if err != nil {
 		return fmt.Errorf("counting Go files: %w", err)
@@ -727,7 +736,7 @@ func tryParseBinaryExpr(
 
 		for _, op := range group.Ops {
 			padded := " " + op.Symbol + " "
-			idx := strings.LastIndex(value, padded)
+			idx := lastIndexAtDepthZero(value, padded)
 			if idx < 0 {
 				continue
 			}
@@ -755,6 +764,28 @@ func tryParseBinaryExpr(
 		}
 	}
 	return nil
+}
+
+// lastIndexAtDepthZero returns the last position of needle in s
+// that occurs at parenthesis depth 0. Returns -1 if not found.
+func lastIndexAtDepthZero(
+	s string,
+	needle string,
+) int {
+	best := -1
+	depth := 0
+	for i := 0; i <= len(s)-len(needle); i++ {
+		switch s[i] {
+		case '(':
+			depth++
+		case ')':
+			depth--
+		}
+		if depth == 0 && s[i:i+len(needle)] == needle {
+			best = i
+		}
+	}
+	return best
 }
 
 // findMatchingParen returns the index of the closing ')' that matches
